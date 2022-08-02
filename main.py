@@ -77,124 +77,152 @@ def afficher_fichier(event):
     if os.path.isfile(fichier):
         affichage_texte.delete("1.0", END)
         affichage_texte1.delete("1.0", END)
-        affichage_texte1.insert(INSERT, "Y a Erreur")
-        # oui, on peut l'ouvrir en forçant l'encodage UTF8
-        with codecs.open(fichier, 'r', encoding='utf-8',
-                         errors='ignore') as file_in:
-            # on efface d'abord la zone de texte
-            affichage_texte.delete("1.0", END)
-            # on insère le nouveau contenu texte du fichier
-            affichage_texte.insert("1.0", file_in.read())
-
-            conteneur_canv = Frame(fenetre)
-            dessin = Canvas(fenetre, bg='white', height=250, width=300)
-            fig = plt.figure(1, figsize=(6, 3))
-            # y = []
-            plt.clf()
-            y = Fs.readColCSV(fichier, ";", 2)
-            if y:
-                values_sep_paliers, values, values_sep1, paliers_find = Fs.traitement_signal(y)
-                plt.plot(y, linewidth=0.5)
-            else:
-                plt.clf()
-                #values_sep_paliers, values, values_sep1, paliers_find = Fs.traitement_signal(y)
-                plt.plot([0],[0], 'r', linewidth=0.5)
-            # traitement deuxieme capteur
-            y2 = Fs.readColCSV(fichier, ";", 10)
-            if y2:
-                values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = Fs.traitement_signal2(y2)
-                plt.plot(y2, 'r', linewidth=0.5)
+        
+        
+        try:
                 
-            else:
-                values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = Fs.traitement_signal2(y2)
-                plt.plot([0],[0], 'r', linewidth=0.5)
-
-            canvas = FigureCanvasTkAgg(fig, master=conteneur_canv)
-            canvas.draw()
-            canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-            conteneur_canv.grid(row=2, column=0, sticky=NS + EW, padx=5, pady=5)
-            # on efface d'abord la zone de texte
-            affichage_texte1.delete("1.0", END)
-            affichage_texte1.delete("1.0", END)
-            ###
-            er = Fs.isol_capteurs(Fs.readColCSV1(fichier, ";", 2))
-            nc = []
-            entete2 = ["--------------------------\nNom capteur\n[N° palier] \tMoyenne [V] \tÉcart-type [mV]"]
-            for capteur in er.keys():
-                nc.append(capteur)
-                entete2.append(str("\n----------\n") + str(capteur) + "\n")
-                values1 = er.get(capteur)
-                values_sep_paliers, values, values_sep, paliers_find = Fs.traitement_signal(values1)
-                donneestraitees2 = [["0"] * len(entete2)] * paliers_find
-                moyenne = list([""] * paliers_find)
-                ecartype = list([""] * paliers_find)
-                #
-                for i in range(paliers_find):
-                    #
-                    if values_sep_paliers[i][7: -7]:
-                        moyenne[i] = mean(values_sep_paliers[i][7: -7])
-                        ecartype[i] = pstdev(values_sep_paliers[i][7: -7]) * 1000
-                    else:
-                        moyenne[i] = 0
-                        ecartype[i] = 0
-                    donneestraitees2[i] = (str(round(moyenne[i], 4)), str(round(ecartype[i], 4)))
-                for i, d in enumerate(donneestraitees2):
-                    entete2.append("[" + str(i) + "]\t" + str(d[0]) + "\t" + str(d[1]) + "\n")
-            affichage_texte1.insert("0.0", str(len(nc)) + " capteur(s) trouvé(s) a raccorder !\n")
-            for i, t in enumerate(entete2):
-                affichage_texte1.insert(INSERT, t)
-            er2 = Fs.isol_capteurs(Fs.readColCSV1(fichier, ";", 10))
-            nc = []
-            entete2 = ["--------------------------\nNom capteur\n[N° palier] \tMoyenne [V] \tÉcart-type [mV]"]
-            try:
-                for capteur in er2.keys():
-                    nc.append(capteur)
-                    entete2.append(str("\n----------\n") + str(capteur) + "\n")
-                    values1_2 = er2.get(capteur)
-                    values_sep_paliers, values, values_sep, paliers_find = Fs.traitement_signal2(values1_2)
-                    donneestraitees2 = [["0"] * len(entete2)] * paliers_find
-                    moyenne = list([""] * paliers_find)
-                    ecartype = list([""] * paliers_find)
-                    #
-                    for i in range(paliers_find):
-                        moyenne[i] = mean(values_sep_paliers[i][7: -7])
-                        ecartype[i] = pstdev(values_sep_paliers[i][7: -7])
-                        donneestraitees2[i] = (str(round(moyenne[i], 4)), str(round(ecartype[i], 4)))
-                    for i, d in enumerate(donneestraitees2):
-                        entete2.append("[" + str(i) + "]\t" + str(d[0]) + "\t" + str(d[1]) + "\n")
-                affichage_texte1.insert("0.0", str(len(nc)) + " capteur(s) de référence(s) trouvé(s) sont !\n")
-                for i, t in enumerate(entete2):
-                    affichage_texte1.insert(INSERT, t)
-            except :
-                print("erreur",donneestraitees2)
-                for i, t in enumerate(entete2):
-                    affichage_texte1.insert(INSERT, t)
-                pass
-            conteneur_canv1 = Frame(fenetre)
-            dessin1 = Canvas(fenetre, bg='white', height=250, width=300)
-            fig1 = plt.figure(2, figsize=(6, 3))
-            plt.clf()
-            if values_sep1:
-                plt.plot(values_sep1, linewidth=0.5)
-            else:
-                plt.plot([0], [0], 'r', linewidth=0.5)
-            if values_sep1_2:
-                plt.plot(values_sep1_2, 'r', linewidth=0.5)
-            else:
+            # oui, on peut l'ouvrir en forçant l'encodage UTF8
+            with codecs.open(fichier, 'r', encoding='utf-8',
+                             errors='ignore') as file_in:
+                # on efface d'abord la zone de texte
+                affichage_texte.delete("1.0", END)
+                # on insère le nouveau contenu texte du fichier
+                affichage_texte.insert("1.0", file_in.read())
+    
+                fig = plt.figure(1, figsize=(6, 3))
+                # y = []
                 plt.clf()
-                plt.plot([0], [0], 'r', linewidth=0.5)
-            # plt.show()
-            canvas = FigureCanvasTkAgg(fig1, master=conteneur_canv1)
-            canvas.draw()
-            canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-            conteneur_canv1.grid(row=2, column=1, sticky=NS + EW, padx=5, pady=5)
-        # end with
-        file_in.close()
+                y = Fs.readColCSV(fichier, ";", 2)
+                if y:
+                    values_sep_paliers, values, values_sep1, paliers_find = Fs.traitement_signal(y)
+                    plt.plot(y, linewidth=0.5)
+                else:
+                    plt.clf()
+                    #values_sep_paliers, values, values_sep1, paliers_find = Fs.traitement_signal(y)
+                    plt.plot([0],[0], 'r', linewidth=0.5)
+                # traitement deuxieme capteur
+                y2 = Fs.readColCSV(fichier, ";", 10)
+                if y2:
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = Fs.traitement_signal2(y2)
+                    plt.plot(y2, 'r', linewidth=0.5)
+                    
+                else:
+                    #values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = Fs.traitement_signal2(y2)
+                    plt.plot([0],[0], 'r', linewidth=0.5)
+    
+    
+                global remove_canvs
+                #print("remove_canvs=",remove_canvs)
+                if(remove_canvs!=[]):
+                    for icanv in remove_canvs:
+                        icanv.destroy()
+                    remove_canvs=[]
+    
+                conteneur_canv = Frame(fenetre)
+                remove_canvs.append(conteneur_canv)
+                #dessin = Canvas(fenetre, bg='white', height=250, width=300)
+                conteneur_canv1 = Frame(fenetre)
+                remove_canvs.append(conteneur_canv1)
+                #dessin1 = Canvas(fenetre, bg='white', height=250, width=300)
+    
+                canvas = FigureCanvasTkAgg(fig, master=conteneur_canv)
+                canvas.draw()
+                canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+                conteneur_canv.grid(row=2, column=0, sticky=NS + EW, padx=5, pady=5)
+                
+                
+                if(0>1):
+                    # on efface d'abord la zone de texte
+                    affichage_texte1.delete("1.0", END)
+                    affichage_texte1.delete("1.0", END)
+                    ###
+                    er = Fs.isol_capteurs(Fs.readColCSV1(fichier, ";", 2))
+                    nc = []
+                    entete2 = ["--------------------------\nNom capteur\n[N° palier] \tMoyenne [V] \tÉcart-type [mV]"]
+                    for capteur in er.keys():
+                        nc.append(capteur)
+                        entete2.append(str("\n----------\n") + str(capteur) + "\n")
+                        values1 = er.get(capteur)
+                        values_sep_paliers, values, values_sep, paliers_find = Fs.traitement_signal(values1)
+                        donneestraitees2 = [["0"] * len(entete2)] * paliers_find
+                        moyenne = list([""] * paliers_find)
+                        ecartype = list([""] * paliers_find)
+                        #
+                        for i in range(paliers_find):
+                            #
+                            if values_sep_paliers[i][7: -7]:
+                                moyenne[i] = mean(values_sep_paliers[i][7: -7])
+                                ecartype[i] = pstdev(values_sep_paliers[i][7: -7]) * 1000
+                            else:
+                                moyenne[i] = 0
+                                ecartype[i] = 0
+                            donneestraitees2[i] = (str(round(moyenne[i], 4)), str(round(ecartype[i], 4)))
+                        for i, d in enumerate(donneestraitees2):
+                            entete2.append("[" + str(i) + "]\t" + str(d[0]) + "\t" + str(d[1]) + "\n")
+                    affichage_texte1.insert("0.0", str(len(nc)) + " capteur(s) trouvé(s) a raccorder !\n")
+                    for i, t in enumerate(entete2):
+                        affichage_texte1.insert(INSERT, t)
+                    er2 = Fs.isol_capteurs(Fs.readColCSV1(fichier, ";", 10))
+                    nc = []
+                    entete2 = ["--------------------------\nNom capteur\n[N° palier] \tMoyenne [V] \tÉcart-type [mV]"]
+                    try:
+                        for capteur in er2.keys():
+                            nc.append(capteur)
+                            entete2.append(str("\n----------\n") + str(capteur) + "\n")
+                            values1_2 = er2.get(capteur)
+                            values_sep_paliers, values, values_sep, paliers_find = Fs.traitement_signal2(values1_2)
+                            donneestraitees2 = [["0"] * len(entete2)] * paliers_find
+                            moyenne = list([""] * paliers_find)
+                            ecartype = list([""] * paliers_find)
+                            #
+                            for i in range(paliers_find):
+                                moyenne[i] = mean(values_sep_paliers[i][7: -7])
+                                ecartype[i] = pstdev(values_sep_paliers[i][7: -7])
+                                donneestraitees2[i] = (str(round(moyenne[i], 4)), str(round(ecartype[i], 4)))
+                            for i, d in enumerate(donneestraitees2):
+                                entete2.append("[" + str(i) + "]\t" + str(d[0]) + "\t" + str(d[1]) + "\n")
+                        affichage_texte1.insert("0.0", str(len(nc)) + " capteur(s) de référence(s) trouvé(s) sont !\n")
+                        for i, t in enumerate(entete2):
+                            affichage_texte1.insert(INSERT, t)
+                    except :
+                        print("erreur",donneestraitees2)
+                        for i, t in enumerate(entete2):
+                            affichage_texte1.insert(INSERT, t)
+                        pass
+                
+                
+                fig1 = plt.figure(2, figsize=(6, 3))
+                plt.clf()
+                if values_sep1:
+                    plt.plot(values_sep1, linewidth=0.5)
+                else:
+                    plt.plot([0], [0], 'r', linewidth=0.5)
+                if values_sep1_2:
+                    plt.plot(values_sep1_2, 'r', linewidth=0.5)
+                else:
+                    plt.clf()
+                    plt.plot([0], [0], 'r', linewidth=0.5)
+                # plt.show()
+                canvas = FigureCanvasTkAgg(fig1, master=conteneur_canv1)
+                canvas.draw()
+                canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+                conteneur_canv1.grid(row=2, column=1, sticky=NS + EW, padx=5, pady=5)
+            # end with
+            file_in.close()
+            
+        except Exception as e:
+            affichage_texte1.insert(INSERT, "Y a Erreur:"+str(e))
+            plt.close()
 
     # end if
 # end def
 
 
+
+def destroy_fenetre():
+    plt.close()
+    fenetre.destroy()
+    
 def lance_traitement():
     fichier = normaliser(
         dossier_actuel,
@@ -232,6 +260,9 @@ motif_fichiers = "*.csv"
 # on commence par établir l'interface graphique (GUI)
 # on crée la fenêtre principale
 fenetre = Tk()
+
+# stockage des 2 canvas des graphes plt, pour suppression dans afficher_dossier avant recréation
+remove_canvs=[]
 
 fenetre.title("Traitement-Signal-capteur(s)" + Fs.version())
 # SVP, NE FORCEZ PAS LA GÉOMÉTRIE de la fenêtre /!\
@@ -330,7 +361,7 @@ Button(
 Button(
     conteneur_affichage,
     text="Quitter",
-    command=fenetre.destroy
+    command=destroy_fenetre
 ).grid(row=2, column=1, sticky=E)
 # on place le conteneur dans la fenêtre principale
 # avec des marges padx et pady
@@ -349,6 +380,9 @@ affichage_texte1.grid(row=1, column=1, sticky=NS + EW)
 #fenetre.columnconfigure(1, weight=1)
 fenetre.rowconfigure(1, weight=1)
 
+
+def on_closing():
+        destroy_fenetre()
 
 ##############################################################################
 
