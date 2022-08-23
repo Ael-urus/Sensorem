@@ -2,12 +2,11 @@
 # !python
 # -*- coding: utf-8 -*-
 """
-Created on Mon May  4 18:02:18 2020
+Created on Thus Aug  23 15:05:52 2022
 @author: Aelurus
 
-Il faut sortir les fonctions du main et les appelees depuis le fichier FonctionGui,
-mais je rencontre plein de bug en faisant la manip, quelque chose m'echape
-
+Contient toutes les fonctions du main.py . Bon c'est la merde pour sortir les fonctions
+je comprend pas pourquoi....
 """
 try:
     import os
@@ -19,6 +18,7 @@ try:
         Entry, StringVar, Button, Scrollbar, Listbox, VERTICAL, W, E
     import FonctionsSignal as fs
     import FonctionPdf as pdf
+    import FonctionGui as fg
     from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
     from statistics import mean, pstdev
     import matplotlib.pyplot as plt
@@ -85,12 +85,8 @@ def normaliser(chemin, *args):
 
 
 def afficher_fichier(event):
-    """lecture et affichage du contenu du fichier sélectionné,
-    tentative d'implémentation de l'ouverture avec codec pour passage en Ut8
-    pour nunux.
-
-    on récupère le nom du fichier
-    """
+    """Affiche le contenu du fichier sélectionné.
+    # on récupère le nom du fichier"""
     fichier = normaliser(
         dossier_actuel,
         liste_fichiers.get(liste_fichiers.curselection() or 0)
@@ -162,7 +158,7 @@ def afficher_fichier(event):
                 values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, ";", varidxinfile2))
 
                 # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf, sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
-                datat1 = [entete[0]]
+                datat1 = [entete[0]];
                 datat2 = [entete[0]]
 
                 # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf:
@@ -213,7 +209,7 @@ def afficher_fichier(event):
             file_in.close()
 
         except Exception as e:
-            affichage_texte1.insert(INSERT, "Y a Erreur : " + str(e))
+            affichage_texte1.insert(INSERT, "Y a Erreur:" + str(e))
             plt.close()
 
     # end if
@@ -223,8 +219,7 @@ def afficher_fichier(event):
 
 
 def destroy_fenetre():
-    """Fermeture de la fenetre, pourquoi je ferme le tracer içi ?
-    ok Bruno tu as rajouté le plt.close"""
+    """Fermeture de la fenetre, pourquoi je ferme le tracer içi ?"""
     plt.close()
     fenetre.destroy()
 
@@ -279,148 +274,5 @@ def recup_nomutilisateur():
 
 
 def on_closing():
-    """Fermeture de la fenetre, pas utilisé ou doublon de 'destroy_fenetre'
-    pas utilisé, Bruno a supp sauf si tu voulais en faire quelque chose."""
+    """Fermeture de la fenetre, pas utilisé ou doublon de 'detroye_fenetre'"""
     destroy_fenetre()
-
-
-if __name__ == "__main__": #Bruno est ce vraiment utile, le main ne sera jamais inclu.
-    # début de la fenêtre de selection
-    # init variables globales
-
-    dossier_actuel = ""
-    motif_fichiers = "*.csv"
-    varidxinfile1 = 2  # index de variable d'intérêt 1 dans les fichiers bruts
-    varidxinfile2 = 10  # index de variable d'intérêt 2 dans les fichiers bruts
-
-    # on commence par établir l'interface graphique (GUI)
-    # on crée la fenêtre principale
-    fenetre = Tk()
-
-    # stockage des 2 canvas des graphes plt, pour suppression dans afficher_dossier avant recréation
-    remove_canvs = []
-
-    fenetre.title("Traitement-Signal-capteur(s)" + fs.version())
-    # SVP, NE FORCEZ PAS LA GÉOMÉTRIE de la fenêtre /!\
-    # elle va s'adapter toute seule...
-    # ~ fenetre.geometry("1000x800") --> c'est NON !
-    # d'autant plus qu'elle sera REDIMENSIONNABLE ensuite
-    # on ajoute des composants graphiques à la fenêtre principale
-    # on crée un conteneur pour la gestion des fichiers
-    #####
-    conteneur_info = Frame(fenetre)
-    # On crée un Label
-    champLabel_nom = Label(conteneur_info, text="Nom (Trigramme): ")
-    # champLabel_nom.grid(row=0, column=0)
-    champLabel_nom.pack(side="left")
-    # On crée un Entry (zone de saisie)
-    maZone = Entry(conteneur_info, width=5)
-    # On affiche le Entry dans la fenêtre
-    maZone.insert(0, "XXX")
-    maZone.pack(side="left")
-
-    # On crée un Boutton
-    monBouton = Button(conteneur_info, text="Valide nom", command=recup_nomutilisateur)
-    # On affiche le Button dans la fenêtre
-    monBouton.pack()
-    # on place le conteneur dans la fenêtre principale
-    # avec des marges padx et pady
-    conteneur_info.grid(row=0, column=0, sticky=NS + EW, padx=5, pady=5)
-
-    ##############################################################################
-    conteneur_fichiers = Frame(fenetre)
-    # on rend le conteneur redimensionnable
-    conteneur_fichiers.columnconfigure(0, weight=1)
-    conteneur_fichiers.rowconfigure(0, weight=1)
-    # on crée une étiquette texte dans ce conteneur
-    Label(
-        conteneur_fichiers,
-        text="Veuillez sélectionner un fichier :"
-    ).grid(row=0, column=0, sticky=EW)
-    # on crée la liste des fichiers
-    cvar_fichiers = StringVar()
-    liste_fichiers = Listbox(conteneur_fichiers, listvariable=cvar_fichiers)
-    liste_fichiers.grid(row=1, column=0, sticky=NS + EW)
-    # avec sa scrollbar
-    vbar_fichiers = Scrollbar(conteneur_fichiers, orient=VERTICAL)
-    vbar_fichiers.grid(row=1, column=1, sticky=NS + W)
-    # on connecte la scrollbar à la liste des fichiers
-    liste_fichiers.configure(yscrollcommand=vbar_fichiers.set)
-    vbar_fichiers.configure(command=liste_fichiers.yview)
-
-    # on va gérer l'affichage du fichier sur simple clic
-    # sur un fichier de la liste
-    liste_fichiers.bind("<ButtonRelease-1>", afficher_fichier)
-
-    # on crée un bouton de type 'Parcourir'
-    Button(
-        conteneur_fichiers,
-        text="          Sélectionner un dossier                         ",
-        command=choisir_dossier,
-    ).grid(row=2, column=0)
-    # on place le conteneur dans la fenêtre principale
-    # avec des marges padx et pady
-    conteneur_fichiers.grid(row=1, column=0, sticky=NS + EW, padx=5, pady=5)
-    ##############################################################################
-    # on crée un conteneur pour l'affichage
-    conteneur_affichage = Frame(fenetre)
-    # on rend le conteneur redimensionnable
-    conteneur_affichage.columnconfigure(0, weight=1)
-    conteneur_affichage.rowconfigure(0, weight=1)
-    # on crée une étiquette texte dans ce conteneur
-    Label(
-        conteneur_affichage,
-        text="  Voici le contenu du fichier :                       "
-    ).grid(row=0, column=0, sticky=EW)
-    Label(
-        conteneur_affichage,
-        text=" Informations trouvées :                              "
-    ).grid(row=0, column=1, sticky=EW)
-    # on crée la zone d'affichage de texte
-    affichage_texte = ScrolledText(
-        conteneur_affichage,
-        bg="white",
-        fg="blue",
-        font="sans 9 ",
-        height=10,
-        width=20,
-    )
-    user = recup_nomutilisateur()
-    # affichage_texte.insert("1.0",user+", merci de sélectionner un fichier")
-    affichage_texte.grid(row=1, column=0, sticky=NS + EW)
-
-    # on ajoute un bouton 'valide'
-    Button(
-        conteneur_affichage,
-        text="Génère le PDF du traitement",
-        command=lance_traitement_pdf
-    ).grid(row=2, column=0, sticky=E)
-    # on ajoute un bouton 'quitter'
-    Button(
-        conteneur_affichage,
-        text="Quitter",
-        command=destroy_fenetre
-    ).grid(row=2, column=1, sticky=E)
-    # on place le conteneur dans la fenêtre principale
-    # avec des marges padx et pady
-    conteneur_affichage.grid(row=1, column=1, sticky=NS + EW, padx=5, pady=5)
-    # on crée la zone d'affichage de texte
-    affichage_texte1 = ScrolledText(
-        conteneur_affichage,
-        bg="white",
-        fg="blue",
-        font="sans 9 ",
-        height=10,
-        width=20,
-    )
-    affichage_texte1.grid(row=1, column=1, sticky=NS + EW)
-    # on rend la fenêtre redimensionnable
-    # fenetre.columnconfigure(1, weight=1)
-    fenetre.rowconfigure(1, weight=1)
-
-    ##############################################################################
-
-    # pour finir
-    # on lance la boucle événementielle principale
-    remplir_liste(".//")
-    fenetre.mainloop()
