@@ -2,11 +2,11 @@
 # !python
 # -*- coding: utf-8 -*-
 """
-Created on Mon May  4 18:02:18 2020
+Created on Mon May 4 18:02:18 2020
 @author: Aelurus
 
 Il faut sortir les fonctions du main et les appelees depuis le fichier FonctionGui,
-mais je rencontre plein de bug en faisant la manip, quelque chose m'echape
+mais je rencontre plein de bug en faisant la manip, quelque chose m'echappe.
 
 """
 try:
