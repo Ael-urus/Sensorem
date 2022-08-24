@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, minimum-scale=1" name="viewport"/>
+    <meta content="pdoc 0.10.0" name="generator"/>
+    <title>Sensorem_Beta-C.FonctionGui API documentation</title>
+    <meta content="Created on Thus Aug
+23 15:05:52 2022
+@author: Aelurus …" name="description"/>
+    <link as="style" crossorigin href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css"
+          integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" rel="preload stylesheet">
+    <link as="style" crossorigin
+          href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css"
+          integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" rel="preload stylesheet">
+    <link as="style" crossorigin href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css"
+          rel="stylesheet preload">
+    <style>
+        :root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}
+    </style>
+    <style media="screen and (min-width: 700px)">
+        @media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}
+    </style>
+    <style media="print">
+        @media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}
+    </style>
+    <script crossorigin defer integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8="
+            src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+    <script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+    <article id="content">
+        <header>
+            <h1 class="title">Module <code>Sensorem_Beta-C.FonctionGui</code></h1>
+        </header>
+        <section id="section-intro">
+            <p>Created on Thus Aug
+                23 15:05:52 2022
+                @author: Aelurus</p>
+            <p>Contient toutes les fonctions du main.py . Bon c'est la merde pour sortir les fonctions
+                je comprend pas pourquoi....</p>
+            <details class="source">
+                <summary>
+                    <span>Expand source code</span>
+                </summary>
+                <pre><code class="python"># !/usr/bin/python
+# !python
+# -*- coding: utf-8 -*-
+&#34;&#34;&#34;
+Created on Thus Aug  23 15:05:52 2022
+@author: Aelurus
+
+Contient toutes les fonctions du main.py . Bon c&#39;est la merde pour sortir les fonctions
+je comprend pas pourquoi....
+&#34;&#34;&#34;
+try:
+    import os
+    import codecs
+    import glob
+    # from tkinter import *
+    from tkinter.scrolledtext import ScrolledText
+    from tkinter import filedialog, END, Frame, Canvas, TOP, BOTH, NS, EW, INSERT, Tk, Label, \
+        Entry, StringVar, Button, Scrollbar, Listbox, VERTICAL, W, E
+    import FonctionsSignal as fs
+    import FonctionPdf as pdf
+    import FonctionGui as fg
+    from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
+    from statistics import mean, pstdev
+    import matplotlib.pyplot as plt
+except Exception as e:
+    print(e)
+    input(&#39;***&#39;)
+
+
+# zone de définition des fonctions
+
+
+def choisir_dossier():
+    &#34;&#34;&#34;ouvre un dialogue de sélection de répertoire
+        voir http://tkinter.unpythonic.net/wiki/tkFileDialog
+
+    Parameters
+    ----------
+    dossier : str
+        Association automatique de l&#39;adresse du chemin selectionner
+
+    Returns
+    ------
+
+    &#34;&#34;&#34;
+    dossier = filedialog.askdirectory(
+        title=&#34;Sélectionnez le dossier de fichier (s) de mesure (s)&#34;,
+        mustexist=True,
+        parent=fenetre,
+    )
+    # un dossier a vraiment été sélectionné ?
+    if dossier:
+        # on remplit la liste de fichiers
+        remplir_liste(dossier)
+    # end if
+
+
+# end def
+
+
+def remplir_liste(dossier):
+    &#34;&#34;&#34;Remplit la liste de fichiers à partir de l&#39;emplacement
+        @dossier fourni en paramètre de fonction
+    &#34;&#34;&#34;
+    # init globales
+    global dossier_actuel
+    # on conserve le dossier en cours de traitement
+    dossier_actuel = dossier
+    # on récupère la liste des fichiers
+    liste_fichiers = glob.glob(normaliser(dossier, motif_fichiers))
+    liste_fichiers.sort()  # tri par ordre alphabetic
+    # on met à jour la listbox à travers la variable de contrôle
+    cvar_fichiers.set(&#34; &#34;.join(map(os.path.basename, liste_fichiers)))
+
+
+# end def
+
+
+def normaliser(chemin, *args):
+    &#34;&#34;&#34;Met un chemin de fichier en conformité avec l&#39;OS utilisé, utile pour nunux&#34;&#34;&#34;
+    return os.path.normpath(os.path.join(chemin, *args))
+
+
+# end def
+
+
+def afficher_fichier(event):
+    &#34;&#34;&#34;Affiche le contenu du fichier sélectionné.
+    # on récupère le nom du fichier&#34;&#34;&#34;
+    fichier = normaliser(
+        dossier_actuel,
+        liste_fichiers.get(liste_fichiers.curselection() or 0)
+    )
+    &#34;&#34;&#34;est-ce réellement un fichier ?&#34;&#34;&#34;
+    if os.path.isfile(fichier):
+        affichage_texte.delete(&#34;1.0&#34;, END)
+        affichage_texte1.delete(&#34;1.0&#34;, END)
+        try:
+            # oui, on peut l&#39;ouvrir en forçant l&#39;encodage UTF8
+            with codecs.open(fichier, &#39;r&#39;, encoding=&#39;utf-8&#39;,
+                             errors=&#39;ignore&#39;) as file_in:
+                # on efface d&#39;abord la zone de texte
+                affichage_texte.delete(&#34;1.0&#34;, END)
+                # on insère le nouveau contenu texte du fichier
+                affichage_texte.insert(&#34;1.0&#34;, file_in.read())
+
+                fig = plt.figure(1, figsize=(6, 3))
+                # y = []
+                plt.clf()
+                y = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile1)
+                if y:
+                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
+                    plt.plot(y, linewidth=0.5)
+                else:
+                    plt.clf()
+                    # values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
+                    plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
+                # traitement deuxieme capteur
+                y2 = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile2)
+                if y2:
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal2(y2)
+
+                    plt.plot(y2, &#39;r&#39;, linewidth=0.5)
+
+                else:
+                    # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
+                    plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
+
+                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes, entre 2 ouvertures de fichier
+                global remove_canvs
+
+                if (remove_canvs != []):
+                    for icanv in remove_canvs:
+                        icanv.destroy()
+                    remove_canvs = []
+
+                conteneur_canv = Frame(fenetre)
+                remove_canvs.append(conteneur_canv)
+                # dessin = Canvas(fenetre, bg=&#39;white&#39;, height=250, width=300)
+                conteneur_canv1 = Frame(fenetre)
+                remove_canvs.append(conteneur_canv1)
+                # dessin1 = Canvas(fenetre, bg=&#39;white&#39;, height=250, width=300)
+
+                canvas = FigureCanvasTkAgg(fig, master=conteneur_canv)
+                canvas.draw()
+                canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+                conteneur_canv.grid(row=2, column=0, sticky=NS + EW, padx=5, pady=5)
+
+                # on efface d&#39;abord la zone de texte
+                affichage_texte1.delete(&#34;1.0&#34;, END)
+                affichage_texte1.delete(&#34;1.0&#34;, END)
+
+                ###
+                #
+                entete = [&#34;--------------------------\nNom capteur\n[N° palier] \tMoyenne [V] \tÉcart-type [mV]&#34;]
+
+                values_capteurs = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1))
+                values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2))
+
+                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf, sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
+                datat1 = [entete[0]];
+                datat2 = [entete[0]]
+
+                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf:
+                # Le pre-traitement des données (calcul des variables dérivées) est le même (utilisation de traitement_general_donnees), mais la mise en forme est différente (preparation de datat1 et datat2)
+                for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
+                    values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(
+                        values_capteurs.get(capteur))
+                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal2(
+                        values_capteurs2.get(capteur2))
+                    #
+                    donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
+                                                                     values_sep_paliers2, entete)
+                    #
+                    datat1.append(str(&#34;\n----------\n&#34;) + str(capteur) + &#34;\n&#34;)
+                    datat2.append(str(&#34;\n----------\n&#34;) + str(capteur2) + &#34;\n&#34;)
+                    #
+                    for i, d in enumerate(donneestraitees2):
+                        datat1.append(&#34;[&#34; + str(i) + &#34;]\t&#34; + str(d[0]) + &#34;\t&#34; + str(d[1]) + &#34;\n&#34;)
+                        datat2.append(&#34;[&#34; + str(i) + &#34;]\t&#34; + str(d[2]) + &#34;\t&#34; + str(d[3]) + &#34;\n&#34;)
+                #
+                affichage_texte1.insert(&#34;0.0&#34;,
+                                        str(len(values_capteurs.keys())) + &#34; capteur(s) trouvé(s) a raccorder !\n&#34;)
+                for i, t in enumerate(datat1):
+                    affichage_texte1.insert(INSERT, t)
+
+                affichage_texte1.insert(&#34;0.0&#34;, str(len(
+                    values_capteurs2.keys())) + &#34; capteur(s) de référence(s) trouvé(s) sont !\n&#34;)
+                for i, t in enumerate(datat2):
+                    affichage_texte1.insert(INSERT, t)
+
+                fig1 = plt.figure(2, figsize=(6, 3))
+                plt.clf()
+                if values_sep1:
+                    plt.plot(values_sep1, linewidth=0.5)
+                else:
+                    plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
+                if values_sep1_2:
+                    plt.plot(values_sep1_2, &#39;r&#39;, linewidth=0.5)
+                else:
+                    plt.clf()
+                    plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
+                # plt.show()
+                canvas = FigureCanvasTkAgg(fig1, master=conteneur_canv1)
+                canvas.draw()
+                canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+                conteneur_canv1.grid(row=2, column=1, sticky=NS + EW, padx=5, pady=5)
+            # end with
+            file_in.close()
+
+        except Exception as e:
+            affichage_texte1.insert(INSERT, &#34;Y a Erreur:&#34; + str(e))
+            plt.close()
+
+    # end if
+
+
+# end def
+
+
+def destroy_fenetre():
+    &#34;&#34;&#34;Fermeture de la fenetre, pourquoi je ferme le tracer içi ?&#34;&#34;&#34;
+    plt.close()
+    fenetre.destroy()
+
+
+def lance_traitement_pdf():
+    &#34;&#34;&#34;Lance execution de la génération du pdf aprés quelques vérifications
+
+    Attributes
+    ----------
+    numero_col_1 : int
+        numero de colonne des premieres données à lire (capteur raccorder)
+
+    numero_col_2 : int
+        numero de colonne des deuxime données à lire (capteur de référence)
+
+    nom_utilisateur : trigrame
+        info récupérer
+
+
+    &#34;&#34;&#34;
+    fichier = normaliser(
+        dossier_actuel,
+        liste_fichiers.get(liste_fichiers.curselection() or 0)
+    )
+
+    # est-ce réellement un fichier ?
+    if os.path.isfile(fichier):
+        nom_utilisateur = recup_nomutilisateur()
+        # passage des numeros de colonne a lire
+        numero_col_1 = 2  # numero de colonne des premieres données à lire
+        numero_col_2 = 10
+        try:
+            pdf.traitement_pdf(dossier_actuel, fichier, nom_utilisateur, numero_col_1, numero_col_2)
+            affichage_texte.delete(&#34;1.0&#34;, END)
+            affichage_texte.insert(INSERT, maZone.get() + &#34;, le traitement est terminé.\n&#34;)
+            affichage_texte.insert(INSERT, &#34;Merci de sélectionner un fichier&#34;)
+        except Exception as e:
+            affichage_texte.delete(&#34;1.0&#34;, END)
+            affichage_texte.insert(INSERT, maZone.get() + &#34;,!!!!! \n \n---LE TRAITEMENT A ECHOUE--- !!!!!.\n \n&#34;)
+            affichage_texte.insert(INSERT, str(e))
+            affichage_texte.insert(INSERT, &#34;\n \nMerci de sélectionner un fichier&#34;)
+            affichage_texte.tag_add(&#34;---LE TRAITEMENT A ECHOUE---&#34;, &#34;2.0&#34;, &#34;5.0&#34;)
+            affichage_texte.tag_config(&#34;---LE TRAITEMENT A ECHOUE---&#34;, background=&#34;red&#34;, foreground=&#34;blue&#34;)
+
+
+# On définit la fonction appelée par le info
+def recup_nomutilisateur():
+    &#34;&#34;&#34;Recupere le trigramme&#34;&#34;&#34;
+    affichage_texte.delete(&#34;1.0&#34;, END)
+    affichage_texte.insert(&#34;1.0&#34;, maZone.get() + &#34;, merci de sélectionner un fichier&#34;)
+    return maZone.get()
+
+
+def on_closing():
+    &#34;&#34;&#34;Fermeture de la fenetre, pas utilisé ou doublon de &#39;detroye_fenetre&#39;&#34;&#34;&#34;
+    destroy_fenetre()</code></pre>
+            </details>
+        </section>
+        <section>
+        </section>
+        <section>
+        </section>
+        <section>
+            <h2 class="section-title" id="header-functions">Functions</h2>
+            <dl>
+                <dt id="Sensorem_Beta-C.FonctionGui.afficher_fichier"><code class="name flex">
+                    <span>def <span class="ident">afficher_fichier</span></span>(<span>event)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Affiche le contenu du fichier sélectionné.</p>
+                        <h1 id="on-recupere-le-nom-du-fichier">on récupère le nom du fichier</h1></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def afficher_fichier(event):
+    &#34;&#34;&#34;Affiche le contenu du fichier sélectionné.
+    # on récupère le nom du fichier&#34;&#34;&#34;
+    fichier = normaliser(
+        dossier_actuel,
+        liste_fichiers.get(liste_fichiers.curselection() or 0)
+    )
+    &#34;&#34;&#34;est-ce réellement un fichier ?&#34;&#34;&#34;
+    if os.path.isfile(fichier):
+        affichage_texte.delete(&#34;1.0&#34;, END)
+        affichage_texte1.delete(&#34;1.0&#34;, END)
+        try:
+            # oui, on peut l&#39;ouvrir en forçant l&#39;encodage UTF8
+            with codecs.open(fichier, &#39;r&#39;, encoding=&#39;utf-8&#39;,
+                             errors=&#39;ignore&#39;) as file_in:
+                # on efface d&#39;abord la zone de texte
+                affichage_texte.delete(&#34;1.0&#34;, END)
+                # on insère le nouveau contenu texte du fichier
+                affichage_texte.insert(&#34;1.0&#34;, file_in.read())
+
+                fig = plt.figure(1, figsize=(6, 3))
+                # y = []
+                plt.clf()
+                y = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile1)
+                if y:
+                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
+                    plt.plot(y, linewidth=0.5)
+                else:
+                    plt.clf()
+                    # values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
+                    plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
+                # traitement deuxieme capteur
+                y2 = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile2)
+                if y2:
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal2(y2)
+
+                    plt.plot(y2, &#39;r&#39;, linewidth=0.5)
+
+                else:
+                    # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
+                    plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
+
+                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes, entre 2 ouvertures de fichier
+                global remove_canvs
+
+                if (remove_canvs != []):
+                    for icanv in remove_canvs:
+                        icanv.destroy()
+                    remove_canvs = []
+
+                conteneur_canv = Frame(fenetre)
+                remove_canvs.append(conteneur_canv)
+                # dessin = Canvas(fenetre, bg=&#39;white&#39;, height=250, width=300)
+                conteneur_canv1 = Frame(fenetre)
+                remove_canvs.append(conteneur_canv1)
+                # dessin1 = Canvas(fenetre, bg=&#39;white&#39;, height=250, width=300)
+
+                canvas = FigureCanvasTkAgg(fig, master=conteneur_canv)
+                canvas.draw()
+                canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+                conteneur_canv.grid(row=2, column=0, sticky=NS + EW, padx=5, pady=5)
+
+                # on efface d&#39;abord la zone de texte
+                affichage_texte1.delete(&#34;1.0&#34;, END)
+                affichage_texte1.delete(&#34;1.0&#34;, END)
+
+                ###
+                #
+                entete = [&#34;--------------------------\nNom capteur\n[N° palier] \tMoyenne [V] \tÉcart-type [mV]&#34;]
+
+                values_capteurs = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1))
+                values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2))
+
+                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf, sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
+                datat1 = [entete[0]];
+                datat2 = [entete[0]]
+
+                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf:
+                # Le pre-traitement des données (calcul des variables dérivées) est le même (utilisation de traitement_general_donnees), mais la mise en forme est différente (preparation de datat1 et datat2)
+                for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
+                    values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(
+                        values_capteurs.get(capteur))
+                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal2(
+                        values_capteurs2.get(capteur2))
+                    #
+                    donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
+                                                                     values_sep_paliers2, entete)
+                    #
+                    datat1.append(str(&#34;\n----------\n&#34;) + str(capteur) + &#34;\n&#34;)
+                    datat2.append(str(&#34;\n----------\n&#34;) + str(capteur2) + &#34;\n&#34;)
+                    #
+                    for i, d in enumerate(donneestraitees2):
+                        datat1.append(&#34;[&#34; + str(i) + &#34;]\t&#34; + str(d[0]) + &#34;\t&#34; + str(d[1]) + &#34;\n&#34;)
+                        datat2.append(&#34;[&#34; + str(i) + &#34;]\t&#34; + str(d[2]) + &#34;\t&#34; + str(d[3]) + &#34;\n&#34;)
+                #
+                affichage_texte1.insert(&#34;0.0&#34;,
+                                        str(len(values_capteurs.keys())) + &#34; capteur(s) trouvé(s) a raccorder !\n&#34;)
+                for i, t in enumerate(datat1):
+                    affichage_texte1.insert(INSERT, t)
+
+                affichage_texte1.insert(&#34;0.0&#34;, str(len(
+                    values_capteurs2.keys())) + &#34; capteur(s) de référence(s) trouvé(s) sont !\n&#34;)
+                for i, t in enumerate(datat2):
+                    affichage_texte1.insert(INSERT, t)
+
+                fig1 = plt.figure(2, figsize=(6, 3))
+                plt.clf()
+                if values_sep1:
+                    plt.plot(values_sep1, linewidth=0.5)
+                else:
+                    plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
+                if values_sep1_2:
+                    plt.plot(values_sep1_2, &#39;r&#39;, linewidth=0.5)
+                else:
+                    plt.clf()
+                    plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
+                # plt.show()
+                canvas = FigureCanvasTkAgg(fig1, master=conteneur_canv1)
+                canvas.draw()
+                canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
+                conteneur_canv1.grid(row=2, column=1, sticky=NS + EW, padx=5, pady=5)
+            # end with
+            file_in.close()
+
+        except Exception as e:
+            affichage_texte1.insert(INSERT, &#34;Y a Erreur:&#34; + str(e))
+            plt.close()
+
+    # end if</code></pre>
+                    </details>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.choisir_dossier"><code class="name flex">
+                    <span>def <span class="ident">choisir_dossier</span></span>(<span>)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>ouvre un dialogue de sélection de répertoire
+                        voir <a href="http://tkinter.unpythonic.net/wiki/tkFileDialog">http://tkinter.unpythonic.net/wiki/tkFileDialog</a>
+                    </p>
+                        <h2 id="parameters">Parameters</h2>
+                        <dl>
+                            <dt><strong><code>dossier</code></strong> :&ensp;<code>str</code></dt>
+                            <dd>Association automatique de l'adresse du chemin selectionner</dd>
+                        </dl>
+                        <h2 id="returns">Returns</h2></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def choisir_dossier():
+    &#34;&#34;&#34;ouvre un dialogue de sélection de répertoire
+        voir http://tkinter.unpythonic.net/wiki/tkFileDialog
+
+    Parameters
+    ----------
+    dossier : str
+        Association automatique de l&#39;adresse du chemin selectionner
+
+    Returns
+    ------
+
+    &#34;&#34;&#34;
+    dossier = filedialog.askdirectory(
+        title=&#34;Sélectionnez le dossier de fichier (s) de mesure (s)&#34;,
+        mustexist=True,
+        parent=fenetre,
+    )
+    # un dossier a vraiment été sélectionné ?
+    if dossier:
+        # on remplit la liste de fichiers
+        remplir_liste(dossier)
+    # end if</code></pre>
+                    </details>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.destroy_fenetre"><code class="name flex">
+                    <span>def <span class="ident">destroy_fenetre</span></span>(<span>)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Fermeture de la fenetre, pourquoi je ferme le tracer içi ?</p></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def destroy_fenetre():
+    &#34;&#34;&#34;Fermeture de la fenetre, pourquoi je ferme le tracer içi ?&#34;&#34;&#34;
+    plt.close()
+    fenetre.destroy()</code></pre>
+                    </details>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.lance_traitement_pdf"><code class="name flex">
+                    <span>def <span class="ident">lance_traitement_pdf</span></span>(<span>)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Lance execution de la génération du pdf aprés quelques vérifications</p>
+                        <h2 id="attributes">Attributes</h2>
+                        <dl>
+                            <dt><strong><code>numero_col_1</code></strong> :&ensp;<code>int</code></dt>
+                            <dd>numero de colonne des premieres données à lire (capteur raccorder)</dd>
+                            <dt><strong><code>numero_col_2</code></strong> :&ensp;<code>int</code></dt>
+                            <dd>numero de colonne des deuxime données à lire (capteur de référence)</dd>
+                            <dt><strong><code>nom_utilisateur</code></strong> :&ensp;<code>trigrame</code></dt>
+                            <dd>info récupérer</dd>
+                        </dl>
+                    </div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def lance_traitement_pdf():
+    &#34;&#34;&#34;Lance execution de la génération du pdf aprés quelques vérifications
+
+    Attributes
+    ----------
+    numero_col_1 : int
+        numero de colonne des premieres données à lire (capteur raccorder)
+
+    numero_col_2 : int
+        numero de colonne des deuxime données à lire (capteur de référence)
+
+    nom_utilisateur : trigrame
+        info récupérer
+
+
+    &#34;&#34;&#34;
+    fichier = normaliser(
+        dossier_actuel,
+        liste_fichiers.get(liste_fichiers.curselection() or 0)
+    )
+
+    # est-ce réellement un fichier ?
+    if os.path.isfile(fichier):
+        nom_utilisateur = recup_nomutilisateur()
+        # passage des numeros de colonne a lire
+        numero_col_1 = 2  # numero de colonne des premieres données à lire
+        numero_col_2 = 10
+        try:
+            pdf.traitement_pdf(dossier_actuel, fichier, nom_utilisateur, numero_col_1, numero_col_2)
+            affichage_texte.delete(&#34;1.0&#34;, END)
+            affichage_texte.insert(INSERT, maZone.get() + &#34;, le traitement est terminé.\n&#34;)
+            affichage_texte.insert(INSERT, &#34;Merci de sélectionner un fichier&#34;)
+        except Exception as e:
+            affichage_texte.delete(&#34;1.0&#34;, END)
+            affichage_texte.insert(INSERT, maZone.get() + &#34;,!!!!! \n \n---LE TRAITEMENT A ECHOUE--- !!!!!.\n \n&#34;)
+            affichage_texte.insert(INSERT, str(e))
+            affichage_texte.insert(INSERT, &#34;\n \nMerci de sélectionner un fichier&#34;)
+            affichage_texte.tag_add(&#34;---LE TRAITEMENT A ECHOUE---&#34;, &#34;2.0&#34;, &#34;5.0&#34;)
+            affichage_texte.tag_config(&#34;---LE TRAITEMENT A ECHOUE---&#34;, background=&#34;red&#34;, foreground=&#34;blue&#34;)</code></pre>
+                    </details>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.normaliser"><code class="name flex">
+                    <span>def <span class="ident">normaliser</span></span>(<span>chemin, *args)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Met un chemin de fichier en conformité avec l'OS utilisé, utile pour nunux</p>
+                    </div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def normaliser(chemin, *args):
+    &#34;&#34;&#34;Met un chemin de fichier en conformité avec l&#39;OS utilisé, utile pour nunux&#34;&#34;&#34;
+    return os.path.normpath(os.path.join(chemin, *args))</code></pre>
+                    </details>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.on_closing"><code class="name flex">
+                    <span>def <span class="ident">on_closing</span></span>(<span>)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Fermeture de la fenetre, pas utilisé ou doublon de 'detroye_fenetre'</p></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def on_closing():
+    &#34;&#34;&#34;Fermeture de la fenetre, pas utilisé ou doublon de &#39;detroye_fenetre&#39;&#34;&#34;&#34;
+    destroy_fenetre()</code></pre>
+                    </details>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.recup_nomutilisateur"><code class="name flex">
+                    <span>def <span class="ident">recup_nomutilisateur</span></span>(<span>)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Recupere le trigramme</p></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def recup_nomutilisateur():
+    &#34;&#34;&#34;Recupere le trigramme&#34;&#34;&#34;
+    affichage_texte.delete(&#34;1.0&#34;, END)
+    affichage_texte.insert(&#34;1.0&#34;, maZone.get() + &#34;, merci de sélectionner un fichier&#34;)
+    return maZone.get()</code></pre>
+                    </details>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.remplir_liste"><code class="name flex">
+                    <span>def <span class="ident">remplir_liste</span></span>(<span>dossier)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Remplit la liste de fichiers à partir de l'emplacement
+                        @dossier fourni en paramètre de fonction</p></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def remplir_liste(dossier):
+    &#34;&#34;&#34;Remplit la liste de fichiers à partir de l&#39;emplacement
+        @dossier fourni en paramètre de fonction
+    &#34;&#34;&#34;
+    # init globales
+    global dossier_actuel
+    # on conserve le dossier en cours de traitement
+    dossier_actuel = dossier
+    # on récupère la liste des fichiers
+    liste_fichiers = glob.glob(normaliser(dossier, motif_fichiers))
+    liste_fichiers.sort()  # tri par ordre alphabetic
+    # on met à jour la listbox à travers la variable de contrôle
+    cvar_fichiers.set(&#34; &#34;.join(map(os.path.basename, liste_fichiers)))</code></pre>
+                    </details>
+                </dd>
+            </dl>
+        </section>
+        <section>
+        </section>
+    </article>
+    <nav id="sidebar">
+        <h1>Index</h1>
+        <div class="toc">
+            <ul></ul>
+        </div>
+        <ul id="index">
+            <li><h3>Super-module</h3>
+                <ul>
+                    <li><code><a href="index.html" title="Sensorem_Beta-C">Sensorem_Beta-C</a></code></li>
+                </ul>
+            </li>
+            <li><h3><a href="#header-functions">Functions</a></h3>
+                <ul class="">
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.afficher_fichier"
+                                 title="Sensorem_Beta-C.FonctionGui.afficher_fichier">afficher_fichier</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.choisir_dossier"
+                                 title="Sensorem_Beta-C.FonctionGui.choisir_dossier">choisir_dossier</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.destroy_fenetre"
+                                 title="Sensorem_Beta-C.FonctionGui.destroy_fenetre">destroy_fenetre</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.lance_traitement_pdf"
+                                 title="Sensorem_Beta-C.FonctionGui.lance_traitement_pdf">lance_traitement_pdf</a></code>
+                    </li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.normaliser"
+                                 title="Sensorem_Beta-C.FonctionGui.normaliser">normaliser</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.on_closing"
+                                 title="Sensorem_Beta-C.FonctionGui.on_closing">on_closing</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.recup_nomutilisateur"
+                                 title="Sensorem_Beta-C.FonctionGui.recup_nomutilisateur">recup_nomutilisateur</a></code>
+                    </li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.remplir_liste"
+                                 title="Sensorem_Beta-C.FonctionGui.remplir_liste">remplir_liste</a></code></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</main>
+<footer id="footer">
+    <p>Generated by <a href="https://pdoc3.github.io/pdoc"
+                       title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>
