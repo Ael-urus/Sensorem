@@ -42,8 +42,9 @@ except Exception as e:
 ##
 
 class LineChartWithMarkers(_DrawingEditorMixin, Drawing):
-    """
-    Classe de conteneur graphique
+    """Classe de conteneur graphique. Elle trace les graphiques des mesures brutes et corrigées.
+    Pourrait faire doublon avec la fonction trace_graph (qui trace les paliers).
+    Mais deux mises en forme diff, plus simple à gérer avec deux générateurs
     """
 
     def __init__(self,
@@ -279,9 +280,8 @@ class LineChartWithMarkers(_DrawingEditorMixin, Drawing):
 # tracer des graph dans le PDF, GROS bordel ^^....
 def trace_graph(title, data, w, h, data2=[[(0, 0)]], xtitle='Nombre de mesures',
                 xtvisi=1, ytitle='Tension [V]', y2title='Capteur réf', ForceXzero=1):
-    """Fonction qui génère le graphique dans le pdf, petite usine à gaz à ne pas toucher
-    ou alors on à du temps devant sois :)
-    TBC
+    """Fonction qui génère les graphiques des paliers dans le pdf, petite usine à gaz à ne pas toucher
+    ou alors on à du temps devant sois :), même bordel que la class de graph
     """
     graph = Drawing(w, h)
     # print(data)
