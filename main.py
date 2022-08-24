@@ -5,8 +5,7 @@
 Created on Mon May 4 18:02:18 2020
 @author : Aelurus
 
-Il faut sortir les fonctions du main et les appeler depuis le fichier FonctionGui,
-mais je rencontre plein de bug en faisant la manip, quelque chose m'échappe.
+Je sors les fonctions du main pour les appeler depuis le fichier FonctionGui.
 
 """
 try:
@@ -18,6 +17,7 @@ try:
     from tkinter import filedialog, END, Frame, Canvas, TOP, BOTH, NS, EW, INSERT, Tk, Label, \
         Entry, StringVar, Button, Scrollbar, Listbox, VERTICAL, W, E
     import FonctionsSignal as fs
+    import FonctionGui as fgui
     import FonctionPdf as pdf
     from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
     from statistics import mean, pstdev
@@ -28,8 +28,6 @@ except Exception as e:
 
 
 # zone de définition des fonctions
-
-
 def choisir_dossier():
     """Ouvre un dialogue de sélection de répertoire
         voir http://tkinter.unpythonic.net/wiki/tkFileDialog
@@ -52,10 +50,7 @@ def choisir_dossier():
         # on remplit la liste de fichiers
         remplir_liste(dossier)
     # end if
-
-
 # end def
-
 
 def remplir_liste(dossier):
     """Remplit la liste de fichiers à partir de l'emplacement
@@ -219,8 +214,6 @@ def afficher_fichier(event):
             plt.close()
 
     # end if
-
-
 # end def
 
 
@@ -289,10 +282,14 @@ def on_closing():
 # début de la fenêtre de selection
 # init variables globales
 
+global dossier_actuel
 dossier_actuel = ""
+global motif_fichiers
 motif_fichiers = "*.csv"
-varidxinfile1 = 2  # index de variable d'intérêt 1 dans les fichiers bruts
-varidxinfile2 = 10  # index de variable d'intérêt 2 dans les fichiers bruts
+global varidxinfile1  # index de variable d'intérêt 1 dans les fichiers bruts
+varidxinfile1 = 2
+global varidxinfile2  # index de variable d'intérêt 2 dans les fichiers bruts
+varidxinfile2 = 10
 
 # on commence par établir l'interface graphique (GUI)
 # on crée la fenêtre principale
@@ -357,8 +354,7 @@ liste_fichiers.bind("<ButtonRelease-1>", afficher_fichier)
 Button(
     conteneur_fichiers,
     text="          Sélectionner un dossier                         ",
-    command=choisir_dossier,
-).grid(row=2, column=0)
+    command=fgui.choisir_dossier, ).grid(row=2, column=0)
 # on place le conteneur dans la fenêtre principale
 # avec des marges padx et pady
 conteneur_fichiers.grid(row=1, column=0, sticky=NS + EW, padx=5, pady=5)
