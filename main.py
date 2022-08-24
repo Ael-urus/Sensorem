@@ -165,7 +165,7 @@ def afficher_fichier(event):
 
                 values_capteurs = fs.isol_capteurs(fs.readColCSV1(fichier, ";", varidxinfile1))
                 values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, ";", varidxinfile2))
-
+                
                 # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf,
                 # sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
                 datat1 = [entete[0]]
@@ -181,6 +181,7 @@ def afficher_fichier(event):
                     values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(
                         values_capteurs2.get(capteur2), fs.seuil_capteur2())
                     #
+                    
                     donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
                                                                      values_sep_paliers2, entete)
                     #
