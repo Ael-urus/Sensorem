@@ -102,40 +102,10 @@ def sep_values(sv,func_capt):
 
 
 # recuperation des valeurs à traiter
+
+
+
 def readColCSV1(fichier, sep, n):
-    """
-    Lecture complete du fichier
-    Pour les deux premiers paramètres attention à bien utiliser les guillements
-    car la fonction attend des chaines de caractères.
-    fichier <str> : Le nom du fichier -> "mon_fichier.csv"
-    sep <str> : Le séparateur des colonnes par exemple -> ";"
-    n <int> : Le numéro de la colonne à lire
-    """
-    file = open(fichier, "r")
-    reader = csv.reader(file, delimiter=sep)
-    col = []
-    for row in reader:
-        # if row[n] == "Invalid": row[n]=float(0.0)
-        if n < len(row) and row[n] == 'Invalid':
-            row[n] = float(0.0)
-            # BGU supress ? car row[n] peut planter (or try/except), notamment sur une ligne vide
-        try:
-            notation_point = row[n].replace(",", ".")
-            col.append(float(notation_point))
-        # except Exception as e:
-        except :
-            if n < len(row) and row[n] == 'Invalid': col.append(0.0)
-            # print(e, n)
-            # print(row[n])
-            # pass
-            col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais .....
-            # BGU : problem potentiel quand ligne vide
-            # input('***')
-    file.close()
-    return col
-
-
-def readColCSV(fichier, sep, n):
     """Pour les deux premiers paramètres attention à bien utiliser les guillements
     car la fonction attend des chaines de caractères.
     fichier <str> : Le nom du fichier -> "mon_fichier.csv"
@@ -147,20 +117,21 @@ def readColCSV(fichier, sep, n):
     Ignore les valeurs non int
     Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier
 
-    >>> readColCSV ("DebudFindeFichier.csv", ";", 2)
+    >>> readColCSV1 ("DebudFindeFichier.csv", ";", 2)
     [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
     """
     file = open(fichier, "r")
     reader = csv.reader(file, delimiter=sep)
     col = []
     for row in reader:  # BGU suppress 1 des 2 de la double loop "for row in reader", car elle pose des soucis de lecture sur l'exemple: readColCSV ("DebudFindeFichier.csv", ";", 2)
-        for row in reader:
-            try:
-                notation_point = row[n].replace(",", ".")
-                col.append(float(notation_point))
-            except:
-                if n < len(row) and row[n] == 'Invalid': col.append(0.0)
-                pass
+        if(len(row)>n):
+        #    for row in reader:
+                try:
+                    notation_point = row[n].replace(",", ".")
+                    col.append(float(notation_point))
+                except:
+                    if row[n] == 'Invalid': col.append(0.0)
+                    pass
     file.close()
     return col
 

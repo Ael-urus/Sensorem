@@ -113,7 +113,7 @@ def afficher_fichier(event):
                 fig = plt.figure(1, figsize=(6, 3))
                 # y = []
                 plt.clf()
-                y = fs.readColCSV(fichier, ";", varidxinfile1)
+                y = fs.readColCSV1(fichier, ";", varidxinfile1)
                 if y:
                     values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y,fs.seuil_capteur1())
                     plt.plot(y, linewidth=0.5)
@@ -122,7 +122,7 @@ def afficher_fichier(event):
                     # values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
                     plt.plot([0], [0], 'r', linewidth=0.5)
                 # traitement deuxieme capteur
-                y2 = fs.readColCSV(fichier, ";", varidxinfile2)
+                y2 = fs.readColCSV1(fichier, ";", varidxinfile2)
                 if y2:
                     values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,fs.seuil_capteur2())
 
