@@ -103,7 +103,7 @@ def afficher_fichier(event):
         affichage_texte1.delete("1.0", END)
         try:
             # oui, on peut l'ouvrir en forçant l'encodage UTF8
-            with codecs.open(fichier, 'r', encoding='utf-8',
+            with codecs.open(fichier, 'r', encoding='ANSI',
                              errors='ignore') as file_in:
                 # on efface d'abord la zone de texte
                 affichage_texte.delete("1.0", END)

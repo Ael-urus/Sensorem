@@ -247,7 +247,12 @@ def info_values(iv):
     prend les valeurs d'un capteur pour les ordonnées par paliers avec identification des informations
     par palier comme le nombre de paliers la longueur de chaque palier.
 
-    return:
+    Parametre :
+    ----------
+
+    iv (float) :
+
+    return :
     -------
     une liste imbriqué de chaque info
 
