@@ -37,8 +37,8 @@ def prep_donnees_graph(donnees):
 
 ######
 def traitement_signal(data):
-    """
-    TBC
+    """Fonction générale qui appel les traitements des données, pour le capteur à raccorder
+
     """
     # identification des paliers
     values_sep = sep_values(data)
@@ -76,7 +76,8 @@ def readColCSV1(fichier, sep, n):
     for row in reader:
         # if row[n] == "Invalid": row[n]=float(0.0)
         if n < len(row) and row[n] == 'Invalid':
-            row[n] = float(0.0)  # BGU supress ? car row[n] peut planter (or try/except), notamment sur une ligne vide
+            row[n] = float(0.0)
+            # BGU supress ? car row[n] peut planter (or try/except), notamment sur une ligne vide
         try:
             notation_point = row[n].replace(",", ".")
             col.append(float(notation_point))
@@ -86,15 +87,15 @@ def readColCSV1(fichier, sep, n):
             # print(e, n)
             # print(row[n])
             # pass
-            col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
+            col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais .....
+            # BGU : problem potentiel quand ligne vide
             # input('***')
     file.close()
     return col
 
 
 def readColCSV(fichier, sep, n):
-    """
-    Pour les deux premiers paramètres attention à bien utiliser les guillements
+    """Pour les deux premiers paramètres attention à bien utiliser les guillements
     car la fonction attend des chaines de caractères.
     fichier <str> : Le nom du fichier -> "mon_fichier.csv"
     sep <str> : Le séparateur des colonnes par exemple -> ";"
@@ -126,8 +127,13 @@ def readColCSV(fichier, sep, n):
 # determination des coefficients en fonction du nombre de paliers pour la génération de paliers ascendents et descendants
 def gen_nom_paliers(n):
     """
-    retourne une liste incrémentée ascendant et descendant axée sur le
-    milleu du nombe passé en argument
+    Parametres
+    ----------
+    n (int) : nombre de paliers
+
+    return
+    ------
+    une liste incrémentée ascendant et descendant axée sur le milleu du nombe passé en argument
     >>> print (gen_nom_paliers(9))
     (0, 1, 2, 3, 4, 3, 2, 1, 0)
     """
@@ -244,7 +250,6 @@ def info_values(iv):
     return:
     -------
     une liste imbriqué de chaque info
-
 
     """
     nb_values = len(iv)

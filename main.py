@@ -3,10 +3,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Mon May 4 18:02:18 2020
-@author: Aelurus
+@author : Aelurus
 
-Il faut sortir les fonctions du main et les appelees depuis le fichier FonctionGui,
-mais je rencontre plein de bug en faisant la manip, quelque chose m'echappe.
+Il faut sortir les fonctions du main et les appeler depuis le fichier FonctionGui,
+mais je rencontre plein de bug en faisant la manip, quelque chose m'échappe.
 
 """
 try:
@@ -31,13 +31,12 @@ except Exception as e:
 
 
 def choisir_dossier():
-    """ouvre un dialogue de sélection de répertoire
+    """Ouvre un dialogue de sélection de répertoire
         voir http://tkinter.unpythonic.net/wiki/tkFileDialog
 
-    Parameters
-    ----------
-    dossier : str
-        Association automatique de l'adresse du chemin selectionner
+    Variable
+    --------
+    dossier (str) : Association automatique de l'adresse du chemin selectionner
 
     Returns
     ------
@@ -71,25 +70,28 @@ def remplir_liste(dossier):
     liste_fichiers.sort()  # tri par ordre alphabetic
     # on met à jour la listbox à travers la variable de contrôle
     cvar_fichiers.set(" ".join(map(os.path.basename, liste_fichiers)))
-
-
 # end def
 
 
 def normaliser(chemin, *args):
-    """Met un chemin de fichier en conformité avec l'OS utilisé, utile pour nunux"""
-    return os.path.normpath(os.path.join(chemin, *args))
+    """Met un chemin de fichier en conformité avec l'OS utilisé, utile pour nunux
 
+    Parametres
+    ----------
+
+    chemin (str) :
+    """
+    return os.path.normpath(os.path.join(chemin, *args))
 
 # end def
 
 
 def afficher_fichier(event):
-    """lecture et affichage du contenu du fichier sélectionné,
+    """Lecture et affichage du contenu du fichier sélectionné,
     tentative d'implémentation de l'ouverture avec codec pour passage en Ut8
     pour nunux.
 
-    on récupère le nom du fichier
+    On récupère le nom du fichier
     """
     fichier = normaliser(
         dossier_actuel,
@@ -232,7 +234,7 @@ def destroy_fenetre():
 def lance_traitement_pdf():
     """Lance execution de la génération du pdf aprés quelques vérifications
 
-    Attributes
+    Variable
     ----------
     numero_col_1 : int
         numero de colonne des premieres données à lire (capteur raccorder)
@@ -242,7 +244,6 @@ def lance_traitement_pdf():
 
     nom_utilisateur : trigrame
         info récupérer
-
 
     """
     fichier = normaliser(
@@ -284,143 +285,143 @@ def on_closing():
     destroy_fenetre()
 
 
-if __name__ == "__main__": #Bruno est ce vraiment utile, le main ne sera jamais inclu.
-    # début de la fenêtre de selection
-    # init variables globales
+# ------------------------------------------------------------------------------------
+# début de la fenêtre de selection
+# init variables globales
 
-    dossier_actuel = ""
-    motif_fichiers = "*.csv"
-    varidxinfile1 = 2  # index de variable d'intérêt 1 dans les fichiers bruts
-    varidxinfile2 = 10  # index de variable d'intérêt 2 dans les fichiers bruts
+dossier_actuel = ""
+motif_fichiers = "*.csv"
+varidxinfile1 = 2  # index de variable d'intérêt 1 dans les fichiers bruts
+varidxinfile2 = 10  # index de variable d'intérêt 2 dans les fichiers bruts
 
-    # on commence par établir l'interface graphique (GUI)
-    # on crée la fenêtre principale
-    fenetre = Tk()
+# on commence par établir l'interface graphique (GUI)
+# on crée la fenêtre principale
+fenetre = Tk()
 
-    # stockage des 2 canvas des graphes plt, pour suppression dans afficher_dossier avant recréation
-    remove_canvs = []
+# stockage des 2 canvas des graphes plt, pour suppression dans afficher_dossier avant recréation
+remove_canvs = []
 
-    fenetre.title("Traitement-Signal-capteur(s)" + fs.version())
-    # SVP, NE FORCEZ PAS LA GÉOMÉTRIE de la fenêtre /!\
-    # elle va s'adapter toute seule...
-    # ~ fenetre.geometry("1000x800") --> c'est NON !
-    # d'autant plus qu'elle sera REDIMENSIONNABLE ensuite
-    # on ajoute des composants graphiques à la fenêtre principale
-    # on crée un conteneur pour la gestion des fichiers
-    #####
-    conteneur_info = Frame(fenetre)
-    # On crée un Label
-    champLabel_nom = Label(conteneur_info, text="Nom (Trigramme): ")
-    # champLabel_nom.grid(row=0, column=0)
-    champLabel_nom.pack(side="left")
-    # On crée un Entry (zone de saisie)
-    maZone = Entry(conteneur_info, width=5)
-    # On affiche le Entry dans la fenêtre
-    maZone.insert(0, "XXX")
-    maZone.pack(side="left")
+fenetre.title("Traitement-Signal-capteur(s)" + fs.version())
+# SVP, NE FORCEZ PAS LA GÉOMÉTRIE de la fenêtre /!\
+# elle va s'adapter toute seule...
+# ~ fenetre.geometry("1000x800") --> c'est NON !
+# d'autant plus qu'elle sera REDIMENSIONNABLE ensuite
+# on ajoute des composants graphiques à la fenêtre principale
+# on crée un conteneur pour la gestion des fichiers
+#####
+conteneur_info = Frame(fenetre)
+# On crée un Label
+champLabel_nom = Label(conteneur_info, text="Nom (Trigramme): ")
+# champLabel_nom.grid(row=0, column=0)
+champLabel_nom.pack(side="left")
+# On crée un Entry (zone de saisie)
+maZone = Entry(conteneur_info, width=5)
+# On affiche le Entry dans la fenêtre
+maZone.insert(0, "XXX")
+maZone.pack(side="left")
 
-    # On crée un Boutton
-    monBouton = Button(conteneur_info, text="Valide nom", command=recup_nomutilisateur)
-    # On affiche le Button dans la fenêtre
-    monBouton.pack()
-    # on place le conteneur dans la fenêtre principale
-    # avec des marges padx et pady
-    conteneur_info.grid(row=0, column=0, sticky=NS + EW, padx=5, pady=5)
+# On crée un Boutton
+monBouton = Button(conteneur_info, text="Valide nom", command=recup_nomutilisateur)
+# On affiche le Button dans la fenêtre
+monBouton.pack()
+# on place le conteneur dans la fenêtre principale
+# avec des marges padx et pady
+conteneur_info.grid(row=0, column=0, sticky=NS + EW, padx=5, pady=5)
 
-    ##############################################################################
-    conteneur_fichiers = Frame(fenetre)
-    # on rend le conteneur redimensionnable
-    conteneur_fichiers.columnconfigure(0, weight=1)
-    conteneur_fichiers.rowconfigure(0, weight=1)
-    # on crée une étiquette texte dans ce conteneur
-    Label(
-        conteneur_fichiers,
-        text="Veuillez sélectionner un fichier :"
-    ).grid(row=0, column=0, sticky=EW)
-    # on crée la liste des fichiers
-    cvar_fichiers = StringVar()
-    liste_fichiers = Listbox(conteneur_fichiers, listvariable=cvar_fichiers)
-    liste_fichiers.grid(row=1, column=0, sticky=NS + EW)
-    # avec sa scrollbar
-    vbar_fichiers = Scrollbar(conteneur_fichiers, orient=VERTICAL)
-    vbar_fichiers.grid(row=1, column=1, sticky=NS + W)
-    # on connecte la scrollbar à la liste des fichiers
-    liste_fichiers.configure(yscrollcommand=vbar_fichiers.set)
-    vbar_fichiers.configure(command=liste_fichiers.yview)
+##############################################################################
+conteneur_fichiers = Frame(fenetre)
+# on rend le conteneur redimensionnable
+conteneur_fichiers.columnconfigure(0, weight=1)
+conteneur_fichiers.rowconfigure(0, weight=1)
+# on crée une étiquette texte dans ce conteneur
+Label(
+    conteneur_fichiers,
+    text="Veuillez sélectionner un fichier :"
+).grid(row=0, column=0, sticky=EW)
+# on crée la liste des fichiers
+cvar_fichiers = StringVar()
+liste_fichiers = Listbox(conteneur_fichiers, listvariable=cvar_fichiers)
+liste_fichiers.grid(row=1, column=0, sticky=NS + EW)
+# avec sa scrollbar
+vbar_fichiers = Scrollbar(conteneur_fichiers, orient=VERTICAL)
+vbar_fichiers.grid(row=1, column=1, sticky=NS + W)
+# on connecte la scrollbar à la liste des fichiers
+liste_fichiers.configure(yscrollcommand=vbar_fichiers.set)
+vbar_fichiers.configure(command=liste_fichiers.yview)
 
-    # on va gérer l'affichage du fichier sur simple clic
-    # sur un fichier de la liste
-    liste_fichiers.bind("<ButtonRelease-1>", afficher_fichier)
+# on va gérer l'affichage du fichier sur simple clic
+# sur un fichier de la liste
+liste_fichiers.bind("<ButtonRelease-1>", afficher_fichier)
 
-    # on crée un bouton de type 'Parcourir'
-    Button(
-        conteneur_fichiers,
-        text="          Sélectionner un dossier                         ",
-        command=choisir_dossier,
-    ).grid(row=2, column=0)
-    # on place le conteneur dans la fenêtre principale
-    # avec des marges padx et pady
-    conteneur_fichiers.grid(row=1, column=0, sticky=NS + EW, padx=5, pady=5)
-    ##############################################################################
-    # on crée un conteneur pour l'affichage
-    conteneur_affichage = Frame(fenetre)
-    # on rend le conteneur redimensionnable
-    conteneur_affichage.columnconfigure(0, weight=1)
-    conteneur_affichage.rowconfigure(0, weight=1)
-    # on crée une étiquette texte dans ce conteneur
-    Label(
-        conteneur_affichage,
-        text="  Voici le contenu du fichier :                       "
-    ).grid(row=0, column=0, sticky=EW)
-    Label(
-        conteneur_affichage,
-        text=" Informations trouvées :                              "
-    ).grid(row=0, column=1, sticky=EW)
-    # on crée la zone d'affichage de texte
-    affichage_texte = ScrolledText(
-        conteneur_affichage,
-        bg="white",
-        fg="blue",
-        font="sans 9 ",
-        height=10,
-        width=20,
-    )
-    user = recup_nomutilisateur()
-    # affichage_texte.insert("1.0",user+", merci de sélectionner un fichier")
-    affichage_texte.grid(row=1, column=0, sticky=NS + EW)
+# on crée un bouton de type 'Parcourir'
+Button(
+    conteneur_fichiers,
+    text="          Sélectionner un dossier                         ",
+    command=choisir_dossier,
+).grid(row=2, column=0)
+# on place le conteneur dans la fenêtre principale
+# avec des marges padx et pady
+conteneur_fichiers.grid(row=1, column=0, sticky=NS + EW, padx=5, pady=5)
+##############################################################################
+# on crée un conteneur pour l'affichage
+conteneur_affichage = Frame(fenetre)
+# on rend le conteneur redimensionnable
+conteneur_affichage.columnconfigure(0, weight=1)
+conteneur_affichage.rowconfigure(0, weight=1)
+# on crée une étiquette texte dans ce conteneur
+Label(
+    conteneur_affichage,
+    text="  Voici le contenu du fichier :                       "
+).grid(row=0, column=0, sticky=EW)
+Label(
+    conteneur_affichage,
+    text=" Informations trouvées :                              "
+).grid(row=0, column=1, sticky=EW)
+# on crée la zone d'affichage de texte
+affichage_texte = ScrolledText(
+    conteneur_affichage,
+    bg="white",
+    fg="blue",
+    font="sans 9 ",
+    height=10,
+    width=20,
+)
+user = recup_nomutilisateur()
+# affichage_texte.insert("1.0",user+", merci de sélectionner un fichier")
+affichage_texte.grid(row=1, column=0, sticky=NS + EW)
 
-    # on ajoute un bouton 'valide'
-    Button(
-        conteneur_affichage,
-        text="Génère le PDF du traitement",
-        command=lance_traitement_pdf
-    ).grid(row=2, column=0, sticky=E)
-    # on ajoute un bouton 'quitter'
-    Button(
-        conteneur_affichage,
-        text="Quitter",
-        command=destroy_fenetre
-    ).grid(row=2, column=1, sticky=E)
-    # on place le conteneur dans la fenêtre principale
-    # avec des marges padx et pady
-    conteneur_affichage.grid(row=1, column=1, sticky=NS + EW, padx=5, pady=5)
-    # on crée la zone d'affichage de texte
-    affichage_texte1 = ScrolledText(
-        conteneur_affichage,
-        bg="white",
-        fg="blue",
-        font="sans 9 ",
-        height=10,
-        width=20,
-    )
-    affichage_texte1.grid(row=1, column=1, sticky=NS + EW)
-    # on rend la fenêtre redimensionnable
-    # fenetre.columnconfigure(1, weight=1)
-    fenetre.rowconfigure(1, weight=1)
+# on ajoute un bouton 'valide'
+Button(
+    conteneur_affichage,
+    text="Génère le PDF du traitement",
+    command=lance_traitement_pdf
+).grid(row=2, column=0, sticky=E)
+# on ajoute un bouton 'quitter'
+Button(
+    conteneur_affichage,
+    text="Quitter",
+    command=destroy_fenetre
+).grid(row=2, column=1, sticky=E)
+# on place le conteneur dans la fenêtre principale
+# avec des marges padx et pady
+conteneur_affichage.grid(row=1, column=1, sticky=NS + EW, padx=5, pady=5)
+# on crée la zone d'affichage de texte
+affichage_texte1 = ScrolledText(
+    conteneur_affichage,
+    bg="white",
+    fg="blue",
+    font="sans 9 ",
+    height=10,
+    width=20,
+)
+affichage_texte1.grid(row=1, column=1, sticky=NS + EW)
+# on rend la fenêtre redimensionnable
+# fenetre.columnconfigure(1, weight=1)
+fenetre.rowconfigure(1, weight=1)
 
-    ##############################################################################
+##############################################################################
 
-    # pour finir
-    # on lance la boucle événementielle principale
-    remplir_liste(".//")
-    fenetre.mainloop()
+# pour finir
+# on lance la boucle événementielle principale
+remplir_liste(".//")
+fenetre.mainloop()
