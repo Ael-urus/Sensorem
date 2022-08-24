@@ -1,7 +1,13 @@
 # Sensorem
-Traitement de raccordement de capteurs. 
+Traitement de raccordement de capteurs.
 
-(Test push)
-Plusieures modifications :
+test de maj
 
-    _rangement du code, séparation des fonctions dans des fichiers distinct.
+Plusieurs modifications :
+
+    _ rangement du code
+    _ séparation des fonctions dans des fichiers distincts
+    _ recherche des doublons de fonction et suppression
+    _ compléter les Docstring
+    _ mise en place d'une doc html (pdoc)
+
