@@ -5,7 +5,8 @@
 Created on Mon May 4 18:02:18 2020
 @author : Aelurus
 
-Je sors les fonctions du main pour les appeler depuis le fichier FonctionGui.
+Il faut sortir les fonctions du 'main.py' et les appeler depuis le fichier FonctionGui,
+mais je rencontre plein de bug en faisant la manip, quelque chose m'échappe.
 
 """
 try:
@@ -17,7 +18,7 @@ try:
     from tkinter import filedialog, END, Frame, Canvas, TOP, BOTH, NS, EW, INSERT, Tk, Label, \
         Entry, StringVar, Button, Scrollbar, Listbox, VERTICAL, W, E
     import FonctionsSignal as fs
-    import FonctionGui as fgui
+    # import FonctionGui as fgui
     import FonctionPdf as pdf
     from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
     from statistics import mean, pstdev
@@ -50,6 +51,8 @@ def choisir_dossier():
         # on remplit la liste de fichiers
         remplir_liste(dossier)
     # end if
+
+
 # end def
 
 def remplir_liste(dossier):
@@ -65,6 +68,8 @@ def remplir_liste(dossier):
     liste_fichiers.sort()  # tri par ordre alphabetic
     # on met à jour la listbox à travers la variable de contrôle
     cvar_fichiers.set(" ".join(map(os.path.basename, liste_fichiers)))
+
+
 # end def
 
 
@@ -77,6 +82,7 @@ def normaliser(chemin, *args):
     chemin (str) :
     """
     return os.path.normpath(os.path.join(chemin, *args))
+
 
 # end def
 
@@ -119,7 +125,8 @@ def afficher_fichier(event):
                 # traitement deuxieme capteur
                 y2 = fs.readColCSV(fichier, ";", varidxinfile2)
                 if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,fs.seuil_capteur2())
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,
+                                                                                                         fs.seuil_capteur2())
 
                     plt.plot(y2, 'r', linewidth=0.5)
 
@@ -127,10 +134,11 @@ def afficher_fichier(event):
                     # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
                     plt.plot([0], [0], 'r', linewidth=0.5)
 
-                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes, entre 2 ouvertures de fichier
+                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
+                # entre 2 ouvertures de fichier
                 global remove_canvs
 
-                if (remove_canvs != []):
+                if remove_canvs:
                     for icanv in remove_canvs:
                         icanv.destroy()
                     remove_canvs = []
@@ -158,17 +166,20 @@ def afficher_fichier(event):
                 values_capteurs = fs.isol_capteurs(fs.readColCSV1(fichier, ";", varidxinfile1))
                 values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, ";", varidxinfile2))
 
-                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf, sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
+                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf,
+                # sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
                 datat1 = [entete[0]]
                 datat2 = [entete[0]]
 
-                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf:
-                # Le pre-traitement des données (calcul des variables dérivées) est le même (utilisation de traitement_general_donnees), mais la mise en forme est différente (preparation de datat1 et datat2)
+                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf :
+                # Le pre-traitement des données (calcul des variables dérivées)
+                # est le même (utilisation de traitement_general_donnees),
+                # mais la mise en forme est différente (preparation de datat1 et datat2)
                 for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
                     values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(
-                        values_capteurs.get(capteur),fs.seuil_capteur1())
+                        values_capteurs.get(capteur), fs.seuil_capteur1())
                     values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(
-                        values_capteurs2.get(capteur2),fs.seuil_capteur2())
+                        values_capteurs2.get(capteur2), fs.seuil_capteur2())
                     #
                     donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
                                                                      values_sep_paliers2, entete)
@@ -214,6 +225,8 @@ def afficher_fichier(event):
             plt.close()
 
     # end if
+
+
 # end def
 
 
@@ -222,7 +235,6 @@ def destroy_fenetre():
     ok Bruno tu as rajouté le plt.close"""
     plt.close()
     fenetre.destroy()
-
 
 def lance_traitement_pdf():
     """Lance execution de la génération du pdf aprés quelques vérifications
@@ -281,14 +293,11 @@ def on_closing():
 # ------------------------------------------------------------------------------------
 # début de la fenêtre de selection
 # init variables globales
-
-global dossier_actuel
 dossier_actuel = ""
-global motif_fichiers
 motif_fichiers = "*.csv"
-global varidxinfile1  # index de variable d'intérêt 1 dans les fichiers bruts
+# index de variable d'intérêt 1 dans les fichiers bruts
 varidxinfile1 = 2
-global varidxinfile2  # index de variable d'intérêt 2 dans les fichiers bruts
+# index de variable d'intérêt 2 dans les fichiers bruts
 varidxinfile2 = 10
 
 # on commence par établir l'interface graphique (GUI)
@@ -354,7 +363,7 @@ liste_fichiers.bind("<ButtonRelease-1>", afficher_fichier)
 Button(
     conteneur_fichiers,
     text="          Sélectionner un dossier                         ",
-    command=fgui.choisir_dossier, ).grid(row=2, column=0)
+    command=choisir_dossier, ).grid(row=2, column=0)
 # on place le conteneur dans la fenêtre principale
 # avec des marges padx et pady
 conteneur_fichiers.grid(row=1, column=0, sticky=NS + EW, padx=5, pady=5)
