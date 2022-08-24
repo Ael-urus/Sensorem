@@ -519,8 +519,8 @@ def traitement_pdf(rundir, nom_fichier, nom_utilisateur, colonne1, colonne2):
     # par couple capteur-ref, finlisation du pre-traitement et génération des pdf par capteurs isolés
     for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
         #
-        values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(values_capteurs.get(capteur))
-        values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal2(values_capteurs2.get(capteur2))
+        values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(values_capteurs.get(capteur),fs.seuil_capteur1())
+        values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(values_capteurs2.get(capteur2),fs.seuil_capteur2())
         #
         # print("values_sep_paliers2=",values_sep_paliers2)
         # print(len(values_sep_paliers2))
