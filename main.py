@@ -115,7 +115,7 @@ def afficher_fichier(event):
                 plt.clf()
                 y = fs.readColCSV(fichier, ";", varidxinfile1)
                 if y:
-                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
+                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y,fs.seuil_capteur1())
                     plt.plot(y, linewidth=0.5)
                 else:
                     plt.clf()
@@ -124,7 +124,7 @@ def afficher_fichier(event):
                 # traitement deuxieme capteur
                 y2 = fs.readColCSV(fichier, ";", varidxinfile2)
                 if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal2(y2)
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,fs.seuil_capteur2())
 
                     plt.plot(y2, 'r', linewidth=0.5)
 
@@ -171,9 +171,9 @@ def afficher_fichier(event):
                 # Le pre-traitement des données (calcul des variables dérivées) est le même (utilisation de traitement_general_donnees), mais la mise en forme est différente (preparation de datat1 et datat2)
                 for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
                     values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(
-                        values_capteurs.get(capteur))
-                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal2(
-                        values_capteurs2.get(capteur2))
+                        values_capteurs.get(capteur),fs.seuil_capteur1())
+                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(
+                        values_capteurs2.get(capteur2),fs.seuil_capteur2())
                     #
                     donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
                                                                      values_sep_paliers2, entete)
