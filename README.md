@@ -1,7 +1,6 @@
 # Sensorem
 Traitement de raccordement de capteurs.
 
-test de maj
 
 Plusieurs modifications :
 
