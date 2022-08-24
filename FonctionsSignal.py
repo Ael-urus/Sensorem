@@ -79,7 +79,7 @@ def readColCSV1(fichier, sep, n):
     file = open(fichier, "r")
     reader = csv.reader(file, delimiter=sep)
     col = []
-<<<<<<< HEAD
+
     for row in reader:  # BGU suppress 1 des 2 de la double loop "for row in reader", car elle pose des soucis de lecture sur l'exemple: readColCSV ("DebudFindeFichier.csv", ";", 2)
         if(len(row)>n):
         #    for row in reader:
@@ -89,17 +89,7 @@ def readColCSV1(fichier, sep, n):
                 except:
                     if row[n] == 'Invalid': col.append(0.0)
                     pass
-=======
-    # for row in reader:  # BGU suppress 1 des 2 de la double loop "for row in reader",
-    # car elle pose des soucis de lecture sur l'exemple: readColCSV ("DebudFindeFichier.csv", ";", 2)
-    for row in reader:
-        try:
-            notation_point = row[n].replace(",", ".")
-            col.append(float(notation_point))
-        except:
-            if n < len(row) and row[n] == 'Invalid': col.append(0.0)
-            pass
->>>>>>> 63d2126a0652b3747fdeaa0bbe0130aa1d69abc2
+
     file.close()
     return col
 
