@@ -220,6 +220,25 @@ def sep_values(sv,seuil_capt):
     return values_sep
 
 
+
+
+
+
+
+def make_paliers2(paliers_find, plage_len_find):
+    """Création  afzegr d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
+    je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
+    utile pour les graph il me semble, car les deux biblio de graph prennent pas les mêmes structures je crois
+    ...
+    TBC
+    """
+    paliers = list([0] * paliers_find)*2
+    for i in range(len(paliers)):
+        paliers[i] = list([0] * plage_len_find[i])
+    return paliers
+
+
+
 # Recuperation des valeurs generer avec separation par etages
 def info_values(iv):
     """ Recuperation des valeurs generer avec separation par paliers.
@@ -288,21 +307,6 @@ def paliers_values_sep(values_sep, nb_values, paliers):
             values_paliers[count][nb] = values_sep[i]
             nb = nb + 1
     return values_paliers
-
-
-
-def make_paliers2(paliers_find, plage_len_find):
-    """Création  eazfzegerehthhterz d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
-    je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
-    utile pour les graph il me semble, car les deux biblio de graph prennent pas les mêmes structures je crois
-    ...
-    TBC
-    """
-    paliers = list([0] * paliers_find)
-    for i in range(len(paliers)):
-        paliers[i] = list([0] * plage_len_find[i])
-    return paliers
-
 
 
 # Retour une liste des données des capteurs en sous list de données par capteurs
