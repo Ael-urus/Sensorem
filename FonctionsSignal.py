@@ -245,6 +245,15 @@ def make_paliers(paliers_find, plage_len_find):
         paliers[i] = list([0] * plage_len_find[i])
     return paliers
 
+# creation de la liste du nombre de paliers avec la taille
+def make_paliers2(paliers_find, plage_len_find):
+    """Création d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
+    je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
+    utile pour les graph il me semble, car les deux biblio de graph prennent pas les mêmes structures je crois
+    """
+    
+    print('ccoucou0')
+    return paliers
 
 # Passage de données separer, en liste des tableaux remplis
 def paliers_values_sep(values_sep, nb_values, paliers):
