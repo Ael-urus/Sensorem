@@ -67,7 +67,7 @@ def readColCSV1(fichier, sep, n):
                 # print(e, n)
                 # print(row[n])
                 # pass
-                col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
+                #col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
                 # input('***')
     file.close()
     return col
@@ -110,6 +110,7 @@ def traitement_signal(data,func_capt):
     """
     # identification des paliers
     values_sep = sep_values(data,func_capt)
+    
     paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
     paliers = make_paliers(paliers_find, plage_len_find)
     values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
@@ -145,9 +146,7 @@ def sep_values(sv,func_capt):
     <class 'list'>
 
     """
-
     seuil,sensibilite=func_capt
-    
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
