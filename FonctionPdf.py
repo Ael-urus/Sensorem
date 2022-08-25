@@ -38,7 +38,6 @@ except Exception as e:
     print(e)
     input('***')
 
-
 ##
 
 class LineChartWithMarkers(_DrawingEditorMixin, Drawing):
@@ -276,7 +275,6 @@ class LineChartWithMarkers(_DrawingEditorMixin, Drawing):
             self.Legend.colorNamePairs = [(color01, nomCapteur1), (color11, nomCapteur2)]
         return self._add(self, 0, name='preview', validate=None, desc=None)
 
-
 # tracer des graph dans le PDF, GROS bordel ^^....
 def trace_graph(title, data, w, h, data2=[[(0, 0)]], xtitle='Nombre de mesures',
                 xtvisi=1, ytitle='Tension [V]', y2title='Capteur réf', ForceXzero=1):
@@ -459,7 +457,6 @@ def trace_graph(title, data, w, h, data2=[[(0, 0)]], xtitle='Nombre de mesures',
         graph.add(chart2)
         return graph
 
-
 # génération du tableau pour insertion dans le pdf
 def myTable(tabledata):
     """Création de tableau pour le pdf, fonction de mise en page
@@ -480,7 +477,6 @@ def myTable(tabledata):
     t.hAlign = 1
     return t
 
-
 def prep_donnees1(len0, paliers_find, values_sep_paliers):
     """mise en forme des données pour le tab1 du pdf
     """
@@ -493,7 +489,6 @@ def prep_donnees1(len0, paliers_find, values_sep_paliers):
         donneestraitees1[i] = (i + 1, str(coeff_gen[i]), str(round(len(values_sep_paliers[i]), 3)))
 
     return donneestraitees1
-
 
 # Initialisation du post traitement du fichier de données pour la génération de pdf
 def traitement_pdf(rundir, nom_fichier, nom_utilisateur, colonne1, colonne2):
