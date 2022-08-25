@@ -38,8 +38,7 @@
             <p>Created on Thus Aug
                 23 15:05:52 2022
                 @author: Aelurus</p>
-            <p>Contient toutes les fonctions du main.py . Bon c'est la merde pour sortir les fonctions
-                je comprend pas pourquoi....</p>
+            <p>Contient toutes les fonctions du main.py . Bon c'est la merde pour sortir les fonctions</p>
             <details class="source">
                 <summary>
                     <span>Expand source code</span>
@@ -52,7 +51,7 @@ Created on Thus Aug  23 15:05:52 2022
 @author: Aelurus
 
 Contient toutes les fonctions du main.py . Bon c&#39;est la merde pour sortir les fonctions
-je comprend pas pourquoi....
+
 &#34;&#34;&#34;
 try:
     import os
@@ -72,15 +71,26 @@ except Exception as e:
     print(e)
     input(&#39;***&#39;)
 
+# zone de def des variables
+
+# init variables globales
+&#34;&#34;&#34;
+dossier_actuel = &#34;&#34;
+
+
+&#34;&#34;&#34;
+motif_fichiers = &#34;*.csv&#34;
+varidxinfile1 = 2  # index de variable d&#39;intérêt 1 dans les fichiers bruts
+varidxinfile2 = 10  # index de variable d&#39;intérêt 2 dans les fichiers bruts
+
 
 # zone de définition des fonctions
-
 
 def choisir_dossier():
     &#34;&#34;&#34;ouvre un dialogue de sélection de répertoire
         voir http://tkinter.unpythonic.net/wiki/tkFileDialog
 
-    Parameters
+    Variables
     ----------
     dossier : str
         Association automatique de l&#39;adresse du chemin selectionner
@@ -99,8 +109,6 @@ def choisir_dossier():
         # on remplit la liste de fichiers
         remplir_liste(dossier)
     # end if
-
-
 # end def
 
 
@@ -117,18 +125,13 @@ def remplir_liste(dossier):
     liste_fichiers.sort()  # tri par ordre alphabetic
     # on met à jour la listbox à travers la variable de contrôle
     cvar_fichiers.set(&#34; &#34;.join(map(os.path.basename, liste_fichiers)))
-
-
 # end def
 
 
 def normaliser(chemin, *args):
     &#34;&#34;&#34;Met un chemin de fichier en conformité avec l&#39;OS utilisé, utile pour nunux&#34;&#34;&#34;
     return os.path.normpath(os.path.join(chemin, *args))
-
-
 # end def
-
 
 def afficher_fichier(event):
     &#34;&#34;&#34;Affiche le contenu du fichier sélectionné.
@@ -259,21 +262,17 @@ def afficher_fichier(event):
             plt.close()
 
     # end if
-
-
 # end def
-
 
 def destroy_fenetre():
     &#34;&#34;&#34;Fermeture de la fenetre, pourquoi je ferme le tracer içi ?&#34;&#34;&#34;
     plt.close()
     fenetre.destroy()
 
-
 def lance_traitement_pdf():
     &#34;&#34;&#34;Lance execution de la génération du pdf aprés quelques vérifications
 
-    Attributes
+    Variables
     ----------
     numero_col_1 : int
         numero de colonne des premieres données à lire (capteur raccorder)
@@ -283,8 +282,6 @@ def lance_traitement_pdf():
 
     nom_utilisateur : trigrame
         info récupérer
-
-
     &#34;&#34;&#34;
     fichier = normaliser(
         dossier_actuel,
@@ -479,11 +476,9 @@ def on_closing():
                     <div class="desc"><p>ouvre un dialogue de sélection de répertoire
                         voir <a href="http://tkinter.unpythonic.net/wiki/tkFileDialog">http://tkinter.unpythonic.net/wiki/tkFileDialog</a>
                     </p>
-                        <h2 id="parameters">Parameters</h2>
-                        <dl>
-                            <dt><strong><code>dossier</code></strong> :&ensp;<code>str</code></dt>
-                            <dd>Association automatique de l'adresse du chemin selectionner</dd>
-                        </dl>
+                        <h2 id="variables">Variables</h2>
+                        <p>dossier : str
+                            Association automatique de l'adresse du chemin selectionner</p>
                         <h2 id="returns">Returns</h2></div>
                     <details class="source">
                         <summary>
@@ -493,7 +488,7 @@ def on_closing():
     &#34;&#34;&#34;ouvre un dialogue de sélection de répertoire
         voir http://tkinter.unpythonic.net/wiki/tkFileDialog
 
-    Parameters
+    Variables
     ----------
     dossier : str
         Association automatique de l&#39;adresse du chemin selectionner
@@ -534,16 +529,13 @@ def on_closing():
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Lance execution de la génération du pdf aprés quelques vérifications</p>
-                        <h2 id="attributes">Attributes</h2>
-                        <dl>
-                            <dt><strong><code>numero_col_1</code></strong> :&ensp;<code>int</code></dt>
-                            <dd>numero de colonne des premieres données à lire (capteur raccorder)</dd>
-                            <dt><strong><code>numero_col_2</code></strong> :&ensp;<code>int</code></dt>
-                            <dd>numero de colonne des deuxime données à lire (capteur de référence)</dd>
-                            <dt><strong><code>nom_utilisateur</code></strong> :&ensp;<code>trigrame</code></dt>
-                            <dd>info récupérer</dd>
-                        </dl>
-                    </div>
+                        <h2 id="variables">Variables</h2>
+                        <p>numero_col_1 : int
+                            numero de colonne des premieres données à lire (capteur raccorder)</p>
+                        <p>numero_col_2 : int
+                            numero de colonne des deuxime données à lire (capteur de référence)</p>
+                        <p>nom_utilisateur : trigrame
+                            info récupérer</p></div>
                     <details class="source">
                         <summary>
                             <span>Expand source code</span>
@@ -551,7 +543,7 @@ def on_closing():
                         <pre><code class="python">def lance_traitement_pdf():
     &#34;&#34;&#34;Lance execution de la génération du pdf aprés quelques vérifications
 
-    Attributes
+    Variables
     ----------
     numero_col_1 : int
         numero de colonne des premieres données à lire (capteur raccorder)
@@ -561,8 +553,6 @@ def on_closing():
 
     nom_utilisateur : trigrame
         info récupérer
-
-
     &#34;&#34;&#34;
     fichier = normaliser(
         dossier_actuel,

@@ -3,6 +3,9 @@
 Created on Wed Apr 15 11:10:34 2020
 
 @author: Aelurus
+
+@contributor: Bruno
+
 """
 try:
     from statistics import mean, pstdev
@@ -104,8 +107,8 @@ def paliers_mark():
     return float(-0.03)
 
 
-def suppr_txt(data0):    
-    data=[]
+def suppr_txt(data0):
+    data = []
     for i in data0:
         try:
             data.append(float(i))
@@ -116,14 +119,27 @@ def suppr_txt(data0):
 
 
 ######
-def traitement_signal(data0,seuil_capt):
-    """
+def traitement_signal(data0, seuil_capt):
+    """Appel et compile tous les traitements du capteur.
+
+    Return :
+    -------
+    values_sep_paliers  : list
+
+    data  : list
+        les données brutes de la mesure du capteur
+
+    values_sep  : list
+
+    paliers_find  : int
+        le nombre de paliers trouvé, au mini 1
+
     TBC
     """
     # Ajout pretraitement pour ne garder que les <float> (épurer les <str>)
-    data=suppr_txt(data0)
+    data = suppr_txt(data0)
     # identification des paliers
-    values_sep = sep_values(data,seuil_capt)
+    values_sep = sep_values(data, seuil_capt)
     paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
     paliers = make_paliers(paliers_find, plage_len_find)
     values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
@@ -131,10 +147,36 @@ def traitement_signal(data0,seuil_capt):
 
 
 def seuil_capteur1():
-    return(0.052,0.014)
+    """Passage des valeurs (seuil,sensibilite)
+
+    seuil       = 0.052 seuil de détection des changements de paliers, le delta entre deux seuils
+                    (delta entre deux moyennes de 7 valeurs)
+
+    sensibilite = 0.014 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les valeurs
+                    qui peuvent polluer le signal (delta entre deux valeurs)
+
+    return :
+    --------
+    les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types hélices
+    20 et 40 m/s (mini et macro).
+    """
+    return (0.052, 0.014)
+
 
 def seuil_capteur2():
-    return(0.5, 0.21)
+    """Passage des valeurs (seuil,sensibilite)
+
+    seuil       = 0.5 seuil de détection des changements de paliers, le delta entre deux seuils
+                    (delta entre deux moyennes de 7 valeurs)
+
+    sensibilite = 0.21 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les valeurs
+                    qui peuvent polluer le signal (delta entre deux valeurs)
+
+    return :
+    --------
+    les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types MacCaffrey.
+    """
+    return (0.5, 0.21)
 
 
 def sep_values(sv,seuil_capt):
@@ -249,16 +291,13 @@ def paliers_values_sep(values_sep, nb_values, paliers):
     return values_paliers
 
 
-# Retour une liste des données des capteurs en sous list de données par capteurs    
+# Retour une liste des données des capteurs en sous list de données par capteurs
 def isol_capteurs(values):
     """Içi c'est la premiere séparation du signal par capteur, le test est si on trouve un nom de capteur
     tous ce qui suit jusqu'a l'autre nom ou la fin sont les données du capteur :p
     TBC
     """
-    
-    #del values[0:22]
     del values[0:23]
-    
     last_key = None
     values_capteurs = dict()
     for value in values:
