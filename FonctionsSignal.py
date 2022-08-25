@@ -220,17 +220,24 @@ def sep_values(sv,seuil_capt):
     return values_sep
 
 
+
+
+
+
+
 def make_paliers2(paliers_find, plage_len_find):
-    """Création  efzfezrgeùprjcgammiguflfùpronrgzrtzg d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
+    """Création  afzegr d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
     je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
     utile pour les graph imlkhl me semble, car les deux biblio de graph prennent pas les mêmes structures je crois
     ...
     TBC
     """
-    paliers = list([0] * paliers_find)
+    paliers = list([0] * paliers_find)*2
     for i in range(len(paliers)):
         paliers[i] = list([0] * plage_len_find[i])
     return paliers
+
+
 
 # Recuperation des valeurs generer avec separation par etages
 def info_values(iv):
