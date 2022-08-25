@@ -35,6 +35,7 @@
         <section id="section-intro">
             <p>Created on Wed Apr 15 11:10:34 2020</p>
             <p>@author: Aelurus</p>
+            <p>@contributor: Bruno</p>
             <details class="source">
                 <summary>
                     <span>Expand source code</span>
@@ -44,6 +45,9 @@
 Created on Wed Apr 15 11:10:34 2020
 
 @author: Aelurus
+
+@contributor: Bruno
+
 &#34;&#34;&#34;
 try:
     from statistics import mean, pstdev
@@ -108,11 +112,11 @@ def readColCSV1(fichier, sep, n):
                 # print(e, n)
                 # print(row[n])
                 # pass
-                col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais .....
-                # BGU : problem potentiel quand ligne vide
+                #col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
                 # input(&#39;***&#39;)
     file.close()
     return col
+
 
 # determination des coefficients en fonction du nombre de paliers
 # pour la génération de paliers ascendents et descendants
@@ -120,7 +124,8 @@ def gen_nom_paliers(n):
     &#34;&#34;&#34;
     Parametres
     ----------
-    n (int) : nombre de paliers
+    n : int
+        nombre de paliers
 
     return
     ------
@@ -135,24 +140,38 @@ def gen_nom_paliers(n):
 def paliers_mark():
     &#34;&#34;&#34;Definition de la valeur pour marquer la séparation des paliers.
 
-    Valeur
+    Valeur :
     ------
-    -0.03
+        -0.03
 
-    Returns
+    Returns :
     -------
-    La valeur
+        La valeur
     &#34;&#34;&#34;
     return float(-0.03)
 
 
 ######
 def traitement_signal(data,func_capt):
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;Appel et compile tous les traitements du capteur.
+
+    Return :
+    -------
+    values_sep_paliers  : list
+
+    data  : list
+        les données brutes de la mesure du capteur
+
+    values_sep  : list
+
+    paliers_find  : int
+        le nombre de paliers trouvé, au mini 1
+
     TBC
     &#34;&#34;&#34;
     # identification des paliers
     values_sep = sep_values(data,func_capt)
+
     paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
     paliers = make_paliers(paliers_find, plage_len_find)
     values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
@@ -173,7 +192,8 @@ def seuil_capteur1():
     les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types hélices
     20 et 40 m/s (mini et macro).
     &#34;&#34;&#34;
-    return(0.052,0.014)
+    return (0.052, 0.014)
+
 
 def seuil_capteur2():
     &#34;&#34;&#34;Passage des valeurs (seuil,sensibilite)
@@ -188,7 +208,7 @@ def seuil_capteur2():
     --------
     les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types MacCaffrey.
     &#34;&#34;&#34;
-    return(0.5, 0.21)
+    return (0.5, 0.21)
 
 
 def sep_values(sv,func_capt):
@@ -213,9 +233,7 @@ def sep_values(sv,func_capt):
     &lt;class &#39;list&#39;&gt;
 
     &#34;&#34;&#34;
-
     seuil,sensibilite=func_capt
-    
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
@@ -386,7 +404,8 @@ if __name__ == &#34;__main__&#34;:
                 </code></dt>
                 <dd>
                     <div class="desc"><h2 id="parametres">Parametres</h2>
-                        <p>n (int) : nombre de paliers</p>
+                        <p>n : int
+                            nombre de paliers</p>
                         <h2 id="return">Return</h2>
                         <p>une liste incrémentée ascendant et descendant axée sur le milleu du nombe passé en
                             argument</p>
@@ -402,7 +421,8 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;
     Parametres
     ----------
-    n (int) : nombre de paliers
+    n : int
+        nombre de paliers
 
     return
     ------
@@ -530,13 +550,12 @@ if __name__ == &#34;__main__&#34;:
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Definition de la valeur pour marquer la séparation des paliers.</p>
-                        <h2 id="valeur">Valeur</h2>
-                        <p>-0.03</p>
-                        <h2 id="returns">Returns</h2>
-                        <dl>
-                            <dt><code>La valeur</code></dt>
-                            <dd>&nbsp;</dd>
-                        </dl>
+                        <h2 id="valeur">Valeur :</h2>
+                        <pre><code>-0.03
+</code></pre>
+                        <h2 id="returns">Returns :</h2>
+                        <pre><code>La valeur
+</code></pre>
                     </div>
                     <details class="source">
                         <summary>
@@ -545,13 +564,13 @@ if __name__ == &#34;__main__&#34;:
                         <pre><code class="python">def paliers_mark():
     &#34;&#34;&#34;Definition de la valeur pour marquer la séparation des paliers.
 
-    Valeur
+    Valeur :
     ------
-    -0.03
+        -0.03
 
-    Returns
+    Returns :
     -------
-    La valeur
+        La valeur
     &#34;&#34;&#34;
     return float(-0.03)</code></pre>
                     </details>
@@ -666,8 +685,7 @@ if __name__ == &#34;__main__&#34;:
                 # print(e, n)
                 # print(row[n])
                 # pass
-                col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais .....
-                # BGU : problem potentiel quand ligne vide
+                #col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
                 # input(&#39;***&#39;)
     file.close()
     return col</code></pre>
@@ -727,9 +745,7 @@ if __name__ == &#34;__main__&#34;:
     &lt;class &#39;list&#39;&gt;
 
     &#34;&#34;&#34;
-
     seuil,sensibilite=func_capt
-    
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
@@ -781,7 +797,7 @@ if __name__ == &#34;__main__&#34;:
     les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types hélices
     20 et 40 m/s (mini et macro).
     &#34;&#34;&#34;
-    return(0.052,0.014)</code></pre>
+    return (0.052, 0.014)</code></pre>
                     </details>
                 </dd>
                 <dt id="Sensorem_Beta-C.FonctionsSignal.seuil_capteur2"><code class="name flex">
@@ -815,7 +831,7 @@ if __name__ == &#34;__main__&#34;:
     --------
     les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types MacCaffrey.
     &#34;&#34;&#34;
-    return(0.5, 0.21)</code></pre>
+    return (0.5, 0.21)</code></pre>
                     </details>
                 </dd>
                 <dt id="Sensorem_Beta-C.FonctionsSignal.traitement_general_donnees"><code class="name flex">
@@ -875,17 +891,43 @@ if __name__ == &#34;__main__&#34;:
                     <span>def <span class="ident">traitement_signal</span></span>(<span>data, func_capt)</span>
                 </code></dt>
                 <dd>
-                    <div class="desc"><p>TBC</p></div>
+                    <div class="desc"><p>Appel et compile tous les traitements du capteur.</p>
+                        <h2 id="return">Return :</h2>
+                        <p>values_sep_paliers
+                            : list</p>
+                        <p>data
+                            : list
+                            les données brutes de la mesure du capteur</p>
+                        <p>values_sep
+                            : list</p>
+                        <p>paliers_find
+                            : int
+                            le nombre de paliers trouvé, au mini 1</p>
+                        <p>TBC</p></div>
                     <details class="source">
                         <summary>
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">def traitement_signal(data,func_capt):
-    &#34;&#34;&#34;
+    &#34;&#34;&#34;Appel et compile tous les traitements du capteur.
+
+    Return :
+    -------
+    values_sep_paliers  : list
+
+    data  : list
+        les données brutes de la mesure du capteur
+
+    values_sep  : list
+
+    paliers_find  : int
+        le nombre de paliers trouvé, au mini 1
+
     TBC
     &#34;&#34;&#34;
     # identification des paliers
     values_sep = sep_values(data,func_capt)
+
     paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
     paliers = make_paliers(paliers_find, plage_len_find)
     values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)

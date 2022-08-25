@@ -6,7 +6,8 @@
     <meta content="pdoc 0.10.0" name="generator"/>
     <title>Sensorem_Beta-C.main API documentation</title>
     <meta content="Created on Mon May 4 18:02:18 2020
-@author : Aelurus …" name="description"/>
+@author : Aelurus
+@contributor: Bruno …" name="description"/>
     <link as="style" crossorigin href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css"
           integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" rel="preload stylesheet">
     <link as="style" crossorigin
@@ -35,7 +36,8 @@
         </header>
         <section id="section-intro">
             <p>Created on Mon May 4 18:02:18 2020
-                @author : Aelurus</p>
+                @author : Aelurus
+                @contributor: Bruno</p>
             <p>Il faut sortir les fonctions du 'main.py' et les appeler depuis le fichier FonctionGui,
                 mais je rencontre plein de bug en faisant la manip, quelque chose m'échappe. Mais super bruno à la
                 soluce&hellip;</p>
@@ -49,6 +51,7 @@
 &#34;&#34;&#34;
 Created on Mon May 4 18:02:18 2020
 @author : Aelurus
+@contributor: Bruno
 
 Il faut sortir les fonctions du &#39;main.py&#39; et les appeler depuis le fichier FonctionGui,
 mais je rencontre plein de bug en faisant la manip, quelque chose m&#39;échappe. Mais super bruno à la soluce...
@@ -148,6 +151,7 @@ def afficher_fichier(event):
         affichage_texte.delete(&#34;1.0&#34;, END)
         affichage_texte1.delete(&#34;1.0&#34;, END)
         try:
+            
             # oui, on peut l&#39;ouvrir en forçant l&#39;encodage UTF8
             with codecs.open(fichier, &#39;r&#39;, encoding=&#39;ANSI&#39;,
                              errors=&#39;ignore&#39;) as file_in:
@@ -170,14 +174,14 @@ def afficher_fichier(event):
                 # traitement deuxieme capteur
                 y2 = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2)
                 if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,
-                                                                                                         fs.seuil_capteur2())
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,fs.seuil_capteur2())
 
                     plt.plot(y2, &#39;r&#39;, linewidth=0.5)
 
                 else:
                     # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
                     plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
+
 
                 # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
                 # entre 2 ouvertures de fichier
@@ -513,6 +517,7 @@ fenetre.mainloop()</code></pre>
         affichage_texte.delete(&#34;1.0&#34;, END)
         affichage_texte1.delete(&#34;1.0&#34;, END)
         try:
+            
             # oui, on peut l&#39;ouvrir en forçant l&#39;encodage UTF8
             with codecs.open(fichier, &#39;r&#39;, encoding=&#39;ANSI&#39;,
                              errors=&#39;ignore&#39;) as file_in:
@@ -535,14 +540,14 @@ fenetre.mainloop()</code></pre>
                 # traitement deuxieme capteur
                 y2 = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2)
                 if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,
-                                                                                                         fs.seuil_capteur2())
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,fs.seuil_capteur2())
 
                     plt.plot(y2, &#39;r&#39;, linewidth=0.5)
 
                 else:
                     # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
                     plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
+
 
                 # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
                 # entre 2 ouvertures de fichier

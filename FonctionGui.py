@@ -42,7 +42,7 @@ def choisir_dossier():
     """ouvre un dialogue de sélection de répertoire
         voir http://tkinter.unpythonic.net/wiki/tkFileDialog
 
-    Parameters
+    Variables
     ----------
     dossier : str
         Association automatique de l'adresse du chemin selectionner
@@ -61,8 +61,6 @@ def choisir_dossier():
         # on remplit la liste de fichiers
         remplir_liste(dossier)
     # end if
-
-
 # end def
 
 
@@ -79,18 +77,13 @@ def remplir_liste(dossier):
     liste_fichiers.sort()  # tri par ordre alphabetic
     # on met à jour la listbox à travers la variable de contrôle
     cvar_fichiers.set(" ".join(map(os.path.basename, liste_fichiers)))
-
-
 # end def
 
 
 def normaliser(chemin, *args):
     """Met un chemin de fichier en conformité avec l'OS utilisé, utile pour nunux"""
     return os.path.normpath(os.path.join(chemin, *args))
-
-
 # end def
-
 
 def afficher_fichier(event):
     """Lecture et affichage du contenu du fichier sélectionné,
@@ -235,10 +228,7 @@ def afficher_fichier(event):
             plt.close()
 
     # end if
-
-
 # end def
-
 
 
 def destroy_fenetre():
@@ -247,11 +237,10 @@ def destroy_fenetre():
     plt.close()
     fenetre.destroy()
 
-
 def lance_traitement_pdf():
     """Lance execution de la génération du pdf aprés quelques vérifications
 
-    Attributes
+    Variables
     ----------
     numero_col_1 : int
         numero de colonne des premieres données à lire (capteur raccorder)
@@ -261,8 +250,6 @@ def lance_traitement_pdf():
 
     nom_utilisateur : trigrame
         info récupérer
-
-
     """
     fichier = normaliser(
         dossier_actuel,
