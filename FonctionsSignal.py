@@ -27,18 +27,86 @@ def version():
 
 
 def prep_donnees_graph(donnees):
-    """
-    retourne une liste d'éléments en listes d'éléments incrémentée,
+    """Retourne une liste d'éléments en listes d'éléments incrémentée,
     >>> prep_donnees_graph([1,2,3,4,5])
     [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]]
     """
     return [[i, donnee] for i, donnee in enumerate(donnees)]
 
 
+
+def readColCSV1(fichier, sep, n):
+    """Pour les deux premiers paramètres attention à bien utiliser les guillements
+    car la fonction attend des chaines de caractères.
+    fichier <str> : Le nom du fichier -> "mon_fichier.csv"
+    sep <str> : Le séparateur des colonnes par exemple -> ";"
+    n <int> : Le numéro de la colonne à lire
+
+    retourne les valeurs de la colone du fichier en remplacant le separateur de
+    decimal de , a . si besoin.
+    Ignore les valeurs non int
+    Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier
+
+    >>> readColCSV1 ("DebudFindeFichier.csv", ";", 2)
+    [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
+    """
+    file = open(fichier, "r")
+    reader = csv.reader(file, delimiter=sep)
+    col = []
+    for row in reader:
+        if(len(row)>n):
+            # if row[n] == "Invalid": row[n]=float(0.0)
+            if row[n] == 'Invalid':
+                row[n] = float(0.0)  # BGU supress ? car row[n] peut planter (or try/except), notamment sur une ligne vide
+            try:
+                notation_point = row[n].replace(",", ".")
+                col.append(float(notation_point))
+            # except Exception as e:
+            except :
+                if row[n] == 'Invalid': col.append(0.0)
+                # print(e, n)
+                # print(row[n])
+                # pass
+                col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
+                # input('***')
+    file.close()
+    return col
+
+# determination des coefficients en fonction du nombre de paliers pour la génération de paliers ascendents et descendants
+def gen_nom_paliers(n):
+    """
+    Parametres
+    ----------
+    n (int) : nombre de paliers
+
+    return
+    ------
+    une liste incrémentée ascendant et descendant axée sur le milleu du nombe passé en argument
+    >>> print (gen_nom_paliers(9))
+    (0, 1, 2, 3, 4, 3, 2, 1, 0)
+    """
+    return tuple(range(int(n / 2 + 1))) + tuple(range(int(n / 2 - 1), -1, -1))
+
+
+# Recuperation des valeurs pour detection separation des paliers avec
+def paliers_mark():
+    """Definition de la valeur pour marquer la séparation des paliers.
+
+    Valeur
+    ------
+    -0.03
+
+    Returns
+    -------
+    La valeur
+    """
+    return float(-0.03)
+
+
 ######
 def traitement_signal(data,func_capt):
     """
-    Fonction générale qui appel les traitements des données, pour le capteur à raccorder
+    TBC
     """
     # identification des paliers
     values_sep = sep_values(data,func_capt)
@@ -85,8 +153,7 @@ def sep_values(sv,func_capt):
     nb_remplacement = 1
 
     for i in range(nb_values - abs(nb_remplacement) - 5):
-        if abs(sv[i + 5] - sv[
-            i]) < sensibilite:  # attention le i+x (5) est à mettre en accord avec les valeurs d'exclusion des moyenne et ecartype du pdf et de l'interface graphique
+        if abs(sv[i + 5] - sv[i]) < sensibilite:  # attention le i+x (5) est à mettre en accord avec les valeurs d'exclusion des moyenne et ecartype du pdf et de l'interface graphique
             sv[i] = sv[i]
         else:
             sv[i] = sv[i - nb_remplacement]
@@ -98,73 +165,6 @@ def sep_values(sv,func_capt):
             values_sep.append(sv[i])
     return values_sep
 
-
-
-
-# recuperation des valeurs à traiter
-
-
-
-def readColCSV1(fichier, sep, n):
-    """Pour les deux premiers paramètres attention à bien utiliser les guillements
-    car la fonction attend des chaines de caractères.
-    fichier <str> : Le nom du fichier -> "mon_fichier.csv"
-    sep <str> : Le séparateur des colonnes par exemple -> ";"
-    n <int> : Le numéro de la colonne à lire
-
-    retourne les valeurs de la colone du fichier en remplacant le separateur de
-    decimal de , a . si besoin.
-    Ignore les valeurs non int
-    Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier
-
-    >>> readColCSV1 ("DebudFindeFichier.csv", ";", 2)
-    [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
-    """
-    file = open(fichier, "r")
-    reader = csv.reader(file, delimiter=sep)
-    col = []
-    for row in reader:  # BGU suppress 1 des 2 de la double loop "for row in reader", car elle pose des soucis de lecture sur l'exemple: readColCSV ("DebudFindeFichier.csv", ";", 2)
-        if(len(row)>n):
-        #    for row in reader:
-                try:
-                    notation_point = row[n].replace(",", ".")
-                    col.append(float(notation_point))
-                except:
-                    if row[n] == 'Invalid': col.append(0.0)
-                    pass
-    file.close()
-    return col
-
-
-# determination des coefficients en fonction du nombre de paliers pour la génération de paliers ascendents et descendants
-def gen_nom_paliers(n):
-    """
-    Parametres
-    ----------
-    n (int) : nombre de paliers
-
-    return
-    ------
-    une liste incrémentée ascendant et descendant axée sur le milleu du nombe passé en argument
-    >>> print (gen_nom_paliers(9))
-    (0, 1, 2, 3, 4, 3, 2, 1, 0)
-    """
-    return tuple(range(int(n / 2 + 1))) + tuple(range(int(n / 2 - 1), -1, -1))
-
-
-# Recuperation des valeurs pour detection separation des paliers avec
-def paliers_mark():
-    """Definition de la valeur pour marquer la séparation des paliers.
-
-    Valeur
-    ------
-    -0.03
-
-    Returns
-    -------
-    La valeur
-    """
-    return float(-0.03)
 
 
 

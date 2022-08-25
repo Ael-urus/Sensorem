@@ -103,6 +103,7 @@ def afficher_fichier(event):
         affichage_texte.delete("1.0", END)
         affichage_texte1.delete("1.0", END)
         try:
+            
             # oui, on peut l'ouvrir en forçant l'encodage UTF8
             with codecs.open(fichier, 'r', encoding='ANSI',
                              errors='ignore') as file_in:
@@ -125,14 +126,14 @@ def afficher_fichier(event):
                 # traitement deuxieme capteur
                 y2 = fs.readColCSV1(fichier, ";", varidxinfile2)
                 if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,
-                                                                                                         fs.seuil_capteur2())
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,fs.seuil_capteur2())
 
                     plt.plot(y2, 'r', linewidth=0.5)
 
                 else:
                     # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
                     plt.plot([0], [0], 'r', linewidth=0.5)
+
 
                 # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
                 # entre 2 ouvertures de fichier
