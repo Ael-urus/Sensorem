@@ -8,6 +8,7 @@ try:
     from statistics import mean, pstdev
     from doctest import testmod
     import csv
+    import sys,os
     # from reportlab.graphics.widgets.markers import makeMarker
     # from reportlab.graphics.charts.textlabels import Label
 
@@ -67,7 +68,7 @@ def readColCSV1(fichier, sep, n):
                 # print(e, n)
                 # print(row[n])
                 # pass
-                #col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
+                col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
                 # input('***')
     file.close()
     return col
@@ -103,14 +104,26 @@ def paliers_mark():
     return float(-0.03)
 
 
+def suppr_txt(data0):    
+    data=[]
+    for i in data0:
+        try:
+            data.append(float(i))
+        except:
+            pass
+
+    return data
+
+
 ######
-def traitement_signal(data,func_capt):
+def traitement_signal(data0,seuil_capt):
     """
     TBC
     """
+    # Ajout pretraitement pour ne garder que les <float> (épurer les <str>)
+    data=suppr_txt(data0)
     # identification des paliers
-    values_sep = sep_values(data,func_capt)
-    
+    values_sep = sep_values(data,seuil_capt)
     paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
     paliers = make_paliers(paliers_find, plage_len_find)
     values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
@@ -124,7 +137,7 @@ def seuil_capteur2():
     return(0.5, 0.21)
 
 
-def sep_values(sv,func_capt):
+def sep_values(sv,seuil_capt):
     """
     Parameters
     ----------
@@ -146,7 +159,7 @@ def sep_values(sv,func_capt):
     <class 'list'>
 
     """
-    seuil,sensibilite=func_capt
+    seuil,sensibilite=seuil_capt
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
@@ -236,13 +249,16 @@ def paliers_values_sep(values_sep, nb_values, paliers):
     return values_paliers
 
 
-# Retour une liste des données des capteurs en sous list de données par capteurs
+# Retour une liste des données des capteurs en sous list de données par capteurs    
 def isol_capteurs(values):
     """Içi c'est la premiere séparation du signal par capteur, le test est si on trouve un nom de capteur
     tous ce qui suit jusqu'a l'autre nom ou la fin sont les données du capteur :p
     TBC
     """
+    
+    #del values[0:22]
     del values[0:23]
+    
     last_key = None
     values_capteurs = dict()
     for value in values:
