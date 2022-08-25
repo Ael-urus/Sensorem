@@ -3,10 +3,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thus Aug  23 15:05:52 2022
-@author: Aelurus
 
-Contient toutes les fonctions du main.py . Bon c'est la merde pour sortir les fonctions
+@author : Aelurus
 
+@contributor: Bruno
 """
 try:
     import sys,os

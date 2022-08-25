@@ -34,7 +34,7 @@
         </header>
         <section id="section-intro">
             <p>Created on Wed Apr 15 11:10:34 2020</p>
-            <p>@author: Aelurus</p>
+            <p>@author : Aelurus</p>
             <p>@contributor: Bruno</p>
             <details class="source">
                 <summary>
@@ -44,7 +44,8 @@
 &#34;&#34;&#34;
 Created on Wed Apr 15 11:10:34 2020
 
-@author: Aelurus
+
+@author : Aelurus
 
 @contributor: Bruno
 
@@ -53,6 +54,7 @@ try:
     from statistics import mean, pstdev
     from doctest import testmod
     import csv
+    import sys,os
     # from reportlab.graphics.widgets.markers import makeMarker
     # from reportlab.graphics.charts.textlabels import Label
 
@@ -112,20 +114,17 @@ def readColCSV1(fichier, sep, n):
                 # print(e, n)
                 # print(row[n])
                 # pass
-                #col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
+                col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
                 # input(&#39;***&#39;)
     file.close()
     return col
 
-
-# determination des coefficients en fonction du nombre de paliers
-# pour la génération de paliers ascendents et descendants
+# determination des coefficients en fonction du nombre de paliers pour la génération de paliers ascendents et descendants
 def gen_nom_paliers(n):
     &#34;&#34;&#34;
     Parametres
     ----------
-    n : int
-        nombre de paliers
+    n (int) : nombre de paliers
 
     return
     ------
@@ -140,19 +139,47 @@ def gen_nom_paliers(n):
 def paliers_mark():
     &#34;&#34;&#34;Definition de la valeur pour marquer la séparation des paliers.
 
-    Valeur :
+    Valeur
     ------
-        -0.03
+    -0.03
 
-    Returns :
+    Returns
     -------
-        La valeur
+    La valeur
     &#34;&#34;&#34;
     return float(-0.03)
 
 
+def suppr_txt(data0):
+    data = []
+    for i in data0:
+        try:
+            data.append(float(i))
+        except:
+            pass
+
+    return data
+
+
+
+
+
+def make_paliers2(paliers_find, plage_len_find):
+    &#34;&#34;&#34;Création  efzfe d&#39;une liste avec chaque palier, le passage est obscure sur le pourquoi :)
+    je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
+    utile pour les graph il me semble, car les deux biblio de graph prennent pas les mêmes structures je crois
+    ...
+    TBC
+    &#34;&#34;&#34;
+    paliers = list([0] * paliers_find)*2
+    for i in range(len(paliers)):
+        paliers[i] = list([0] * plage_len_find[i])
+    return paliers
+
+
+
 ######
-def traitement_signal(data,func_capt):
+def traitement_signal(data0, seuil_capt):
     &#34;&#34;&#34;Appel et compile tous les traitements du capteur.
 
     Return :
@@ -169,9 +196,10 @@ def traitement_signal(data,func_capt):
 
     TBC
     &#34;&#34;&#34;
+    # Ajout pretraitement pour ne garder que les &lt;float&gt; (épurer les &lt;str&gt;)
+    data = suppr_txt(data0)
     # identification des paliers
-    values_sep = sep_values(data,func_capt)
-
+    values_sep = sep_values(data, seuil_capt)
     paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
     paliers = make_paliers(paliers_find, plage_len_find)
     values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
@@ -211,7 +239,7 @@ def seuil_capteur2():
     return (0.5, 0.21)
 
 
-def sep_values(sv,func_capt):
+def sep_values(sv,seuil_capt):
     &#34;&#34;&#34;
     Parameters
     ----------
@@ -233,7 +261,7 @@ def sep_values(sv,func_capt):
     &lt;class &#39;list&#39;&gt;
 
     &#34;&#34;&#34;
-    seuil,sensibilite=func_capt
+    seuil,sensibilite=seuil_capt
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
@@ -251,6 +279,23 @@ def sep_values(sv,func_capt):
             values_sep.append(sv[i])
     return values_sep
 
+
+
+
+
+
+
+def make_paliers2(paliers_find, plage_len_find):
+    &#34;&#34;&#34;Création d&#39;une liste avec chaque palier, le passage est obscure sur le pourquoi :)
+    je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
+    utile pour les graph imlkhl me semble, car les deux biblios de graph prennent pas les mêmes structures je crois
+    ...
+    TBC
+    &#34;&#34;&#34;
+    paliers = list([0] * paliers_find)*2
+    for i in range(len(paliers)):
+        paliers[i] = list([0] * plage_len_find[i])
+    return paliers
 
 
 
@@ -287,6 +332,7 @@ def info_values(iv):
                 plage_len_find.append(count)
             count = count + 1
     return [paliers_find, plage_len_find, nb_values, values_sep]
+
 
 
 # creation de la liste du nombre de paliers avec la taille
@@ -404,8 +450,7 @@ if __name__ == &#34;__main__&#34;:
                 </code></dt>
                 <dd>
                     <div class="desc"><h2 id="parametres">Parametres</h2>
-                        <p>n : int
-                            nombre de paliers</p>
+                        <p>n (int) : nombre de paliers</p>
                         <h2 id="return">Return</h2>
                         <p>une liste incrémentée ascendant et descendant axée sur le milleu du nombe passé en
                             argument</p>
@@ -421,8 +466,7 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;
     Parametres
     ----------
-    n : int
-        nombre de paliers
+    n (int) : nombre de paliers
 
     return
     ------
@@ -545,17 +589,46 @@ if __name__ == &#34;__main__&#34;:
     return paliers</code></pre>
                     </details>
                 </dd>
+                <dt id="Sensorem_Beta-C.FonctionsSignal.make_paliers2"><code class="name flex">
+                    <span>def <span class="ident">make_paliers2</span></span>(<span>paliers_find, plage_len_find)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Création d'une liste avec chaque palier, le passage est obscure sur le pourquoi
+                        :)
+                        je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
+                        utile pour les graph imlkhl me semble, car les deux biblios de graph prennent pas les mêmes
+                        structures je crois
+                        &hellip;
+                        TBC</p></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def make_paliers2(paliers_find, plage_len_find):
+    &#34;&#34;&#34;Création d&#39;une liste avec chaque palier, le passage est obscure sur le pourquoi :)
+    je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
+    utile pour les graph imlkhl me semble, car les deux biblios de graph prennent pas les mêmes structures je crois
+    ...
+    TBC
+    &#34;&#34;&#34;
+    paliers = list([0] * paliers_find)*2
+    for i in range(len(paliers)):
+        paliers[i] = list([0] * plage_len_find[i])
+    return paliers</code></pre>
+                    </details>
+                </dd>
                 <dt id="Sensorem_Beta-C.FonctionsSignal.paliers_mark"><code class="name flex">
                     <span>def <span class="ident">paliers_mark</span></span>(<span>)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Definition de la valeur pour marquer la séparation des paliers.</p>
-                        <h2 id="valeur">Valeur :</h2>
-                        <pre><code>-0.03
-</code></pre>
-                        <h2 id="returns">Returns :</h2>
-                        <pre><code>La valeur
-</code></pre>
+                        <h2 id="valeur">Valeur</h2>
+                        <p>-0.03</p>
+                        <h2 id="returns">Returns</h2>
+                        <dl>
+                            <dt><code>La valeur</code></dt>
+                            <dd>&nbsp;</dd>
+                        </dl>
                     </div>
                     <details class="source">
                         <summary>
@@ -564,13 +637,13 @@ if __name__ == &#34;__main__&#34;:
                         <pre><code class="python">def paliers_mark():
     &#34;&#34;&#34;Definition de la valeur pour marquer la séparation des paliers.
 
-    Valeur :
+    Valeur
     ------
-        -0.03
+    -0.03
 
-    Returns :
+    Returns
     -------
-        La valeur
+    La valeur
     &#34;&#34;&#34;
     return float(-0.03)</code></pre>
                     </details>
@@ -685,14 +758,14 @@ if __name__ == &#34;__main__&#34;:
                 # print(e, n)
                 # print(row[n])
                 # pass
-                #col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
+                col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
                 # input(&#39;***&#39;)
     file.close()
     return col</code></pre>
                     </details>
                 </dd>
                 <dt id="Sensorem_Beta-C.FonctionsSignal.sep_values"><code class="name flex">
-                    <span>def <span class="ident">sep_values</span></span>(<span>sv, func_capt)</span>
+                    <span>def <span class="ident">sep_values</span></span>(<span>sv, seuil_capt)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><h2 id="parameters">Parameters</h2>
@@ -723,7 +796,7 @@ if __name__ == &#34;__main__&#34;:
                         <summary>
                             <span>Expand source code</span>
                         </summary>
-                        <pre><code class="python">def sep_values(sv,func_capt):
+                        <pre><code class="python">def sep_values(sv,seuil_capt):
     &#34;&#34;&#34;
     Parameters
     ----------
@@ -745,7 +818,7 @@ if __name__ == &#34;__main__&#34;:
     &lt;class &#39;list&#39;&gt;
 
     &#34;&#34;&#34;
-    seuil,sensibilite=func_capt
+    seuil,sensibilite=seuil_capt
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
@@ -834,6 +907,26 @@ if __name__ == &#34;__main__&#34;:
     return (0.5, 0.21)</code></pre>
                     </details>
                 </dd>
+                <dt id="Sensorem_Beta-C.FonctionsSignal.suppr_txt"><code class="name flex">
+                    <span>def <span class="ident">suppr_txt</span></span>(<span>data0)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def suppr_txt(data0):
+    data = []
+    for i in data0:
+        try:
+            data.append(float(i))
+        except:
+            pass
+
+    return data</code></pre>
+                    </details>
+                </dd>
                 <dt id="Sensorem_Beta-C.FonctionsSignal.traitement_general_donnees"><code class="name flex">
                     <span>def <span class="ident">traitement_general_donnees</span></span>(<span>paliers_find, paliers_find2, values_sep_paliers, values_sep_paliers2, entete)</span>
                 </code></dt>
@@ -888,7 +981,7 @@ if __name__ == &#34;__main__&#34;:
                     </details>
                 </dd>
                 <dt id="Sensorem_Beta-C.FonctionsSignal.traitement_signal"><code class="name flex">
-                    <span>def <span class="ident">traitement_signal</span></span>(<span>data, func_capt)</span>
+                    <span>def <span class="ident">traitement_signal</span></span>(<span>data0, seuil_capt)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Appel et compile tous les traitements du capteur.</p>
@@ -908,7 +1001,7 @@ if __name__ == &#34;__main__&#34;:
                         <summary>
                             <span>Expand source code</span>
                         </summary>
-                        <pre><code class="python">def traitement_signal(data,func_capt):
+                        <pre><code class="python">def traitement_signal(data0, seuil_capt):
     &#34;&#34;&#34;Appel et compile tous les traitements du capteur.
 
     Return :
@@ -925,9 +1018,10 @@ if __name__ == &#34;__main__&#34;:
 
     TBC
     &#34;&#34;&#34;
+    # Ajout pretraitement pour ne garder que les &lt;float&gt; (épurer les &lt;str&gt;)
+    data = suppr_txt(data0)
     # identification des paliers
-    values_sep = sep_values(data,func_capt)
-
+    values_sep = sep_values(data, seuil_capt)
     paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
     paliers = make_paliers(paliers_find, plage_len_find)
     values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
@@ -977,6 +1071,8 @@ if __name__ == &#34;__main__&#34;:
                                  title="Sensorem_Beta-C.FonctionsSignal.isol_capteurs">isol_capteurs</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.make_paliers"
                                  title="Sensorem_Beta-C.FonctionsSignal.make_paliers">make_paliers</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.make_paliers2"
+                                 title="Sensorem_Beta-C.FonctionsSignal.make_paliers2">make_paliers2</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.paliers_mark"
                                  title="Sensorem_Beta-C.FonctionsSignal.paliers_mark">paliers_mark</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.paliers_values_sep"
@@ -993,6 +1089,8 @@ if __name__ == &#34;__main__&#34;:
                                  title="Sensorem_Beta-C.FonctionsSignal.seuil_capteur1">seuil_capteur1</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.seuil_capteur2"
                                  title="Sensorem_Beta-C.FonctionsSignal.seuil_capteur2">seuil_capteur2</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.suppr_txt"
+                                 title="Sensorem_Beta-C.FonctionsSignal.suppr_txt">suppr_txt</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.traitement_general_donnees"
                                  title="Sensorem_Beta-C.FonctionsSignal.traitement_general_donnees">traitement_general_donnees</a></code>
                     </li>
