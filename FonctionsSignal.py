@@ -196,7 +196,7 @@ def sep_values(sv,func_capt):
 
 
 def make_paliers2(paliers_find, plage_len_find):
-    """Création  efzfezrgergzrtzg d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
+    """Création  efzfezrgeùprjcgaùpronrgzrtzg d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
     je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
     utile pour les graph il me semble, car les deux biblio de graph prennent pas les mêmes structures je crois
     ...
