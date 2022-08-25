@@ -99,6 +99,9 @@ def afficher_fichier(event):
 
     On récupère le nom du fichier
     """
+    
+    print('coucou2')
+    
     fichier = normaliser(
         dossier_actuel,
         liste_fichiers.get(liste_fichiers.curselection() or 0)
