@@ -3,11 +3,15 @@
 Created on Wed Apr 15 11:10:34 2020
 
 @author: Aelurus
+
+@contributor: Bruno
+
 """
 try:
     from statistics import mean, pstdev
     from doctest import testmod
     import csv
+    import sys,os
     # from reportlab.graphics.widgets.markers import makeMarker
     # from reportlab.graphics.charts.textlabels import Label
 
@@ -67,15 +71,12 @@ def readColCSV1(fichier, sep, n):
                 # print(e, n)
                 # print(row[n])
                 # pass
-                col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais .....
-                # BGU : problem potentiel quand ligne vide
+                col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
                 # input('***')
     file.close()
     return col
 
-
-# determination des coefficients en fonction du nombre de paliers
-# pour la génération de paliers ascendents et descendants
+# determination des coefficients en fonction du nombre de paliers pour la génération de paliers ascendents et descendants
 def gen_nom_paliers(n):
     """
     Parametres
@@ -106,13 +107,39 @@ def paliers_mark():
     return float(-0.03)
 
 
+def suppr_txt(data0):
+    data = []
+    for i in data0:
+        try:
+            data.append(float(i))
+        except:
+            pass
+
+    return data
+
+
 ######
-def traitement_signal(data,func_capt):
-    """
+def traitement_signal(data0, seuil_capt):
+    """Appel et compile tous les traitements du capteur.
+
+    Return :
+    -------
+    values_sep_paliers  : list
+
+    data  : list
+        les données brutes de la mesure du capteur
+
+    values_sep  : list
+
+    paliers_find  : int
+        le nombre de paliers trouvé, au mini 1
+
     TBC
     """
+    # Ajout pretraitement pour ne garder que les <float> (épurer les <str>)
+    data = suppr_txt(data0)
     # identification des paliers
-    values_sep = sep_values(data,func_capt)
+    values_sep = sep_values(data, seuil_capt)
     paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
     paliers = make_paliers(paliers_find, plage_len_find)
     values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
@@ -152,7 +179,7 @@ def seuil_capteur2():
     return (0.5, 0.21)
 
 
-def sep_values(sv,func_capt):
+def sep_values(sv,seuil_capt):
     """
     Parameters
     ----------
@@ -174,9 +201,7 @@ def sep_values(sv,func_capt):
     <class 'list'>
 
     """
-
-    seuil,sensibilite=func_capt
-    
+    seuil,sensibilite=seuil_capt
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
@@ -195,17 +220,24 @@ def sep_values(sv,func_capt):
     return values_sep
 
 
+
+
+
+
+
 def make_paliers2(paliers_find, plage_len_find):
-    """Création  efzfezrgeùprjcgammiguflfùpronrgzrtzg d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
+    """Création  afzegr d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
     je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
     utile pour les graph imlkhl me semble, car les deux biblio de graph prennent pas les mêmes structures je crois
     ...
     TBC
     """
-    paliers = list([0] * paliers_find)
+    paliers = list([0] * paliers_find)*2
     for i in range(len(paliers)):
         paliers[i] = list([0] * plage_len_find[i])
     return paliers
+
+
 
 # Recuperation des valeurs generer avec separation par etages
 def info_values(iv):
