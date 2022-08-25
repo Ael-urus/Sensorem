@@ -68,74 +68,15 @@ def version():
 
 
 def prep_donnees_graph(donnees):
-    &#34;&#34;&#34;
-    retourne une liste d&#39;éléments en listes d&#39;éléments incrémentée,
+    &#34;&#34;&#34;Retourne une liste d&#39;éléments en listes d&#39;éléments incrémentée,
     &gt;&gt;&gt; prep_donnees_graph([1,2,3,4,5])
     [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]]
     &#34;&#34;&#34;
     return [[i, donnee] for i, donnee in enumerate(donnees)]
 
 
-######
-def traitement_signal(data):
-    &#34;&#34;&#34;Fonction générale qui appel les traitements des données, pour le capteur à raccorder
 
-    &#34;&#34;&#34;
-    # identification des paliers
-    values_sep = sep_values(data)
-    paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
-    paliers = make_paliers(paliers_find, plage_len_find)
-    values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
-    return values_sep_paliers, data, values_sep, paliers_find
-
-
-def traitement_signal2(data):
-    &#34;&#34;&#34;
-    TBC
-    &#34;&#34;&#34;
-    # identification des paliers
-    values_sep = sep_values2(data)
-    paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
-    paliers = make_paliers(paliers_find, plage_len_find)
-    values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
-    return values_sep_paliers, data, values_sep, paliers_find
-
-
-# recuperation des valeurs à traiter
 def readColCSV1(fichier, sep, n):
-    &#34;&#34;&#34;
-    Lecture complete du fichier
-    Pour les deux premiers paramètres attention à bien utiliser les guillements
-    car la fonction attend des chaines de caractères.
-    fichier &lt;str&gt; : Le nom du fichier -&gt; &#34;mon_fichier.csv&#34;
-    sep &lt;str&gt; : Le séparateur des colonnes par exemple -&gt; &#34;;&#34;
-    n &lt;int&gt; : Le numéro de la colonne à lire
-    &#34;&#34;&#34;
-    file = open(fichier, &#34;r&#34;)
-    reader = csv.reader(file, delimiter=sep)
-    col = []
-    for row in reader:
-        # if row[n] == &#34;Invalid&#34;: row[n]=float(0.0)
-        if n &lt; len(row) and row[n] == &#39;Invalid&#39;:
-            row[n] = float(0.0)
-            # BGU supress ? car row[n] peut planter (or try/except), notamment sur une ligne vide
-        try:
-            notation_point = row[n].replace(&#34;,&#34;, &#34;.&#34;)
-            col.append(float(notation_point))
-        # except Exception as e:
-        except :
-            if n &lt; len(row) and row[n] == &#39;Invalid&#39;: col.append(0.0)
-            # print(e, n)
-            # print(row[n])
-            # pass
-            col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais .....
-            # BGU : problem potentiel quand ligne vide
-            # input(&#39;***&#39;)
-    file.close()
-    return col
-
-
-def readColCSV(fichier, sep, n):
     &#34;&#34;&#34;Pour les deux premiers paramètres attention à bien utiliser les guillements
     car la fonction attend des chaines de caractères.
     fichier &lt;str&gt; : Le nom du fichier -&gt; &#34;mon_fichier.csv&#34;
@@ -147,25 +88,34 @@ def readColCSV(fichier, sep, n):
     Ignore les valeurs non int
     Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier
 
-    &gt;&gt;&gt; readColCSV (&#34;DebudFindeFichier.csv&#34;, &#34;;&#34;, 2)
+    &gt;&gt;&gt; readColCSV1 (&#34;DebudFindeFichier.csv&#34;, &#34;;&#34;, 2)
     [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
     &#34;&#34;&#34;
     file = open(fichier, &#34;r&#34;)
     reader = csv.reader(file, delimiter=sep)
     col = []
-    for row in reader:  # BGU suppress 1 des 2 de la double loop &#34;for row in reader&#34;, car elle pose des soucis de lecture sur l&#39;exemple: readColCSV (&#34;DebudFindeFichier.csv&#34;, &#34;;&#34;, 2)
-        for row in reader:
+    for row in reader:
+        if(len(row)&gt;n):
+            # if row[n] == &#34;Invalid&#34;: row[n]=float(0.0)
+            if row[n] == &#39;Invalid&#39;:
+                row[n] = float(0.0)  # BGU supress ? car row[n] peut planter (or try/except), notamment sur une ligne vide
             try:
                 notation_point = row[n].replace(&#34;,&#34;, &#34;.&#34;)
                 col.append(float(notation_point))
-            except:
-                if n &lt; len(row) and row[n] == &#39;Invalid&#39;: col.append(0.0)
-                pass
+            # except Exception as e:
+            except :
+                if row[n] == &#39;Invalid&#39;: col.append(0.0)
+                # print(e, n)
+                # print(row[n])
+                # pass
+                col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais .....
+                # BGU : problem potentiel quand ligne vide
+                # input(&#39;***&#39;)
     file.close()
     return col
 
-
-# determination des coefficients en fonction du nombre de paliers pour la génération de paliers ascendents et descendants
+# determination des coefficients en fonction du nombre de paliers
+# pour la génération de paliers ascendents et descendants
 def gen_nom_paliers(n):
     &#34;&#34;&#34;
     Parametres
@@ -196,7 +146,52 @@ def paliers_mark():
     return float(-0.03)
 
 
-def sep_values(sv):
+######
+def traitement_signal(data,func_capt):
+    &#34;&#34;&#34;
+    TBC
+    &#34;&#34;&#34;
+    # identification des paliers
+    values_sep = sep_values(data,func_capt)
+    paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
+    paliers = make_paliers(paliers_find, plage_len_find)
+    values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
+    return values_sep_paliers, data, values_sep, paliers_find
+
+
+def seuil_capteur1():
+    &#34;&#34;&#34;Passage des valeurs (seuil,sensibilite)
+
+    seuil       = 0.052 seuil de détection des changements de paliers, le delta entre deux seuils
+                    (delta entre deux moyennes de 7 valeurs)
+
+    sensibilite = 0.014 seuil de nettoyage, valeur de bruit du signal, permet d&#39;éliminer les valeurs
+                    qui peuvent polluer le signal (delta entre deux valeurs)
+
+    return :
+    --------
+    les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types hélices
+    20 et 40 m/s (mini et macro).
+    &#34;&#34;&#34;
+    return(0.052,0.014)
+
+def seuil_capteur2():
+    &#34;&#34;&#34;Passage des valeurs (seuil,sensibilite)
+
+    seuil       = 0.5 seuil de détection des changements de paliers, le delta entre deux seuils
+                    (delta entre deux moyennes de 7 valeurs)
+
+    sensibilite = 0.21 seuil de nettoyage, valeur de bruit du signal, permet d&#39;éliminer les valeurs
+                    qui peuvent polluer le signal (delta entre deux valeurs)
+
+    return :
+    --------
+    les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types MacCaffrey.
+    &#34;&#34;&#34;
+    return(0.5, 0.21)
+
+
+def sep_values(sv,func_capt):
     &#34;&#34;&#34;
     Parameters
     ----------
@@ -218,15 +213,15 @@ def sep_values(sv):
     &lt;class &#39;list&#39;&gt;
 
     &#34;&#34;&#34;
-    seuil = 0.052  # seuil de détection des changements de paliers
-    sensibilite = 0.014  # seuil de nettoyage
+
+    seuil,sensibilite=func_capt
+    
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
 
     for i in range(nb_values - abs(nb_remplacement) - 5):
-        if abs(sv[i + 5] - sv[
-            i]) &lt; sensibilite:  # attention le i+x (5) est à mettre en accord avec les valeurs d&#39;exclusion des moyenne et ecartype du pdf et de l&#39;interface graphique
+        if abs(sv[i + 5] - sv[i]) &lt; sensibilite:  # attention le i+x (5) est à mettre en accord avec les valeurs d&#39;exclusion des moyenne et ecartype du pdf et de l&#39;interface graphique
             sv[i] = sv[i]
         else:
             sv[i] = sv[i - nb_remplacement]
@@ -239,47 +234,6 @@ def sep_values(sv):
     return values_sep
 
 
-def sep_values2(sv):
-    &#34;&#34;&#34;
-    Parameters
-    ----------
-    sv : TYPE,list
-        DESCRIPTION.
-        Liste de valeurs décimales, ayant la forme d&#39;un signal carré ascendant puis descendant
-        (données expérimentales).
-    &gt;&gt;&gt; a = [0.0015  ,0.0015 ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015 , 0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015 , 0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0206 , 0.0779 , 0.1577 , 0.1747 , 0.1769 , 0.1675 , 0.1447 , 0.1294 , 0.1219 , 0.1193 , 0.1187 , 0.1179 , 0.1174 , 0.1175 , 0.1172 , 0.1168 , 0.1169 , 0.1165 , 0.1166 , 0.1167 , 0.1168 , 0.1173 , 0.1176 , 0.1168 , 0.1176 , 0.1172 , 0.1173 , 0.1171 , 0.1165 , 0.1172 , 0.1173 , 0.1174 , 0.1172 , 0.1175 , 0.1177 , 0.1172 , 0.1173 , 0.1173 , 0.1176 , 0.1178 , 0.1173 , 0.1174 , 0.1174 , 0.1172 , 0.1173 , 0.1173 , 0.1174 , 0.1173 , 0.1169 , 0.1171 , 0.1174 , 0.1171 , 0.1172 , 0.1173 , 0.1164 , 0.1164 , 0.1165 , 0.1164 , 0.1165 , 0.1168 , 0.1171 , 0.1172 , 0.1171 , 0.1172 , 0.1177 , 0.1175 , 0.1174 , 0.1176 , 0.1173 , 0.1173 , 0.1171 , 0.1171 , 0.1168 , 0.1167 , 0.1169 , 0.1169 , 0.1169 , 0.1171 , 0.1172 , 0.1173 , 0.2008 , 0.2177 , 0.2205 , 0.2219 , 0.2236 , 0.2237 , 0.2216 , 0.2217 , 0.2216 , 0.2225 , 0.2242 , 0.2231 , 0.2226 , 0.2233 , 0.2225 , 0.2228 , 0.2239 , 0.2239 , 0.2245 , 0.2231 , 0.2228 , 0.2233 , 0.2237 , 0.2238 , 0.2232 , 0.2228 , 0.2236 , 0.3808 , 0.4189 , 0.4319 , 0.4338 , 0.4339 , 0.4307 , 0.4313 , 0.4342 , 0.4319 , 0.4332 , 0.4333 , 0.4329 , 0.4358 , 0.4366 , 0.4353 , 0.4343 , 0.4343 , 0.4337 , 0.4341 , 0.4363 , 0.4318 , 0.4319 , 0.4322 , 0.4312 , 0.4334 , 0.4333 , 0.4334 , 0.4322 , 0.4359 , 0.4337 , 0.4319 , 0.4313 , 0.4325 , 0.4317 , 0.4313 , 0.4307 , 0.4318 , 0.4283 , 0.5441 , 0.6355 , 0.6491 , 0.6531 , 0.6504 , 0.6537 , 0.6538 , 0.6546 , 0.6529 , 0.6537 , 0.6538 , 0.6539 , 0.6539 , 0.6538 , 0.6539 , 0.6539 , 0.6539 , 0.6539 , 0.6534 , 0.6538 , 0.6539 , 0.6534 , 0.6535 , 0.6534 , 0.6525 , 0.6528 , 0.6529 , 0.6554 , 0.6558 , 0.6559 , 0.5521 , 0.4593 , 0.4364 , 0.4325 , 0.4279 , 0.4299 , 0.4287 , 0.4307 , 0.4308 , 0.4309 , 0.4311 , 0.4321 , 0.4328 , 0.4282 , 0.4285 , 0.4324 , 0.4331 , 0.4317 , 0.4328 , 0.4328 , 0.4313 , 0.4332 , 0.4321 , 0.4321 , 0.4351 , 0.4287 , 0.4336 , 0.4304 , 0.4318 , 0.4275 , 0.4271 , 0.4239 , 0.4237 , 0.4054 , 0.2998 , 0.2448 , 0.2449 , 0.2193 , 0.2205 , 0.2189 , 0.2175 , 0.2191 , 0.2197 , 0.2202 , 0.2194 , 0.2189 , 0.2184 , 0.2174 , 0.2179 , 0.2180 , 0.2179 , 0.2195 , 0.2194 , 0.2187 , 0.2211 , 0.2206 , 0.2207 , 0.2212 , 0.2205 , 0.2207 , 0.2208 , 0.2206 , 0.2204 , 0.2195 , 0.2209 , 0.2210 , 0.2203 , 0.2204 , 0.2116 , 0.1881 , 0.18 , 0.1771 , 0.1754 , 0.1606 , 0.1391 , 0.1261 , 0.1209 , 0.1192 , 0.1181 , 0.1181 , 0.1182 , 0.1178 , 0.1175 , 0.1176 , 0.1167 , 0.1179 , 0.1180 , 0.1174 , 0.1174 , 0.1177 , 0.1178 , 0.1176 , 0.1178 , 0.1172 , 0.1178 , 0.1177 , 0.1184 , 0.1182 , 0.1183 , 0.1184 , 0.1181 , 0.1173 , 0.0015 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0015 , 0.0017 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0009 , 0.0010 , 0.0011 , 0.0011 , 0.0011 , 0.0012 , 0.0009 , 0.0005 , 0.0007 , 0.0007 , 0.0005 , 0.0005 , 0.0008 , 0.0008 , 0.0007 , 0.0004 , 0.0005 , 0.0004 , 0.0004 , 0.0004 , 0.0009 , 0.0008 , 0.0009 , ]
-
-    Returns
-    -------
-    values_sep : TYPE, list
-        DESCRIPTION. Pour le traitement d&#39;un type de capteur (Mac Soufflerie)
-        La liste de sortie est l&#39;identification des paliers par le remplacement de sa première
-        valeur par paliers_mark(). Une première boucle nettoie le signal des valeurs aberrantes
-        Dû à la mesure.
-        La deuxième boucle identifie les paliers
-    &gt;&gt;&gt; type(sep_values(a))
-    &lt;class &#39;list&#39;&gt;
-
-    &#34;&#34;&#34;
-    seuil = 0.5  # seuil de détection des changements de paliers
-    sensibilite = 0.21  # seuil de nettoyage
-    nb_values = len(sv)
-    values_sep = list()  # Donne brute avec identification des étages
-    nb_remplacement = 1
-
-    for i in range(nb_values - abs(nb_remplacement) - 5):
-        if abs(sv[i + 5] - sv[
-            i]) &lt; sensibilite:  # attention le i+x (5) est à mettre en accord avec les valeurs d&#39;exclusion des moyenne et ecartype du pdf et de l&#39;interface graphique
-            sv[i] = sv[i]
-        else:
-            sv[i] = sv[i - nb_remplacement]
-
-    for i in range(nb_values - 1):
-        if abs(sv[i + 1] - sv[i]) &gt; seuil or abs(sv[i] - sv[i + 1]) &gt; seuil:
-            values_sep.append(paliers_mark())
-        else:
-            values_sep.append(sv[i])
-    return values_sep
 
 
 # Recuperation des valeurs generer avec separation par etages
@@ -288,7 +242,12 @@ def info_values(iv):
     prend les valeurs d&#39;un capteur pour les ordonnées par paliers avec identification des informations
     par palier comme le nombre de paliers la longueur de chaque palier.
 
-    return:
+    Parametre :
+    ----------
+
+    iv (float) :
+
+    return :
     -------
     une liste imbriqué de chaque info
 
@@ -462,7 +421,9 @@ if __name__ == &#34;__main__&#34;:
                         prend les valeurs d'un capteur pour les ordonnées par paliers avec identification des
                         informations
                         par palier comme le nombre de paliers la longueur de chaque palier.</p>
-                        <h2 id="return">return:</h2>
+                        <h2 id="parametre">Parametre :</h2>
+                        <p>iv (float) :</p>
+                        <h2 id="return">return :</h2>
                         <p>une liste imbriqué de chaque info</p></div>
                     <details class="source">
                         <summary>
@@ -473,7 +434,12 @@ if __name__ == &#34;__main__&#34;:
     prend les valeurs d&#39;un capteur pour les ordonnées par paliers avec identification des informations
     par palier comme le nombre de paliers la longueur de chaque palier.
 
-    return:
+    Parametre :
+    ----------
+
+    iv (float) :
+
+    return :
     -------
     une liste imbriqué de chaque info
 
@@ -625,7 +591,7 @@ if __name__ == &#34;__main__&#34;:
                     <span>def <span class="ident">prep_donnees_graph</span></span>(<span>donnees)</span>
                 </code></dt>
                 <dd>
-                    <div class="desc"><p>retourne une liste d'éléments en listes d'éléments incrémentée,</p>
+                    <div class="desc"><p>Retourne une liste d'éléments en listes d'éléments incrémentée,</p>
                         <pre><code class="language-python-repl">&gt;&gt;&gt; prep_donnees_graph([1,2,3,4,5])
 [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]]
 </code></pre>
@@ -635,16 +601,15 @@ if __name__ == &#34;__main__&#34;:
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">def prep_donnees_graph(donnees):
-    &#34;&#34;&#34;
-    retourne une liste d&#39;éléments en listes d&#39;éléments incrémentée,
+    &#34;&#34;&#34;Retourne une liste d&#39;éléments en listes d&#39;éléments incrémentée,
     &gt;&gt;&gt; prep_donnees_graph([1,2,3,4,5])
     [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5]]
     &#34;&#34;&#34;
     return [[i, donnee] for i, donnee in enumerate(donnees)]</code></pre>
                     </details>
                 </dd>
-                <dt id="Sensorem_Beta-C.FonctionsSignal.readColCSV"><code class="name flex">
-                    <span>def <span class="ident">readColCSV</span></span>(<span>fichier, sep, n)</span>
+                <dt id="Sensorem_Beta-C.FonctionsSignal.readColCSV1"><code class="name flex">
+                    <span>def <span class="ident">readColCSV1</span></span>(<span>fichier, sep, n)</span>
                 </code></dt>
                 <dd>
                     <div class="desc">
@@ -661,7 +626,7 @@ if __name__ == &#34;__main__&#34;:
                             decimal de , a . si besoin.
                             Ignore les valeurs non int
                             Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier</p>
-                        <pre><code class="language-python-repl">&gt;&gt;&gt; readColCSV (&quot;DebudFindeFichier.csv&quot;, &quot;;&quot;, 2)
+                        <pre><code class="language-python-repl">&gt;&gt;&gt; readColCSV1 (&quot;DebudFindeFichier.csv&quot;, &quot;;&quot;, 2)
 [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
 </code></pre>
                     </div>
@@ -669,7 +634,7 @@ if __name__ == &#34;__main__&#34;:
                         <summary>
                             <span>Expand source code</span>
                         </summary>
-                        <pre><code class="python">def readColCSV(fichier, sep, n):
+                        <pre><code class="python">def readColCSV1(fichier, sep, n):
     &#34;&#34;&#34;Pour les deux premiers paramètres attention à bien utiliser les guillements
     car la fonction attend des chaines de caractères.
     fichier &lt;str&gt; : Le nom du fichier -&gt; &#34;mon_fichier.csv&#34;
@@ -681,79 +646,35 @@ if __name__ == &#34;__main__&#34;:
     Ignore les valeurs non int
     Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier
 
-    &gt;&gt;&gt; readColCSV (&#34;DebudFindeFichier.csv&#34;, &#34;;&#34;, 2)
+    &gt;&gt;&gt; readColCSV1 (&#34;DebudFindeFichier.csv&#34;, &#34;;&#34;, 2)
     [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
     &#34;&#34;&#34;
     file = open(fichier, &#34;r&#34;)
     reader = csv.reader(file, delimiter=sep)
     col = []
-    for row in reader:  # BGU suppress 1 des 2 de la double loop &#34;for row in reader&#34;, car elle pose des soucis de lecture sur l&#39;exemple: readColCSV (&#34;DebudFindeFichier.csv&#34;, &#34;;&#34;, 2)
-        for row in reader:
+    for row in reader:
+        if(len(row)&gt;n):
+            # if row[n] == &#34;Invalid&#34;: row[n]=float(0.0)
+            if row[n] == &#39;Invalid&#39;:
+                row[n] = float(0.0)  # BGU supress ? car row[n] peut planter (or try/except), notamment sur une ligne vide
             try:
                 notation_point = row[n].replace(&#34;,&#34;, &#34;.&#34;)
                 col.append(float(notation_point))
-            except:
-                if n &lt; len(row) and row[n] == &#39;Invalid&#39;: col.append(0.0)
-                pass
-    file.close()
-    return col</code></pre>
-                    </details>
-                </dd>
-                <dt id="Sensorem_Beta-C.FonctionsSignal.readColCSV1"><code class="name flex">
-                    <span>def <span class="ident">readColCSV1</span></span>(<span>fichier, sep, n)</span>
-                </code></dt>
-                <dd>
-                    <div class="desc">
-                        <p>Lecture complete du fichier
-                            Pour les deux premiers paramètres attention à bien utiliser les guillements
-                            car la fonction attend des chaines de caractères.
-                            fichier
-                            <str> : Le nom du fichier -&gt; "mon_fichier.csv"
-                                sep
-                                <str> : Le séparateur des colonnes par exemple -&gt; ";"
-                                    n
-                                    <int> : Le numéro de la colonne à lire
-                        </p>
-                    </div>
-                    <details class="source">
-                        <summary>
-                            <span>Expand source code</span>
-                        </summary>
-                        <pre><code class="python">def readColCSV1(fichier, sep, n):
-    &#34;&#34;&#34;
-    Lecture complete du fichier
-    Pour les deux premiers paramètres attention à bien utiliser les guillements
-    car la fonction attend des chaines de caractères.
-    fichier &lt;str&gt; : Le nom du fichier -&gt; &#34;mon_fichier.csv&#34;
-    sep &lt;str&gt; : Le séparateur des colonnes par exemple -&gt; &#34;;&#34;
-    n &lt;int&gt; : Le numéro de la colonne à lire
-    &#34;&#34;&#34;
-    file = open(fichier, &#34;r&#34;)
-    reader = csv.reader(file, delimiter=sep)
-    col = []
-    for row in reader:
-        # if row[n] == &#34;Invalid&#34;: row[n]=float(0.0)
-        if n &lt; len(row) and row[n] == &#39;Invalid&#39;:
-            row[n] = float(0.0)
-            # BGU supress ? car row[n] peut planter (or try/except), notamment sur une ligne vide
-        try:
-            notation_point = row[n].replace(&#34;,&#34;, &#34;.&#34;)
-            col.append(float(notation_point))
-        # except Exception as e:
-        except :
-            if n &lt; len(row) and row[n] == &#39;Invalid&#39;: col.append(0.0)
-            # print(e, n)
-            # print(row[n])
-            # pass
-            col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais .....
-            # BGU : problem potentiel quand ligne vide
-            # input(&#39;***&#39;)
+            # except Exception as e:
+            except :
+                if row[n] == &#39;Invalid&#39;: col.append(0.0)
+                # print(e, n)
+                # print(row[n])
+                # pass
+                col.append(row[n])  # la différence est içi entre readColCSV &amp;1 y a une couille mais .....
+                # BGU : problem potentiel quand ligne vide
+                # input(&#39;***&#39;)
     file.close()
     return col</code></pre>
                     </details>
                 </dd>
                 <dt id="Sensorem_Beta-C.FonctionsSignal.sep_values"><code class="name flex">
-                    <span>def <span class="ident">sep_values</span></span>(<span>sv)</span>
+                    <span>def <span class="ident">sep_values</span></span>(<span>sv, func_capt)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><h2 id="parameters">Parameters</h2>
@@ -784,7 +705,7 @@ if __name__ == &#34;__main__&#34;:
                         <summary>
                             <span>Expand source code</span>
                         </summary>
-                        <pre><code class="python">def sep_values(sv):
+                        <pre><code class="python">def sep_values(sv,func_capt):
     &#34;&#34;&#34;
     Parameters
     ----------
@@ -806,15 +727,15 @@ if __name__ == &#34;__main__&#34;:
     &lt;class &#39;list&#39;&gt;
 
     &#34;&#34;&#34;
-    seuil = 0.052  # seuil de détection des changements de paliers
-    sensibilite = 0.014  # seuil de nettoyage
+
+    seuil,sensibilite=func_capt
+    
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
 
     for i in range(nb_values - abs(nb_remplacement) - 5):
-        if abs(sv[i + 5] - sv[
-            i]) &lt; sensibilite:  # attention le i+x (5) est à mettre en accord avec les valeurs d&#39;exclusion des moyenne et ecartype du pdf et de l&#39;interface graphique
+        if abs(sv[i + 5] - sv[i]) &lt; sensibilite:  # attention le i+x (5) est à mettre en accord avec les valeurs d&#39;exclusion des moyenne et ecartype du pdf et de l&#39;interface graphique
             sv[i] = sv[i]
         else:
             sv[i] = sv[i - nb_remplacement]
@@ -827,79 +748,74 @@ if __name__ == &#34;__main__&#34;:
     return values_sep</code></pre>
                     </details>
                 </dd>
-                <dt id="Sensorem_Beta-C.FonctionsSignal.sep_values2"><code class="name flex">
-                    <span>def <span class="ident">sep_values2</span></span>(<span>sv)</span>
+                <dt id="Sensorem_Beta-C.FonctionsSignal.seuil_capteur1"><code class="name flex">
+                    <span>def <span class="ident">seuil_capteur1</span></span>(<span>)</span>
                 </code></dt>
                 <dd>
-                    <div class="desc"><h2 id="parameters">Parameters</h2>
-                        <dl>
-                            <dt><strong><code>sv</code></strong> :&ensp;<code>TYPE,list</code></dt>
-                            <dd>DESCRIPTION.
-                                Liste de valeurs décimales, ayant la forme d'un signal carré ascendant puis descendant
-                                (données expérimentales).
-                            </dd>
-                        </dl>
-                        <pre><code class="language-python-repl">&gt;&gt;&gt; a = [0.0015  ,0.0015 ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015 , 0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015 , 0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0206 , 0.0779 , 0.1577 , 0.1747 , 0.1769 , 0.1675 , 0.1447 , 0.1294 , 0.1219 , 0.1193 , 0.1187 , 0.1179 , 0.1174 , 0.1175 , 0.1172 , 0.1168 , 0.1169 , 0.1165 , 0.1166 , 0.1167 , 0.1168 , 0.1173 , 0.1176 , 0.1168 , 0.1176 , 0.1172 , 0.1173 , 0.1171 , 0.1165 , 0.1172 , 0.1173 , 0.1174 , 0.1172 , 0.1175 , 0.1177 , 0.1172 , 0.1173 , 0.1173 , 0.1176 , 0.1178 , 0.1173 , 0.1174 , 0.1174 , 0.1172 , 0.1173 , 0.1173 , 0.1174 , 0.1173 , 0.1169 , 0.1171 , 0.1174 , 0.1171 , 0.1172 , 0.1173 , 0.1164 , 0.1164 , 0.1165 , 0.1164 , 0.1165 , 0.1168 , 0.1171 , 0.1172 , 0.1171 , 0.1172 , 0.1177 , 0.1175 , 0.1174 , 0.1176 , 0.1173 , 0.1173 , 0.1171 , 0.1171 , 0.1168 , 0.1167 , 0.1169 , 0.1169 , 0.1169 , 0.1171 , 0.1172 , 0.1173 , 0.2008 , 0.2177 , 0.2205 , 0.2219 , 0.2236 , 0.2237 , 0.2216 , 0.2217 , 0.2216 , 0.2225 , 0.2242 , 0.2231 , 0.2226 , 0.2233 , 0.2225 , 0.2228 , 0.2239 , 0.2239 , 0.2245 , 0.2231 , 0.2228 , 0.2233 , 0.2237 , 0.2238 , 0.2232 , 0.2228 , 0.2236 , 0.3808 , 0.4189 , 0.4319 , 0.4338 , 0.4339 , 0.4307 , 0.4313 , 0.4342 , 0.4319 , 0.4332 , 0.4333 , 0.4329 , 0.4358 , 0.4366 , 0.4353 , 0.4343 , 0.4343 , 0.4337 , 0.4341 , 0.4363 , 0.4318 , 0.4319 , 0.4322 , 0.4312 , 0.4334 , 0.4333 , 0.4334 , 0.4322 , 0.4359 , 0.4337 , 0.4319 , 0.4313 , 0.4325 , 0.4317 , 0.4313 , 0.4307 , 0.4318 , 0.4283 , 0.5441 , 0.6355 , 0.6491 , 0.6531 , 0.6504 , 0.6537 , 0.6538 , 0.6546 , 0.6529 , 0.6537 , 0.6538 , 0.6539 , 0.6539 , 0.6538 , 0.6539 , 0.6539 , 0.6539 , 0.6539 , 0.6534 , 0.6538 , 0.6539 , 0.6534 , 0.6535 , 0.6534 , 0.6525 , 0.6528 , 0.6529 , 0.6554 , 0.6558 , 0.6559 , 0.5521 , 0.4593 , 0.4364 , 0.4325 , 0.4279 , 0.4299 , 0.4287 , 0.4307 , 0.4308 , 0.4309 , 0.4311 , 0.4321 , 0.4328 , 0.4282 , 0.4285 , 0.4324 , 0.4331 , 0.4317 , 0.4328 , 0.4328 , 0.4313 , 0.4332 , 0.4321 , 0.4321 , 0.4351 , 0.4287 , 0.4336 , 0.4304 , 0.4318 , 0.4275 , 0.4271 , 0.4239 , 0.4237 , 0.4054 , 0.2998 , 0.2448 , 0.2449 , 0.2193 , 0.2205 , 0.2189 , 0.2175 , 0.2191 , 0.2197 , 0.2202 , 0.2194 , 0.2189 , 0.2184 , 0.2174 , 0.2179 , 0.2180 , 0.2179 , 0.2195 , 0.2194 , 0.2187 , 0.2211 , 0.2206 , 0.2207 , 0.2212 , 0.2205 , 0.2207 , 0.2208 , 0.2206 , 0.2204 , 0.2195 , 0.2209 , 0.2210 , 0.2203 , 0.2204 , 0.2116 , 0.1881 , 0.18 , 0.1771 , 0.1754 , 0.1606 , 0.1391 , 0.1261 , 0.1209 , 0.1192 , 0.1181 , 0.1181 , 0.1182 , 0.1178 , 0.1175 , 0.1176 , 0.1167 , 0.1179 , 0.1180 , 0.1174 , 0.1174 , 0.1177 , 0.1178 , 0.1176 , 0.1178 , 0.1172 , 0.1178 , 0.1177 , 0.1184 , 0.1182 , 0.1183 , 0.1184 , 0.1181 , 0.1173 , 0.0015 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0015 , 0.0017 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0009 , 0.0010 , 0.0011 , 0.0011 , 0.0011 , 0.0012 , 0.0009 , 0.0005 , 0.0007 , 0.0007 , 0.0005 , 0.0005 , 0.0008 , 0.0008 , 0.0007 , 0.0004 , 0.0005 , 0.0004 , 0.0004 , 0.0004 , 0.0009 , 0.0008 , 0.0009 , ]
-</code></pre>
-                        <h2 id="returns">Returns</h2>
-                        <dl>
-                            <dt><strong><code>values_sep</code></strong> :&ensp;<code>TYPE, list</code></dt>
-                            <dd>DESCRIPTION. Pour le traitement d'un type de capteur (Mac Soufflerie)
-                                La liste de sortie est l'identification des paliers par le remplacement de sa première
-                                valeur par paliers_mark(). Une première boucle nettoie le signal des valeurs aberrantes
-                                Dû à la mesure.
-                                La deuxième boucle identifie les paliers
-                            </dd>
-                        </dl>
-                        <pre><code class="language-python-repl">&gt;&gt;&gt; type(sep_values(a))
-&lt;class 'list'&gt;
-</code></pre>
-                    </div>
+                    <div class="desc"><p>Passage des valeurs (seuil,sensibilite)</p>
+                        <p>seuil
+                            = 0.052 seuil de détection des changements de paliers, le delta entre deux seuils
+                            (delta entre deux moyennes de 7 valeurs)</p>
+                        <p>sensibilite = 0.014 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les
+                            valeurs
+                            qui peuvent polluer le signal (delta entre deux valeurs)</p>
+                        <h2 id="return">return :</h2>
+                        <p>les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types
+                            hélices
+                            20 et 40 m/s (mini et macro).</p></div>
                     <details class="source">
                         <summary>
                             <span>Expand source code</span>
                         </summary>
-                        <pre><code class="python">def sep_values2(sv):
+                        <pre><code class="python">def seuil_capteur1():
+    &#34;&#34;&#34;Passage des valeurs (seuil,sensibilite)
+
+    seuil       = 0.052 seuil de détection des changements de paliers, le delta entre deux seuils
+                    (delta entre deux moyennes de 7 valeurs)
+
+    sensibilite = 0.014 seuil de nettoyage, valeur de bruit du signal, permet d&#39;éliminer les valeurs
+                    qui peuvent polluer le signal (delta entre deux valeurs)
+
+    return :
+    --------
+    les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types hélices
+    20 et 40 m/s (mini et macro).
     &#34;&#34;&#34;
-    Parameters
-    ----------
-    sv : TYPE,list
-        DESCRIPTION.
-        Liste de valeurs décimales, ayant la forme d&#39;un signal carré ascendant puis descendant
-        (données expérimentales).
-    &gt;&gt;&gt; a = [0.0015  ,0.0015 ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015 , 0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015 , 0.0015  ,0.0015  ,0.0015  ,0.0015  ,0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0015 , 0.0206 , 0.0779 , 0.1577 , 0.1747 , 0.1769 , 0.1675 , 0.1447 , 0.1294 , 0.1219 , 0.1193 , 0.1187 , 0.1179 , 0.1174 , 0.1175 , 0.1172 , 0.1168 , 0.1169 , 0.1165 , 0.1166 , 0.1167 , 0.1168 , 0.1173 , 0.1176 , 0.1168 , 0.1176 , 0.1172 , 0.1173 , 0.1171 , 0.1165 , 0.1172 , 0.1173 , 0.1174 , 0.1172 , 0.1175 , 0.1177 , 0.1172 , 0.1173 , 0.1173 , 0.1176 , 0.1178 , 0.1173 , 0.1174 , 0.1174 , 0.1172 , 0.1173 , 0.1173 , 0.1174 , 0.1173 , 0.1169 , 0.1171 , 0.1174 , 0.1171 , 0.1172 , 0.1173 , 0.1164 , 0.1164 , 0.1165 , 0.1164 , 0.1165 , 0.1168 , 0.1171 , 0.1172 , 0.1171 , 0.1172 , 0.1177 , 0.1175 , 0.1174 , 0.1176 , 0.1173 , 0.1173 , 0.1171 , 0.1171 , 0.1168 , 0.1167 , 0.1169 , 0.1169 , 0.1169 , 0.1171 , 0.1172 , 0.1173 , 0.2008 , 0.2177 , 0.2205 , 0.2219 , 0.2236 , 0.2237 , 0.2216 , 0.2217 , 0.2216 , 0.2225 , 0.2242 , 0.2231 , 0.2226 , 0.2233 , 0.2225 , 0.2228 , 0.2239 , 0.2239 , 0.2245 , 0.2231 , 0.2228 , 0.2233 , 0.2237 , 0.2238 , 0.2232 , 0.2228 , 0.2236 , 0.3808 , 0.4189 , 0.4319 , 0.4338 , 0.4339 , 0.4307 , 0.4313 , 0.4342 , 0.4319 , 0.4332 , 0.4333 , 0.4329 , 0.4358 , 0.4366 , 0.4353 , 0.4343 , 0.4343 , 0.4337 , 0.4341 , 0.4363 , 0.4318 , 0.4319 , 0.4322 , 0.4312 , 0.4334 , 0.4333 , 0.4334 , 0.4322 , 0.4359 , 0.4337 , 0.4319 , 0.4313 , 0.4325 , 0.4317 , 0.4313 , 0.4307 , 0.4318 , 0.4283 , 0.5441 , 0.6355 , 0.6491 , 0.6531 , 0.6504 , 0.6537 , 0.6538 , 0.6546 , 0.6529 , 0.6537 , 0.6538 , 0.6539 , 0.6539 , 0.6538 , 0.6539 , 0.6539 , 0.6539 , 0.6539 , 0.6534 , 0.6538 , 0.6539 , 0.6534 , 0.6535 , 0.6534 , 0.6525 , 0.6528 , 0.6529 , 0.6554 , 0.6558 , 0.6559 , 0.5521 , 0.4593 , 0.4364 , 0.4325 , 0.4279 , 0.4299 , 0.4287 , 0.4307 , 0.4308 , 0.4309 , 0.4311 , 0.4321 , 0.4328 , 0.4282 , 0.4285 , 0.4324 , 0.4331 , 0.4317 , 0.4328 , 0.4328 , 0.4313 , 0.4332 , 0.4321 , 0.4321 , 0.4351 , 0.4287 , 0.4336 , 0.4304 , 0.4318 , 0.4275 , 0.4271 , 0.4239 , 0.4237 , 0.4054 , 0.2998 , 0.2448 , 0.2449 , 0.2193 , 0.2205 , 0.2189 , 0.2175 , 0.2191 , 0.2197 , 0.2202 , 0.2194 , 0.2189 , 0.2184 , 0.2174 , 0.2179 , 0.2180 , 0.2179 , 0.2195 , 0.2194 , 0.2187 , 0.2211 , 0.2206 , 0.2207 , 0.2212 , 0.2205 , 0.2207 , 0.2208 , 0.2206 , 0.2204 , 0.2195 , 0.2209 , 0.2210 , 0.2203 , 0.2204 , 0.2116 , 0.1881 , 0.18 , 0.1771 , 0.1754 , 0.1606 , 0.1391 , 0.1261 , 0.1209 , 0.1192 , 0.1181 , 0.1181 , 0.1182 , 0.1178 , 0.1175 , 0.1176 , 0.1167 , 0.1179 , 0.1180 , 0.1174 , 0.1174 , 0.1177 , 0.1178 , 0.1176 , 0.1178 , 0.1172 , 0.1178 , 0.1177 , 0.1184 , 0.1182 , 0.1183 , 0.1184 , 0.1181 , 0.1173 , 0.0015 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0015 , 0.0017 , 0.0014 , 0.0014 , 0.0014 , 0.0014 , 0.0009 , 0.0010 , 0.0011 , 0.0011 , 0.0011 , 0.0012 , 0.0009 , 0.0005 , 0.0007 , 0.0007 , 0.0005 , 0.0005 , 0.0008 , 0.0008 , 0.0007 , 0.0004 , 0.0005 , 0.0004 , 0.0004 , 0.0004 , 0.0009 , 0.0008 , 0.0009 , ]
+    return(0.052,0.014)</code></pre>
+                    </details>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionsSignal.seuil_capteur2"><code class="name flex">
+                    <span>def <span class="ident">seuil_capteur2</span></span>(<span>)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Passage des valeurs (seuil,sensibilite)</p>
+                        <p>seuil
+                            = 0.5 seuil de détection des changements de paliers, le delta entre deux seuils
+                            (delta entre deux moyennes de 7 valeurs)</p>
+                        <p>sensibilite = 0.21 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les
+                            valeurs
+                            qui peuvent polluer le signal (delta entre deux valeurs)</p>
+                        <h2 id="return">return :</h2>
+                        <p>les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types
+                            MacCaffrey.</p></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def seuil_capteur2():
+    &#34;&#34;&#34;Passage des valeurs (seuil,sensibilite)
 
-    Returns
-    -------
-    values_sep : TYPE, list
-        DESCRIPTION. Pour le traitement d&#39;un type de capteur (Mac Soufflerie)
-        La liste de sortie est l&#39;identification des paliers par le remplacement de sa première
-        valeur par paliers_mark(). Une première boucle nettoie le signal des valeurs aberrantes
-        Dû à la mesure.
-        La deuxième boucle identifie les paliers
-    &gt;&gt;&gt; type(sep_values(a))
-    &lt;class &#39;list&#39;&gt;
+    seuil       = 0.5 seuil de détection des changements de paliers, le delta entre deux seuils
+                    (delta entre deux moyennes de 7 valeurs)
 
+    sensibilite = 0.21 seuil de nettoyage, valeur de bruit du signal, permet d&#39;éliminer les valeurs
+                    qui peuvent polluer le signal (delta entre deux valeurs)
+
+    return :
+    --------
+    les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types MacCaffrey.
     &#34;&#34;&#34;
-    seuil = 0.5  # seuil de détection des changements de paliers
-    sensibilite = 0.21  # seuil de nettoyage
-    nb_values = len(sv)
-    values_sep = list()  # Donne brute avec identification des étages
-    nb_remplacement = 1
-
-    for i in range(nb_values - abs(nb_remplacement) - 5):
-        if abs(sv[i + 5] - sv[
-            i]) &lt; sensibilite:  # attention le i+x (5) est à mettre en accord avec les valeurs d&#39;exclusion des moyenne et ecartype du pdf et de l&#39;interface graphique
-            sv[i] = sv[i]
-        else:
-            sv[i] = sv[i - nb_remplacement]
-
-    for i in range(nb_values - 1):
-        if abs(sv[i + 1] - sv[i]) &gt; seuil or abs(sv[i] - sv[i + 1]) &gt; seuil:
-            values_sep.append(paliers_mark())
-        else:
-            values_sep.append(sv[i])
-    return values_sep</code></pre>
+    return(0.5, 0.21)</code></pre>
                     </details>
                 </dd>
                 <dt id="Sensorem_Beta-C.FonctionsSignal.traitement_general_donnees"><code class="name flex">
@@ -956,29 +872,7 @@ if __name__ == &#34;__main__&#34;:
                     </details>
                 </dd>
                 <dt id="Sensorem_Beta-C.FonctionsSignal.traitement_signal"><code class="name flex">
-                    <span>def <span class="ident">traitement_signal</span></span>(<span>data)</span>
-                </code></dt>
-                <dd>
-                    <div class="desc"><p>Fonction générale qui appel les traitements des données, pour le capteur à
-                        raccorder</p></div>
-                    <details class="source">
-                        <summary>
-                            <span>Expand source code</span>
-                        </summary>
-                        <pre><code class="python">def traitement_signal(data):
-    &#34;&#34;&#34;Fonction générale qui appel les traitements des données, pour le capteur à raccorder
-
-    &#34;&#34;&#34;
-    # identification des paliers
-    values_sep = sep_values(data)
-    paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
-    paliers = make_paliers(paliers_find, plage_len_find)
-    values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
-    return values_sep_paliers, data, values_sep, paliers_find</code></pre>
-                    </details>
-                </dd>
-                <dt id="Sensorem_Beta-C.FonctionsSignal.traitement_signal2"><code class="name flex">
-                    <span>def <span class="ident">traitement_signal2</span></span>(<span>data)</span>
+                    <span>def <span class="ident">traitement_signal</span></span>(<span>data, func_capt)</span>
                 </code></dt>
                 <dd>
                     <div class="desc"><p>TBC</p></div>
@@ -986,12 +880,12 @@ if __name__ == &#34;__main__&#34;:
                         <summary>
                             <span>Expand source code</span>
                         </summary>
-                        <pre><code class="python">def traitement_signal2(data):
+                        <pre><code class="python">def traitement_signal(data,func_capt):
     &#34;&#34;&#34;
     TBC
     &#34;&#34;&#34;
     # identification des paliers
-    values_sep = sep_values2(data)
+    values_sep = sep_values(data,func_capt)
     paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
     paliers = make_paliers(paliers_find, plage_len_find)
     values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
@@ -1049,22 +943,19 @@ if __name__ == &#34;__main__&#34;:
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.prep_donnees_graph"
                                  title="Sensorem_Beta-C.FonctionsSignal.prep_donnees_graph">prep_donnees_graph</a></code>
                     </li>
-                    <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.readColCSV"
-                                 title="Sensorem_Beta-C.FonctionsSignal.readColCSV">readColCSV</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.readColCSV1"
                                  title="Sensorem_Beta-C.FonctionsSignal.readColCSV1">readColCSV1</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.sep_values"
                                  title="Sensorem_Beta-C.FonctionsSignal.sep_values">sep_values</a></code></li>
-                    <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.sep_values2"
-                                 title="Sensorem_Beta-C.FonctionsSignal.sep_values2">sep_values2</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.seuil_capteur1"
+                                 title="Sensorem_Beta-C.FonctionsSignal.seuil_capteur1">seuil_capteur1</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.seuil_capteur2"
+                                 title="Sensorem_Beta-C.FonctionsSignal.seuil_capteur2">seuil_capteur2</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.traitement_general_donnees"
                                  title="Sensorem_Beta-C.FonctionsSignal.traitement_general_donnees">traitement_general_donnees</a></code>
                     </li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.traitement_signal"
                                  title="Sensorem_Beta-C.FonctionsSignal.traitement_signal">traitement_signal</a></code>
-                    </li>
-                    <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.traitement_signal2"
-                                 title="Sensorem_Beta-C.FonctionsSignal.traitement_signal2">traitement_signal2</a></code>
                     </li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.version"
                                  title="Sensorem_Beta-C.FonctionsSignal.version">version</a></code></li>

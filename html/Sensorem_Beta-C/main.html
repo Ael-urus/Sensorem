@@ -36,8 +36,9 @@
         <section id="section-intro">
             <p>Created on Mon May 4 18:02:18 2020
                 @author : Aelurus</p>
-            <p>Il faut sortir les fonctions du main et les appeler depuis le fichier FonctionGui,
-                mais je rencontre plein de bug en faisant la manip, quelque chose m'échappe.</p>
+            <p>Il faut sortir les fonctions du 'main.py' et les appeler depuis le fichier FonctionGui,
+                mais je rencontre plein de bug en faisant la manip, quelque chose m'échappe. Mais super bruno à la
+                soluce&hellip;</p>
             <details class="source">
                 <summary>
                     <span>Expand source code</span>
@@ -49,8 +50,8 @@
 Created on Mon May 4 18:02:18 2020
 @author : Aelurus
 
-Il faut sortir les fonctions du main et les appeler depuis le fichier FonctionGui,
-mais je rencontre plein de bug en faisant la manip, quelque chose m&#39;échappe.
+Il faut sortir les fonctions du &#39;main.py&#39; et les appeler depuis le fichier FonctionGui,
+mais je rencontre plein de bug en faisant la manip, quelque chose m&#39;échappe. Mais super bruno à la soluce...
 
 &#34;&#34;&#34;
 try:
@@ -62,6 +63,7 @@ try:
     from tkinter import filedialog, END, Frame, Canvas, TOP, BOTH, NS, EW, INSERT, Tk, Label, \
         Entry, StringVar, Button, Scrollbar, Listbox, VERTICAL, W, E
     import FonctionsSignal as fs
+    # import FonctionGui as fgui
     import FonctionPdf as pdf
     from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
     from statistics import mean, pstdev
@@ -72,8 +74,6 @@ except Exception as e:
 
 
 # zone de définition des fonctions
-
-
 def choisir_dossier():
     &#34;&#34;&#34;Ouvre un dialogue de sélection de répertoire
         voir http://tkinter.unpythonic.net/wiki/tkFileDialog
@@ -100,7 +100,6 @@ def choisir_dossier():
 
 # end def
 
-
 def remplir_liste(dossier):
     &#34;&#34;&#34;Remplit la liste de fichiers à partir de l&#39;emplacement
         @dossier fourni en paramètre de fonction
@@ -114,6 +113,8 @@ def remplir_liste(dossier):
     liste_fichiers.sort()  # tri par ordre alphabetic
     # on met à jour la listbox à travers la variable de contrôle
     cvar_fichiers.set(&#34; &#34;.join(map(os.path.basename, liste_fichiers)))
+
+
 # end def
 
 
@@ -126,6 +127,7 @@ def normaliser(chemin, *args):
     chemin (str) :
     &#34;&#34;&#34;
     return os.path.normpath(os.path.join(chemin, *args))
+
 
 # end def
 
@@ -147,7 +149,7 @@ def afficher_fichier(event):
         affichage_texte1.delete(&#34;1.0&#34;, END)
         try:
             # oui, on peut l&#39;ouvrir en forçant l&#39;encodage UTF8
-            with codecs.open(fichier, &#39;r&#39;, encoding=&#39;utf-8&#39;,
+            with codecs.open(fichier, &#39;r&#39;, encoding=&#39;ANSI&#39;,
                              errors=&#39;ignore&#39;) as file_in:
                 # on efface d&#39;abord la zone de texte
                 affichage_texte.delete(&#34;1.0&#34;, END)
@@ -157,18 +159,19 @@ def afficher_fichier(event):
                 fig = plt.figure(1, figsize=(6, 3))
                 # y = []
                 plt.clf()
-                y = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile1)
+                y = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1)
                 if y:
-                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
+                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y,fs.seuil_capteur1())
                     plt.plot(y, linewidth=0.5)
                 else:
                     plt.clf()
                     # values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
                     plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
                 # traitement deuxieme capteur
-                y2 = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile2)
+                y2 = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2)
                 if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal2(y2)
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,
+                                                                                                         fs.seuil_capteur2())
 
                     plt.plot(y2, &#39;r&#39;, linewidth=0.5)
 
@@ -176,10 +179,11 @@ def afficher_fichier(event):
                     # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
                     plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
 
-                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes, entre 2 ouvertures de fichier
+                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
+                # entre 2 ouvertures de fichier
                 global remove_canvs
 
-                if (remove_canvs != []):
+                if remove_canvs:
                     for icanv in remove_canvs:
                         icanv.destroy()
                     remove_canvs = []
@@ -206,19 +210,23 @@ def afficher_fichier(event):
 
                 values_capteurs = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1))
                 values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2))
-
-                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf, sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
+                
+                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf,
+                # sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
                 datat1 = [entete[0]]
                 datat2 = [entete[0]]
 
-                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf:
-                # Le pre-traitement des données (calcul des variables dérivées) est le même (utilisation de traitement_general_donnees), mais la mise en forme est différente (preparation de datat1 et datat2)
+                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf :
+                # Le pre-traitement des données (calcul des variables dérivées)
+                # est le même (utilisation de traitement_general_donnees),
+                # mais la mise en forme est différente (preparation de datat1 et datat2)
                 for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
                     values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(
-                        values_capteurs.get(capteur))
-                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal2(
-                        values_capteurs2.get(capteur2))
+                        values_capteurs.get(capteur), fs.seuil_capteur1())
+                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(
+                        values_capteurs2.get(capteur2), fs.seuil_capteur2())
                     #
+                    
                     donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
                                                                      values_sep_paliers2, entete)
                     #
@@ -273,7 +281,6 @@ def destroy_fenetre():
     ok Bruno tu as rajouté le plt.close&#34;&#34;&#34;
     plt.close()
     fenetre.destroy()
-
 
 def lance_traitement_pdf():
     &#34;&#34;&#34;Lance execution de la génération du pdf aprés quelques vérifications
@@ -332,11 +339,12 @@ def on_closing():
 # ------------------------------------------------------------------------------------
 # début de la fenêtre de selection
 # init variables globales
-
 dossier_actuel = &#34;&#34;
 motif_fichiers = &#34;*.csv&#34;
-varidxinfile1 = 2  # index de variable d&#39;intérêt 1 dans les fichiers bruts
-varidxinfile2 = 10  # index de variable d&#39;intérêt 2 dans les fichiers bruts
+# index de variable d&#39;intérêt 1 dans les fichiers bruts
+varidxinfile1 = 2
+# index de variable d&#39;intérêt 2 dans les fichiers bruts
+varidxinfile2 = 10
 
 # on commence par établir l&#39;interface graphique (GUI)
 # on crée la fenêtre principale
@@ -401,8 +409,7 @@ liste_fichiers.bind(&#34;&lt;ButtonRelease-1&gt;&#34;, afficher_fichier)
 Button(
     conteneur_fichiers,
     text=&#34;          Sélectionner un dossier                         &#34;,
-    command=choisir_dossier,
-).grid(row=2, column=0)
+    command=choisir_dossier, ).grid(row=2, column=0)
 # on place le conteneur dans la fenêtre principale
 # avec des marges padx et pady
 conteneur_fichiers.grid(row=1, column=0, sticky=NS + EW, padx=5, pady=5)
@@ -507,7 +514,7 @@ fenetre.mainloop()</code></pre>
         affichage_texte1.delete(&#34;1.0&#34;, END)
         try:
             # oui, on peut l&#39;ouvrir en forçant l&#39;encodage UTF8
-            with codecs.open(fichier, &#39;r&#39;, encoding=&#39;utf-8&#39;,
+            with codecs.open(fichier, &#39;r&#39;, encoding=&#39;ANSI&#39;,
                              errors=&#39;ignore&#39;) as file_in:
                 # on efface d&#39;abord la zone de texte
                 affichage_texte.delete(&#34;1.0&#34;, END)
@@ -517,18 +524,19 @@ fenetre.mainloop()</code></pre>
                 fig = plt.figure(1, figsize=(6, 3))
                 # y = []
                 plt.clf()
-                y = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile1)
+                y = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1)
                 if y:
-                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
+                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y,fs.seuil_capteur1())
                     plt.plot(y, linewidth=0.5)
                 else:
                     plt.clf()
                     # values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
                     plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
                 # traitement deuxieme capteur
-                y2 = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile2)
+                y2 = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2)
                 if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal2(y2)
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,
+                                                                                                         fs.seuil_capteur2())
 
                     plt.plot(y2, &#39;r&#39;, linewidth=0.5)
 
@@ -536,10 +544,11 @@ fenetre.mainloop()</code></pre>
                     # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
                     plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
 
-                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes, entre 2 ouvertures de fichier
+                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
+                # entre 2 ouvertures de fichier
                 global remove_canvs
 
-                if (remove_canvs != []):
+                if remove_canvs:
                     for icanv in remove_canvs:
                         icanv.destroy()
                     remove_canvs = []
@@ -566,19 +575,23 @@ fenetre.mainloop()</code></pre>
 
                 values_capteurs = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1))
                 values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2))
-
-                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf, sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
+                
+                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf,
+                # sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
                 datat1 = [entete[0]]
                 datat2 = [entete[0]]
 
-                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf:
-                # Le pre-traitement des données (calcul des variables dérivées) est le même (utilisation de traitement_general_donnees), mais la mise en forme est différente (preparation de datat1 et datat2)
+                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf :
+                # Le pre-traitement des données (calcul des variables dérivées)
+                # est le même (utilisation de traitement_general_donnees),
+                # mais la mise en forme est différente (preparation de datat1 et datat2)
                 for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
                     values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(
-                        values_capteurs.get(capteur))
-                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal2(
-                        values_capteurs2.get(capteur2))
+                        values_capteurs.get(capteur), fs.seuil_capteur1())
+                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(
+                        values_capteurs2.get(capteur2), fs.seuil_capteur2())
                     #
+                    
                     donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
                                                                      values_sep_paliers2, entete)
                     #
