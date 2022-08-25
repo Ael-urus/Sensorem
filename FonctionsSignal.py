@@ -2,7 +2,8 @@
 """
 Created on Wed Apr 15 11:10:34 2020
 
-@author: Aelurus
+
+@author : Aelurus
 
 @contributor: Bruno
 
