@@ -20,7 +20,7 @@ except Exception as e:
     print(e)
     input('***')
 
-
+print('coucou')
 
 fgui.Initialize()
 fgui.MainLoop()
