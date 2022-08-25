@@ -226,9 +226,9 @@ def sep_values(sv,seuil_capt):
 
 
 def make_paliers2(paliers_find, plage_len_find):
-    """Création  afzegr d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
+    """Création d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
     je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
-    utile pour les graph imlkhl me semble, car les deux biblio de graph prennent pas les mêmes structures je crois
+    utile pour les graph imlkhl me semble, car les deux biblios de graph prennent pas les mêmes structures je crois
     ...
     TBC
     """
