@@ -67,12 +67,15 @@ def readColCSV1(fichier, sep, n):
                 # print(e, n)
                 # print(row[n])
                 # pass
-                col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
+                col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais .....
+                # BGU : problem potentiel quand ligne vide
                 # input('***')
     file.close()
     return col
 
-# determination des coefficients en fonction du nombre de paliers pour la génération de paliers ascendents et descendants
+
+# determination des coefficients en fonction du nombre de paliers
+# pour la génération de paliers ascendents et descendants
 def gen_nom_paliers(n):
     """
     Parametres
@@ -117,10 +120,36 @@ def traitement_signal(data,func_capt):
 
 
 def seuil_capteur1():
-    return(0.052,0.014)
+    """Passage des valeurs (seuil,sensibilite)
+
+    seuil       = 0.052 seuil de détection des changements de paliers, le delta entre deux seuils
+                    (delta entre deux moyennes de 7 valeurs)
+
+    sensibilite = 0.014 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les valeurs
+                    qui peuvent polluer le signal (delta entre deux valeurs)
+
+    return :
+    --------
+    les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types hélices
+    20 et 40 m/s (mini et macro).
+    """
+    return (0.052, 0.014)
+
 
 def seuil_capteur2():
-    return(0.5, 0.21)
+    """Passage des valeurs (seuil,sensibilite)
+
+    seuil       = 0.5 seuil de détection des changements de paliers, le delta entre deux seuils
+                    (delta entre deux moyennes de 7 valeurs)
+
+    sensibilite = 0.21 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les valeurs
+                    qui peuvent polluer le signal (delta entre deux valeurs)
+
+    return :
+    --------
+    les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types MacCaffrey.
+    """
+    return (0.5, 0.21)
 
 
 def sep_values(sv,func_capt):
