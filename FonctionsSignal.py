@@ -20,16 +20,18 @@ except Exception as e:
     print(e)
     input('***')
 
-
-# 1
-
+# on définit la version içi, commentaire et return. :)
 def version():
-    """Retourne le numéro de version du logiciel
+    """Retourne le numéro de version
+
+    ### Return :
+    -----------
+
+    *** 0.4.3 Bêta_c ***
     """
     # definition et passage du numéro de version du traitement
     # version = str(" (0.4.3 Bêta_c)")
     return str(" (0.4.3 Bêta_c)")
-
 
 def prep_donnees_graph(donnees):
     """Retourne une liste d'éléments en listes d'éléments incrémentée,
@@ -47,12 +49,12 @@ def readColCSV1(fichier, sep, n):
     sep <str> : Le séparateur des colonnes par exemple -> ";"
     n <int> : Le numéro de la colonne à lire
 
-    retourne les valeurs de la colone du fichier en remplacant le separateur de
+    Retourne les valeurs de la colone du fichier en remplacant le separateur de
     decimal de , a . si besoin.
     Ignore les valeurs non int
     Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier
 
-    >>> readColCSV1 ("DebudFindeFichier.csv", ";", 2)
+    >>> suppr_txt(readColCSV1 ("DebudFindeFichier.csv", ";", 2))
     [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
     """
     file = open(fichier, "r")
@@ -109,6 +111,22 @@ def paliers_mark():
 
 
 def suppr_txt(data0):
+    """Fonction qui permet d'enlever les noms des capteurs des données brutes,
+    pour ne pas faire planter le tracé 'Données brutes du Gui'.
+
+    Variable :
+    ----------
+
+    data : list
+
+    les données de la mesure du capteur avec des valeurs str et float
+
+     Return :
+    ----------
+
+    data : list
+        les données de la mesure du capteur ou toutes les valeurs str sont supprimés
+    """
     data = []
     for i in data0:
         try:
@@ -117,24 +135,6 @@ def suppr_txt(data0):
             pass
 
     return data
-
-
-
-
-
-def make_paliers2(paliers_find, plage_len_find):
-    """Création  efzfe d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
-    je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
-    utile pour les graph il me semble, car les deux biblio de graph prennent pas les mêmes structures je crois
-    ...
-    TBC
-    """
-    paliers = list([0] * paliers_find)*2
-    for i in range(len(paliers)):
-        paliers[i] = list([0] * plage_len_find[i])
-    return paliers
-
-
 
 ######
 def traitement_signal(data0, seuil_capt):
@@ -163,7 +163,6 @@ def traitement_signal(data0, seuil_capt):
     values_sep_paliers = paliers_values_sep(values_sep, nb_values, paliers)
     return values_sep_paliers, data, values_sep, paliers_find
 
-
 def seuil_capteur1():
     """Passage des valeurs (seuil,sensibilite)
 
@@ -180,7 +179,6 @@ def seuil_capteur1():
     """
     return (0.052, 0.014)
 
-
 def seuil_capteur2():
     """Passage des valeurs (seuil,sensibilite)
 
@@ -195,7 +193,6 @@ def seuil_capteur2():
     les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types MacCaffrey.
     """
     return (0.5, 0.21)
-
 
 def sep_values(sv,seuil_capt):
     """
@@ -215,11 +212,11 @@ def sep_values(sv,seuil_capt):
         valeur par paliers_mark(). Une première boucle nettoie le signal des valeurs aberrantes
         Dû à la mesure.
         La deuxième boucle identifie les paliers
-    >>> type(sep_values(a))
+    >>> type(sep_values(a, seuil_capteur2()))
     <class 'list'>
 
     """
-    seuil,sensibilite=seuil_capt
+    seuil, sensibilite = seuil_capt
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
@@ -236,26 +233,6 @@ def sep_values(sv,seuil_capt):
         else:
             values_sep.append(sv[i])
     return values_sep
-
-
-
-
-
-
-
-def make_paliers2(paliers_find, plage_len_find):
-    """Création d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
-    je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
-    utile pour les graph imlkhl me semble, car les deux biblios de graph prennent pas les mêmes structures je crois
-    ...
-    TBC
-    """
-    paliers = list([0] * paliers_find)*2
-    for i in range(len(paliers)):
-        paliers[i] = list([0] * plage_len_find[i])
-    return paliers
-
-
 
 # Recuperation des valeurs generer avec separation par etages
 def info_values(iv):
@@ -291,8 +268,6 @@ def info_values(iv):
             count = count + 1
     return [paliers_find, plage_len_find, nb_values, values_sep]
 
-
-
 # creation de la liste du nombre de paliers avec la taille
 def make_paliers(paliers_find, plage_len_find):
     """Création d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
@@ -305,7 +280,6 @@ def make_paliers(paliers_find, plage_len_find):
     for i in range(len(paliers)):
         paliers[i] = list([0] * plage_len_find[i])
     return paliers
-
 
 # Passage de données separer, en liste des tableaux remplis
 def paliers_values_sep(values_sep, nb_values, paliers):
@@ -325,7 +299,6 @@ def paliers_values_sep(values_sep, nb_values, paliers):
             values_paliers[count][nb] = values_sep[i]
             nb = nb + 1
     return values_paliers
-
 
 # Retour une liste des données des capteurs en sous list de données par capteurs
 def isol_capteurs(values):
@@ -348,7 +321,6 @@ def isol_capteurs(values):
         else:
             raise KeyError("error in the first item")
     return (values_capteurs)  # retourne un dic des noms de capteur avec les valeurs
-
 
 def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, values_sep_paliers2, entete):
     """Calcule les moyennes et écart-types pour remplir les tabs -
@@ -390,7 +362,6 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
             ecartype[i] = pstdev(values_sep_paliers[i][7: -7]) * 1000
             donneestraitees2[i] = ('Oups', str(round(moyenne[i], 4)), str(round(ecartype[i], 4)), "Oups")
     return donneestraitees2
-
 
 if __name__ == "__main__":
     testmod()

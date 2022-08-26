@@ -9,7 +9,7 @@ Created on Thus Aug  23 15:05:52 2022
 @contributor: Bruno
 """
 try:
-    import sys,os
+    import sys, os
     import codecs
     import glob
     # from tkinter import *
@@ -27,29 +27,29 @@ except Exception as e:
 
 # zone de def des variables
 
-# init variables globales
-"""
-"""
 dossier_actuel = ""
+"""Définition de la variable du chemin du dossier"""
 motif_fichiers = "*.csv"
-varidxinfile1 = 2  # index de variable d'intérêt 1 dans les fichiers bruts
-varidxinfile2 = 10  # index de variable d'intérêt 2 dans les fichiers bruts
+varidxinfile1 = 2
+"""Index de variable d'intérêt 1 dans les fichiers bruts. Joker :)"""
+varidxinfile2 = 10
+"""Index de variable d'intérêt 2 dans les fichiers bruts"""
 
 
 # zone de définition des fonctions
-
 def choisir_dossier():
-    """ouvre un dialogue de sélection de répertoire
+    """Ouvre un dialogue de sélection de répertoire
         voir http://tkinter.unpythonic.net/wiki/tkFileDialog
 
-    Variables
+    ### Variables
     ----------
-    dossier : str
+    `dossier` : str
         Association automatique de l'adresse du chemin selectionner
 
-    Returns
+    ### Returns
     ------
 
+    lance `pdoc.remplir_liste(dossier)`
     """
     dossier = filedialog.askdirectory(
         title="Sélectionnez le dossier de fichier (s) de mesure (s)",
@@ -62,7 +62,6 @@ def choisir_dossier():
         remplir_liste(dossier)
     # end if
 # end def
-
 
 def remplir_liste(dossier):
     """Remplit la liste de fichiers à partir de l'emplacement
@@ -79,7 +78,6 @@ def remplir_liste(dossier):
     cvar_fichiers.set(" ".join(map(os.path.basename, liste_fichiers)))
 # end def
 
-
 def normaliser(chemin, *args):
     """Met un chemin de fichier en conformité avec l'OS utilisé, utile pour nunux"""
     return os.path.normpath(os.path.join(chemin, *args))
@@ -92,9 +90,6 @@ def afficher_fichier(event):
 
     On récupère le nom du fichier
     """
-    
-    print('coucou2')
-    
     fichier = normaliser(
         dossier_actuel,
         liste_fichiers.get(liste_fichiers.curselection() or 0)
@@ -104,7 +99,7 @@ def afficher_fichier(event):
         affichage_texte.delete("1.0", END)
         affichage_texte1.delete("1.0", END)
         try:
-            
+
             # oui, on peut l'ouvrir en forçant l'encodage UTF8
             with codecs.open(fichier, 'r', encoding='ANSI',
                              errors='ignore') as file_in:
@@ -118,8 +113,8 @@ def afficher_fichier(event):
                 #
                 y = fs.readColCSV1(fichier, ";", varidxinfile1)
                 if y:
-                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y,fs.seuil_capteur1())
-                    y=fs.suppr_txt(y)
+                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y, fs.seuil_capteur1())
+                    y = fs.suppr_txt(y)
                     plt.plot(y, linewidth=0.5)
                 else:
                     plt.clf()
@@ -128,8 +123,9 @@ def afficher_fichier(event):
                 # traitement deuxieme capteur
                 y2 = fs.readColCSV1(fichier, ";", varidxinfile2)
                 if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,fs.seuil_capteur2())
-                    y2=fs.suppr_txt(y2)
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,
+                                                                                                         fs.seuil_capteur2())
+                    y2 = fs.suppr_txt(y2)
                     plt.plot(y2, 'r', linewidth=0.5)
 
                 else:
@@ -144,7 +140,7 @@ def afficher_fichier(event):
                     for icanv in remove_canvs:
                         icanv.destroy()
                     remove_canvs = []
-                    
+
                 conteneur_canv = Frame(fenetre)
                 remove_canvs.append(conteneur_canv)
                 # dessin = Canvas(fenetre, bg='white', height=250, width=300)
@@ -157,7 +153,6 @@ def afficher_fichier(event):
                 canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
                 conteneur_canv.grid(row=2, column=0, sticky=NS + EW, padx=5, pady=5)
 
-
                 # on efface d'abord la zone de texte
                 affichage_texte1.delete("1.0", END)
                 affichage_texte1.delete("1.0", END)
@@ -166,11 +161,11 @@ def afficher_fichier(event):
                 #
                 entete = ["--------------------------\nNom capteur\n[N° palier] \tMoyenne [V] \tÉcart-type [mV]"]
 
-                col=fs.readColCSV1(fichier, ";", varidxinfile1)
-                
+                # col = fs.readColCSV1(fichier, ";", varidxinfile1)
+
                 values_capteurs = fs.isol_capteurs(fs.readColCSV1(fichier, ";", varidxinfile1))
                 values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, ";", varidxinfile2))
-                
+
                 # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf,
                 # sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
                 datat1 = [entete[0]]
@@ -186,7 +181,7 @@ def afficher_fichier(event):
                     values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(
                         values_capteurs2.get(capteur2), fs.seuil_capteur2())
                     #
-                    
+
                     donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
                                                                      values_sep_paliers2, entete)
                     #
@@ -197,13 +192,17 @@ def afficher_fichier(event):
                         datat1.append("[" + str(i) + "]\t" + str(d[0]) + "\t" + str(d[1]) + "\n")
                         datat2.append("[" + str(i) + "]\t" + str(d[2]) + "\t" + str(d[3]) + "\n")
                 #
-                affichage_texte1.insert("0.0",
-                                        str(len(values_capteurs.keys())) + " capteur(s) trouvé(s) a raccorder !\n")
+                affichage_texte1.insert("0.0", str(len(values_capteurs.keys()))
+                                        + " capteur(s) trouvé(s) a raccorder !\n")
                 for i, t in enumerate(datat1):
                     affichage_texte1.insert(INSERT, t)
 
-                affichage_texte1.insert("0.0", str(len(
-                    values_capteurs2.keys())) + " capteur(s) de référence(s) trouvé(s) sont !\n")
+                affichage_texte1.insert("0.0", str(len(values_capteurs2.keys()))
+                                        + " mesure(s) de référence(s) trouvé(s) !\n")
+                if len(values_capteurs) == len(values_capteurs2):
+                    affichage_texte1.insert("0.0", " Ok  !\n")
+                else:
+                    affichage_texte1.insert("0.0", "Attention soucis ... !\n")
                 for i, t in enumerate(datat2):
                     affichage_texte1.insert(INSERT, t)
 
@@ -233,26 +232,31 @@ def afficher_fichier(event):
     # end if
 # end def
 
-
 def destroy_fenetre():
-    """Fermeture de la fenetre, pourquoi je ferme le tracer içi ?
-    ok Bruno tu as rajouté le plt.close"""
+    """Fermeture de la fenêtre, pourquoi je ferme le tracer içi ?
+
+        ok ***Bruno*** tu as rajouté le `plt.close`.
+
+    """
     plt.close()
     fenetre.destroy()
 
 def lance_traitement_pdf():
     """Lance execution de la génération du pdf aprés quelques vérifications
 
-    Variables
+    ### Variables
     ----------
-    numero_col_1 : int
-        numero de colonne des premieres données à lire (capteur raccorder)
+    `numero_col_1` : `int`
 
-    numero_col_2 : int
-        numero de colonne des deuxime données à lire (capteur de référence)
+    numero de colonne des premieres données à lire (capteur raccorder)
 
-    nom_utilisateur : trigrame
-        info récupérer
+    `numero_col_2` : `int`
+
+    numero de colonne des deuxime données à lire (capteur de référence)
+
+    `nom_utilisateur` : `str`
+
+    trigrame info récupérer
     """
     fichier = normaliser(
         dossier_actuel,
@@ -278,7 +282,6 @@ def lance_traitement_pdf():
             affichage_texte.tag_add("---LE TRAITEMENT A ECHOUE---", "2.0", "5.0")
             affichage_texte.tag_config("---LE TRAITEMENT A ECHOUE---", background="red", foreground="blue")
 
-
 # On définit la fonction appelée par le info
 def recup_nomutilisateur():
     """Recupere le trigramme"""
@@ -291,18 +294,21 @@ def on_closing():
     """Fermeture de la fenetre, pas utilisé ou doublon de 'destroy_fenetre'
     pas utilisé, Bruno a supp sauf si tu voulais en faire quelque chose."""
     destroy_fenetre()
-    
+
 
 def Initialize():
-    ''' Initialization de la zone graphique GUI'''
-# ------------------------------------------------------------------------------------
+    """Initialization de la zone graphique GUI"""
 
+
+# ------------------------------------------------------------------------------------
 # on commence par établir l'interface graphique (GUI)
 # on crée la fenêtre principale
 fenetre = Tk()
 
 # stockage des 2 canvas des graphes plt, pour suppression dans afficher_dossier avant recréation
 remove_canvs = []
+"""va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
+entre 2 ouvertures de fichier"""
 
 fenetre.title("Traitement-Signal-capteur(s)" + fs.version())
 # SVP, NE FORCEZ PAS LA GÉOMÉTRIE de la fenêtre /!\
@@ -421,10 +427,15 @@ affichage_texte1.grid(row=1, column=1, sticky=NS + EW)
 # fenetre.columnconfigure(1, weight=1)
 fenetre.rowconfigure(1, weight=1)
 
+
 ##############################################################################
 
 def MainLoop():
-    ''' on lance la boucle événementielle principale'''
-    
+    """On lance la boucle événementielle principale"""
+
     remplir_liste(".//")
     fenetre.mainloop()
+
+
+if __name__ == "__main__":
+    print("Il n'y a pas d'autotest ....")

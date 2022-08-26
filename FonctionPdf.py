@@ -652,3 +652,7 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
                             topMargin=3.5,
                             showBoundary=0)
     doc.build(contenue)
+
+
+if __name__ == "__main__":
+    print("Il n'y a pas d'autotest ....")
