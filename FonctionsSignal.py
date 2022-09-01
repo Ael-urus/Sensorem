@@ -119,22 +119,6 @@ def suppr_txt(data0):
 
 
 
-
-
-def make_paliers2(paliers_find, plage_len_find):
-    """Création  efzfe d'une liste avec chaque palier, le passage est obscure sur le pourquoi :)
-    je refais une liste imbriqué avec le nombre de paliers associer à ses valeurs de paliers
-    utile pour les graph il me semble, car les deux biblio de graph prennent pas les mêmes structures je crois
-    ...
-    TBC
-    """
-    paliers = list([0] * paliers_find)*2
-    for i in range(len(paliers)):
-        paliers[i] = list([0] * plage_len_find[i])
-    return paliers
-
-
-
 ######
 def traitement_signal(data0, seuil_capt):
     """Appel et compile tous les traitements du capteur.
