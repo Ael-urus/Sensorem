@@ -6,8 +6,7 @@
     <meta content="pdoc 0.10.0" name="generator"/>
     <title>Sensorem_Beta-C.FonctionGui API documentation</title>
     <meta content="Created on Thus Aug
-23 15:05:52 2022
-@author: Aelurus …" name="description"/>
+23 15:05:52 2022 …" name="description"/>
     <link as="style" crossorigin href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css"
           integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" rel="preload stylesheet">
     <link as="style" crossorigin
@@ -36,9 +35,9 @@
         </header>
         <section id="section-intro">
             <p>Created on Thus Aug
-                23 15:05:52 2022
-                @author: Aelurus</p>
-            <p>Contient toutes les fonctions du main.py . Bon c'est la merde pour sortir les fonctions</p>
+                23 15:05:52 2022</p>
+            <p>@author : Aelurus</p>
+            <p>@contributor: Bruno</p>
             <details class="source">
                 <summary>
                     <span>Expand source code</span>
@@ -48,13 +47,13 @@
 # -*- coding: utf-8 -*-
 &#34;&#34;&#34;
 Created on Thus Aug  23 15:05:52 2022
-@author: Aelurus
 
-Contient toutes les fonctions du main.py . Bon c&#39;est la merde pour sortir les fonctions
+@author : Aelurus
 
+@contributor: Bruno
 &#34;&#34;&#34;
 try:
-    import os
+    import sys, os
     import codecs
     import glob
     # from tkinter import *
@@ -62,8 +61,8 @@ try:
     from tkinter import filedialog, END, Frame, Canvas, TOP, BOTH, NS, EW, INSERT, Tk, Label, \
         Entry, StringVar, Button, Scrollbar, Listbox, VERTICAL, W, E
     import FonctionsSignal as fs
+    from main import version
     import FonctionPdf as pdf
-    import FonctionGui as fg
     from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
     from statistics import mean, pstdev
     import matplotlib.pyplot as plt
@@ -73,31 +72,28 @@ except Exception as e:
 
 # zone de def des variables
 
-# init variables globales
-&#34;&#34;&#34;
 dossier_actuel = &#34;&#34;
-
-
-&#34;&#34;&#34;
+&#34;&#34;&#34;Définition de la variable du chemin du dossier&#34;&#34;&#34;
 motif_fichiers = &#34;*.csv&#34;
-varidxinfile1 = 2  # index de variable d&#39;intérêt 1 dans les fichiers bruts
-varidxinfile2 = 10  # index de variable d&#39;intérêt 2 dans les fichiers bruts
-
+varidxinfile1 = 2
+&#34;&#34;&#34;Index de variable d&#39;intérêt 1 dans les fichiers bruts. Joker :)&#34;&#34;&#34;
+varidxinfile2 = 10
+&#34;&#34;&#34;Index de variable d&#39;intérêt 2 dans les fichiers bruts&#34;&#34;&#34;
 
 # zone de définition des fonctions
-
 def choisir_dossier():
-    &#34;&#34;&#34;ouvre un dialogue de sélection de répertoire
+    &#34;&#34;&#34;Ouvre un dialogue de sélection de répertoire
         voir http://tkinter.unpythonic.net/wiki/tkFileDialog
 
-    Variables
+    ### Variables
     ----------
-    dossier : str
+    `dossier` : str
         Association automatique de l&#39;adresse du chemin selectionner
 
-    Returns
+    ### Returns
     ------
 
+    lance `pdoc.remplir_liste(dossier)`
     &#34;&#34;&#34;
     dossier = filedialog.askdirectory(
         title=&#34;Sélectionnez le dossier de fichier (s) de mesure (s)&#34;,
@@ -110,7 +106,6 @@ def choisir_dossier():
         remplir_liste(dossier)
     # end if
 # end def
-
 
 def remplir_liste(dossier):
     &#34;&#34;&#34;Remplit la liste de fichiers à partir de l&#39;emplacement
@@ -127,15 +122,18 @@ def remplir_liste(dossier):
     cvar_fichiers.set(&#34; &#34;.join(map(os.path.basename, liste_fichiers)))
 # end def
 
-
 def normaliser(chemin, *args):
     &#34;&#34;&#34;Met un chemin de fichier en conformité avec l&#39;OS utilisé, utile pour nunux&#34;&#34;&#34;
     return os.path.normpath(os.path.join(chemin, *args))
 # end def
 
 def afficher_fichier(event):
-    &#34;&#34;&#34;Affiche le contenu du fichier sélectionné.
-    # on récupère le nom du fichier&#34;&#34;&#34;
+    &#34;&#34;&#34;Lecture et affichage du contenu du fichier sélectionné,
+    tentative d&#39;implémentation de l&#39;ouverture avec codec pour passage en Ut8
+    pour nunux.
+
+    On récupère le nom du fichier
+    &#34;&#34;&#34;
     fichier = normaliser(
         dossier_actuel,
         liste_fichiers.get(liste_fichiers.curselection() or 0)
@@ -145,40 +143,44 @@ def afficher_fichier(event):
         affichage_texte.delete(&#34;1.0&#34;, END)
         affichage_texte1.delete(&#34;1.0&#34;, END)
         try:
+
             # oui, on peut l&#39;ouvrir en forçant l&#39;encodage UTF8
-            with codecs.open(fichier, &#39;r&#39;, encoding=&#39;utf-8&#39;,
+            with codecs.open(fichier, &#39;r&#39;, encoding=&#39;ANSI&#39;,
                              errors=&#39;ignore&#39;) as file_in:
                 # on efface d&#39;abord la zone de texte
                 affichage_texte.delete(&#34;1.0&#34;, END)
                 # on insère le nouveau contenu texte du fichier
                 affichage_texte.insert(&#34;1.0&#34;, file_in.read())
-
                 fig = plt.figure(1, figsize=(6, 3))
                 # y = []
                 plt.clf()
-                y = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile1)
+                #
+                y = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1)
                 if y:
-                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
+                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y, fs.seuil_capteur1())
+                    y = fs.suppr_txt(y)
                     plt.plot(y, linewidth=0.5)
                 else:
                     plt.clf()
                     # values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
                     plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
                 # traitement deuxieme capteur
-                y2 = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile2)
+                y2 = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2)
                 if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal2(y2)
-
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,
+                                                                                                         fs.seuil_capteur2())
+                    y2 = fs.suppr_txt(y2)
                     plt.plot(y2, &#39;r&#39;, linewidth=0.5)
 
                 else:
                     # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
                     plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
 
-                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes, entre 2 ouvertures de fichier
+                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
+                # entre 2 ouvertures de fichier
                 global remove_canvs
 
-                if (remove_canvs != []):
+                if remove_canvs:
                     for icanv in remove_canvs:
                         icanv.destroy()
                     remove_canvs = []
@@ -203,21 +205,27 @@ def afficher_fichier(event):
                 #
                 entete = [&#34;--------------------------\nNom capteur\n[N° palier] \tMoyenne [V] \tÉcart-type [mV]&#34;]
 
+                # col = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1)
+
                 values_capteurs = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1))
                 values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2))
 
-                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf, sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
-                datat1 = [entete[0]];
+                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf,
+                # sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
+                datat1 = [entete[0]]
                 datat2 = [entete[0]]
 
-                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf:
-                # Le pre-traitement des données (calcul des variables dérivées) est le même (utilisation de traitement_general_donnees), mais la mise en forme est différente (preparation de datat1 et datat2)
+                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf :
+                # Le pre-traitement des données (calcul des variables dérivées)
+                # est le même (utilisation de traitement_general_donnees),
+                # mais la mise en forme est différente (preparation de datat1 et datat2)
                 for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
                     values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(
-                        values_capteurs.get(capteur))
-                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal2(
-                        values_capteurs2.get(capteur2))
+                        values_capteurs.get(capteur), fs.seuil_capteur1())
+                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(
+                        values_capteurs2.get(capteur2), fs.seuil_capteur2())
                     #
+
                     donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
                                                                      values_sep_paliers2, entete)
                     #
@@ -228,13 +236,17 @@ def afficher_fichier(event):
                         datat1.append(&#34;[&#34; + str(i) + &#34;]\t&#34; + str(d[0]) + &#34;\t&#34; + str(d[1]) + &#34;\n&#34;)
                         datat2.append(&#34;[&#34; + str(i) + &#34;]\t&#34; + str(d[2]) + &#34;\t&#34; + str(d[3]) + &#34;\n&#34;)
                 #
-                affichage_texte1.insert(&#34;0.0&#34;,
-                                        str(len(values_capteurs.keys())) + &#34; capteur(s) trouvé(s) a raccorder !\n&#34;)
+                affichage_texte1.insert(&#34;0.0&#34;,str(len(values_capteurs.keys()))
+                                        + &#34; capteur(s) trouvé(s) a raccorder !\n&#34;)
                 for i, t in enumerate(datat1):
                     affichage_texte1.insert(INSERT, t)
 
-                affichage_texte1.insert(&#34;0.0&#34;, str(len(
-                    values_capteurs2.keys())) + &#34; capteur(s) de référence(s) trouvé(s) sont !\n&#34;)
+                affichage_texte1.insert(&#34;0.0&#34;, str(len(values_capteurs2.keys()))
+                                        + &#34; mesure(s) de référence(s) trouvé(s) !\n&#34;)
+                if len(values_capteurs) == len(values_capteurs2):
+                    affichage_texte1.insert(&#34;0.0&#34;, &#34; Ok  !\n&#34;)
+                else :
+                    affichage_texte1.insert(&#34;0.0&#34;, &#34;Attention soucis ... !\n&#34;)
                 for i, t in enumerate(datat2):
                     affichage_texte1.insert(INSERT, t)
 
@@ -258,30 +270,37 @@ def afficher_fichier(event):
             file_in.close()
 
         except Exception as e:
-            affichage_texte1.insert(INSERT, &#34;Y a Erreur:&#34; + str(e))
+            affichage_texte1.insert(INSERT, &#34;Y a Erreur : &#34; + str(e))
             plt.close()
 
     # end if
 # end def
 
 def destroy_fenetre():
-    &#34;&#34;&#34;Fermeture de la fenetre, pourquoi je ferme le tracer içi ?&#34;&#34;&#34;
+    &#34;&#34;&#34;Fermeture de la fenêtre, pourquoi je ferme le tracer içi ?
+
+        ok ***Bruno*** tu as rajouté le `plt.close`.
+
+    &#34;&#34;&#34;
     plt.close()
     fenetre.destroy()
 
 def lance_traitement_pdf():
     &#34;&#34;&#34;Lance execution de la génération du pdf aprés quelques vérifications
 
-    Variables
+    ### Variables
     ----------
-    numero_col_1 : int
-        numero de colonne des premieres données à lire (capteur raccorder)
+    `numero_col_1` : `int`
 
-    numero_col_2 : int
-        numero de colonne des deuxime données à lire (capteur de référence)
+    numero de colonne des premieres données à lire (capteur raccorder)
 
-    nom_utilisateur : trigrame
-        info récupérer
+    `numero_col_2` : `int`
+
+    numero de colonne des deuxime données à lire (capteur de référence)
+
+    `nom_utilisateur` : `str`
+
+    trigrame info récupérer
     &#34;&#34;&#34;
     fichier = normaliser(
         dossier_actuel,
@@ -292,8 +311,8 @@ def lance_traitement_pdf():
     if os.path.isfile(fichier):
         nom_utilisateur = recup_nomutilisateur()
         # passage des numeros de colonne a lire
-        numero_col_1 = 2  # numero de colonne des premieres données à lire
-        numero_col_2 = 10
+        numero_col_1 = varidxinfile1  # numero de colonne des premieres données à lire
+        numero_col_2 = varidxinfile2
         try:
             pdf.traitement_pdf(dossier_actuel, fichier, nom_utilisateur, numero_col_1, numero_col_2)
             affichage_texte.delete(&#34;1.0&#34;, END)
@@ -307,7 +326,6 @@ def lance_traitement_pdf():
             affichage_texte.tag_add(&#34;---LE TRAITEMENT A ECHOUE---&#34;, &#34;2.0&#34;, &#34;5.0&#34;)
             affichage_texte.tag_config(&#34;---LE TRAITEMENT A ECHOUE---&#34;, background=&#34;red&#34;, foreground=&#34;blue&#34;)
 
-
 # On définit la fonction appelée par le info
 def recup_nomutilisateur():
     &#34;&#34;&#34;Recupere le trigramme&#34;&#34;&#34;
@@ -315,32 +333,233 @@ def recup_nomutilisateur():
     affichage_texte.insert(&#34;1.0&#34;, maZone.get() + &#34;, merci de sélectionner un fichier&#34;)
     return maZone.get()
 
-
 def on_closing():
-    &#34;&#34;&#34;Fermeture de la fenetre, pas utilisé ou doublon de &#39;detroye_fenetre&#39;&#34;&#34;&#34;
-    destroy_fenetre()</code></pre>
+    &#34;&#34;&#34;Fermeture de la fenetre, pas utilisé ou doublon de &#39;destroy_fenetre&#39;
+    pas utilisé, Bruno a supp sauf si tu voulais en faire quelque chose.&#34;&#34;&#34;
+    destroy_fenetre()
+
+def Initialize():
+    &#34;&#34;&#34;Initialization de la zone graphique GUI&#34;&#34;&#34;
+
+# ------------------------------------------------------------------------------------
+# on commence par établir l&#39;interface graphique (GUI)
+# on crée la fenêtre principale
+fenetre = Tk()
+
+# stockage des 2 canvas des graphes plt, pour suppression dans afficher_dossier avant recréation
+remove_canvs = []
+&#34;&#34;&#34;va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
+entre 2 ouvertures de fichier&#34;&#34;&#34;
+
+fenetre.title(&#34;Traitement-Signal-capteur(s)&#34; + version())
+# SVP, NE FORCEZ PAS LA GÉOMÉTRIE de la fenêtre /!\
+# elle va s&#39;adapter toute seule...
+# ~ fenetre.geometry(&#34;1000x800&#34;) --&gt; c&#39;est NON !
+# d&#39;autant plus qu&#39;elle sera REDIMENSIONNABLE ensuite
+# on ajoute des composants graphiques à la fenêtre principale
+# on crée un conteneur pour la gestion des fichiers
+#####
+conteneur_info = Frame(fenetre)
+# On crée un Label
+champLabel_nom = Label(conteneur_info, text=&#34;Nom (Trigramme): &#34;)
+# champLabel_nom.grid(row=0, column=0)
+champLabel_nom.pack(side=&#34;left&#34;)
+# On crée un Entry (zone de saisie)
+maZone = Entry(conteneur_info, width=5)
+# On affiche le Entry dans la fenêtre
+maZone.insert(0, &#34;XXX&#34;)
+maZone.pack(side=&#34;left&#34;)
+
+# On crée un Boutton
+monBouton = Button(conteneur_info, text=&#34;Valide nom&#34;, command=recup_nomutilisateur)
+# On affiche le Button dans la fenêtre
+monBouton.pack()
+# on place le conteneur dans la fenêtre principale
+# avec des marges padx et pady
+conteneur_info.grid(row=0, column=0, sticky=NS + EW, padx=5, pady=5)
+
+##############################################################################
+conteneur_fichiers = Frame(fenetre)
+# on rend le conteneur redimensionnable
+conteneur_fichiers.columnconfigure(0, weight=1)
+conteneur_fichiers.rowconfigure(0, weight=1)
+# on crée une étiquette texte dans ce conteneur
+Label(
+    conteneur_fichiers,
+    text=&#34;Veuillez sélectionner un fichier :&#34;
+).grid(row=0, column=0, sticky=EW)
+# on crée la liste des fichiers
+cvar_fichiers = StringVar()
+liste_fichiers = Listbox(conteneur_fichiers, listvariable=cvar_fichiers)
+liste_fichiers.grid(row=1, column=0, sticky=NS + EW)
+# avec sa scrollbar
+vbar_fichiers = Scrollbar(conteneur_fichiers, orient=VERTICAL)
+vbar_fichiers.grid(row=1, column=1, sticky=NS + W)
+# on connecte la scrollbar à la liste des fichiers
+liste_fichiers.configure(yscrollcommand=vbar_fichiers.set)
+vbar_fichiers.configure(command=liste_fichiers.yview)
+
+# on va gérer l&#39;affichage du fichier sur simple clic
+# sur un fichier de la liste
+liste_fichiers.bind(&#34;&lt;ButtonRelease-1&gt;&#34;, afficher_fichier)
+
+# on crée un bouton de type &#39;Parcourir&#39;
+Button(
+    conteneur_fichiers,
+    text=&#34;          Sélectionner un dossier                         &#34;,
+    command=choisir_dossier, ).grid(row=2, column=0)
+# on place le conteneur dans la fenêtre principale
+# avec des marges padx et pady
+conteneur_fichiers.grid(row=1, column=0, sticky=NS + EW, padx=5, pady=5)
+##############################################################################
+# on crée un conteneur pour l&#39;affichage
+conteneur_affichage = Frame(fenetre)
+# on rend le conteneur redimensionnable
+conteneur_affichage.columnconfigure(0, weight=1)
+conteneur_affichage.rowconfigure(0, weight=1)
+# on crée une étiquette texte dans ce conteneur
+Label(
+    conteneur_affichage,
+    text=&#34;  Voici le contenu du fichier :                       &#34;
+).grid(row=0, column=0, sticky=EW)
+Label(
+    conteneur_affichage,
+    text=&#34; Informations trouvées :                              &#34;
+).grid(row=0, column=1, sticky=EW)
+# on crée la zone d&#39;affichage de texte
+affichage_texte = ScrolledText(
+    conteneur_affichage,
+    bg=&#34;white&#34;,
+    fg=&#34;blue&#34;,
+    font=&#34;sans 9 &#34;,
+    height=10,
+    width=20,
+)
+user = recup_nomutilisateur()
+# affichage_texte.insert(&#34;1.0&#34;,user+&#34;, merci de sélectionner un fichier&#34;)
+affichage_texte.grid(row=1, column=0, sticky=NS + EW)
+
+# on ajoute un bouton &#39;valide&#39;
+Button(
+    conteneur_affichage,
+    text=&#34;Génère le PDF du traitement&#34;,
+    command=lance_traitement_pdf
+).grid(row=2, column=0, sticky=E)
+# on ajoute un bouton &#39;quitter&#39;
+Button(
+    conteneur_affichage,
+    text=&#34;Quitter&#34;,
+    command=destroy_fenetre
+).grid(row=2, column=1, sticky=E)
+# on place le conteneur dans la fenêtre principale
+# avec des marges padx et pady
+conteneur_affichage.grid(row=1, column=1, sticky=NS + EW, padx=5, pady=5)
+# on crée la zone d&#39;affichage de texte
+affichage_texte1 = ScrolledText(
+    conteneur_affichage,
+    bg=&#34;white&#34;,
+    fg=&#34;blue&#34;,
+    font=&#34;sans 9 &#34;,
+    height=10,
+    width=20,
+)
+affichage_texte1.grid(row=1, column=1, sticky=NS + EW)
+# on rend la fenêtre redimensionnable
+# fenetre.columnconfigure(1, weight=1)
+fenetre.rowconfigure(1, weight=1)
+
+##############################################################################
+
+def MainLoop():
+    &#34;&#34;&#34;On lance la boucle événementielle principale&#34;&#34;&#34;
+
+    remplir_liste(&#34;.//&#34;)
+    fenetre.mainloop()
+
+if __name__ == &#34;__main__&#34;:
+    print (&#34;Il n&#39;y a pas d&#39;autotest ....&#34;)</code></pre>
             </details>
         </section>
         <section>
         </section>
         <section>
+            <h2 class="section-title" id="header-variables">Global variables</h2>
+            <dl>
+                <dt id="Sensorem_Beta-C.FonctionGui.dossier_actuel"><code class="name">var <span class="ident">dossier_actuel</span></code>
+                </dt>
+                <dd>
+                    <div class="desc"><p>Définition de la variable du chemin du dossier</p></div>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.remove_canvs"><code class="name">var <span class="ident">remove_canvs</span></code>
+                </dt>
+                <dd>
+                    <div class="desc"><p>va permettre de stocker les canvs à supprimer pour faire un refresh des
+                        graphes,
+                        entre 2 ouvertures de fichier</p></div>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.varidxinfile1"><code class="name">var <span class="ident">varidxinfile1</span></code>
+                </dt>
+                <dd>
+                    <div class="desc"><p>Index de variable d'intérêt 1 dans les fichiers bruts. Joker :)</p></div>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.varidxinfile2"><code class="name">var <span class="ident">varidxinfile2</span></code>
+                </dt>
+                <dd>
+                    <div class="desc"><p>Index de variable d'intérêt 2 dans les fichiers bruts</p></div>
+                </dd>
+            </dl>
         </section>
         <section>
             <h2 class="section-title" id="header-functions">Functions</h2>
             <dl>
+                <dt id="Sensorem_Beta-C.FonctionGui.Initialize"><code class="name flex">
+                    <span>def <span class="ident">Initialize</span></span>(<span>)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Initialization de la zone graphique GUI</p></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def Initialize():
+    &#34;&#34;&#34;Initialization de la zone graphique GUI&#34;&#34;&#34;</code></pre>
+                    </details>
+                </dd>
+                <dt id="Sensorem_Beta-C.FonctionGui.MainLoop"><code class="name flex">
+                    <span>def <span class="ident">MainLoop</span></span>(<span>)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>On lance la boucle événementielle principale</p></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def MainLoop():
+    &#34;&#34;&#34;On lance la boucle événementielle principale&#34;&#34;&#34;
+
+    remplir_liste(&#34;.//&#34;)
+    fenetre.mainloop()</code></pre>
+                    </details>
+                </dd>
                 <dt id="Sensorem_Beta-C.FonctionGui.afficher_fichier"><code class="name flex">
                     <span>def <span class="ident">afficher_fichier</span></span>(<span>event)</span>
                 </code></dt>
                 <dd>
-                    <div class="desc"><p>Affiche le contenu du fichier sélectionné.</p>
-                        <h1 id="on-recupere-le-nom-du-fichier">on récupère le nom du fichier</h1></div>
+                    <div class="desc"><p>Lecture et affichage du contenu du fichier sélectionné,
+                        tentative d'implémentation de l'ouverture avec codec pour passage en Ut8
+                        pour nunux.</p>
+                        <p>On récupère le nom du fichier</p></div>
                     <details class="source">
                         <summary>
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">def afficher_fichier(event):
-    &#34;&#34;&#34;Affiche le contenu du fichier sélectionné.
-    # on récupère le nom du fichier&#34;&#34;&#34;
+    &#34;&#34;&#34;Lecture et affichage du contenu du fichier sélectionné,
+    tentative d&#39;implémentation de l&#39;ouverture avec codec pour passage en Ut8
+    pour nunux.
+
+    On récupère le nom du fichier
+    &#34;&#34;&#34;
     fichier = normaliser(
         dossier_actuel,
         liste_fichiers.get(liste_fichiers.curselection() or 0)
@@ -350,40 +569,44 @@ def on_closing():
         affichage_texte.delete(&#34;1.0&#34;, END)
         affichage_texte1.delete(&#34;1.0&#34;, END)
         try:
+
             # oui, on peut l&#39;ouvrir en forçant l&#39;encodage UTF8
-            with codecs.open(fichier, &#39;r&#39;, encoding=&#39;utf-8&#39;,
+            with codecs.open(fichier, &#39;r&#39;, encoding=&#39;ANSI&#39;,
                              errors=&#39;ignore&#39;) as file_in:
                 # on efface d&#39;abord la zone de texte
                 affichage_texte.delete(&#34;1.0&#34;, END)
                 # on insère le nouveau contenu texte du fichier
                 affichage_texte.insert(&#34;1.0&#34;, file_in.read())
-
                 fig = plt.figure(1, figsize=(6, 3))
                 # y = []
                 plt.clf()
-                y = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile1)
+                #
+                y = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1)
                 if y:
-                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
+                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y, fs.seuil_capteur1())
+                    y = fs.suppr_txt(y)
                     plt.plot(y, linewidth=0.5)
                 else:
                     plt.clf()
                     # values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
                     plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
                 # traitement deuxieme capteur
-                y2 = fs.readColCSV(fichier, &#34;;&#34;, varidxinfile2)
+                y2 = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2)
                 if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal2(y2)
-
+                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,
+                                                                                                         fs.seuil_capteur2())
+                    y2 = fs.suppr_txt(y2)
                     plt.plot(y2, &#39;r&#39;, linewidth=0.5)
 
                 else:
                     # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
                     plt.plot([0], [0], &#39;r&#39;, linewidth=0.5)
 
-                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes, entre 2 ouvertures de fichier
+                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
+                # entre 2 ouvertures de fichier
                 global remove_canvs
 
-                if (remove_canvs != []):
+                if remove_canvs:
                     for icanv in remove_canvs:
                         icanv.destroy()
                     remove_canvs = []
@@ -408,21 +631,27 @@ def on_closing():
                 #
                 entete = [&#34;--------------------------\nNom capteur\n[N° palier] \tMoyenne [V] \tÉcart-type [mV]&#34;]
 
+                # col = fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1)
+
                 values_capteurs = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile1))
                 values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, &#34;;&#34;, varidxinfile2))
 
-                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf, sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
-                datat1 = [entete[0]];
+                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf,
+                # sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
+                datat1 = [entete[0]]
                 datat2 = [entete[0]]
 
-                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf:
-                # Le pre-traitement des données (calcul des variables dérivées) est le même (utilisation de traitement_general_donnees), mais la mise en forme est différente (preparation de datat1 et datat2)
+                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf :
+                # Le pre-traitement des données (calcul des variables dérivées)
+                # est le même (utilisation de traitement_general_donnees),
+                # mais la mise en forme est différente (preparation de datat1 et datat2)
                 for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
                     values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(
-                        values_capteurs.get(capteur))
-                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal2(
-                        values_capteurs2.get(capteur2))
+                        values_capteurs.get(capteur), fs.seuil_capteur1())
+                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(
+                        values_capteurs2.get(capteur2), fs.seuil_capteur2())
                     #
+
                     donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
                                                                      values_sep_paliers2, entete)
                     #
@@ -433,13 +662,17 @@ def on_closing():
                         datat1.append(&#34;[&#34; + str(i) + &#34;]\t&#34; + str(d[0]) + &#34;\t&#34; + str(d[1]) + &#34;\n&#34;)
                         datat2.append(&#34;[&#34; + str(i) + &#34;]\t&#34; + str(d[2]) + &#34;\t&#34; + str(d[3]) + &#34;\n&#34;)
                 #
-                affichage_texte1.insert(&#34;0.0&#34;,
-                                        str(len(values_capteurs.keys())) + &#34; capteur(s) trouvé(s) a raccorder !\n&#34;)
+                affichage_texte1.insert(&#34;0.0&#34;,str(len(values_capteurs.keys()))
+                                        + &#34; capteur(s) trouvé(s) a raccorder !\n&#34;)
                 for i, t in enumerate(datat1):
                     affichage_texte1.insert(INSERT, t)
 
-                affichage_texte1.insert(&#34;0.0&#34;, str(len(
-                    values_capteurs2.keys())) + &#34; capteur(s) de référence(s) trouvé(s) sont !\n&#34;)
+                affichage_texte1.insert(&#34;0.0&#34;, str(len(values_capteurs2.keys()))
+                                        + &#34; mesure(s) de référence(s) trouvé(s) !\n&#34;)
+                if len(values_capteurs) == len(values_capteurs2):
+                    affichage_texte1.insert(&#34;0.0&#34;, &#34; Ok  !\n&#34;)
+                else :
+                    affichage_texte1.insert(&#34;0.0&#34;, &#34;Attention soucis ... !\n&#34;)
                 for i, t in enumerate(datat2):
                     affichage_texte1.insert(INSERT, t)
 
@@ -463,7 +696,7 @@ def on_closing():
             file_in.close()
 
         except Exception as e:
-            affichage_texte1.insert(INSERT, &#34;Y a Erreur:&#34; + str(e))
+            affichage_texte1.insert(INSERT, &#34;Y a Erreur : &#34; + str(e))
             plt.close()
 
     # end if</code></pre>
@@ -473,29 +706,33 @@ def on_closing():
                     <span>def <span class="ident">choisir_dossier</span></span>(<span>)</span>
                 </code></dt>
                 <dd>
-                    <div class="desc"><p>ouvre un dialogue de sélection de répertoire
+                    <div class="desc"><p>Ouvre un dialogue de sélection de répertoire
                         voir <a href="http://tkinter.unpythonic.net/wiki/tkFileDialog">http://tkinter.unpythonic.net/wiki/tkFileDialog</a>
                     </p>
-                        <h2 id="variables">Variables</h2>
-                        <p>dossier : str
+                        <h3 id="variables">Variables</h3>
+                        <hr>
+                        <p><code>dossier</code> : str
                             Association automatique de l'adresse du chemin selectionner</p>
-                        <h2 id="returns">Returns</h2></div>
+                        <h3 id="returns">Returns</h3>
+                        <hr>
+                        <p>lance <code>pdoc.remplir_liste(dossier)</code></p></div>
                     <details class="source">
                         <summary>
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">def choisir_dossier():
-    &#34;&#34;&#34;ouvre un dialogue de sélection de répertoire
+    &#34;&#34;&#34;Ouvre un dialogue de sélection de répertoire
         voir http://tkinter.unpythonic.net/wiki/tkFileDialog
 
-    Variables
+    ### Variables
     ----------
-    dossier : str
+    `dossier` : str
         Association automatique de l&#39;adresse du chemin selectionner
 
-    Returns
+    ### Returns
     ------
 
+    lance `pdoc.remplir_liste(dossier)`
     &#34;&#34;&#34;
     dossier = filedialog.askdirectory(
         title=&#34;Sélectionnez le dossier de fichier (s) de mesure (s)&#34;,
@@ -513,13 +750,18 @@ def on_closing():
                     <span>def <span class="ident">destroy_fenetre</span></span>(<span>)</span>
                 </code></dt>
                 <dd>
-                    <div class="desc"><p>Fermeture de la fenetre, pourquoi je ferme le tracer içi ?</p></div>
+                    <div class="desc"><p>Fermeture de la fenêtre, pourquoi je ferme le tracer içi ?</p>
+                        <p>ok <strong><em>Bruno</em></strong> tu as rajouté le <code>plt.close</code>.</p></div>
                     <details class="source">
                         <summary>
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">def destroy_fenetre():
-    &#34;&#34;&#34;Fermeture de la fenetre, pourquoi je ferme le tracer içi ?&#34;&#34;&#34;
+    &#34;&#34;&#34;Fermeture de la fenêtre, pourquoi je ferme le tracer içi ?
+
+        ok ***Bruno*** tu as rajouté le `plt.close`.
+
+    &#34;&#34;&#34;
     plt.close()
     fenetre.destroy()</code></pre>
                     </details>
@@ -529,13 +771,14 @@ def on_closing():
                 </code></dt>
                 <dd>
                     <div class="desc"><p>Lance execution de la génération du pdf aprés quelques vérifications</p>
-                        <h2 id="variables">Variables</h2>
-                        <p>numero_col_1 : int
-                            numero de colonne des premieres données à lire (capteur raccorder)</p>
-                        <p>numero_col_2 : int
-                            numero de colonne des deuxime données à lire (capteur de référence)</p>
-                        <p>nom_utilisateur : trigrame
-                            info récupérer</p></div>
+                        <h3 id="variables">Variables</h3>
+                        <hr>
+                        <p><code>numero_col_1</code> : <code>int</code></p>
+                        <p>numero de colonne des premieres données à lire (capteur raccorder)</p>
+                        <p><code>numero_col_2</code> : <code>int</code></p>
+                        <p>numero de colonne des deuxime données à lire (capteur de référence)</p>
+                        <p><code>nom_utilisateur</code> : <code>str</code></p>
+                        <p>trigrame info récupérer</p></div>
                     <details class="source">
                         <summary>
                             <span>Expand source code</span>
@@ -543,16 +786,19 @@ def on_closing():
                         <pre><code class="python">def lance_traitement_pdf():
     &#34;&#34;&#34;Lance execution de la génération du pdf aprés quelques vérifications
 
-    Variables
+    ### Variables
     ----------
-    numero_col_1 : int
-        numero de colonne des premieres données à lire (capteur raccorder)
+    `numero_col_1` : `int`
 
-    numero_col_2 : int
-        numero de colonne des deuxime données à lire (capteur de référence)
+    numero de colonne des premieres données à lire (capteur raccorder)
 
-    nom_utilisateur : trigrame
-        info récupérer
+    `numero_col_2` : `int`
+
+    numero de colonne des deuxime données à lire (capteur de référence)
+
+    `nom_utilisateur` : `str`
+
+    trigrame info récupérer
     &#34;&#34;&#34;
     fichier = normaliser(
         dossier_actuel,
@@ -563,8 +809,8 @@ def on_closing():
     if os.path.isfile(fichier):
         nom_utilisateur = recup_nomutilisateur()
         # passage des numeros de colonne a lire
-        numero_col_1 = 2  # numero de colonne des premieres données à lire
-        numero_col_2 = 10
+        numero_col_1 = varidxinfile1  # numero de colonne des premieres données à lire
+        numero_col_2 = varidxinfile2
         try:
             pdf.traitement_pdf(dossier_actuel, fichier, nom_utilisateur, numero_col_1, numero_col_2)
             affichage_texte.delete(&#34;1.0&#34;, END)
@@ -598,13 +844,15 @@ def on_closing():
                     <span>def <span class="ident">on_closing</span></span>(<span>)</span>
                 </code></dt>
                 <dd>
-                    <div class="desc"><p>Fermeture de la fenetre, pas utilisé ou doublon de 'detroye_fenetre'</p></div>
+                    <div class="desc"><p>Fermeture de la fenetre, pas utilisé ou doublon de 'destroy_fenetre'
+                        pas utilisé, Bruno a supp sauf si tu voulais en faire quelque chose.</p></div>
                     <details class="source">
                         <summary>
                             <span>Expand source code</span>
                         </summary>
                         <pre><code class="python">def on_closing():
-    &#34;&#34;&#34;Fermeture de la fenetre, pas utilisé ou doublon de &#39;detroye_fenetre&#39;&#34;&#34;&#34;
+    &#34;&#34;&#34;Fermeture de la fenetre, pas utilisé ou doublon de &#39;destroy_fenetre&#39;
+    pas utilisé, Bruno a supp sauf si tu voulais en faire quelque chose.&#34;&#34;&#34;
     destroy_fenetre()</code></pre>
                     </details>
                 </dd>
@@ -665,8 +913,24 @@ def on_closing():
                     <li><code><a href="index.html" title="Sensorem_Beta-C">Sensorem_Beta-C</a></code></li>
                 </ul>
             </li>
+            <li><h3><a href="#header-variables">Global variables</a></h3>
+                <ul class="">
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.dossier_actuel"
+                                 title="Sensorem_Beta-C.FonctionGui.dossier_actuel">dossier_actuel</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.remove_canvs"
+                                 title="Sensorem_Beta-C.FonctionGui.remove_canvs">remove_canvs</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.varidxinfile1"
+                                 title="Sensorem_Beta-C.FonctionGui.varidxinfile1">varidxinfile1</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.varidxinfile2"
+                                 title="Sensorem_Beta-C.FonctionGui.varidxinfile2">varidxinfile2</a></code></li>
+                </ul>
+            </li>
             <li><h3><a href="#header-functions">Functions</a></h3>
                 <ul class="">
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.Initialize"
+                                 title="Sensorem_Beta-C.FonctionGui.Initialize">Initialize</a></code></li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionGui.MainLoop"
+                                 title="Sensorem_Beta-C.FonctionGui.MainLoop">MainLoop</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionGui.afficher_fichier"
                                  title="Sensorem_Beta-C.FonctionGui.afficher_fichier">afficher_fichier</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionGui.choisir_dossier"

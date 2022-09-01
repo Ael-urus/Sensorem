@@ -5,8 +5,7 @@
     <meta content="width=device-width, initial-scale=1, minimum-scale=1" name="viewport"/>
     <meta content="pdoc 0.10.0" name="generator"/>
     <title>Sensorem_Beta-C.FonctionPdf API documentation</title>
-    <meta content="Created on Thu Jun 11 19:21:41 2020
-@author: Aelurus …" name="description"/>
+    <meta content="Created on Thu Jun 11 19:21:41 2020 …" name="description"/>
     <link as="style" crossorigin href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css"
           integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" rel="preload stylesheet">
     <link as="style" crossorigin
@@ -34,8 +33,8 @@
             <h1 class="title">Module <code>Sensorem_Beta-C.FonctionPdf</code></h1>
         </header>
         <section id="section-intro">
-            <p>Created on Thu Jun 11 19:21:41 2020
-                @author: Aelurus</p>
+            <p>Created on Thu Jun 11 19:21:41 2020</p>
+            <p>@author: Aelurus</p>
             <p>Toutes les fonctions permettant la production du PDF et a sa mise en page</p>
             <details class="source">
                 <summary>
@@ -44,6 +43,7 @@
                 <pre><code class="python"># -*- coding: utf-8 -*-
 &#34;&#34;&#34;
 Created on Thu Jun 11 19:21:41 2020
+
 @author: Aelurus
 
 Toutes les fonctions permettant la production du PDF et a sa mise en page
@@ -53,6 +53,7 @@ try:
     import os, sys
     from statistics import mean, pstdev
     import FonctionsSignal as fs
+    from main import version
     from reportlab.lib.styles import getSampleStyleSheet
     from reportlab.platypus import Paragraph, Spacer, SimpleDocTemplate, Table, Image, TableStyle
     # from reportlab.graphics.charts.legends import Legend
@@ -616,7 +617,7 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     im = Image(logo, 3.5 * cm, 2 * cm)
     text = &#34;Prétraitement pour le raccordement &lt;br/&gt;du capteur &lt;u&gt;&#34; + str(numcapteur) + &#34;&lt;/u&gt;&#34;
     titre = Paragraph(text, styleH3)
-    c_droite = &#34;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + d1 + &#34;&lt;br/&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + fs.version()
+    c_droite = &#34;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + d1 + &#34;&lt;br/&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + version()
     c_droite = Paragraph(c_droite, styleN)
     t = Table([[im, titre, &#39;&#39;, &#39;&#39;, c_droite]])
     t.setStyle(TableStyle([
@@ -693,7 +694,10 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
                             author=&#39;Moi&#39;,
                             topMargin=3.5,
                             showBoundary=0)
-    doc.build(contenue)</code></pre>
+    doc.build(contenue)
+
+if __name__ == &#34;__main__&#34;:
+    print (&#34;Il n&#39;y a pas d&#39;autotest ....&#34;)</code></pre>
             </details>
         </section>
         <section>
@@ -741,7 +745,7 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     im = Image(logo, 3.5 * cm, 2 * cm)
     text = &#34;Prétraitement pour le raccordement &lt;br/&gt;du capteur &lt;u&gt;&#34; + str(numcapteur) + &#34;&lt;/u&gt;&#34;
     titre = Paragraph(text, styleH3)
-    c_droite = &#34;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + d1 + &#34;&lt;br/&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + fs.version()
+    c_droite = &#34;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + d1 + &#34;&lt;br/&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + version()
     c_droite = Paragraph(c_droite, styleN)
     t = Table([[im, titre, &#39;&#39;, &#39;&#39;, c_droite]])
     t.setStyle(TableStyle([

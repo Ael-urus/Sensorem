@@ -1,4 +1,4 @@
-Version beta V 0.4.3_c;;;;;02/22/22;;;;;
+Version beta V 0.4.3_c;;;;;08/22/22;;;;;
 ;;;;;;;;;;
 Petite mise en place de correction des erreurs;'Corrections de bugs, tentative de prise en charge des erreurs d''encodage'; Encodage AINSI;;;;;;;;
 'Rajout du traitement d'un deuxieme capteur (MacCaffrey veine inox), comme capteur de references. Il doit etre en colonne K (10) pour etre traite. Il doit etre identifier comme le premier capteur, avoir son nom dans la premiere cellule de chaque capteurs (voir models).';;;;;;;;;;
@@ -8,8 +8,8 @@ Petite mise en place de correction des erreurs;'Corrections de bugs, tentative d
 bien identifie les changements de capteurs par le remplacement dune valeur par le nom du capteur.;;;;;;;;;;
 l exe est autonome, il faut soit le deplacer dans le dossier contenant les *,csv, ou lui indiquer le repertoire ou les trouver;;;;;;;;;;
 Les Pdf seront generes dans le dossier du .exe;;;;;;;;;;
-'ne pas mettre de double  , ne pas mettre d''accent dans les noms de fichiers ni d espace';;;;;;;;;;
-Le fichier Logo.jpg doit etre dans le repertoir de lexe, sans quoi les pdf ne seront pas generes;;;;;;;;;;
+'ne pas mettre de double  , ne pas mettre d'accent dans les noms de fichiers ni d espace';;;;;;;;;;
+Le fichier Logo.jpg doit etre dans le repertoir de l'exe, sans quoi les pdf ne seront pas generes;;;;;;;;;;
 ;;;;;;;;;;
 Attention corriger les pics au niveau du changement de capteur, le branchement debranchement genere un bug des fois;;;;;;;;;;
 ;;;;;;;;;;
@@ -21,7 +21,7 @@ En ligne 24, nous avons le premier nom des capteurs;OBLIGATOIRE;en colonne 2 pou
 ;;;;;;;;;;
 Tout est bon dans le cochon ^^;;;;;;;;;;
 Date/Heure;Type;H1 (V);P1000 (V);P200 (V);TC1 (C);Pulse Channel 1 (Hz);;;;P200 (V)
-14/01/20 09:59:032;Intervalle;Trois petits cochons;0;tension mano;;;;;;Trois petits cochons [unite inconnue]
+14/01/20 09:59:032;Intervalle;Trois petits cochons [V];0;tension mano;;;;;;Trois petits cochons [unite inconnue]
 14/01/20 09:59:033;Intervalle;0.0154;0;18.3;;;;;;0.316778
 14/01/20 09:59:034;Intervalle;0.0154;0;18.3;;;;;;0.316778
 14/01/20 09:59:035;Intervalle;0.0154;0;18.3;;;;;;0.316778
@@ -482,7 +482,7 @@ Date/Heure;Type;H1 (V);P1000 (V);P200 (V);TC1 (C);Pulse Channel 1 (Hz);;;;P200 (
 14/01/20 09:59:490;Intervalle;0.0154;161;18.164;;;;;;0.316778
 14/01/20 09:59:491;Intervalle;0.0154;162;18.165;;;;;;0.316778
 14/01/20 09:59:492;Intervalle;0.0154;163;18.166;;;;;;0.316778
-;;Trois petits cochons 2;0;tension mano;;;;;;Trois petits cochons2 [unite inconnue]
+;;Trois petits cochons 2 [carotte];0;tension mano;;;;;;Trois petits cochons2 [unite inconnue]
 ;;0.0154;0;18.3;;;;;;0.332178
 ;;0.0154;0;18.3;;;;;;0.332178
 ;;0.0154;0;18.3;;;;;;0.332178
