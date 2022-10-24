@@ -62,7 +62,18 @@ except Exception as e:
     print(e)
     input(&#39;***&#39;)
 
+# on définit la version içi, commentaire et return. :)
+def version():
+    &#34;&#34;&#34;Retourne le numéro de version
 
+    ### Return :
+    -----------
+
+    *** 0.4.3 Bêta_c ***
+    &#34;&#34;&#34;
+    # definition et passage du numéro de version du traitement
+    # version = str(&#34; (0.4.3 Bêta_c)&#34;)
+    return str(&#34; (0.4.3 Bêta_c)&#34;)
 
 def prep_donnees_graph(donnees):
     &#34;&#34;&#34;Retourne une liste d&#39;éléments en listes d&#39;éléments incrémentée,
@@ -80,12 +91,12 @@ def readColCSV1(fichier, sep, n):
     sep &lt;str&gt; : Le séparateur des colonnes par exemple -&gt; &#34;;&#34;
     n &lt;int&gt; : Le numéro de la colonne à lire
 
-    retourne les valeurs de la colone du fichier en remplacant le separateur de
+    Retourne les valeurs de la colone du fichier en remplacant le separateur de
     decimal de , a . si besoin.
     Ignore les valeurs non int
     Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier
 
-    &gt;&gt;&gt; readColCSV1 (&#34;DebudFindeFichier.csv&#34;, &#34;;&#34;, 2)
+    &gt;&gt;&gt; suppr_txt(readColCSV1 (&#34;DebudFindeFichier.csv&#34;, &#34;;&#34;, 2))
     [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
     &#34;&#34;&#34;
     file = open(fichier, &#34;r&#34;)
@@ -243,11 +254,11 @@ def sep_values(sv,seuil_capt):
         valeur par paliers_mark(). Une première boucle nettoie le signal des valeurs aberrantes
         Dû à la mesure.
         La deuxième boucle identifie les paliers
-    &gt;&gt;&gt; type(sep_values(a))
+    &gt;&gt;&gt; type(sep_values(a, seuil_capteur2()))
     &lt;class &#39;list&#39;&gt;
 
     &#34;&#34;&#34;
-    seuil,sensibilite=seuil_capt
+    seuil, sensibilite = seuil_capt
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
@@ -646,11 +657,11 @@ if __name__ == &#34;__main__&#34;:
                                     n
                                     <int> : Le numéro de la colonne à lire
                         </p>
-                        <p>retourne les valeurs de la colone du fichier en remplacant le separateur de
+                        <p>Retourne les valeurs de la colone du fichier en remplacant le separateur de
                             decimal de , a . si besoin.
                             Ignore les valeurs non int
                             Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier</p>
-                        <pre><code class="language-python-repl">&gt;&gt;&gt; readColCSV1 (&quot;DebudFindeFichier.csv&quot;, &quot;;&quot;, 2)
+                        <pre><code class="language-python-repl">&gt;&gt;&gt; suppr_txt(readColCSV1 (&quot;DebudFindeFichier.csv&quot;, &quot;;&quot;, 2))
 [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
 </code></pre>
                     </div>
@@ -665,12 +676,12 @@ if __name__ == &#34;__main__&#34;:
     sep &lt;str&gt; : Le séparateur des colonnes par exemple -&gt; &#34;;&#34;
     n &lt;int&gt; : Le numéro de la colonne à lire
 
-    retourne les valeurs de la colone du fichier en remplacant le separateur de
+    Retourne les valeurs de la colone du fichier en remplacant le separateur de
     decimal de , a . si besoin.
     Ignore les valeurs non int
     Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier
 
-    &gt;&gt;&gt; readColCSV1 (&#34;DebudFindeFichier.csv&#34;, &#34;;&#34;, 2)
+    &gt;&gt;&gt; suppr_txt(readColCSV1 (&#34;DebudFindeFichier.csv&#34;, &#34;;&#34;, 2))
     [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
     &#34;&#34;&#34;
     file = open(fichier, &#34;r&#34;)
@@ -720,7 +731,7 @@ if __name__ == &#34;__main__&#34;:
                                 La deuxième boucle identifie les paliers
                             </dd>
                         </dl>
-                        <pre><code class="language-python-repl">&gt;&gt;&gt; type(sep_values(a))
+                        <pre><code class="language-python-repl">&gt;&gt;&gt; type(sep_values(a, seuil_capteur2()))
 &lt;class 'list'&gt;
 </code></pre>
                     </div>
@@ -746,11 +757,11 @@ if __name__ == &#34;__main__&#34;:
         valeur par paliers_mark(). Une première boucle nettoie le signal des valeurs aberrantes
         Dû à la mesure.
         La deuxième boucle identifie les paliers
-    &gt;&gt;&gt; type(sep_values(a))
+    &gt;&gt;&gt; type(sep_values(a, seuil_capteur2()))
     &lt;class &#39;list&#39;&gt;
 
     &#34;&#34;&#34;
-    seuil,sensibilite=seuil_capt
+    seuil, sensibilite = seuil_capt
     nb_values = len(sv)
     values_sep = list()  # Donne brute avec identification des étages
     nb_remplacement = 1
@@ -983,6 +994,31 @@ if __name__ == &#34;__main__&#34;:
     return values_sep_paliers, data, values_sep, paliers_find</code></pre>
                     </details>
                 </dd>
+                <dt id="Sensorem_Beta-C.FonctionsSignal.version"><code class="name flex">
+                    <span>def <span class="ident">version</span></span>(<span>)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"><p>Retourne le numéro de version</p>
+                        <h3 id="return">Return :</h3>
+                        <hr>
+                        <p><strong><em> 0.4.3 Bêta_c </em></strong></p></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def version():
+    &#34;&#34;&#34;Retourne le numéro de version
+
+    ### Return :
+    -----------
+
+    *** 0.4.3 Bêta_c ***
+    &#34;&#34;&#34;
+    # definition et passage du numéro de version du traitement
+    # version = str(&#34; (0.4.3 Bêta_c)&#34;)
+    return str(&#34; (0.4.3 Bêta_c)&#34;)</code></pre>
+                    </details>
+                </dd>
             </dl>
         </section>
         <section>
@@ -1033,6 +1069,8 @@ if __name__ == &#34;__main__&#34;:
                     <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.traitement_signal"
                                  title="Sensorem_Beta-C.FonctionsSignal.traitement_signal">traitement_signal</a></code>
                     </li>
+                    <li><code><a href="#Sensorem_Beta-C.FonctionsSignal.version"
+                                 title="Sensorem_Beta-C.FonctionsSignal.version">version</a></code></li>
                 </ul>
             </li>
         </ul>

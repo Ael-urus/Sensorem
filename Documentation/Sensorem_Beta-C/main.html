@@ -37,6 +37,8 @@
             <p>@author : Aelurus</p>
             <p>@contributor: Bruno</p>
             <p>Fichier main qui lance toute la toutouille &hellip;</p>
+            <pre><code>Pour le numéro de version voir &lt;code&gt;FonctionSignal&lt;/code&gt;, &lt;code&gt;Version&lt;/code&gt;
+</code></pre>
             <details class="source">
                 <summary>
                     <span>Expand source code</span>
@@ -53,9 +55,11 @@ Created on Mon May 4 18:02:18 2020
 
 Fichier main qui lance toute la toutouille ...
 
+    Pour le numéro de version voir `FonctionSignal`, `Version`
+
 &#34;&#34;&#34;
 try:
-    import sys,os
+    import sys, os
     import codecs
     import glob
     import FonctionGui as fgui
@@ -63,18 +67,6 @@ try:
 except Exception as e:
     print(e)
     input(&#39;***&#39;)
-# on définit la version içi, commentaire et return. :)
-def version():
-    &#34;&#34;&#34;Retourne le numéro de version
-
-    ### Return :
-    -----------
-
-    *** 0.4.3 Bêta_c ***
-    &#34;&#34;&#34;
-    # definition et passage du numéro de version du traitement
-    # version = str(&#34; (0.4.3 Bêta_c)&#34;)
-    return str(&#34; (0.4.3 Bêta_c)&#34;)
 
 if __name__ == &#34;__main__&#34;:
     fgui.Initialize()
@@ -86,34 +78,6 @@ if __name__ == &#34;__main__&#34;:
         <section>
         </section>
         <section>
-            <h2 class="section-title" id="header-functions">Functions</h2>
-            <dl>
-                <dt id="Sensorem_Beta-C.main.version"><code class="name flex">
-                    <span>def <span class="ident">version</span></span>(<span>)</span>
-                </code></dt>
-                <dd>
-                    <div class="desc"><p>Retourne le numéro de version</p>
-                        <h3 id="return">Return :</h3>
-                        <hr>
-                        <p><strong><em> 0.4.3 Bêta_c </em></strong></p></div>
-                    <details class="source">
-                        <summary>
-                            <span>Expand source code</span>
-                        </summary>
-                        <pre><code class="python">def version():
-    &#34;&#34;&#34;Retourne le numéro de version
-
-    ### Return :
-    -----------
-
-    *** 0.4.3 Bêta_c ***
-    &#34;&#34;&#34;
-    # definition et passage du numéro de version du traitement
-    # version = str(&#34; (0.4.3 Bêta_c)&#34;)
-    return str(&#34; (0.4.3 Bêta_c)&#34;)</code></pre>
-                    </details>
-                </dd>
-            </dl>
         </section>
         <section>
         </section>
@@ -127,12 +91,6 @@ if __name__ == &#34;__main__&#34;:
             <li><h3>Super-module</h3>
                 <ul>
                     <li><code><a href="index.html" title="Sensorem_Beta-C">Sensorem_Beta-C</a></code></li>
-                </ul>
-            </li>
-            <li><h3><a href="#header-functions">Functions</a></h3>
-                <ul class="">
-                    <li><code><a href="#Sensorem_Beta-C.main.version"
-                                 title="Sensorem_Beta-C.main.version">version</a></code></li>
                 </ul>
             </li>
         </ul>
