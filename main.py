@@ -10,6 +10,7 @@ Created on Mon May 4 18:02:18 2020
 
 Fichier main qui lance toute la toutouille ...
 
+
     Pour le numéro de version voir `FonctionSignal`, `Version`
 
 """

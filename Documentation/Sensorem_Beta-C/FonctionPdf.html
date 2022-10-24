@@ -5,7 +5,8 @@
     <meta content="width=device-width, initial-scale=1, minimum-scale=1" name="viewport"/>
     <meta content="pdoc 0.10.0" name="generator"/>
     <title>Sensorem_Beta-C.FonctionPdf API documentation</title>
-    <meta content="Created on Thu Jun 11 19:21:41 2020 …" name="description"/>
+    <meta content="Created on Thu Jun 11 19:21:41 2020
+@author: Aelurus …" name="description"/>
     <link as="style" crossorigin href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css"
           integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" rel="preload stylesheet">
     <link as="style" crossorigin
@@ -33,8 +34,8 @@
             <h1 class="title">Module <code>Sensorem_Beta-C.FonctionPdf</code></h1>
         </header>
         <section id="section-intro">
-            <p>Created on Thu Jun 11 19:21:41 2020</p>
-            <p>@author: Aelurus</p>
+            <p>Created on Thu Jun 11 19:21:41 2020
+                @author: Aelurus</p>
             <p>Toutes les fonctions permettant la production du PDF et a sa mise en page</p>
             <details class="source">
                 <summary>
@@ -43,7 +44,6 @@
                 <pre><code class="python"># -*- coding: utf-8 -*-
 &#34;&#34;&#34;
 Created on Thu Jun 11 19:21:41 2020
-
 @author: Aelurus
 
 Toutes les fonctions permettant la production du PDF et a sa mise en page
@@ -53,7 +53,6 @@ try:
     import os, sys
     from statistics import mean, pstdev
     import FonctionsSignal as fs
-    from main import version
     from reportlab.lib.styles import getSampleStyleSheet
     from reportlab.platypus import Paragraph, Spacer, SimpleDocTemplate, Table, Image, TableStyle
     # from reportlab.graphics.charts.legends import Legend
@@ -82,353 +81,162 @@ except Exception as e:
     print(e)
     input(&#39;***&#39;)
 
+
 ##
 
-class LineChartWithMarkers(_DrawingEditorMixin, Drawing):
-    &#34;&#34;&#34;Classe de conteneur graphique. Elle trace les graphiques des mesures brutes et corrigées.
-    Pourrait faire doublon avec la fonction trace_graph (qui trace les paliers).
-    Mais deux mises en forme diff, plus simple à gérer avec deux générateurs
-    &#34;&#34;&#34;
 
-    def __init__(self,
-                 titre_graph=&#39;Un titre de graphique&#39;,
-                 data=[[(0, 0)]],
-                 width=215,
-                 height=115,
-                 data2=[[(0, 0)]],
-                 xtvisi=0,
-                 xtitle=&#39;Nombre de mesures&#39;,
-                 ytitle=&#39;Tension [V]&#39;,
-                 y2title=&#39;Capteur Réf&#39;,
-                 nomCapteur1=&#39;Capteur raccordé&#39;,
-                 nomCapteur2=&#39;Capteur référence&#39;,
-                 *args, **kw):
 
-        Drawing.__init__(self, width, height, *args, **kw)
-        fontSize = 10
-        self._add(self, LinePlot(), name=&#39;chart&#39;, validate=None, desc=&#34;The main chart&#34;)
-        self.chart.data = data  # [((0., 0.491), (1., 0.149), (2., 0.3498), (4., 0.2335))]
-        # self.background = Rect(0, 0, self.width, self.height, strokeWidth=0, fillColor=PCMYKColor(0,0,10,0))
-        self.chart.width = width - 80
-        self.chart.height = height - 60
-        self.chart.x = 40
-        self.chart.y = 35
 
-        self.chart.lines.strokeWidth = 0.5
 
-        # premier graph
-        self.chart.lines[0].strokeColor = color01
-        self.chart.lines[1].strokeColor = color02
-        self.chart.lines[2].strokeColor = color03
-        self.chart.lines[3].strokeColor = color04
-        self.chart.lines[4].strokeColor = color05
-        self.chart.lines[5].strokeColor = color06
-        self.chart.lines[6].strokeColor = color07
-        self.chart.lines[7].strokeColor = color08
-        self.chart.lines[8].strokeColor = color09
-        self.chart.lines[9].strokeColor = color10
-        # deuxieme graph
+def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=[[(0, 0)]],chartcolors2=[], xtitle=&#39;Nombre de mesures&#39;,shiftFontXt=1,yXt=-7, 
+                xtvisi=1, ytitle=&#39;Tension [V]&#39;, y2title=&#39;Capteur réf&#39;, nomCapteur1=&#39;Capteur raccordé&#39;,
+                nomCapteur2=&#39;Capteur référence&#39;, ForceXzero=1, isSecondY=True, isLegend=True):
 
-        &#34;&#34;&#34;
-        self.chart.lines[0].symbol = makeMarker(&#39;FilledSquare&#39;)
-        self.chart.lines[1].symbol = makeMarker(&#39;FilledDiamond&#39;)
-        self.chart.lines[2].symbol = makeMarker(&#39;FilledStarFive&#39;)
-        self.chart.lines[3].symbol = makeMarker(&#39;FilledTriangle&#39;)
-        self.chart.lines[4].symbol = makeMarker(&#39;FilledCircle&#39;)
-        self.chart.lines[5].symbol = makeMarker(&#39;FilledPentagon&#39;)
-        self.chart.lines[6].symbol = makeMarker(&#39;FilledStarSix&#39;)
-        self.chart.lines[7].symbol = makeMarker(&#39;FilledHeptagon&#39;)
-        self.chart.lines[8].symbol = makeMarker(&#39;FilledOctagon&#39;)
-        self.chart.lines[9].symbol = makeMarker(&#39;FilledCross&#39;)
-        &#34;&#34;&#34;
-        # self.chart.fillColor = colors.ivory
-        # self.chart.lineLabels.fontName              = &#39;Helvetica&#39;
-        self.chart.yValueAxis.tickLeft = 3
-        # self.chart.yValueAxis.labels.fontName       = &#39;Helvetica&#39;
-        self.chart.yValueAxis.labels.fontSize = fontSize - 2
-        self._add(self, Label(), name=&#39;Title&#39;, validate=None, desc=&#34;The title at the top of the chart&#34;)
-        # self.Title.fontName = &#39;Helvetica-Bold&#39;
-        self.Title.fontSize = fontSize - 1
-        self.Title.x = (width / 2) - len(self.Title._text) / 2
-        self.Title.y = height - 25
-        self.Title._text = titre_graph
-        self.Title.maxWidth = 180
-        self.Title.height = 35
-        self.Title.textAnchor = &#39;middle&#39;
-
-        # Axe des X
-        self._add(self, Label(), name=&#39;XLabel&#39;, validate=None, desc=&#34;The label on the horizontal axis&#34;)
-        # self.XLabel.fontName       = &#39;Helvetica&#39;
-        self.XLabel.fontSize = fontSize - 2
-        self.XLabel.x = width / 2
-        self.XLabel.y = 12
-        self.XLabel.textAnchor = &#39;middle&#39;
-        # position x et y du titre des axes X
-        self.XLabel.maxWidth = 100
-        self.XLabel.height = 10
-        if xtvisi == 1:
-            self.XLabel._text = xtitle
-        else:
-            self.XLabel._text = &#39;&#39;
-        # self.chart.xValueAxis.labels.fontName       = &#39;Helvetica&#39;
-        self.chart.xValueAxis.labels.fontSize = fontSize - 2
-
-        self.chart.xValueAxis.gridStrokeWidth = 0.15
-        self.chart.xValueAxis.gridStrokeColor = colors.darkgrey
-        self.chart.xValueAxis.minimumTickSpacing = 8
-        self.chart.xValueAxis.maximumTicks = 10
-        self.chart.xValueAxis.visibleSubTicks = 1
-        self.chart.xValueAxis.subTickHi = 0
-        self.chart.xValueAxis.subTickLo = 2
-        self.chart.xValueAxis.subTickNum = 1
-        self.chart.xValueAxis.strokeWidth = 0.45
-        self.chart.xValueAxis.forceZero = 1
-        self.chart.xValueAxis.avoidBoundFrac = None
-        # self.chart.xValueAxis.gridEnd = 175
-        self.chart.xValueAxis.tickDown = 3
-        self.chart.xValueAxis.visibleGrid = 1
-        self.chart.xValueAxis.visible = 1
-        # Axe des Y
-        self._add(self, Label(), name=&#39;YLabel&#39;, validate=None, desc=&#34;The label on the vertical1 axis&#34;)
-        # self.YLabel.fontName       = &#39;Helvetica&#39;
-        self.YLabel.fontSize = fontSize - 2
-        self.YLabel.x = 22
-        self.YLabel.y = height / 2
-        self.YLabel.angle = 90
-        self.YLabel.textAnchor = &#39;middle&#39;
-        self.YLabel.maxWidth = 100
-        self.YLabel.height = 20
-        self.YLabel._text = ytitle
-        #
-        self.chart.yValueAxis.visibleGrid = 1
-        self.chart.yValueAxis.gridStrokeWidth = 0.15
-        self.chart.yValueAxis.gridStrokeColor = colors.darkgrey
-        self.chart.yValueAxis.visibleAxis = 1
-        self.chart.yValueAxis.labels.textAnchor = &#39;start&#39;
-        self.chart.yValueAxis.labels.boxAnchor = &#39;e&#39;
-        self.chart.yValueAxis.labels.angle = 0
-        self.chart.yValueAxis.labels.dx = -3
-        self.chart.yValueAxis.labels.dy = 0
-
-        self.chart.yValueAxis.strokeWidth = 0.45
-        self.chart.yValueAxis.visible = 1
-        self.chart.yValueAxis.labels.rightPadding = 2
-        self.chart.yValueAxis.rangeRound = &#39;both&#39;
-        self.chart.yValueAxis.tickLeft = self.chart.yValueAxis.tickLeft
-        self.chart.yValueAxis.minimumTickSpacing = 8
-        self.chart.yValueAxis.maximumTicks = 10
-        self.chart.yValueAxis.visibleSubTicks = 1
-        self.chart.yValueAxis.subTickHi = 0
-        self.chart.yValueAxis.subTickLo = 1
-        self.chart.yValueAxis.subTickNum = 1
-        self.chart.yValueAxis.forceZero = 1
-        self.chart.yValueAxis.avoidBoundFrac = None
-
-        # self.Legend.colorNamePairs = Auto(chart=self.plot)
-        if not data2 or data2 == [[(0, 0)]]:
-            self._add(self, 0, name=&#39;preview&#39;, validate=None, desc=None)
-        else:  # pour un éventuel tracer avec deux courbes
-            # self.chart2.data = [[(0,0)]]
-            # self.chart2.yValueAxis.setPosition(50, 50, 125)
-            self._add(self, LinePlot(), name=&#39;chart2&#39;, validate=None, desc=&#34;The main chart2&#34;)
-            self.chart2.data = data2  # [((0., 0.491), (1., 0.249), (2., 0.3498), (4., 0.2335))]
-            self.chart2.lines[0].strokeColor = color11 = colors.darkcyan
-            self.chart2.lines[1].strokeColor = color12 = colors.darkorange
-            self.chart2.lines[2].strokeColor = color13 = colors.blueviolet
-            self.chart2.lines[3].strokeColor = color14 = colors.darkslategrey
-            self.chart2.lines[4].strokeColor = color15 = colors.antiquewhite
-            self.chart2.lines[5].strokeColor = color16 = colors.darkslategray
-            self.chart2.lines[6].strokeColor = color17 = colors.darkolivegreen
-            self.chart2.lines[7].strokeColor = color18 = colors.bisque
-            self.chart2.lines[8].strokeColor = color19 = colors.aquamarine
-            self.chart2.lines[9].strokeColor = color20 = colors.red
-
-            self.chart2.lines.strokeWidth = 0.5
-            self.chart2.yValueAxis.tickLeft = 3
-            self.chart2.width = self.chart.width
-            self.chart2.height = self.chart.height
-            self.chart2.x = self.chart.x
-            self.chart2.y = self.chart.y
-            self.chart2.yValueAxis.joinAxisMode = &#39;right&#39;
-            # y2 axis
-            self.chart2.yValueAxis.labels.fontSize = fontSize - 3
-            self.chart2.yValueAxis.visibleGrid = 0
-            self.chart2.yValueAxis.gridStrokeWidth = 0.15
-            self.chart2.yValueAxis.gridStrokeColor = colors.darkgrey
-            self.chart2.yValueAxis.visibleAxis = 1
-            self.chart2.yValueAxis.labels.textAnchor = &#39;start&#39;
-            self.chart2.yValueAxis.labels.boxAnchor = &#39;w&#39;
-            self.chart2.yValueAxis.labels.angle = 0
-            self.chart2.yValueAxis.labels.dx = 5
-            self.chart2.yValueAxis.labels.dy = 0
-            self.chart2.yValueAxis.labels.fontSize = fontSize - 2
-            self.chart2.yValueAxis.strokeWidth = 0.45
-            self.chart2.yValueAxis.visible = 1
-            self.chart2.yValueAxis.labels.rightPadding = 2
-            self.chart2.yValueAxis.rangeRound = &#39;both&#39;
-            # self.chart2.yValueAxis.tickLeft             = -self.chart.yValueAxis.tickLeft
-            self.chart2.yValueAxis.minimumTickSpacing = 8
-            self.chart2.yValueAxis.maximumTicks = 10
-            self.chart2.yValueAxis.visibleSubTicks = 1
-            self.chart2.yValueAxis.subTickHi = 0
-            self.chart2.yValueAxis.subTickLo = 1
-            self.chart2.yValueAxis.subTickNum = 1
-            self.chart2.yValueAxis.forceZero = 1
-            self.chart2.yValueAxis.avoidBoundFrac = None
-            self._add(self, Label(), name=&#39;YLabel&#39;, validate=None, desc=&#34;The label on the vertical2 axis&#34;)
-            # self.YLabel.fontName       = &#39;Helvetica&#39;
-            self.YLabel.fontSize = fontSize - 3
-            self.chart.yValueAxis.labels.fontSize = fontSize - 3
-            self.YLabel.x = width - 10
-            self.YLabel.y = height / 2
-            self.YLabel.angle = 90
-            self.YLabel.textAnchor = &#39;middle&#39;
-            self.YLabel.maxWidth = 100
-            self.YLabel.height = 20
-            self.YLabel._text = y2title
-
-            #
-            self.chart2.xValueAxis.gridStrokeWidth = 0.15
-            self.chart2.xValueAxis.gridStrokeColor = colors.darkgrey
-            self.chart2.xValueAxis.minimumTickSpacing = 8
-            self.chart2.xValueAxis.maximumTicks = 10
-            self.chart2.xValueAxis.visibleSubTicks = 1
-            self.chart2.xValueAxis.subTickHi = 1
-            self.chart2.xValueAxis.subTickLo = 1
-            self.chart2.xValueAxis.subTickNum = 1
-            self.chart2.xValueAxis.strokeWidth = 0.45
-            self.chart2.xValueAxis.forceZero = 1
-            self.chart2.xValueAxis.avoidBoundFrac = None
-            self.chart2.xValueAxis.gridEnd = 175
-            self.chart2.xValueAxis.tickDown = 3
-            self.chart2.xValueAxis.visibleGrid = 0
-            self.chart2.xValueAxis.visible = 0
-            # legende
-            self._add(self, Legend(), name=&#39;Legend&#39;, validate=None, desc=&#34;The legend or key for the chart&#34;)
-            # self.Legend.colorNamePairs = [(color01, &#39;Widgets&#39;)]
-            # self.Legend.fontName       = &#39;Helvetica&#39;
-            self.Legend.fontSize = fontSize - 3
-            self.Legend.x = 55
-            self.Legend.y = 3
-            self.Legend.dxTextSpace = 5
-            self.Legend.dy = 5
-            self.Legend.dx = 5
-            self.Legend.deltay = 5
-            self.Legend.alignment = &#39;right&#39;
-            self.Legend.columnMaximum = 1
-            self.Legend.colorNamePairs = [(color01, nomCapteur1), (color11, nomCapteur2)]
-        return self._add(self, 0, name=&#39;preview&#39;, validate=None, desc=None)
-
-# tracer des graph dans le PDF, GROS bordel ^^....
-def trace_graph(title, data, w, h, data2=[[(0, 0)]], xtitle=&#39;Nombre de mesures&#39;,
-                xtvisi=1, ytitle=&#39;Tension [V]&#39;, y2title=&#39;Capteur réf&#39;, ForceXzero=1):
-    &#34;&#34;&#34;Fonction qui génère les graphiques des paliers dans le pdf, petite usine à gaz à ne pas toucher
-    ou alors on à du temps devant sois :), même bordel que la class de graph
-    &#34;&#34;&#34;
     graph = Drawing(w, h)
-    # print(data)
-    chart = LinePlot()
-    chart.y = 12
-    chart.x = 12
-    chart.width = w - 6
-    chart.height = h - 30
-    # fontName = &#39;Helvetica&#39;
+
+
     fontSize = 10
+
+    chart = LinePlot()
+
+    chart.data = data  # [((0., 0.491), (1., 0.149), (2., 0.3498), (4., 0.2335))]
+    # background = Rect(0, 0, width, height, strokeWidth=0, fillColor=PCMYKColor(0,0,10,0))
+    chart.width = w - shiftw
+    chart.height = h - shifth
+    chart.x = x
+    chart.y = y
+
+    chart.lines.strokeWidth = 0.5
+
+    # premier graph
+    for i in range(len(chart.lines)):
+        chart.lines[i].strokeColor = chartcolors[i]
+
+    # deuxieme graph
+
+    &#34;&#34;&#34;
+    chart.lines[0].symbol = makeMarker(&#39;FilledSquare&#39;)
+    chart.lines[1].symbol = makeMarker(&#39;FilledDiamond&#39;)
+    chart.lines[2].symbol = makeMarker(&#39;FilledStarFive&#39;)
+    chart.lines[3].symbol = makeMarker(&#39;FilledTriangle&#39;)
+    chart.lines[4].symbol = makeMarker(&#39;FilledCircle&#39;)
+    chart.lines[5].symbol = makeMarker(&#39;FilledPentagon&#39;)
+    chart.lines[6].symbol = makeMarker(&#39;FilledStarSix&#39;)
+    chart.lines[7].symbol = makeMarker(&#39;FilledHeptagon&#39;)
+    chart.lines[8].symbol = makeMarker(&#39;FilledOctagon&#39;)
+    chart.lines[9].symbol = makeMarker(&#39;FilledCross&#39;)
+    &#34;&#34;&#34;
+
+    graph.add(Label(), name=&#39;Title&#39;)
+    # Title.fontName = &#39;Helvetica-Bold&#39;
+    graph.Title.fontSize = fontSize - 1
+    graph.Title.x = (w / 2) - len(graph.Title._text) / 2
+    graph.Title.y = h - 25
+    graph.Title._text = title
+    graph.Title.maxWidth = 180
+    graph.Title.height = 35
+    graph.Title.textAnchor = &#39;middle&#39;
+    #
+    # Axe des X
     graph.add(Label(), name=&#39;XLabel&#39;)
-    graph.XLabel.fontName = &#39;Times-Roman&#39;
-    graph.XLabel.fontSize = fontSize - 1
+    # XLabel.fontName       = &#39;Helvetica&#39;
+    graph.XLabel.fontSize = fontSize - shiftFontXt
     graph.XLabel.x = w / 2
-    graph.XLabel.y = -7
+    graph.XLabel.y = yXt
+    graph.XLabel.textAnchor = &#39;middle&#39;
+    # position x et y du titre des axes X
+    graph.XLabel.maxWidth = 100
+    graph.XLabel.height = 10
+    
     if xtvisi == 1:
         graph.XLabel._text = xtitle
     else:
         graph.XLabel._text = &#39;&#39;
+    
+    
+    
+    
+    #
+    # Axe des Y
     graph.add(Label(), name=&#39;YLabel&#39;)
+    # YLabel.fontName       = &#39;Helvetica&#39;
     graph.YLabel.fontSize = fontSize - 2
-    graph.YLabel.x = -17
+    graph.YLabel.x = xYLabel
     graph.YLabel.y = h / 2
     graph.YLabel.angle = 90
     graph.YLabel.textAnchor = &#39;middle&#39;
+    graph.YLabel.maxWidth = 100
+    graph.YLabel.height = 20
     graph.YLabel._text = ytitle
-    # chart.lineLabels.fontSize           = fontSize
-    chart.lineLabels.boxStrokeWidth = 0.3
-    # chart.lineLabels.visible            = 1
-    chart.lineLabels.boxAnchor = &#39;c&#39;
-    chart.lineLabels.angle = 0
-    chart.lineLabelNudge = 10
-    chart.joinedLines = 1
-    chart.lines.strokeWidth = 0.5
-    # line styles
-    chart.lines[0].strokeColor = colors.darkcyan
-    chart.lines[0].symbol = makeMarker(None)
-    chart.lines[0].symbol.size = 2
-    chart.lines[0].symbol.angle = 15
-    chart.lines[1].strokeColor = colors.darkorange
-    chart.lines[1].symbol = makeMarker(None)
-    chart.lines[1].symbol.size = 2
-    chart.lines[1].symbol.angle = 15
-    chart.lines[2].strokeColor = colors.blueviolet
-    chart.lines[2].symbol = makeMarker(None)
-    chart.lines[2].symbol.size = 3
-    chart.lines[2].symbol.angle = 15
-    chart.lines[3].strokeColor = colors.darkslategrey
-    chart.lines[3].symbol = makeMarker(None)
-    chart.lines[3].symbol.size = 2
-    chart.lines[3].symbol.angle = 15
-    chart.lines[4].strokeColor = colors.antiquewhite
-    chart.lines[4].symbol = makeMarker(None)
-    chart.lines[4].symbol.size = 2
-    chart.lines[4].symbol.angle = 15
-    chart.lines[5].strokeColor = colors.darkslategray
-    chart.lines[5].symbol = makeMarker(None)
-    chart.lines[5].symbol.size = 2
-    chart.lines[5].symbol.angle = 15
-    chart.lines[6].strokeColor = colors.darkolivegreen
-    chart.lines[6].symbol = makeMarker(None)
-    chart.lines[6].symbol.size = 2
-    chart.lines[6].symbol.angle = 15
-    chart.lines[7].strokeColor = colors.bisque
-    chart.lines[7].symbol = makeMarker(None)
-    chart.lines[7].symbol.size = 2
-    chart.lines[7].symbol.angle = 15
-    chart.lines[8].strokeColor = colors.aquamarine
-    chart.lines[8].symbol = makeMarker(None)
-    chart.lines[8].symbol.size = 2
-    chart.lines[8].symbol.angle = 15
-    chart.lines.strokeWidth = 0.5
-    chart.lines.symbol = makeMarker(None)
-    # x axis
-    chart.xValueAxis.visibleAxis = 1
-    chart.xValueAxis.visibleGrid = 1
+    #
+
+    
+    # 2eme axe des Y
+    if isSecondY:
+        graph.add(Label(), name=&#39;YLabel&#39;)
+        graph.YLabel.fontSize = fontSize - 3
+        graph.YLabel.x = w - 10
+        graph.YLabel.y = h / 2
+        graph.YLabel.angle = 90
+        graph.YLabel.textAnchor = &#39;middle&#39;
+        graph.YLabel.maxWidth = 100
+        graph.YLabel.height = 20
+        graph.YLabel._text = y2title
+
+    # legende
+    if isLegend:
+        graph.add(Legend(), name=&#39;Legend&#39;)
+        graph.Legend.fontSize = fontSize - 3
+        graph.Legend.x = 55
+        graph.Legend.y = 3
+        graph.Legend.dxTextSpace = 5
+        graph.Legend.dy = 5
+        graph.Legend.dx = 5
+        graph.Legend.deltay = 5
+        graph.Legend.alignment = &#39;right&#39;
+        graph.Legend.columnMaximum = 1
+        graph.Legend.colorNamePairs = [(color01, nomCapteur1), (colors.darkcyan, nomCapteur2)]
+
+
+
+    # chart.xValueAxis.labels.fontName       = &#39;Helvetica&#39;
+    chart.xValueAxis.labels.fontSize = fontSize - 2
+
     chart.xValueAxis.gridStrokeWidth = 0.15
     chart.xValueAxis.gridStrokeColor = colors.darkgrey
-    # chart.xValueAxis.labels.fontName       = fontName
-    chart.xValueAxis.labels.fontSize = fontSize - 2
-    chart.xValueAxis.labels.boxAnchor = &#39;autox&#39;
+    chart.xValueAxis.minimumTickSpacing = 8
     chart.xValueAxis.maximumTicks = 10
-    chart.xValueAxis.minimumTickSpacing = 0.5
-    chart.xValueAxis.tickDown = 2.5
     chart.xValueAxis.visibleSubTicks = 1
     chart.xValueAxis.subTickHi = 0
-    chart.xValueAxis.subTickLo = 1
-    chart.xValueAxis.subTickNum = 1
+    chart.xValueAxis.subTickLo = 2
     chart.xValueAxis.subTickNum = 1
     chart.xValueAxis.strokeWidth = 0.45
-    chart.xValueAxis.avoidBoundFrac = 0.1
     chart.xValueAxis.forceZero = ForceXzero
-    # y axis
+    chart.xValueAxis.avoidBoundFrac = None
+    # chart.xValueAxis.gridEnd = 175
+    chart.xValueAxis.tickDown = 3
+    chart.xValueAxis.visibleGrid = 1
+    chart.xValueAxis.visible = 1
+
+
+    chart.yValueAxis.tickLeft = 3
+    chart.yValueAxis.labels.fontSize = fontSize - 3
+    #
     chart.yValueAxis.visibleGrid = 1
     chart.yValueAxis.gridStrokeWidth = 0.15
     chart.yValueAxis.gridStrokeColor = colors.darkgrey
     chart.yValueAxis.visibleAxis = 1
-    # chart.yValueAxis.labels.fontName       = fontName
-    chart.yValueAxis.labels.fontSize = fontSize - 2
-    # chart.yValueAxis.labelTextFormat       = &#39;%0.1f&#39;
+    chart.yValueAxis.labels.textAnchor = &#39;start&#39;
+    chart.yValueAxis.labels.boxAnchor = &#39;e&#39;
+    chart.yValueAxis.labels.angle = 0
+    chart.yValueAxis.labels.dx = -3
+    chart.yValueAxis.labels.dy = 0
+
     chart.yValueAxis.strokeWidth = 0.45
     chart.yValueAxis.visible = 1
     chart.yValueAxis.labels.rightPadding = 2
     chart.yValueAxis.rangeRound = &#39;both&#39;
-    chart.yValueAxis.tickLeft = 2.5
+    chart.yValueAxis.tickLeft = chart.yValueAxis.tickLeft
     chart.yValueAxis.minimumTickSpacing = 8
     chart.yValueAxis.maximumTicks = 10
     chart.yValueAxis.visibleSubTicks = 1
@@ -436,70 +244,72 @@ def trace_graph(title, data, w, h, data2=[[(0, 0)]], xtitle=&#39;Nombre de mesur
     chart.yValueAxis.subTickLo = 1
     chart.yValueAxis.subTickNum = 1
     chart.yValueAxis.forceZero = ForceXzero
-    chart.yValueAxis.avoidBoundFrac = 0.1
-    graph.add(String(((w / 2) - len(title) * 2), h - 14, &#39;text&#39;), name=&#39;title&#39;)
-    graph.title.text = title
-    graph.title.fontSize = fontSize - 2
-    chart.data = data
+    chart.yValueAxis.avoidBoundFrac = None
     graph.add(chart)
-    # y2 axis
-    # data2 = data
+
     if not data2 or data2 == [[(0, 0)]]:
         return graph
     else:  # pour un éventuel tracer avec deux courbes
         chart2 = LinePlot()
-        chart.y = 12
-        chart.x = 12
-        chart.width = w - 6
-        chart.height = h - 30
-        # x axis
-        chart2.xValueAxis.visibleAxis = 0
-        chart2.xValueAxis.visibleGrid = 0
-        chart2.xValueAxis.gridStrokeWidth = 0.15
-        chart2.xValueAxis.gridStrokeColor = colors.darkgrey
-        # chart2.xValueAxis.labels.fontName       = fontName
-        chart2.xValueAxis.labels.fontSize = 0  # fontSize-2
-        chart2.xValueAxis.labels.boxAnchor = &#39;autox&#39;
-        chart2.xValueAxis.maximumTicks = 10
-        chart2.xValueAxis.minimumTickSpacing = 0.5
-        chart2.xValueAxis.tickDown = 2.5
-        chart2.xValueAxis.visibleSubTicks = 1
-        chart2.xValueAxis.subTickHi = 0
-        chart2.xValueAxis.subTickLo = 1
-        chart2.xValueAxis.subTickNum = 1
-        chart2.xValueAxis.subTickNum = 1
-        chart2.xValueAxis.strokeWidth = 0.45
-        chart2.xValueAxis.forceZero = ForceXzero
-        chart2.data = data2
-        chart2.xValueAxis.visible = 1
-        #
-        # chart2.yTitleText           = y2title
-        chart2.yValueAxis.setPosition(50, 50, 125)
+        chart2.data = data2  # [((0., 0.491), (1., 0.249), (2., 0.3498), (4., 0.2335))]
+
+        for i in range(len(chart2.lines)):
+            chart2.lines[i].strokeColor = chartcolors2[i]
+
+
+
+        chart2.lines.strokeWidth = 0.5
+        chart2.yValueAxis.tickLeft = 3
+        chart2.width = chart.width
+        chart2.height = chart.height
+        chart2.x = chart.x
+        chart2.y = chart.y
         chart2.yValueAxis.joinAxisMode = &#39;right&#39;
+        # y2 axis
+        chart2.yValueAxis.labels.fontSize = fontSize - 3
         chart2.yValueAxis.visibleGrid = 0
         chart2.yValueAxis.gridStrokeWidth = 0.15
         chart2.yValueAxis.gridStrokeColor = colors.darkgrey
-        chart2.yValueAxis.visibleAxis = 0
-        chart2.yValueAxis.labels.fontSize = fontSize - 2
+        chart2.yValueAxis.visibleAxis = 1
         chart2.yValueAxis.labels.textAnchor = &#39;start&#39;
         chart2.yValueAxis.labels.boxAnchor = &#39;w&#39;
         chart2.yValueAxis.labels.angle = 0
         chart2.yValueAxis.labels.dx = 5
         chart2.yValueAxis.labels.dy = 0
+        chart2.yValueAxis.labels.fontSize = fontSize - 2
         chart2.yValueAxis.strokeWidth = 0.45
+        chart2.yValueAxis.visible = 1
         chart2.yValueAxis.labels.rightPadding = 2
         chart2.yValueAxis.rangeRound = &#39;both&#39;
-        chart2.yValueAxis.tickLeft = -2.5
+        # chart2.yValueAxis.tickLeft             = -chart.yValueAxis.tickLeft
         chart2.yValueAxis.minimumTickSpacing = 8
         chart2.yValueAxis.maximumTicks = 10
         chart2.yValueAxis.visibleSubTicks = 1
         chart2.yValueAxis.subTickHi = 0
-        chart2.yValueAxis.subTickLo = -1
+        chart2.yValueAxis.subTickLo = 1
         chart2.yValueAxis.subTickNum = 1
         chart2.yValueAxis.forceZero = ForceXzero
-        chart2.yValueAxis.avoidBoundFrac = 0.1
+        chart2.yValueAxis.avoidBoundFrac = None
+
+        #
+        chart2.xValueAxis.gridStrokeWidth = 0.15
+        chart2.xValueAxis.gridStrokeColor = colors.darkgrey
+        chart2.xValueAxis.minimumTickSpacing = 8
+        chart2.xValueAxis.maximumTicks = 10
+        chart2.xValueAxis.visibleSubTicks = 1
+        chart2.xValueAxis.subTickHi = 1
+        chart2.xValueAxis.subTickLo = 1
+        chart2.xValueAxis.subTickNum = 1
+        chart2.xValueAxis.strokeWidth = 0.45
+        chart2.xValueAxis.forceZero = ForceXzero
+        chart2.xValueAxis.avoidBoundFrac = None
+        chart2.xValueAxis.gridEnd = 175
+        chart2.xValueAxis.tickDown = 3
+        chart2.xValueAxis.visibleGrid = 0
+        chart2.xValueAxis.visible = 0
         graph.add(chart2)
-        return graph
+    return graph
+
 
 # génération du tableau pour insertion dans le pdf
 def myTable(tabledata):
@@ -521,6 +331,7 @@ def myTable(tabledata):
     t.hAlign = 1
     return t
 
+
 def prep_donnees1(len0, paliers_find, values_sep_paliers):
     &#34;&#34;&#34;mise en forme des données pour le tab1 du pdf
     &#34;&#34;&#34;
@@ -534,6 +345,7 @@ def prep_donnees1(len0, paliers_find, values_sep_paliers):
 
     return donneestraitees1
 
+
 # Initialisation du post traitement du fichier de données pour la génération de pdf
 def traitement_pdf(rundir, nom_fichier, nom_utilisateur, colonne1, colonne2):
     &#34;&#34;&#34;Pré-traitement (calcul de toutes les données dérivées) et mise en forme de toutes les données,
@@ -545,7 +357,7 @@ def traitement_pdf(rundir, nom_fichier, nom_utilisateur, colonne1, colonne2):
     # Entetes de tabs
     # entete1 = [(&#34;Nb paliers&#34;,&#34;asc/desc&#34;,&#34;Nb de valeurs/palier&#34;,&#34;Incertitude ± [%]&#34;)]
     entete1 = [(&#34;Nb paliers&#34;, &#34;asc/desc&#34;, &#34;Nb de valeurs/palier&#34;)]
-    entete2 = [(&#34;Moyenne C_r [V]&#34;, &#34;Ecart-type C_r [mV]&#34;, &#34;Moyenne C_ref&#34;, &#34;Ecart-type C_ref&#34;)]
+    entete2 = [(&#34;Moyenne C_rac [V]&#34;, &#34;Ecart-type C_rac [mV]&#34;, &#34;Moyenne C_ref&#34;, &#34;Ecart-type C_ref&#34;)]
 
     # values = list()
     values = fs.readColCSV1(nom_fichier, &#34;;&#34;, colonne1)
@@ -598,6 +410,24 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     Génération finale du PDF, on réunit toutes les infos et traitement,
     les graphiques sont générés et incluent directement içi
     &#34;&#34;&#34;
+
+    color11 = colors.darkcyan
+    color12 = colors.darkorange
+    color13 = colors.blueviolet
+    color14 = colors.darkslategrey
+    color15 = colors.antiquewhite
+    color16 = colors.darkslategray
+    color17 = colors.darkolivegreen
+    color18 = colors.bisque
+    color19 = colors.aquamarine
+    color20 = colors.red
+
+    chartcolors=[color01,color02,color03,color04,color05,color06,color07,color08,color09,color10]
+    chartcolors2=[color11,color12,color13,color14,color15,color16,color17,color18,color19,color20]
+    chartcolors_palier=[colors.darkcyan,colors.darkorange,colors.blueviolet,colors.darkslategrey,colors.antiquewhite,colors.darkslategray,
+                       colors.darkolivegreen,colors.bisque,colors.aquamarine]
+
+
     # dat = data1
     fichier = Path(fichier).stem + &#34;.csv&#34;  # nettoyage du chemin du nom de fichier et rajout de l&#39;extension
     #
@@ -617,7 +447,7 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     im = Image(logo, 3.5 * cm, 2 * cm)
     text = &#34;Prétraitement pour le raccordement &lt;br/&gt;du capteur &lt;u&gt;&#34; + str(numcapteur) + &#34;&lt;/u&gt;&#34;
     titre = Paragraph(text, styleH3)
-    c_droite = &#34;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + d1 + &#34;&lt;br/&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + version()
+    c_droite = &#34;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + d1 + &#34;&lt;br/&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + fs.version()
     c_droite = Paragraph(c_droite, styleN)
     t = Table([[im, titre, &#39;&#39;, &#39;&#39;, c_droite]])
     t.setStyle(TableStyle([
@@ -643,15 +473,43 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     # et passage en liste des valeurs
     w = 270
     h = 150
-    mesure_brute = LineChartWithMarkers(&#39;Mesures brutes&#39;, [fs.prep_donnees_graph(data1)], w, h,
-                                        [fs.prep_donnees_graph(data2)], 1,
-                                        &#39;Nombre de mesures&#39;, &#39;Tension [V]&#39;, numcapteur2)
+    x=40;y=35;shiftw=80;shifth=60
+    xYLabel=22
+#     mesure_brute = LineChartWithMarkers(&#39;Mesures brutes&#39;, [fs.prep_donnees_graph(data1)], w, h,
+#                                         [fs.prep_donnees_graph(data2)], 1,
+#                                         &#39;Nombre de mesures&#39;, &#39;Tension [V]&#39;, numcapteur2)
+#
+#     # tracé de la mesure
+#     mesure_sep = LineChartWithMarkers(&#39;Mesures corrigées avec identification des paliers&#39;,
+#                                       [fs.prep_donnees_graph(values_sep)],
+#                                       w, h, [fs.prep_donnees_graph(values_sep2)], 1, &#39;Nombre de mesures&#39;, &#39;Tension [V]&#39;,
+#                                       numcapteur2)
 
-    # tracé de la mesure
-    mesure_sep = LineChartWithMarkers(&#39;Mesures corrigées avec identification des paliers&#39;,
-                                      [fs.prep_donnees_graph(values_sep)],
-                                      w, h, [fs.prep_donnees_graph(values_sep2)], 1, &#39;Nombre de mesures&#39;, &#39;Tension [V]&#39;,
-                                      numcapteur2)
+
+#     mesure_brute=trace_mesures(&#39;Mesures brutes&#39;, [fs.prep_donnees_graph(data1)], w, h,
+#                                          [fs.prep_donnees_graph(data2)],&#39;Nombre de mesures&#39;,1,
+#                                          &#39;Tension [V]&#39;,numcapteur2,&#39;Capteur raccordé&#39;,&#39;Capteur référence&#39;, 1)
+#
+#     mesure_sep=trace_mesures(&#39;Mesures corrigées avec identification des paliers&#39;,
+#                                        [fs.prep_donnees_graph(values_sep)],
+#                                        w, h, [fs.prep_donnees_graph(values_sep2)],&#39;Nombre de mesures&#39;,1,
+#                                        &#39;Tension [V]&#39;,numcapteur2,&#39;Capteur raccordé&#39;,&#39;Capteur référence&#39;,1)
+
+
+    
+    mesure_brute=create_graph(&#39;Mesures brutes&#39;, [fs.prep_donnees_graph(data1)], chartcolors, x,y, w, shiftw,h,shifth,xYLabel,
+                                         [fs.prep_donnees_graph(data2)],chartcolors2,&#39;Nombre de mesures&#39;,2,12, 1,
+                                         &#39;Tension [V]&#39;,numcapteur2,&#39;Capteur raccordé&#39;,&#39;Capteur référence&#39;, 1,True,True)
+    
+    mesure_sep=create_graph(&#39;Mesures corrigées avec identification des paliers&#39;,
+                                       [fs.prep_donnees_graph(values_sep)],chartcolors,
+                                       x,y, w, shiftw,h,shifth,xYLabel, [fs.prep_donnees_graph(values_sep2)],chartcolors2,&#39;Nombre de mesures&#39;,2,12,1,
+                                       &#39;Tension [V]&#39;,numcapteur2,&#39;Capteur raccordé&#39;,&#39;Capteur référence&#39;,1,True,True)
+
+
+
+
+
 
     # affichage de deux tableaux cote à cote pour simplifier le copier-coller des données utile
     contenue.append(Table([[myTable(datat1), myTable(datat2)]]))
@@ -673,15 +531,24 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     # tracé des graphiques par paires de paliers
     w = 470
     h = 55
+    x=12;y=12;shiftw=6;shifth=30
+    xYLabel=-17
     # print (data2[0])
     for i in range(int(len(data3) / 2)):
         gdata = [data3[i]] + [data3[int(len(data3) - i - 1)]]
-        graph = trace_graph(&#39;Paliers &#39; + str(i), gdata, w, h, xtvisi=0, ForceXzero=0)
-        # graph = fs.LineChartWithMarkers(&#39;Paliers &#39; + str(i), gdata, w, h)
+        # graph = fs.LineChartWithMarkers(&#39;Paliers &#39; + str(i), gdata, w, h) 
+        #graph = trace_mono_palier(&#39;Paliers &#39; + str(i), gdata, w, h, xtvisi=0, ForceXzero=0)
+
+        graph=create_graph(&#39;Paliers &#39; + str(i), gdata,chartcolors_palier, x,y, w, shiftw,h,shifth,xYLabel, xtvisi=0, ForceXzero=0,isSecondY=False,isLegend=False)
+
+
         contenue.append(graph)
         if i + 1 == int(len(data3) / 2):
             gdata = [data3[int(len(data3) / 2)]]
-            graph = trace_graph(&#39;Paliers &#39; + str(i + 1), gdata, w, h, 0, ForceXzero=0)
+
+            graph = create_graph(&#39;Paliers &#39; + str(i + 1), gdata, chartcolors_palier,x,y, w, shiftw,h,shifth,xYLabel,xtvisi=1, ForceXzero=0,isSecondY=False,isLegend=False)
+
+            #graph = trace_mono_palier(&#39;Paliers &#39; + str(i + 1), gdata, w, h, 0, ForceXzero=0)
             contenue.append(graph)
     ############################
     d1 = today.strftime(&#34;%Y-%m-%d&#34;)
@@ -694,10 +561,7 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
                             author=&#39;Moi&#39;,
                             topMargin=3.5,
                             showBoundary=0)
-    doc.build(contenue)
-
-if __name__ == &#34;__main__&#34;:
-    print (&#34;Il n&#39;y a pas d&#39;autotest ....&#34;)</code></pre>
+    doc.build(contenue)</code></pre>
             </details>
         </section>
         <section>
@@ -707,6 +571,238 @@ if __name__ == &#34;__main__&#34;:
         <section>
             <h2 class="section-title" id="header-functions">Functions</h2>
             <dl>
+                <dt id="Sensorem_Beta-C.FonctionPdf.create_graph"><code class="name flex">
+                    <span>def <span class="ident">create_graph</span></span>(<span>title, data, chartcolors, x, y, w, shiftw, h, shifth, xYLabel, data2=[[(0, 0)]], chartcolors2=[], xtitle='Nombre de mesures', shiftFontXt=1, yXt=-7, xtvisi=1, ytitle='Tension [V]', y2title='Capteur réf', nomCapteur1='Capteur raccordé', nomCapteur2='Capteur référence', ForceXzero=1, isSecondY=True, isLegend=True)</span>
+                </code></dt>
+                <dd>
+                    <div class="desc"></div>
+                    <details class="source">
+                        <summary>
+                            <span>Expand source code</span>
+                        </summary>
+                        <pre><code class="python">def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=[[(0, 0)]],chartcolors2=[], xtitle=&#39;Nombre de mesures&#39;,shiftFontXt=1,yXt=-7,
+                xtvisi=1, ytitle=&#39;Tension [V]&#39;, y2title=&#39;Capteur réf&#39;, nomCapteur1=&#39;Capteur raccordé&#39;,
+                nomCapteur2=&#39;Capteur référence&#39;, ForceXzero=1, isSecondY=True, isLegend=True):
+
+    graph = Drawing(w, h)
+
+
+    fontSize = 10
+
+    chart = LinePlot()
+
+    chart.data = data  # [((0., 0.491), (1., 0.149), (2., 0.3498), (4., 0.2335))]
+    # background = Rect(0, 0, width, height, strokeWidth=0, fillColor=PCMYKColor(0,0,10,0))
+    chart.width = w - shiftw
+    chart.height = h - shifth
+    chart.x = x
+    chart.y = y
+
+    chart.lines.strokeWidth = 0.5
+
+    # premier graph
+    for i in range(len(chart.lines)):
+        chart.lines[i].strokeColor = chartcolors[i]
+
+    # deuxieme graph
+
+    &#34;&#34;&#34;
+    chart.lines[0].symbol = makeMarker(&#39;FilledSquare&#39;)
+    chart.lines[1].symbol = makeMarker(&#39;FilledDiamond&#39;)
+    chart.lines[2].symbol = makeMarker(&#39;FilledStarFive&#39;)
+    chart.lines[3].symbol = makeMarker(&#39;FilledTriangle&#39;)
+    chart.lines[4].symbol = makeMarker(&#39;FilledCircle&#39;)
+    chart.lines[5].symbol = makeMarker(&#39;FilledPentagon&#39;)
+    chart.lines[6].symbol = makeMarker(&#39;FilledStarSix&#39;)
+    chart.lines[7].symbol = makeMarker(&#39;FilledHeptagon&#39;)
+    chart.lines[8].symbol = makeMarker(&#39;FilledOctagon&#39;)
+    chart.lines[9].symbol = makeMarker(&#39;FilledCross&#39;)
+    &#34;&#34;&#34;
+
+    graph.add(Label(), name=&#39;Title&#39;)
+    # Title.fontName = &#39;Helvetica-Bold&#39;
+    graph.Title.fontSize = fontSize - 1
+    graph.Title.x = (w / 2) - len(graph.Title._text) / 2
+    graph.Title.y = h - 25
+    graph.Title._text = title
+    graph.Title.maxWidth = 180
+    graph.Title.height = 35
+    graph.Title.textAnchor = &#39;middle&#39;
+    #
+    # Axe des X
+    graph.add(Label(), name=&#39;XLabel&#39;)
+    # XLabel.fontName       = &#39;Helvetica&#39;
+    graph.XLabel.fontSize = fontSize - shiftFontXt
+    graph.XLabel.x = w / 2
+    graph.XLabel.y = yXt
+    graph.XLabel.textAnchor = &#39;middle&#39;
+    # position x et y du titre des axes X
+    graph.XLabel.maxWidth = 100
+    graph.XLabel.height = 10
+    
+    if xtvisi == 1:
+        graph.XLabel._text = xtitle
+    else:
+        graph.XLabel._text = &#39;&#39;
+    
+    
+    
+    
+    #
+    # Axe des Y
+    graph.add(Label(), name=&#39;YLabel&#39;)
+    # YLabel.fontName       = &#39;Helvetica&#39;
+    graph.YLabel.fontSize = fontSize - 2
+    graph.YLabel.x = xYLabel
+    graph.YLabel.y = h / 2
+    graph.YLabel.angle = 90
+    graph.YLabel.textAnchor = &#39;middle&#39;
+    graph.YLabel.maxWidth = 100
+    graph.YLabel.height = 20
+    graph.YLabel._text = ytitle
+    #
+
+    
+    # 2eme axe des Y
+    if isSecondY:
+        graph.add(Label(), name=&#39;YLabel&#39;)
+        graph.YLabel.fontSize = fontSize - 3
+        graph.YLabel.x = w - 10
+        graph.YLabel.y = h / 2
+        graph.YLabel.angle = 90
+        graph.YLabel.textAnchor = &#39;middle&#39;
+        graph.YLabel.maxWidth = 100
+        graph.YLabel.height = 20
+        graph.YLabel._text = y2title
+
+    # legende
+    if isLegend:
+        graph.add(Legend(), name=&#39;Legend&#39;)
+        graph.Legend.fontSize = fontSize - 3
+        graph.Legend.x = 55
+        graph.Legend.y = 3
+        graph.Legend.dxTextSpace = 5
+        graph.Legend.dy = 5
+        graph.Legend.dx = 5
+        graph.Legend.deltay = 5
+        graph.Legend.alignment = &#39;right&#39;
+        graph.Legend.columnMaximum = 1
+        graph.Legend.colorNamePairs = [(color01, nomCapteur1), (colors.darkcyan, nomCapteur2)]
+
+
+
+    # chart.xValueAxis.labels.fontName       = &#39;Helvetica&#39;
+    chart.xValueAxis.labels.fontSize = fontSize - 2
+
+    chart.xValueAxis.gridStrokeWidth = 0.15
+    chart.xValueAxis.gridStrokeColor = colors.darkgrey
+    chart.xValueAxis.minimumTickSpacing = 8
+    chart.xValueAxis.maximumTicks = 10
+    chart.xValueAxis.visibleSubTicks = 1
+    chart.xValueAxis.subTickHi = 0
+    chart.xValueAxis.subTickLo = 2
+    chart.xValueAxis.subTickNum = 1
+    chart.xValueAxis.strokeWidth = 0.45
+    chart.xValueAxis.forceZero = ForceXzero
+    chart.xValueAxis.avoidBoundFrac = None
+    # chart.xValueAxis.gridEnd = 175
+    chart.xValueAxis.tickDown = 3
+    chart.xValueAxis.visibleGrid = 1
+    chart.xValueAxis.visible = 1
+
+
+    chart.yValueAxis.tickLeft = 3
+    chart.yValueAxis.labels.fontSize = fontSize - 3
+    #
+    chart.yValueAxis.visibleGrid = 1
+    chart.yValueAxis.gridStrokeWidth = 0.15
+    chart.yValueAxis.gridStrokeColor = colors.darkgrey
+    chart.yValueAxis.visibleAxis = 1
+    chart.yValueAxis.labels.textAnchor = &#39;start&#39;
+    chart.yValueAxis.labels.boxAnchor = &#39;e&#39;
+    chart.yValueAxis.labels.angle = 0
+    chart.yValueAxis.labels.dx = -3
+    chart.yValueAxis.labels.dy = 0
+
+    chart.yValueAxis.strokeWidth = 0.45
+    chart.yValueAxis.visible = 1
+    chart.yValueAxis.labels.rightPadding = 2
+    chart.yValueAxis.rangeRound = &#39;both&#39;
+    chart.yValueAxis.tickLeft = chart.yValueAxis.tickLeft
+    chart.yValueAxis.minimumTickSpacing = 8
+    chart.yValueAxis.maximumTicks = 10
+    chart.yValueAxis.visibleSubTicks = 1
+    chart.yValueAxis.subTickHi = 0
+    chart.yValueAxis.subTickLo = 1
+    chart.yValueAxis.subTickNum = 1
+    chart.yValueAxis.forceZero = ForceXzero
+    chart.yValueAxis.avoidBoundFrac = None
+    graph.add(chart)
+
+    if not data2 or data2 == [[(0, 0)]]:
+        return graph
+    else:  # pour un éventuel tracer avec deux courbes
+        chart2 = LinePlot()
+        chart2.data = data2  # [((0., 0.491), (1., 0.249), (2., 0.3498), (4., 0.2335))]
+
+        for i in range(len(chart2.lines)):
+            chart2.lines[i].strokeColor = chartcolors2[i]
+
+
+
+        chart2.lines.strokeWidth = 0.5
+        chart2.yValueAxis.tickLeft = 3
+        chart2.width = chart.width
+        chart2.height = chart.height
+        chart2.x = chart.x
+        chart2.y = chart.y
+        chart2.yValueAxis.joinAxisMode = &#39;right&#39;
+        # y2 axis
+        chart2.yValueAxis.labels.fontSize = fontSize - 3
+        chart2.yValueAxis.visibleGrid = 0
+        chart2.yValueAxis.gridStrokeWidth = 0.15
+        chart2.yValueAxis.gridStrokeColor = colors.darkgrey
+        chart2.yValueAxis.visibleAxis = 1
+        chart2.yValueAxis.labels.textAnchor = &#39;start&#39;
+        chart2.yValueAxis.labels.boxAnchor = &#39;w&#39;
+        chart2.yValueAxis.labels.angle = 0
+        chart2.yValueAxis.labels.dx = 5
+        chart2.yValueAxis.labels.dy = 0
+        chart2.yValueAxis.labels.fontSize = fontSize - 2
+        chart2.yValueAxis.strokeWidth = 0.45
+        chart2.yValueAxis.visible = 1
+        chart2.yValueAxis.labels.rightPadding = 2
+        chart2.yValueAxis.rangeRound = &#39;both&#39;
+        # chart2.yValueAxis.tickLeft             = -chart.yValueAxis.tickLeft
+        chart2.yValueAxis.minimumTickSpacing = 8
+        chart2.yValueAxis.maximumTicks = 10
+        chart2.yValueAxis.visibleSubTicks = 1
+        chart2.yValueAxis.subTickHi = 0
+        chart2.yValueAxis.subTickLo = 1
+        chart2.yValueAxis.subTickNum = 1
+        chart2.yValueAxis.forceZero = ForceXzero
+        chart2.yValueAxis.avoidBoundFrac = None
+
+        #
+        chart2.xValueAxis.gridStrokeWidth = 0.15
+        chart2.xValueAxis.gridStrokeColor = colors.darkgrey
+        chart2.xValueAxis.minimumTickSpacing = 8
+        chart2.xValueAxis.maximumTicks = 10
+        chart2.xValueAxis.visibleSubTicks = 1
+        chart2.xValueAxis.subTickHi = 1
+        chart2.xValueAxis.subTickLo = 1
+        chart2.xValueAxis.subTickNum = 1
+        chart2.xValueAxis.strokeWidth = 0.45
+        chart2.xValueAxis.forceZero = ForceXzero
+        chart2.xValueAxis.avoidBoundFrac = None
+        chart2.xValueAxis.gridEnd = 175
+        chart2.xValueAxis.tickDown = 3
+        chart2.xValueAxis.visibleGrid = 0
+        chart2.xValueAxis.visible = 0
+        graph.add(chart2)
+    return graph</code></pre>
+                    </details>
+                </dd>
                 <dt id="Sensorem_Beta-C.FonctionPdf.gen_pdf"><code class="name flex">
                     <span>def <span class="ident">gen_pdf</span></span>(<span>data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, values_sep2, data3, rundir, fichier, nom_utilisateur)</span>
                 </code></dt>
@@ -726,6 +822,24 @@ if __name__ == &#34;__main__&#34;:
     Génération finale du PDF, on réunit toutes les infos et traitement,
     les graphiques sont générés et incluent directement içi
     &#34;&#34;&#34;
+
+    color11 = colors.darkcyan
+    color12 = colors.darkorange
+    color13 = colors.blueviolet
+    color14 = colors.darkslategrey
+    color15 = colors.antiquewhite
+    color16 = colors.darkslategray
+    color17 = colors.darkolivegreen
+    color18 = colors.bisque
+    color19 = colors.aquamarine
+    color20 = colors.red
+
+    chartcolors=[color01,color02,color03,color04,color05,color06,color07,color08,color09,color10]
+    chartcolors2=[color11,color12,color13,color14,color15,color16,color17,color18,color19,color20]
+    chartcolors_palier=[colors.darkcyan,colors.darkorange,colors.blueviolet,colors.darkslategrey,colors.antiquewhite,colors.darkslategray,
+                       colors.darkolivegreen,colors.bisque,colors.aquamarine]
+
+
     # dat = data1
     fichier = Path(fichier).stem + &#34;.csv&#34;  # nettoyage du chemin du nom de fichier et rajout de l&#39;extension
     #
@@ -745,7 +859,7 @@ if __name__ == &#34;__main__&#34;:
     im = Image(logo, 3.5 * cm, 2 * cm)
     text = &#34;Prétraitement pour le raccordement &lt;br/&gt;du capteur &lt;u&gt;&#34; + str(numcapteur) + &#34;&lt;/u&gt;&#34;
     titre = Paragraph(text, styleH3)
-    c_droite = &#34;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + d1 + &#34;&lt;br/&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + version()
+    c_droite = &#34;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + d1 + &#34;&lt;br/&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &#34; + fs.version()
     c_droite = Paragraph(c_droite, styleN)
     t = Table([[im, titre, &#39;&#39;, &#39;&#39;, c_droite]])
     t.setStyle(TableStyle([
@@ -771,15 +885,43 @@ if __name__ == &#34;__main__&#34;:
     # et passage en liste des valeurs
     w = 270
     h = 150
-    mesure_brute = LineChartWithMarkers(&#39;Mesures brutes&#39;, [fs.prep_donnees_graph(data1)], w, h,
-                                        [fs.prep_donnees_graph(data2)], 1,
-                                        &#39;Nombre de mesures&#39;, &#39;Tension [V]&#39;, numcapteur2)
+    x=40;y=35;shiftw=80;shifth=60
+    xYLabel=22
+#     mesure_brute = LineChartWithMarkers(&#39;Mesures brutes&#39;, [fs.prep_donnees_graph(data1)], w, h,
+#                                         [fs.prep_donnees_graph(data2)], 1,
+#                                         &#39;Nombre de mesures&#39;, &#39;Tension [V]&#39;, numcapteur2)
+#
+#     # tracé de la mesure
+#     mesure_sep = LineChartWithMarkers(&#39;Mesures corrigées avec identification des paliers&#39;,
+#                                       [fs.prep_donnees_graph(values_sep)],
+#                                       w, h, [fs.prep_donnees_graph(values_sep2)], 1, &#39;Nombre de mesures&#39;, &#39;Tension [V]&#39;,
+#                                       numcapteur2)
 
-    # tracé de la mesure
-    mesure_sep = LineChartWithMarkers(&#39;Mesures corrigées avec identification des paliers&#39;,
-                                      [fs.prep_donnees_graph(values_sep)],
-                                      w, h, [fs.prep_donnees_graph(values_sep2)], 1, &#39;Nombre de mesures&#39;, &#39;Tension [V]&#39;,
-                                      numcapteur2)
+
+#     mesure_brute=trace_mesures(&#39;Mesures brutes&#39;, [fs.prep_donnees_graph(data1)], w, h,
+#                                          [fs.prep_donnees_graph(data2)],&#39;Nombre de mesures&#39;,1,
+#                                          &#39;Tension [V]&#39;,numcapteur2,&#39;Capteur raccordé&#39;,&#39;Capteur référence&#39;, 1)
+#
+#     mesure_sep=trace_mesures(&#39;Mesures corrigées avec identification des paliers&#39;,
+#                                        [fs.prep_donnees_graph(values_sep)],
+#                                        w, h, [fs.prep_donnees_graph(values_sep2)],&#39;Nombre de mesures&#39;,1,
+#                                        &#39;Tension [V]&#39;,numcapteur2,&#39;Capteur raccordé&#39;,&#39;Capteur référence&#39;,1)
+
+
+    
+    mesure_brute=create_graph(&#39;Mesures brutes&#39;, [fs.prep_donnees_graph(data1)], chartcolors, x,y, w, shiftw,h,shifth,xYLabel,
+                                         [fs.prep_donnees_graph(data2)],chartcolors2,&#39;Nombre de mesures&#39;,2,12, 1,
+                                         &#39;Tension [V]&#39;,numcapteur2,&#39;Capteur raccordé&#39;,&#39;Capteur référence&#39;, 1,True,True)
+    
+    mesure_sep=create_graph(&#39;Mesures corrigées avec identification des paliers&#39;,
+                                       [fs.prep_donnees_graph(values_sep)],chartcolors,
+                                       x,y, w, shiftw,h,shifth,xYLabel, [fs.prep_donnees_graph(values_sep2)],chartcolors2,&#39;Nombre de mesures&#39;,2,12,1,
+                                       &#39;Tension [V]&#39;,numcapteur2,&#39;Capteur raccordé&#39;,&#39;Capteur référence&#39;,1,True,True)
+
+
+
+
+
 
     # affichage de deux tableaux cote à cote pour simplifier le copier-coller des données utile
     contenue.append(Table([[myTable(datat1), myTable(datat2)]]))
@@ -801,15 +943,24 @@ if __name__ == &#34;__main__&#34;:
     # tracé des graphiques par paires de paliers
     w = 470
     h = 55
+    x=12;y=12;shiftw=6;shifth=30
+    xYLabel=-17
     # print (data2[0])
     for i in range(int(len(data3) / 2)):
         gdata = [data3[i]] + [data3[int(len(data3) - i - 1)]]
-        graph = trace_graph(&#39;Paliers &#39; + str(i), gdata, w, h, xtvisi=0, ForceXzero=0)
-        # graph = fs.LineChartWithMarkers(&#39;Paliers &#39; + str(i), gdata, w, h)
+        # graph = fs.LineChartWithMarkers(&#39;Paliers &#39; + str(i), gdata, w, h) 
+        #graph = trace_mono_palier(&#39;Paliers &#39; + str(i), gdata, w, h, xtvisi=0, ForceXzero=0)
+
+        graph=create_graph(&#39;Paliers &#39; + str(i), gdata,chartcolors_palier, x,y, w, shiftw,h,shifth,xYLabel, xtvisi=0, ForceXzero=0,isSecondY=False,isLegend=False)
+
+
         contenue.append(graph)
         if i + 1 == int(len(data3) / 2):
             gdata = [data3[int(len(data3) / 2)]]
-            graph = trace_graph(&#39;Paliers &#39; + str(i + 1), gdata, w, h, 0, ForceXzero=0)
+
+            graph = create_graph(&#39;Paliers &#39; + str(i + 1), gdata, chartcolors_palier,x,y, w, shiftw,h,shifth,xYLabel,xtvisi=1, ForceXzero=0,isSecondY=False,isLegend=False)
+
+            #graph = trace_mono_palier(&#39;Paliers &#39; + str(i + 1), gdata, w, h, 0, ForceXzero=0)
             contenue.append(graph)
     ############################
     d1 = today.strftime(&#34;%Y-%m-%d&#34;)
@@ -879,199 +1030,6 @@ if __name__ == &#34;__main__&#34;:
     return donneestraitees1</code></pre>
                     </details>
                 </dd>
-                <dt id="Sensorem_Beta-C.FonctionPdf.trace_graph"><code class="name flex">
-                    <span>def <span class="ident">trace_graph</span></span>(<span>title, data, w, h, data2=[[(0, 0)]], xtitle='Nombre de mesures', xtvisi=1, ytitle='Tension [V]', y2title='Capteur réf', ForceXzero=1)</span>
-                </code></dt>
-                <dd>
-                    <div class="desc"><p>Fonction qui génère les graphiques des paliers dans le pdf, petite usine à gaz
-                        à ne pas toucher
-                        ou alors on à du temps devant sois :), même bordel que la class de graph</p></div>
-                    <details class="source">
-                        <summary>
-                            <span>Expand source code</span>
-                        </summary>
-                        <pre><code class="python">def trace_graph(title, data, w, h, data2=[[(0, 0)]], xtitle=&#39;Nombre de mesures&#39;,
-                xtvisi=1, ytitle=&#39;Tension [V]&#39;, y2title=&#39;Capteur réf&#39;, ForceXzero=1):
-    &#34;&#34;&#34;Fonction qui génère les graphiques des paliers dans le pdf, petite usine à gaz à ne pas toucher
-    ou alors on à du temps devant sois :), même bordel que la class de graph
-    &#34;&#34;&#34;
-    graph = Drawing(w, h)
-    # print(data)
-    chart = LinePlot()
-    chart.y = 12
-    chart.x = 12
-    chart.width = w - 6
-    chart.height = h - 30
-    # fontName = &#39;Helvetica&#39;
-    fontSize = 10
-    graph.add(Label(), name=&#39;XLabel&#39;)
-    graph.XLabel.fontName = &#39;Times-Roman&#39;
-    graph.XLabel.fontSize = fontSize - 1
-    graph.XLabel.x = w / 2
-    graph.XLabel.y = -7
-    if xtvisi == 1:
-        graph.XLabel._text = xtitle
-    else:
-        graph.XLabel._text = &#39;&#39;
-    graph.add(Label(), name=&#39;YLabel&#39;)
-    graph.YLabel.fontSize = fontSize - 2
-    graph.YLabel.x = -17
-    graph.YLabel.y = h / 2
-    graph.YLabel.angle = 90
-    graph.YLabel.textAnchor = &#39;middle&#39;
-    graph.YLabel._text = ytitle
-    # chart.lineLabels.fontSize           = fontSize
-    chart.lineLabels.boxStrokeWidth = 0.3
-    # chart.lineLabels.visible            = 1
-    chart.lineLabels.boxAnchor = &#39;c&#39;
-    chart.lineLabels.angle = 0
-    chart.lineLabelNudge = 10
-    chart.joinedLines = 1
-    chart.lines.strokeWidth = 0.5
-    # line styles
-    chart.lines[0].strokeColor = colors.darkcyan
-    chart.lines[0].symbol = makeMarker(None)
-    chart.lines[0].symbol.size = 2
-    chart.lines[0].symbol.angle = 15
-    chart.lines[1].strokeColor = colors.darkorange
-    chart.lines[1].symbol = makeMarker(None)
-    chart.lines[1].symbol.size = 2
-    chart.lines[1].symbol.angle = 15
-    chart.lines[2].strokeColor = colors.blueviolet
-    chart.lines[2].symbol = makeMarker(None)
-    chart.lines[2].symbol.size = 3
-    chart.lines[2].symbol.angle = 15
-    chart.lines[3].strokeColor = colors.darkslategrey
-    chart.lines[3].symbol = makeMarker(None)
-    chart.lines[3].symbol.size = 2
-    chart.lines[3].symbol.angle = 15
-    chart.lines[4].strokeColor = colors.antiquewhite
-    chart.lines[4].symbol = makeMarker(None)
-    chart.lines[4].symbol.size = 2
-    chart.lines[4].symbol.angle = 15
-    chart.lines[5].strokeColor = colors.darkslategray
-    chart.lines[5].symbol = makeMarker(None)
-    chart.lines[5].symbol.size = 2
-    chart.lines[5].symbol.angle = 15
-    chart.lines[6].strokeColor = colors.darkolivegreen
-    chart.lines[6].symbol = makeMarker(None)
-    chart.lines[6].symbol.size = 2
-    chart.lines[6].symbol.angle = 15
-    chart.lines[7].strokeColor = colors.bisque
-    chart.lines[7].symbol = makeMarker(None)
-    chart.lines[7].symbol.size = 2
-    chart.lines[7].symbol.angle = 15
-    chart.lines[8].strokeColor = colors.aquamarine
-    chart.lines[8].symbol = makeMarker(None)
-    chart.lines[8].symbol.size = 2
-    chart.lines[8].symbol.angle = 15
-    chart.lines.strokeWidth = 0.5
-    chart.lines.symbol = makeMarker(None)
-    # x axis
-    chart.xValueAxis.visibleAxis = 1
-    chart.xValueAxis.visibleGrid = 1
-    chart.xValueAxis.gridStrokeWidth = 0.15
-    chart.xValueAxis.gridStrokeColor = colors.darkgrey
-    # chart.xValueAxis.labels.fontName       = fontName
-    chart.xValueAxis.labels.fontSize = fontSize - 2
-    chart.xValueAxis.labels.boxAnchor = &#39;autox&#39;
-    chart.xValueAxis.maximumTicks = 10
-    chart.xValueAxis.minimumTickSpacing = 0.5
-    chart.xValueAxis.tickDown = 2.5
-    chart.xValueAxis.visibleSubTicks = 1
-    chart.xValueAxis.subTickHi = 0
-    chart.xValueAxis.subTickLo = 1
-    chart.xValueAxis.subTickNum = 1
-    chart.xValueAxis.subTickNum = 1
-    chart.xValueAxis.strokeWidth = 0.45
-    chart.xValueAxis.avoidBoundFrac = 0.1
-    chart.xValueAxis.forceZero = ForceXzero
-    # y axis
-    chart.yValueAxis.visibleGrid = 1
-    chart.yValueAxis.gridStrokeWidth = 0.15
-    chart.yValueAxis.gridStrokeColor = colors.darkgrey
-    chart.yValueAxis.visibleAxis = 1
-    # chart.yValueAxis.labels.fontName       = fontName
-    chart.yValueAxis.labels.fontSize = fontSize - 2
-    # chart.yValueAxis.labelTextFormat       = &#39;%0.1f&#39;
-    chart.yValueAxis.strokeWidth = 0.45
-    chart.yValueAxis.visible = 1
-    chart.yValueAxis.labels.rightPadding = 2
-    chart.yValueAxis.rangeRound = &#39;both&#39;
-    chart.yValueAxis.tickLeft = 2.5
-    chart.yValueAxis.minimumTickSpacing = 8
-    chart.yValueAxis.maximumTicks = 10
-    chart.yValueAxis.visibleSubTicks = 1
-    chart.yValueAxis.subTickHi = 0
-    chart.yValueAxis.subTickLo = 1
-    chart.yValueAxis.subTickNum = 1
-    chart.yValueAxis.forceZero = ForceXzero
-    chart.yValueAxis.avoidBoundFrac = 0.1
-    graph.add(String(((w / 2) - len(title) * 2), h - 14, &#39;text&#39;), name=&#39;title&#39;)
-    graph.title.text = title
-    graph.title.fontSize = fontSize - 2
-    chart.data = data
-    graph.add(chart)
-    # y2 axis
-    # data2 = data
-    if not data2 or data2 == [[(0, 0)]]:
-        return graph
-    else:  # pour un éventuel tracer avec deux courbes
-        chart2 = LinePlot()
-        chart.y = 12
-        chart.x = 12
-        chart.width = w - 6
-        chart.height = h - 30
-        # x axis
-        chart2.xValueAxis.visibleAxis = 0
-        chart2.xValueAxis.visibleGrid = 0
-        chart2.xValueAxis.gridStrokeWidth = 0.15
-        chart2.xValueAxis.gridStrokeColor = colors.darkgrey
-        # chart2.xValueAxis.labels.fontName       = fontName
-        chart2.xValueAxis.labels.fontSize = 0  # fontSize-2
-        chart2.xValueAxis.labels.boxAnchor = &#39;autox&#39;
-        chart2.xValueAxis.maximumTicks = 10
-        chart2.xValueAxis.minimumTickSpacing = 0.5
-        chart2.xValueAxis.tickDown = 2.5
-        chart2.xValueAxis.visibleSubTicks = 1
-        chart2.xValueAxis.subTickHi = 0
-        chart2.xValueAxis.subTickLo = 1
-        chart2.xValueAxis.subTickNum = 1
-        chart2.xValueAxis.subTickNum = 1
-        chart2.xValueAxis.strokeWidth = 0.45
-        chart2.xValueAxis.forceZero = ForceXzero
-        chart2.data = data2
-        chart2.xValueAxis.visible = 1
-        #
-        # chart2.yTitleText           = y2title
-        chart2.yValueAxis.setPosition(50, 50, 125)
-        chart2.yValueAxis.joinAxisMode = &#39;right&#39;
-        chart2.yValueAxis.visibleGrid = 0
-        chart2.yValueAxis.gridStrokeWidth = 0.15
-        chart2.yValueAxis.gridStrokeColor = colors.darkgrey
-        chart2.yValueAxis.visibleAxis = 0
-        chart2.yValueAxis.labels.fontSize = fontSize - 2
-        chart2.yValueAxis.labels.textAnchor = &#39;start&#39;
-        chart2.yValueAxis.labels.boxAnchor = &#39;w&#39;
-        chart2.yValueAxis.labels.angle = 0
-        chart2.yValueAxis.labels.dx = 5
-        chart2.yValueAxis.labels.dy = 0
-        chart2.yValueAxis.strokeWidth = 0.45
-        chart2.yValueAxis.labels.rightPadding = 2
-        chart2.yValueAxis.rangeRound = &#39;both&#39;
-        chart2.yValueAxis.tickLeft = -2.5
-        chart2.yValueAxis.minimumTickSpacing = 8
-        chart2.yValueAxis.maximumTicks = 10
-        chart2.yValueAxis.visibleSubTicks = 1
-        chart2.yValueAxis.subTickHi = 0
-        chart2.yValueAxis.subTickLo = -1
-        chart2.yValueAxis.subTickNum = 1
-        chart2.yValueAxis.forceZero = ForceXzero
-        chart2.yValueAxis.avoidBoundFrac = 0.1
-        graph.add(chart2)
-        return graph</code></pre>
-                    </details>
-                </dd>
                 <dt id="Sensorem_Beta-C.FonctionPdf.traitement_pdf"><code class="name flex">
                     <span>def <span class="ident">traitement_pdf</span></span>(<span>rundir, nom_fichier, nom_utilisateur, colonne1, colonne2)</span>
                 </code></dt>
@@ -1094,7 +1052,7 @@ if __name__ == &#34;__main__&#34;:
     # Entetes de tabs
     # entete1 = [(&#34;Nb paliers&#34;,&#34;asc/desc&#34;,&#34;Nb de valeurs/palier&#34;,&#34;Incertitude ± [%]&#34;)]
     entete1 = [(&#34;Nb paliers&#34;, &#34;asc/desc&#34;, &#34;Nb de valeurs/palier&#34;)]
-    entete2 = [(&#34;Moyenne C_r [V]&#34;, &#34;Ecart-type C_r [mV]&#34;, &#34;Moyenne C_ref&#34;, &#34;Ecart-type C_ref&#34;)]
+    entete2 = [(&#34;Moyenne C_rac [V]&#34;, &#34;Ecart-type C_rac [mV]&#34;, &#34;Moyenne C_ref&#34;, &#34;Ecart-type C_ref&#34;)]
 
     # values = list()
     values = fs.readColCSV1(nom_fichier, &#34;;&#34;, colonne1)
@@ -1143,268 +1101,6 @@ if __name__ == &#34;__main__&#34;:
             </dl>
         </section>
         <section>
-            <h2 class="section-title" id="header-classes">Classes</h2>
-            <dl>
-                <dt id="Sensorem_Beta-C.FonctionPdf.LineChartWithMarkers"><code class="flex name class">
-                    <span>class <span class="ident">LineChartWithMarkers</span></span>
-                    <span>(</span><span>titre_graph='Un titre de graphique', data=[[(0, 0)]], width=215, height=115, data2=[[(0, 0)]], xtvisi=0, xtitle='Nombre de mesures', ytitle='Tension [V]', y2title='Capteur Réf', nomCapteur1='Capteur raccordé', nomCapteur2='Capteur référence', *args, **kw)</span>
-                </code></dt>
-                <dd>
-                    <div class="desc"><p>Classe de conteneur graphique. Elle trace les graphiques des mesures brutes et
-                        corrigées.
-                        Pourrait faire doublon avec la fonction trace_graph (qui trace les paliers).
-                        Mais deux mises en forme diff, plus simple à gérer avec deux générateurs</p></div>
-                    <details class="source">
-                        <summary>
-                            <span>Expand source code</span>
-                        </summary>
-                        <pre><code class="python">class LineChartWithMarkers(_DrawingEditorMixin, Drawing):
-    &#34;&#34;&#34;Classe de conteneur graphique. Elle trace les graphiques des mesures brutes et corrigées.
-    Pourrait faire doublon avec la fonction trace_graph (qui trace les paliers).
-    Mais deux mises en forme diff, plus simple à gérer avec deux générateurs
-    &#34;&#34;&#34;
-
-    def __init__(self,
-                 titre_graph=&#39;Un titre de graphique&#39;,
-                 data=[[(0, 0)]],
-                 width=215,
-                 height=115,
-                 data2=[[(0, 0)]],
-                 xtvisi=0,
-                 xtitle=&#39;Nombre de mesures&#39;,
-                 ytitle=&#39;Tension [V]&#39;,
-                 y2title=&#39;Capteur Réf&#39;,
-                 nomCapteur1=&#39;Capteur raccordé&#39;,
-                 nomCapteur2=&#39;Capteur référence&#39;,
-                 *args, **kw):
-
-        Drawing.__init__(self, width, height, *args, **kw)
-        fontSize = 10
-        self._add(self, LinePlot(), name=&#39;chart&#39;, validate=None, desc=&#34;The main chart&#34;)
-        self.chart.data = data  # [((0., 0.491), (1., 0.149), (2., 0.3498), (4., 0.2335))]
-        # self.background = Rect(0, 0, self.width, self.height, strokeWidth=0, fillColor=PCMYKColor(0,0,10,0))
-        self.chart.width = width - 80
-        self.chart.height = height - 60
-        self.chart.x = 40
-        self.chart.y = 35
-
-        self.chart.lines.strokeWidth = 0.5
-
-        # premier graph
-        self.chart.lines[0].strokeColor = color01
-        self.chart.lines[1].strokeColor = color02
-        self.chart.lines[2].strokeColor = color03
-        self.chart.lines[3].strokeColor = color04
-        self.chart.lines[4].strokeColor = color05
-        self.chart.lines[5].strokeColor = color06
-        self.chart.lines[6].strokeColor = color07
-        self.chart.lines[7].strokeColor = color08
-        self.chart.lines[8].strokeColor = color09
-        self.chart.lines[9].strokeColor = color10
-        # deuxieme graph
-
-        &#34;&#34;&#34;
-        self.chart.lines[0].symbol = makeMarker(&#39;FilledSquare&#39;)
-        self.chart.lines[1].symbol = makeMarker(&#39;FilledDiamond&#39;)
-        self.chart.lines[2].symbol = makeMarker(&#39;FilledStarFive&#39;)
-        self.chart.lines[3].symbol = makeMarker(&#39;FilledTriangle&#39;)
-        self.chart.lines[4].symbol = makeMarker(&#39;FilledCircle&#39;)
-        self.chart.lines[5].symbol = makeMarker(&#39;FilledPentagon&#39;)
-        self.chart.lines[6].symbol = makeMarker(&#39;FilledStarSix&#39;)
-        self.chart.lines[7].symbol = makeMarker(&#39;FilledHeptagon&#39;)
-        self.chart.lines[8].symbol = makeMarker(&#39;FilledOctagon&#39;)
-        self.chart.lines[9].symbol = makeMarker(&#39;FilledCross&#39;)
-        &#34;&#34;&#34;
-        # self.chart.fillColor = colors.ivory
-        # self.chart.lineLabels.fontName              = &#39;Helvetica&#39;
-        self.chart.yValueAxis.tickLeft = 3
-        # self.chart.yValueAxis.labels.fontName       = &#39;Helvetica&#39;
-        self.chart.yValueAxis.labels.fontSize = fontSize - 2
-        self._add(self, Label(), name=&#39;Title&#39;, validate=None, desc=&#34;The title at the top of the chart&#34;)
-        # self.Title.fontName = &#39;Helvetica-Bold&#39;
-        self.Title.fontSize = fontSize - 1
-        self.Title.x = (width / 2) - len(self.Title._text) / 2
-        self.Title.y = height - 25
-        self.Title._text = titre_graph
-        self.Title.maxWidth = 180
-        self.Title.height = 35
-        self.Title.textAnchor = &#39;middle&#39;
-
-        # Axe des X
-        self._add(self, Label(), name=&#39;XLabel&#39;, validate=None, desc=&#34;The label on the horizontal axis&#34;)
-        # self.XLabel.fontName       = &#39;Helvetica&#39;
-        self.XLabel.fontSize = fontSize - 2
-        self.XLabel.x = width / 2
-        self.XLabel.y = 12
-        self.XLabel.textAnchor = &#39;middle&#39;
-        # position x et y du titre des axes X
-        self.XLabel.maxWidth = 100
-        self.XLabel.height = 10
-        if xtvisi == 1:
-            self.XLabel._text = xtitle
-        else:
-            self.XLabel._text = &#39;&#39;
-        # self.chart.xValueAxis.labels.fontName       = &#39;Helvetica&#39;
-        self.chart.xValueAxis.labels.fontSize = fontSize - 2
-
-        self.chart.xValueAxis.gridStrokeWidth = 0.15
-        self.chart.xValueAxis.gridStrokeColor = colors.darkgrey
-        self.chart.xValueAxis.minimumTickSpacing = 8
-        self.chart.xValueAxis.maximumTicks = 10
-        self.chart.xValueAxis.visibleSubTicks = 1
-        self.chart.xValueAxis.subTickHi = 0
-        self.chart.xValueAxis.subTickLo = 2
-        self.chart.xValueAxis.subTickNum = 1
-        self.chart.xValueAxis.strokeWidth = 0.45
-        self.chart.xValueAxis.forceZero = 1
-        self.chart.xValueAxis.avoidBoundFrac = None
-        # self.chart.xValueAxis.gridEnd = 175
-        self.chart.xValueAxis.tickDown = 3
-        self.chart.xValueAxis.visibleGrid = 1
-        self.chart.xValueAxis.visible = 1
-        # Axe des Y
-        self._add(self, Label(), name=&#39;YLabel&#39;, validate=None, desc=&#34;The label on the vertical1 axis&#34;)
-        # self.YLabel.fontName       = &#39;Helvetica&#39;
-        self.YLabel.fontSize = fontSize - 2
-        self.YLabel.x = 22
-        self.YLabel.y = height / 2
-        self.YLabel.angle = 90
-        self.YLabel.textAnchor = &#39;middle&#39;
-        self.YLabel.maxWidth = 100
-        self.YLabel.height = 20
-        self.YLabel._text = ytitle
-        #
-        self.chart.yValueAxis.visibleGrid = 1
-        self.chart.yValueAxis.gridStrokeWidth = 0.15
-        self.chart.yValueAxis.gridStrokeColor = colors.darkgrey
-        self.chart.yValueAxis.visibleAxis = 1
-        self.chart.yValueAxis.labels.textAnchor = &#39;start&#39;
-        self.chart.yValueAxis.labels.boxAnchor = &#39;e&#39;
-        self.chart.yValueAxis.labels.angle = 0
-        self.chart.yValueAxis.labels.dx = -3
-        self.chart.yValueAxis.labels.dy = 0
-
-        self.chart.yValueAxis.strokeWidth = 0.45
-        self.chart.yValueAxis.visible = 1
-        self.chart.yValueAxis.labels.rightPadding = 2
-        self.chart.yValueAxis.rangeRound = &#39;both&#39;
-        self.chart.yValueAxis.tickLeft = self.chart.yValueAxis.tickLeft
-        self.chart.yValueAxis.minimumTickSpacing = 8
-        self.chart.yValueAxis.maximumTicks = 10
-        self.chart.yValueAxis.visibleSubTicks = 1
-        self.chart.yValueAxis.subTickHi = 0
-        self.chart.yValueAxis.subTickLo = 1
-        self.chart.yValueAxis.subTickNum = 1
-        self.chart.yValueAxis.forceZero = 1
-        self.chart.yValueAxis.avoidBoundFrac = None
-
-        # self.Legend.colorNamePairs = Auto(chart=self.plot)
-        if not data2 or data2 == [[(0, 0)]]:
-            self._add(self, 0, name=&#39;preview&#39;, validate=None, desc=None)
-        else:  # pour un éventuel tracer avec deux courbes
-            # self.chart2.data = [[(0,0)]]
-            # self.chart2.yValueAxis.setPosition(50, 50, 125)
-            self._add(self, LinePlot(), name=&#39;chart2&#39;, validate=None, desc=&#34;The main chart2&#34;)
-            self.chart2.data = data2  # [((0., 0.491), (1., 0.249), (2., 0.3498), (4., 0.2335))]
-            self.chart2.lines[0].strokeColor = color11 = colors.darkcyan
-            self.chart2.lines[1].strokeColor = color12 = colors.darkorange
-            self.chart2.lines[2].strokeColor = color13 = colors.blueviolet
-            self.chart2.lines[3].strokeColor = color14 = colors.darkslategrey
-            self.chart2.lines[4].strokeColor = color15 = colors.antiquewhite
-            self.chart2.lines[5].strokeColor = color16 = colors.darkslategray
-            self.chart2.lines[6].strokeColor = color17 = colors.darkolivegreen
-            self.chart2.lines[7].strokeColor = color18 = colors.bisque
-            self.chart2.lines[8].strokeColor = color19 = colors.aquamarine
-            self.chart2.lines[9].strokeColor = color20 = colors.red
-
-            self.chart2.lines.strokeWidth = 0.5
-            self.chart2.yValueAxis.tickLeft = 3
-            self.chart2.width = self.chart.width
-            self.chart2.height = self.chart.height
-            self.chart2.x = self.chart.x
-            self.chart2.y = self.chart.y
-            self.chart2.yValueAxis.joinAxisMode = &#39;right&#39;
-            # y2 axis
-            self.chart2.yValueAxis.labels.fontSize = fontSize - 3
-            self.chart2.yValueAxis.visibleGrid = 0
-            self.chart2.yValueAxis.gridStrokeWidth = 0.15
-            self.chart2.yValueAxis.gridStrokeColor = colors.darkgrey
-            self.chart2.yValueAxis.visibleAxis = 1
-            self.chart2.yValueAxis.labels.textAnchor = &#39;start&#39;
-            self.chart2.yValueAxis.labels.boxAnchor = &#39;w&#39;
-            self.chart2.yValueAxis.labels.angle = 0
-            self.chart2.yValueAxis.labels.dx = 5
-            self.chart2.yValueAxis.labels.dy = 0
-            self.chart2.yValueAxis.labels.fontSize = fontSize - 2
-            self.chart2.yValueAxis.strokeWidth = 0.45
-            self.chart2.yValueAxis.visible = 1
-            self.chart2.yValueAxis.labels.rightPadding = 2
-            self.chart2.yValueAxis.rangeRound = &#39;both&#39;
-            # self.chart2.yValueAxis.tickLeft             = -self.chart.yValueAxis.tickLeft
-            self.chart2.yValueAxis.minimumTickSpacing = 8
-            self.chart2.yValueAxis.maximumTicks = 10
-            self.chart2.yValueAxis.visibleSubTicks = 1
-            self.chart2.yValueAxis.subTickHi = 0
-            self.chart2.yValueAxis.subTickLo = 1
-            self.chart2.yValueAxis.subTickNum = 1
-            self.chart2.yValueAxis.forceZero = 1
-            self.chart2.yValueAxis.avoidBoundFrac = None
-            self._add(self, Label(), name=&#39;YLabel&#39;, validate=None, desc=&#34;The label on the vertical2 axis&#34;)
-            # self.YLabel.fontName       = &#39;Helvetica&#39;
-            self.YLabel.fontSize = fontSize - 3
-            self.chart.yValueAxis.labels.fontSize = fontSize - 3
-            self.YLabel.x = width - 10
-            self.YLabel.y = height / 2
-            self.YLabel.angle = 90
-            self.YLabel.textAnchor = &#39;middle&#39;
-            self.YLabel.maxWidth = 100
-            self.YLabel.height = 20
-            self.YLabel._text = y2title
-
-            #
-            self.chart2.xValueAxis.gridStrokeWidth = 0.15
-            self.chart2.xValueAxis.gridStrokeColor = colors.darkgrey
-            self.chart2.xValueAxis.minimumTickSpacing = 8
-            self.chart2.xValueAxis.maximumTicks = 10
-            self.chart2.xValueAxis.visibleSubTicks = 1
-            self.chart2.xValueAxis.subTickHi = 1
-            self.chart2.xValueAxis.subTickLo = 1
-            self.chart2.xValueAxis.subTickNum = 1
-            self.chart2.xValueAxis.strokeWidth = 0.45
-            self.chart2.xValueAxis.forceZero = 1
-            self.chart2.xValueAxis.avoidBoundFrac = None
-            self.chart2.xValueAxis.gridEnd = 175
-            self.chart2.xValueAxis.tickDown = 3
-            self.chart2.xValueAxis.visibleGrid = 0
-            self.chart2.xValueAxis.visible = 0
-            # legende
-            self._add(self, Legend(), name=&#39;Legend&#39;, validate=None, desc=&#34;The legend or key for the chart&#34;)
-            # self.Legend.colorNamePairs = [(color01, &#39;Widgets&#39;)]
-            # self.Legend.fontName       = &#39;Helvetica&#39;
-            self.Legend.fontSize = fontSize - 3
-            self.Legend.x = 55
-            self.Legend.y = 3
-            self.Legend.dxTextSpace = 5
-            self.Legend.dy = 5
-            self.Legend.dx = 5
-            self.Legend.deltay = 5
-            self.Legend.alignment = &#39;right&#39;
-            self.Legend.columnMaximum = 1
-            self.Legend.colorNamePairs = [(color01, nomCapteur1), (color11, nomCapteur2)]
-        return self._add(self, 0, name=&#39;preview&#39;, validate=None, desc=None)</code></pre>
-                    </details>
-                    <h3>Ancestors</h3>
-                    <ul class="hlist">
-                        <li>reportlab.graphics.shapes._DrawingEditorMixin</li>
-                        <li>reportlab.graphics.shapes.Drawing</li>
-                        <li>reportlab.graphics.shapes.Group</li>
-                        <li>reportlab.graphics.shapes.Shape</li>
-                        <li>reportlab.graphics.shapes._SetKeyWordArgs</li>
-                        <li>reportlab.graphics.shapes._DrawTimeResizeable</li>
-                        <li>reportlab.platypus.flowables.Flowable</li>
-                    </ul>
-                </dd>
-            </dl>
         </section>
     </article>
     <nav id="sidebar">
@@ -1420,25 +1116,16 @@ if __name__ == &#34;__main__&#34;:
             </li>
             <li><h3><a href="#header-functions">Functions</a></h3>
                 <ul class="">
+                    <li><code><a href="#Sensorem_Beta-C.FonctionPdf.create_graph"
+                                 title="Sensorem_Beta-C.FonctionPdf.create_graph">create_graph</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionPdf.gen_pdf"
                                  title="Sensorem_Beta-C.FonctionPdf.gen_pdf">gen_pdf</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionPdf.myTable"
                                  title="Sensorem_Beta-C.FonctionPdf.myTable">myTable</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionPdf.prep_donnees1"
                                  title="Sensorem_Beta-C.FonctionPdf.prep_donnees1">prep_donnees1</a></code></li>
-                    <li><code><a href="#Sensorem_Beta-C.FonctionPdf.trace_graph"
-                                 title="Sensorem_Beta-C.FonctionPdf.trace_graph">trace_graph</a></code></li>
                     <li><code><a href="#Sensorem_Beta-C.FonctionPdf.traitement_pdf"
                                  title="Sensorem_Beta-C.FonctionPdf.traitement_pdf">traitement_pdf</a></code></li>
-                </ul>
-            </li>
-            <li><h3><a href="#header-classes">Classes</a></h3>
-                <ul>
-                    <li>
-                        <h4><code><a href="#Sensorem_Beta-C.FonctionPdf.LineChartWithMarkers"
-                                     title="Sensorem_Beta-C.FonctionPdf.LineChartWithMarkers">LineChartWithMarkers</a></code>
-                        </h4>
-                    </li>
                 </ul>
             </li>
         </ul>
