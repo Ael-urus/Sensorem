@@ -502,7 +502,7 @@ def traitement_pdf(rundir, nom_fichier, nom_utilisateur, colonne1, colonne2):
     # Entetes de tabs
     # entete1 = [("Nb paliers","asc/desc","Nb de valeurs/palier","Incertitude ± [%]")]
     entete1 = [("Nb paliers", "asc/desc", "Nb de valeurs/palier")]
-    entete2 = [("Moyenne C_r [V]", "Ecart-type C_r [mV]", "Moyenne C_ref", "Ecart-type C_ref")]
+    entete2 = [("Moyenne C_rac [V]", "Ecart-type C_rac [mV]", "Moyenne C_ref", "Ecart-type C_ref")]
 
     # values = list()
     values = fs.readColCSV1(nom_fichier, ";", colonne1)
