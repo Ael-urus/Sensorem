@@ -38,7 +38,6 @@ except Exception as e:
     print(e)
     input('***')
 ##
-
 def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=[[(0, 0)]],chartcolors2=[], xtitle='Nombre de mesures',shiftFontXt=1,yXt=-7, 
                 xtvisi=1, ytitle='Tension [V]', y2title='Capteur réf', nomCapteur1='Capteur raccordé',
                 nomCapteur2='Capteur référence', ForceXzero=1, isSecondY=True, isLegend=True):
@@ -61,7 +60,7 @@ def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=
 
     # premier graph
     for i in range(len(chart.lines)):
-        chart.lines[i].strokeColor = chartcolors[i]
+        chart.lines[i].strokeColor = chartcolors[i + 1]
 
     # deuxieme graph
 
@@ -146,7 +145,7 @@ def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=
         graph.Legend.deltay = 5
         graph.Legend.alignment = 'right'
         graph.Legend.columnMaximum = 1
-        graph.Legend.colorNamePairs = [(chartcolors2[0], nomCapteur1), (chartcolors[0], nomCapteur2)]
+        graph.Legend.colorNamePairs = [(color02, nomCapteur1), (color01, nomCapteur2)]
 
 
 
@@ -205,11 +204,9 @@ def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=
         chart2.data = data2  # [((0., 0.491), (1., 0.249), (2., 0.3498), (4., 0.2335))]
 
         for i in range(len(chart2.lines)):
-            chart2.lines[i].strokeColor = chartcolors2[i]
+            chart2.lines[i].strokeColor = chartcolors[i]
 
-
-
-        chart2.lines.strokeWidth = 0.5
+        chart2.lines.strokeWidth = 0.3
         chart2.yValueAxis.tickLeft = 3
         chart2.width = chart.width
         chart2.height = chart.height
