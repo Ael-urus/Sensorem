@@ -37,13 +37,7 @@ try:
 except Exception as e:
     print(e)
     input('***')
-
-
 ##
-
-
-
-
 
 def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=[[(0, 0)]],chartcolors2=[], xtitle='Nombre de mesures',shiftFontXt=1,yXt=-7, 
                 xtvisi=1, ytitle='Tension [V]', y2title='Capteur réf', nomCapteur1='Capteur raccordé',
@@ -152,7 +146,7 @@ def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=
         graph.Legend.deltay = 5
         graph.Legend.alignment = 'right'
         graph.Legend.columnMaximum = 1
-        graph.Legend.colorNamePairs = [(color01, nomCapteur1), (colors.darkcyan, nomCapteur2)]
+        graph.Legend.colorNamePairs = [(chartcolors2[0], nomCapteur1), (chartcolors[0], nomCapteur2)]
 
 
 
