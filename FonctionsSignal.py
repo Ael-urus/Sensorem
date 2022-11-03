@@ -177,7 +177,7 @@ def seuil_capteur2():
     --------
     les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types MacCaffrey.
     """
-    return (0.69, 0.35)
+    return (0.69, 0.15)
 
 
 def sep_values(sv,seuil_capt):
