@@ -167,17 +167,17 @@ def seuil_capteur1():
 def seuil_capteur2():
     """Passage des valeurs (seuil,sensibilite)
 
-    seuil       = 0.5 seuil de détection des changements de paliers, le delta entre deux seuils
+    seuil       = 0.69 seuil de détection des changements de paliers, le delta entre deux seuils
                     (delta entre deux moyennes de 7 valeurs)
 
-    sensibilite = 0.21 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les valeurs
+    sensibilite = 0.35 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les valeurs
                     qui peuvent polluer le signal (delta entre deux valeurs)
 
     return :
     --------
     les valeurs de seuil et de sensibilité pour identification des paliers des capteurs types MacCaffrey.
     """
-    return (0.5, 0.21)
+    return (0.69, 0.35)
 
 
 def sep_values(sv,seuil_capt):
@@ -367,11 +367,12 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
             # Attention il y a une inversion, une mauvais attribuation des valeurs ecartype 2 correspond au premier capteur ?
             #
     else:
+        print('erreur dans la taille du palier. P1 = ', len(range(paliers_find)), 'P2 = ', len(range(paliers_find2)))
         for i in range(paliers_find):
             moyenne[i] = mean(values_sep_paliers[i][
                               7: -7])  # Correction, supression des valeurs de début et de fin pour les traitements.
             ecartype[i] = pstdev(values_sep_paliers[i][7: -7]) * 1000
-            donneestraitees2[i] = ('Oups', str(round(moyenne[i], 4)), str(round(ecartype[i], 4)), "Oups")
+            donneestraitees2[i] = (str(round(moyenne[i], 4)), str(round(ecartype[i], 4)), 'Oups', 'Oups')
     return donneestraitees2
 
 
