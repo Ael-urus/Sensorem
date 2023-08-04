@@ -31,7 +31,7 @@ def version():
     """
     # definition et passage du numéro de version du traitement
     # version = str(" (0.4.3 Bêta_c)")
-    return str(" (0.4.3 Bêta_c)")
+    return str(" (0.4.3 Bêta_d)")
 
 def prep_donnees_graph(donnees):
     """Retourne une liste d'éléments en listes d'éléments incrémentée,
@@ -167,7 +167,7 @@ def seuil_capteur1():
     """Passage des valeurs (seuil,sensibilite)
 
     seuil       = 0.052 seuil de détection des changements de paliers, le delta entre deux seuils
-                    (delta entre deux moyennes de 7 valeurs)
+                    (delta entre deux moyennes de 10 valeurs)
 
     sensibilite = 0.014 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les valeurs
                     qui peuvent polluer le signal (delta entre deux valeurs)
@@ -183,9 +183,9 @@ def seuil_capteur2():
     """Passage des valeurs (seuil,sensibilite)
 
     seuil       = 0.69 seuil de détection des changements de paliers, le delta entre deux seuils
-                    (delta entre deux moyennes de 7 valeurs)
+                    (delta entre deux moyennes de 10 valeurs)
 
-    sensibilite = 0.35 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les valeurs
+    sensibilite = 0.15 seuil de nettoyage, valeur de bruit du signal, permet d'éliminer les valeurs
                     qui peuvent polluer le signal (delta entre deux valeurs)
 
     return :
@@ -339,14 +339,14 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
         for i, j in zip(range(paliers_find), range(paliers_find2)):
             #
             moyenne[i] = mean(values_sep_paliers[i][
-                              7: -7])  # Correction, suppression des valeurs de début et de fin pour les traitements.
-            ecartype[i] = pstdev(values_sep_paliers[i][7: -7]) * 1000
+                              10: -10])  # Correction, suppression des valeurs de début et de fin pour les traitements.
+            ecartype[i] = pstdev(values_sep_paliers[i][10: -10]) * 1000
             #
-            if values_sep_paliers2[j][7: -7]:
-                # moyenne2[j] = mean(values_sep_paliers2[i][7: -7])  #BGU: ancienne formulation bizarre
-                # ecartype2[j] = pstdev(values_sep_paliers2[i][7: -7])  #BGU: ancienne formulation bizarre
-                moyenne2[j] = mean(values_sep_paliers2[j][7: -7])
-                ecartype2[j] = pstdev(values_sep_paliers2[j][7: -7])
+            if values_sep_paliers2[j][10: -10]:
+                # moyenne2[j] = mean(values_sep_paliers2[i][10: -10])  #BGU: ancienne formulation bizarre
+                # ecartype2[j] = pstdev(values_sep_paliers2[i][10: -10])  #BGU: ancienne formulation bizarre
+                moyenne2[j] = mean(values_sep_paliers2[j][10: -10])
+                ecartype2[j] = pstdev(values_sep_paliers2[j][10: -10])
             else:
                 moyenne2[j] = 0
                 ecartype2[j] = 0
@@ -359,8 +359,8 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
         print('erreur dans la taille du palier. P1 = ', len(range(paliers_find)), 'P2 = ', len(range(paliers_find2)))
         for i in range(paliers_find):
             moyenne[i] = mean(values_sep_paliers[i][
-                              7: -7])  # Correction, supression des valeurs de début et de fin pour les traitements.
-            ecartype[i] = pstdev(values_sep_paliers[i][7: -7]) * 1000
+                              10: -10])  # Correction, supression des valeurs de début et de fin pour les traitements.
+            ecartype[i] = pstdev(values_sep_paliers[i][10: -10]) * 1000
             donneestraitees2[i] = (str(round(moyenne[i], 4)), str(round(ecartype[i], 4)), 'Oups', 'Oups')
     return donneestraitees2
 
