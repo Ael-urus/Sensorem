@@ -38,12 +38,11 @@ except Exception as e:
     print(e)
     input('***')
 ##
-def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=[[(0, 0)]],chartcolors2=[], xtitle='Nombre de mesures',shiftFontXt=1,yXt=-7, 
-                xtvisi=1, ytitle='Tension [V]', y2title='Capteur réf', nomCapteur1='Capteur raccordé',
-                nomCapteur2='Capteur référence', ForceXzero=1, isSecondY=True, isLegend=True):
-
+def create_graph(title, data, chartcolors, x, y, w, shiftw, h, shifth, xYLabel, data2=[[(0, 0)]], chartcolors2=[],
+                 xtitle='Temps [s]', shiftFontXt=1, yXt=-7,
+                 xtvisi=1, ytitle='Tension [V]', y2title='Capteur réf', nomCapteur1='Capteur à raccorder (C_r)',
+                 nomCapteur2='Capteur de référence (C_ref)', ForceXzero=1, isSecondY=True, isLegend=True):
     graph = Drawing(w, h)
-
 
     fontSize = 10
 
@@ -102,10 +101,6 @@ def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=
         graph.XLabel._text = xtitle
     else:
         graph.XLabel._text = ''
-    
-    
-    
-    
     #
     # Axe des Y
     graph.add(Label(), name='YLabel')
@@ -119,8 +114,6 @@ def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=
     graph.YLabel.height = 20
     graph.YLabel._text = ytitle
     #
-
-    
     # 2eme axe des Y
     if isSecondY:
         graph.add(Label(), name='YLabel')
@@ -136,22 +129,21 @@ def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=
     # legende
     if isLegend:
         graph.add(Legend(), name='Legend')
-        graph.Legend.fontSize = fontSize - 3
-        graph.Legend.x = 55
+        graph.Legend.fontSize = fontSize - 2
+        # position de la legende
+        graph.Legend.x = 25
         graph.Legend.y = 3
         graph.Legend.dxTextSpace = 5
-        graph.Legend.dy = 5
-        graph.Legend.dx = 5
+        # taille des cubes de couleur
+        graph.Legend.dy = 6
+        graph.Legend.dx = 6
         graph.Legend.deltay = 5
-        graph.Legend.alignment = 'right'
+        graph.Legend.alignment = 'left'
         graph.Legend.columnMaximum = 1
-        graph.Legend.colorNamePairs = [(color02, nomCapteur1), (color01, nomCapteur2)]
-
-
+        graph.Legend.colorNamePairs = [(color01, nomCapteur1), (color02, nomCapteur2)]
 
     # chart.xValueAxis.labels.fontName       = 'Helvetica'
     chart.xValueAxis.labels.fontSize = fontSize - 2
-
     chart.xValueAxis.gridStrokeWidth = 0.15
     chart.xValueAxis.gridStrokeColor = colors.darkgrey
     chart.xValueAxis.minimumTickSpacing = 8
@@ -167,8 +159,6 @@ def create_graph(title, data,chartcolors, x,y, w, shiftw,h,shifth,xYLabel,data2=
     chart.xValueAxis.tickDown = 3
     chart.xValueAxis.visibleGrid = 1
     chart.xValueAxis.visible = 1
-
-
     chart.yValueAxis.tickLeft = 3
     chart.yValueAxis.labels.fontSize = fontSize - 3
     #
@@ -358,7 +348,6 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     Génération finale du PDF, on réunit toutes les infos et traitement,
     les graphiques sont générés et incluent directement içi
     """
-
     color11 = colors.darkcyan
     color12 = colors.darkorange
     color13 = colors.blueviolet
@@ -445,27 +434,27 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
 
 
     
-    mesure_brute=create_graph('Mesures brutes', [fs.prep_donnees_graph(data1)], chartcolors, x,y, w, shiftw,h,shifth,xYLabel,
-                                         [fs.prep_donnees_graph(data2)],chartcolors2,'Nombre de mesures',2,12, 1,
-                                         'Tension [V]',numcapteur2,'Capteur raccordé','Capteur référence', 1,True,True)
+    mesure_brute=create_graph('Mesures brutes', [fs.prep_donnees_graph(data1)], chartcolors, x, y, w, shiftw, h, shifth,
+                              xYLabel,
+                              [fs.prep_donnees_graph(data2)], chartcolors2, 'Temps [s]', 2, 12, 1,
+                              'Tension [V]', numcapteur2, 'Capteur à raccorder (C_r)', 'Capteur de référence (C_ref)',
+                              1, True, True)
     
     mesure_sep=create_graph('Mesures corrigées avec identification des paliers',
-                                       [fs.prep_donnees_graph(values_sep)],chartcolors,
-                                       x,y, w, shiftw,h,shifth,xYLabel, [fs.prep_donnees_graph(values_sep2)],chartcolors2,'Nombre de mesures',2,12,1,
-                                       'Tension [V]',numcapteur2,'Capteur raccordé','Capteur référence',1,True,True)
-
-
-
-
-
+                            [fs.prep_donnees_graph(values_sep)], chartcolors,
+                            x, y, w, shiftw, h, shifth, xYLabel, [fs.prep_donnees_graph(values_sep2)], chartcolors2,
+                            'Temps [s]', 2, 12, 1,
+                            'Tension [V]', numcapteur2, 'Capteur à raccorder (C_r)', 'Capteur de référence (C_ref)', 1,
+                            True, True)
 
     # affichage de deux tableaux cote à cote pour simplifier le copier-coller des données utile
     contenue.append(Table([[myTable(datat1), myTable(datat2)]]))
     #############
     contenue.append(Paragraph("Contrôle de la mesure", styleH4))
     contenue.append(
-        Paragraph("Représentations graphiques des données brutes, puis isolées et corrigées du pré-traitement.",
-                  styleN))
+        Paragraph(
+            "Représentations graphiques des données brutes, puis isolées et corrigées du traitement des moyennes des paliers identifiés.",
+            styleN))
     contenue.append(Spacer(1, .1 * cm))
     contenue.append(Paragraph("<u>Identification des paliers</u>", styleN))
 
