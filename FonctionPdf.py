@@ -382,7 +382,7 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     d1 = today.strftime("%d/%m/%Y")
     logo = "Logo.jpg"
     im = Image(logo, 3.5 * cm, 2 * cm)
-    text = "Prétraitement pour le raccordement <br/>du capteur <u>" + str(numcapteur) + "</u>"
+    text = "Traitement pour le raccordement <br/>du capteur <u>" + str(numcapteur) + "</u>"
     titre = Paragraph(text, styleH3)
     c_droite = "&nbsp; &nbsp; &nbsp; " + d1 + "<br/>&nbsp; &nbsp; &nbsp; " + fs.version()
     c_droite = Paragraph(c_droite, styleN)
@@ -401,10 +401,12 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     contenue.append(Paragraph("Traitement des mesures", styleH4))
     contenue.append(Paragraph("Fichier de données : (" + fichier
                               + "), traité par " + nom_utilisateur
-                              + ", pour le raccordement du capteur " + str(numcapteur)
-                              + ".<br/><u>Merci de ne pas les utiliser sans une vérification minimale</u>.<br/>",
+                              + ", pour le raccordement par comparaison du capteur " + str(numcapteur)
+                              + ".<u> Merci de ne pas les utiliser sans une vérification minimale</u>.",
                               styleN))
-    contenue.append(Spacer(1, .1 * cm))
+#    contenue.append(Spacer(1, .1 * cm))
+    contenue.append(Spacer(1, .12 * cm))
+    contenue.append(Paragraph("<u>Valeurs des paliers</u>", styleN))
 
     # recup des données brutes perduent dans le traitement???
     # et passage en liste des valeurs
@@ -453,9 +455,9 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     contenue.append(Paragraph("Contrôle de la mesure", styleH4))
     contenue.append(
         Paragraph(
-            "Représentations graphiques des données brutes, puis isolées et corrigées du traitement des moyennes des paliers identifiés.",
+            "Représentations graphiques des données brutes, isolées et corrigées du traitement des moyennes des paliers identifiés.",
             styleN))
-    contenue.append(Spacer(1, .1 * cm))
+    contenue.append(Spacer(1, .12 * cm))
     contenue.append(Paragraph("<u>Identification des paliers</u>", styleN))
 
     # affichage de deux graphiques cote cote
@@ -463,7 +465,7 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
                           repeatRows=0, repeatCols=0, rowSplitRange=None, spaceBefore=None,
                           spaceAfter=None))
     #
-    contenue.append(Paragraph("<br/><u>Paliers ascendants et descendants isolés du capteur raccordé :</u>", styleN))
+    contenue.append(Paragraph("<br/><u>Valeurs des paliers ascendants et descendants isolés du capteur raccordé :</u>", styleN))
 
     # tracé des graphiques par paires de paliers
     w = 470
@@ -497,5 +499,6 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
                             rightMargin=1.5 * cm,
                             author='Moi',
                             topMargin=3.5,
+                            bottomMargin=1.5,
                             showBoundary=0)
     doc.build(contenue)
