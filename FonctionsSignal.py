@@ -6,13 +6,11 @@ Created on Wed Apr 15 11:10:34 2020
 
 @contributor: Bruno
 """
+# FonctionsSignal.py
 try:
     from statistics import mean, pstdev
     from doctest import testmod
-    import csv
-    import sys,os
-    # from reportlab.graphics.widgets.markers import makeMarker
-    # from reportlab.graphics.charts.textlabels import Label
+    import FonctionCSV as fc
 
 except Exception as e:
     print(e)
@@ -38,42 +36,7 @@ def prep_donnees_graph(donnees):
     """
     return [[i, donnee] for i, donnee in enumerate(donnees)]
 
-def readColCSV1(fichier, sep, n):
-    """Pour les deux premiers paramètres attention à bien utiliser les guillements
-    car la fonction attend des chaines de caractères.
-    fichier <str> : Le nom du fichier -> "mon_fichier.csv"
-    sep <str> : Le séparateur des colonnes par exemple -> ";"
-    n <int> : Le numéro de la colonne à lire
 
-    Retourne les valeurs de la colone du fichier en remplacant le separateur de
-    decimal de , a . si besoin.
-    Ignore les valeurs non int
-    Echappe les valeurs vide de la colonne comme les fin de fichier de fin de fichier
-
-    >>> suppr_txt(readColCSV1 ("DebudFindeFichier.csv", ";", 2))
-    [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
-    """
-    file = open(fichier, "r")
-    reader = csv.reader(file, delimiter=sep)
-    col = []
-    for row in reader:
-        if(len(row)>n):
-            # if row[n] == "Invalid": row[n]=float(0.0)
-            if row[n] == 'Invalid':
-                row[n] = float(0.0)  # BGU supress ? car row[n] peut planter (or try/except), notamment sur une ligne vide
-            try:
-                notation_point = row[n].replace(",", ".")
-                col.append(float(notation_point))
-            # except Exception as e:
-            except :
-                if row[n] == 'Invalid': col.append(0.0)
-                # print(e, n)
-                # print(row[n])
-                # pass
-                col.append(row[n])  # la différence est içi entre readColCSV &1 y a une couille mais ..... # BGU : problem potentiel quand ligne vide
-                # input('***')
-    file.close()
-    return col
 
 # determination des coefficients en fonction du nombre de paliers pour la génération de paliers ascendents et descendants
 def gen_nom_paliers(n):
@@ -105,33 +68,6 @@ def paliers_mark():
     """
     return float(-0.03)
 
-
-def suppr_txt(data0):
-    """Fonction qui permet d'enlever les noms des capteurs des données brutes,
-    pour ne pas faire planter le tracé 'Données brutes du Gui'.
-
-    Variable :
-    ----------
-
-    data : list
-
-    les données de la mesure du capteur avec des valeurs str et float
-
-     Return :
-    ----------
-
-    data : list
-        les données de la mesure du capteur ou toutes les valeurs str sont supprimés
-    """
-    data = []
-    for i in data0:
-        try:
-            data.append(float(i))
-        except:
-            pass
-
-    return data
-
 ######
 def traitement_signal(data0, seuil_capt):
     """Appel et compile tous les traitements du capteur.
@@ -151,7 +87,7 @@ def traitement_signal(data0, seuil_capt):
     TBC
     """
     # Ajout pretraitement pour ne garder que les <float> (épurer les <str>)
-    data = suppr_txt(data0)
+    data = fc.supp_txt(data0)
     # identification des paliers
     values_sep = sep_values(data, seuil_capt)
     paliers_find, plage_len_find, nb_values, values_sep = info_values(values_sep)
@@ -160,7 +96,7 @@ def traitement_signal(data0, seuil_capt):
     return values_sep_paliers, data, values_sep, paliers_find
 
 def seuil_capteur1():
-    """Passage des valeurs (seuil,sensibilite)
+    """Passage des valeurs (seuil,sensibilite) pour les hélices
 
     seuil       = 0.052 seuil de détection des changements de paliers, le delta entre deux seuils
                     (delta entre deux moyennes de 10 valeurs)
@@ -176,7 +112,7 @@ def seuil_capteur1():
     return (0.052, 0.014)
 
 def seuil_capteur2():
-    """Passage des valeurs (seuil,sensibilite)
+    """Passage des valeurs (seuil,sensibilite) pour la MacCaffrey
 
     seuil       = 0.69 seuil de détection des changements de paliers, le delta entre deux seuils
                     (delta entre deux moyennes de 10 valeurs)

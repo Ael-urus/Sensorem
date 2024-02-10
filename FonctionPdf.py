@@ -5,6 +5,7 @@ Created on Thu Jun 11 19:21:41 2020
 
 Toutes les fonctions permettant la production du PDF et a sa mise en page
 """
+# FonctionPdf.py
 try:
     # import numpy as np
     import os, sys
@@ -12,14 +13,6 @@ try:
     import FonctionsSignal as fs
     from reportlab.lib.styles import getSampleStyleSheet
     from reportlab.platypus import Paragraph, Spacer, SimpleDocTemplate, Table, Image, TableStyle
-    # from reportlab.graphics.charts.legends import Legend
-    # from reportlab.graphics.charts.lineplots import LinePlot
-    # from reportlab.graphics.shapes import Drawing, _DrawingEditorMixin, String, Rect
-    # from reportlab.graphics.widgets.markers import makeMarker
-    # from reportlab.graphics.charts.textlabels import Label
-    # from reportlab.graphics.samples.excelcolors import *
-    # from reportlab.lib import colors
-
     from reportlab.graphics.charts.lineplots import LinePlot
     from reportlab.graphics.shapes import Drawing, String
     from reportlab.graphics.widgets.markers import makeMarker
@@ -28,12 +21,12 @@ try:
     from reportlab.graphics.charts.legends import Legend
     from reportlab.graphics.shapes import _DrawingEditorMixin
     from reportlab.graphics.samples.excelcolors import *
-
     from reportlab.lib.pagesizes import A4
     from datetime import date
     from reportlab.lib.units import cm
     from pathlib import Path
-    # import matplotlib.pyplot as plt
+    import FonctionCSV as fc
+
 except Exception as e:
     print(e)
     input('***')
@@ -298,10 +291,10 @@ def traitement_pdf(rundir, nom_fichier, nom_utilisateur, colonne1, colonne2):
     entete2 = [("Moyenne C_rac [V]", "Ecart-type C_rac [mV]", "Moyenne C_ref", "Ecart-type C_ref")]
 
     # values = list()
-    values = fs.readColCSV1(nom_fichier, ";", colonne1)
+    values = fc.read_col_CSV(nom_fichier, ";", colonne1)
     values_capteurs = fs.isol_capteurs(values)
 
-    values2 = fs.readColCSV1(nom_fichier, ";", colonne2)
+    values2 = fc.read_col_CSV(nom_fichier, ";", colonne2)
     values_capteurs2 = fs.isol_capteurs(values2)
     # print (values_capteurs2)
 

@@ -8,6 +8,7 @@ Created on Thus Aug  23 15:05:52 2022
 
 @contributor: Bruno
 """
+# FonctionGui.py
 try:
     import sys, os
     import codecs
@@ -21,6 +22,7 @@ try:
     from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
     from statistics import mean, pstdev
     import matplotlib.pyplot as plt
+    import FonctionCSV as fc
 except Exception as e:
     print(e)
     input('***')
@@ -111,21 +113,21 @@ def afficher_fichier(event):
                 # y = []
                 plt.clf()
                 #
-                y = fs.readColCSV1(fichier, ";", varidxinfile1)
+                y = fc.read_col_CSV(fichier, ";", varidxinfile1)
                 if y:
                     values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y, fs.seuil_capteur1())
-                    y = fs.suppr_txt(y)
+                    y = fc.supp_txt(y)
                     plt.plot(y, linewidth=0.5)
                 else:
                     plt.clf()
                     # values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
                     plt.plot([0], [0], 'r', linewidth=0.5)
                 # traitement deuxieme capteur
-                y2 = fs.readColCSV1(fichier, ";", varidxinfile2)
+                y2 = fc.read_col_CSV(fichier, ";", varidxinfile2)
                 if y2:
                     values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2,
                                                                                                          fs.seuil_capteur2())
-                    y2 = fs.suppr_txt(y2)
+                    y2 = fc.supp_txt(y2)
                     plt.plot(y2, 'r', linewidth=0.5)
 
                 else:
@@ -163,8 +165,8 @@ def afficher_fichier(event):
 
                 # col = fs.readColCSV1(fichier, ";", varidxinfile1)
 
-                values_capteurs = fs.isol_capteurs(fs.readColCSV1(fichier, ";", varidxinfile1))
-                values_capteurs2 = fs.isol_capteurs(fs.readColCSV1(fichier, ";", varidxinfile2))
+                values_capteurs = fs.isol_capteurs(fc.read_col_CSV(fichier, ";", varidxinfile1))
+                values_capteurs2 = fs.isol_capteurs(fc.read_col_CSV(fichier, ";", varidxinfile2))
 
                 # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf,
                 # sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
