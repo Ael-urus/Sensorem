@@ -2,17 +2,18 @@
 # !python
 # -*- coding: utf-8 -*-
 """
+Main script that launches the application.
+
 Created on Mon May 4 18:02:18 2020
 
-@author : Aelurus
+@author: Aelurus
 
 @contributor: Bruno
 
-Fichier main qui lance toute la toutouille ...
-
-Pour le numéro de version voir `FonctionSignal`, `Version`
+For the version number, refer to `FonctionSignal`, `Version`.
 """
 # Main.py
+
 try:
     import sys
     import codecs
@@ -25,5 +26,8 @@ except Exception as e:
     sys.exit(1)
 
 if __name__ == "__main__":
+    # Initialize the GUI components
     fgui.Initialize()
+
+    # Start the main event loop of the GUI
     fgui.MainLoop()

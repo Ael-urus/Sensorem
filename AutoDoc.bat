@@ -1,1 +1,2 @@
-python -m pdoc --html --force --output-dir Documentation .\\
+python -m pdoc --output-dir Documentation .\main.py .\FonctionsSignal.py .\FonctionPdf.py .\FonctionGui.py .\FonctionCSV.py
+pause

@@ -10,7 +10,7 @@ Nombre de canaux analogiques;10;;;;;;;;;;;
 Nombre de canaux num‚riques;1;;;;;;;;;;;
 Nombre total de canaux utilis‚s;11;;;;;;;;;;;
 ;;;;;;;;;;;;
-Heure d?armement;01/07/22 08:48 AM;;;;;;;;;;;
+Heure d'armement;01/07/22 08:48 AM;;;;;;;;;;;
 Heure de d‚sarmement;01/07/22 11:16 AM;;;;;;;;;;;
 Dur‚e;02:27:37;;;;;;;;;;;
 Job Description;Nom de la configura;;;;;;;;;;;
@@ -21,7 +21,7 @@ Intervalle;;00:00:01;00:00:01;00:00:01;00:00:01;00:00:01;00:00:01;00:00:01;00:00
 ;;;;;;;;;;;;
 ;;;;;;;;;;;;
 Date/Heure;Type;V1 (V);Tc ('C);Mano13.1 (V) (V);Mano13.2 (V) (V);Mano1 200 (V) (V);Voie 1000 (Pa);Voie 200 (Pa);Rho (kg_m3-1);Vitesse Mano 100 (m_s-1);Pulse Channel 1 (Hz);
-01/07/22;Intervalle;H013;20.7;4.995;5.004;5.02;-0.153;-0.281;1.19121;Mac Inox;0;OK
+01/07/22;Intervalle;H024;20.7;4.995;5.004;5.02;-0.153;-0.281;1.19121;Mac Inox;0;OK
 01/07/22;Intervalle;0.0025;20.7;4.995;5.004;5.02;-0.155;-0.278;1.19122;0.001;0;OK
 01/07/22;Intervalle;0.0025;20.7;4.995;5.004;5.017;-0.153;-0.279;1.19118;0.01;0;OK
 01/07/22;Intervalle;0.0025;20.7;4.995;5.004;5.02;-0.158;-0.279;1.19122;0.01;0;OK
