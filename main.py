@@ -30,4 +30,4 @@ if __name__ == "__main__":
     fgui.Initialize()
 
     # Start the main event loop of the GUI
-    fgui.MainLoop()
+    fgui.run_main_loop()

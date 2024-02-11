@@ -407,28 +407,7 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
     h = 150
     x=40;y=35;shiftw=80;shifth=60
     xYLabel=22
-#     mesure_brute = LineChartWithMarkers('Mesures brutes', [fs.prep_donnees_graph(data1)], w, h,
-#                                         [fs.prep_donnees_graph(data2)], 1,
-#                                         'Nombre de mesures', 'Tension [V]', numcapteur2)
-#
-#     # tracé de la mesure
-#     mesure_sep = LineChartWithMarkers('Mesures corrigées avec identification des paliers',
-#                                       [fs.prep_donnees_graph(values_sep)],
-#                                       w, h, [fs.prep_donnees_graph(values_sep2)], 1, 'Nombre de mesures', 'Tension [V]',
-#                                       numcapteur2)
 
-
-#     mesure_brute=trace_mesures('Mesures brutes', [fs.prep_donnees_graph(data1)], w, h,
-#                                          [fs.prep_donnees_graph(data2)],'Nombre de mesures',1,
-#                                          'Tension [V]',numcapteur2,'Capteur raccordé','Capteur référence', 1)
-#
-#     mesure_sep=trace_mesures('Mesures corrigées avec identification des paliers',
-#                                        [fs.prep_donnees_graph(values_sep)],
-#                                        w, h, [fs.prep_donnees_graph(values_sep2)],'Nombre de mesures',1,
-#                                        'Tension [V]',numcapteur2,'Capteur raccordé','Capteur référence',1)
-
-
-    
     mesure_brute=create_graph('Mesures brutes', [fs.prep_donnees_graph(data1)], chartcolors, x, y, w, shiftw, h, shifth,
                               xYLabel,
                               [fs.prep_donnees_graph(data2)], chartcolors2, 'Temps [s]', 2, 12, 1,
