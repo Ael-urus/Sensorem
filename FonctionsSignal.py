@@ -425,7 +425,7 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
             if len(values_sep_paliers[i]) >= 20:
                 # Calcul des moyennes et écart-types pour le capteur 1
                 moyenne[i] = mean(map(float, values_sep_paliers[i][10: -10]))
-                ecartype[i] = pstdev(map(float, values_sep_paliers[i][10: -10])) * 1000
+                ecartype[i] = pstdev(map(float, values_sep_paliers[i][10: -10]))
             else:
                 print(f"Erreur: La liste values_sep_paliers[{i}] n'a pas assez d'éléments.")
                 moyenne2[i] = 'Oups'
