@@ -156,7 +156,11 @@ def seuil_capteur1():
     Returns:
     --------
     tuple
-        (0.052, 0.014)
+    (0.052, 0.014)
+     Examples:
+    ----------
+    >>> type(seuil_capteur1()), len(seuil_capteur1())
+    (<class 'tuple'>, 2)
     """
     return (0.052, 0.014)
 
@@ -169,7 +173,11 @@ def seuil_capteur2():
     Returns:
     --------
     tuple
-        (0.69, 0.15)
+    (0.69, 0.15)
+         Examples:
+    ----------
+    >>> type(seuil_capteur2()), len(seuil_capteur2())
+    (<class 'tuple'>, 2)
     """
     return (0.69, 0.15)
 
