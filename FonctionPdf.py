@@ -27,9 +27,15 @@ try:
     from pathlib import Path
     import FonctionCSV as fc
 
+except ImportError as import_error:
+    module_name = import_error.name if hasattr(import_error, 'name') else None
+    print(f"Erreur d'importation dans le module {module_name}: {import_error}")
+    print(f"Fichier en cours d'exécution : {__file__}")
+    input('Appuyez sur Entrée pour continuer...')
 except Exception as e:
-    print(e)
-    input('***')
+    print(f"Une exception s'est produite dans le module {__name__}: {e}")
+    print(f"Fichier en cours d'exécution : {__file__}")
+    input('Appuyez sur Entrée pour continuer...')
 ##
 def create_graph(title, data, chartcolors, x, y, w, shiftw, h, shifth, xYLabel, data2=[[(0, 0)]], chartcolors2=[],
                  xtitle='Temps [s]', shiftFontXt=1, yXt=-7,

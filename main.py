@@ -20,10 +20,15 @@ try:
     import glob
     import FonctionGui as fgui
 
+except ImportError as import_error:
+    module_name = import_error.name if hasattr(import_error, 'name') else None
+    print(f"Erreur d'importation dans le module {module_name}: {import_error}")
+    print(f"Fichier en cours d'exécution : {__file__}")
+    input('Appuyez sur Entrée pour continuer...')
 except Exception as e:
-    print(e)
-    print("main")
-    sys.exit(1)
+    print(f"Une exception s'est produite dans le module {__name__}: {e}")
+    print(f"Fichier en cours d'exécution : {__file__}")
+    input('Appuyez sur Entrée pour continuer...')
 
 if __name__ == "__main__":
     # Initialize the GUI components

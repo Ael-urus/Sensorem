@@ -1,18 +1,18 @@
-D�tails d?enregistreur :;;;;;;;;;;;;;;
+DÃƒÂ©tails d'enregistreur :;;;;;;;;;;;;;;
 Type d'enregistreur;1F8;;;;;;;;;;;;;
-Num�ro de s�rie;KS1512003;;;;;;;;;;;;;
-firmware du Contr�leur;5.1;;;;;;;;;;;;;
+NumÃƒÂ©ro de sÃƒÂ©rie;KS1512003;;;;;;;;;;;;;
+firmware du ContrÃƒÂ´leur;5.1;;;;;;;;;;;;;
 firmware d'acquisition;5.1;;;;;;;;;;;;;
-Identit� de l?enregistreur;Identit� de l?enreg;;;;;;;;;;;;;
+IdentitÃ¢â‚¬Å¡ de l'enregistreur;IdentitÃ¢â‚¬Å¡ de l?enreg;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;
-Job D�tails;;;;;;;;;;;;;;
+Job DÃ¢â‚¬Å¡tails;;;;;;;;;;;;;;
 Nombre de canaux analogiques;10;;;;;;;;;;;;;
-Nombre de canaux num�riques;1;;;;;;;;;;;;;
-Nombre total de canaux utilis�s;11;;;;;;;;;;;;;
+Nombre de canaux numÃ¢â‚¬Å¡riques;1;;;;;;;;;;;;;
+Nombre total de canaux utilisÃ¢â‚¬Å¡s;11;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;
-Heure d?armement;08/09/2023 09:41;;;;;;;;;;;;;
-Heure de d�sarmement;08/09/2023 10:59;;;;;;;;;;;;;
-Dur�e;01:18:11;;;;;;;;;;;;;
+Heure d'armement;08/09/2023 09:41;;;;;;;;;;;;;
+Heure de dÃ¢â‚¬Å¡sarmement;08/09/2023 10:59;;;;;;;;;;;;;
+DurÃƒÂ©e;01:18:11;;;;;;;;;;;;;
 Job Description;Nom de la configura;;;;;;;;;;;;;
 Info de canaux;;;;;;;;;;;;;;
 Description;;V1 (V);Tc ('C);Mano13.1 (V) (V);Mano13.2 (V) (V);Mano1 200 (V) (V);Tension (V);Voie 1000 (Pa);Voie 200 (Pa);;V ManoRec 200 (m_s-1);Pulse Channel 1 (Hz);;V1 (V)
