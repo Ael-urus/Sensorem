@@ -10,16 +10,9 @@ try:
     from statistics import mean, pstdev
     from doctest import testmod
     import FonctionCSV as fc  # Importe le module FonctionCSV pour utiliser ses fonctions
-
-except ImportError as import_error:
-    module_name = import_error.name if hasattr(import_error, 'name') else None
-    print(f"Erreur d'importation dans le module {module_name}: {import_error}")
-    print(f"Fichier en cours d'exécution : {__file__}")
-    input('Appuyez sur Entrée pour continuer...')
 except Exception as e:
-    print(f"Une exception s'est produite dans le module {__name__}: {e}")
-    print(f"Fichier en cours d'exécution : {__file__}")
-    input('Appuyez sur Entrée pour continuer...')
+    print(e)
+    input('***')
 
 
 # Fonction qui retourne la version
@@ -77,13 +70,13 @@ def gen_nom_paliers(n):
 
     Examples:
     ----------
-    >>> print (gen_nom_paliers(9), gen_nom_paliers(2))
-    (0, 1, 2, 3, 4, 3, 2, 1, 0) (0, 1, 0)
+    >>> print(gen_nom_paliers(9))
+    (0, 1, 2, 3, 4, 3, 2, 1, 0)
     """
     # Calcule la moitié du nombre de paliers
     moitie = int(n / 2)
 
-    # Génère une liste ascendante de 0 à la moitie (inclus)
+    # Génère une liste ascendante de 0 à moitie (inclus)
     liste_ascendante = tuple(range(moitie + 1))
 
     # Génère une liste descendante de moitie - 1 à 0 (inclus)
@@ -93,6 +86,8 @@ def gen_nom_paliers(n):
     liste_complete = liste_ascendante + liste_descendante
 
     return liste_complete
+    #return tuple(range(int(n / 2 + 1))) + tuple(range(int(n / 2 - 1), -1, -1))
+
 
 # Fonction qui définit la valeur pour marquer la séparation des paliers
 def paliers_mark():

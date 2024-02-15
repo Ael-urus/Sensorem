@@ -24,16 +24,9 @@ try:
     from statistics import mean, pstdev
     import matplotlib.pyplot as plt
     import FonctionCSV as fc
-
-except ImportError as import_error:
-    module_name = import_error.name if hasattr(import_error, 'name') else None
-    print(f"Erreur d'importation dans le module {module_name}: {import_error}")
-    print(f"Fichier en cours d'exécution : {__file__}")
-    input('Appuyez sur Entrée pour continuer...')
 except Exception as e:
-    print(f"Une exception s'est produite dans le module {__name__}: {e}")
-    print(f"Fichier en cours d'exécution : {__file__}")
-    input('Appuyez sur Entrée pour continuer...')
+    print(e)
+    input('***')
 
 # Zone de définition des constantes
 DOSSIER_ACTUEL = ""
