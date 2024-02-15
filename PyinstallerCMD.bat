@@ -1,3 +1,3 @@
-pyinstaller --onefile ^
+python -m  PyInstaller --onefile ^
 	main.py
 pause

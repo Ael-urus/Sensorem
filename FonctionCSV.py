@@ -7,14 +7,25 @@ Created on 10/02/2024
 
 try:
     import csv
+    import chardet
+    import pandas as pd
     import sys, os
     from doctest import testmod
 
+except ImportError as import_error:
+    module_name = import_error.name if hasattr(import_error, 'name') else None
+    print(f"Erreur d'importation dans le module {module_name}: {import_error}")
+    print(f"Fichier en cours d'exécution : {__file__}")
+    input('Appuyez sur Entrée pour continuer...')
 except Exception as e:
-    print(e)
-    input('***')
+    print(f"Une exception s'est produite dans le module {__name__}: {e}")
+    print(f"Fichier en cours d'exécution : {__file__}")
+    input('Appuyez sur Entrée pour continuer...')
 
-
+def detect_encoding(file_path):
+    with open(file_path, 'rb') as f:
+        result = chardet.detect(f.read())
+    return result['encoding']
 def read_col_CSV(fichier, sep, n):
     """
     Lit la colonne spécifiée d'un fichier CSV et retourne les valeurs.
@@ -37,26 +48,25 @@ def read_col_CSV(fichier, sep, n):
     Examples:
     ----------
     >>> supp_txt(read_col_CSV("DebudFindeFichier.csv", ";", 2))
-    [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
+    [0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0027, 0.0025, 0.0025, 0.0023, 0.0055, 0.0025, 0.0025, 0.0025, 0.00285, 0.0025, 0.00295, 0.0025]
+
     """
-    file = open(fichier, "r")
-    reader = csv.reader(file, delimiter=sep)
     col = []
 
-    for row in reader:
-        if (len(row) > n):
-            if row[n] == 'Invalid':
-                row[n] = float(0.0)  # Supprimer ? car row[n] peut planter (or try/except), notamment sur une ligne vide
-            try:
-                notation_point = row[n].replace(",", ".")
-                col.append(float(notation_point))
-            except:
-                if row[n] == 'Invalid':
-                    col.append(0.0)
-                col.append(row[
-                               n])
+    with open(fichier, "r", encoding='utf-8', newline='') as file:
+        reader = csv.reader(file, delimiter=sep)
 
-    file.close()
+        for row in reader:
+            value = row[n] if len(row) > n else None
+
+            if value and value.lower() == 'invalid':
+                col.append(0.0)
+            else:
+                try:
+                    col.append(float(value.replace(",", ".")))
+                except (ValueError, AttributeError):
+                    col.append(value)
+
     return col
 
 
