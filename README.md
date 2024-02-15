@@ -3,7 +3,12 @@
 
 Plusieurs modifications :
 
-    _ En cours
+    _ Rangement du code
+    _ Séparation des fonctions dans des fichiers distincts
+    _ Recherche des doublons de fonction et suppression
+    _ Compléter les Docstring
+    _ Mise en place d'une doc html (pdoc)
+    _ Reprise de la trame PDF
 
 Bugs :
 
