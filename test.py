@@ -1,9 +1,9 @@
-import FonctionCSV as fc
+y = [1, 2, 3]
+y2 = [4, 5, 6]
 
-# Utilisez la fonction read_col_CSV avec les paramètres nécessaires
-fichier = "DebudFindeFichier.csv"
-sep = ";"
-n = 2
-result = fc.read_col_CSV(fichier, sep, n)
-
-print(result)
+# Assurez-vous que les deux listes ont la même longueur
+if len(y) == len(y2):
+    for i in range(len(y)):
+        print(f"{y[i]}\t{y2[i]}")
+else:
+    print("Les listes n'ont pas la même longueur.")

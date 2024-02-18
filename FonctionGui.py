@@ -23,6 +23,7 @@ try:
     from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
     from statistics import mean, pstdev
     import matplotlib.pyplot as plt
+    from itertools import zip_longest
     import FonctionCSV as fc
 
 except ImportError as import_error:
@@ -40,7 +41,7 @@ except Exception as e:
 # Zone de définition des constantes
 DOSSIER_ACTUEL = ""
 MOTIF_FICHIERS = "*.csv"
-VAR_IDX_IN_FILE_1 = 2
+VAR_IDX_IN_FILE_1 = 2 #Numero de la colonne du premier capteur (Mon capteur)
 VAR_IDX_IN_FILE_2 = 10
 
 # Zone de définition des fonctions
@@ -129,26 +130,36 @@ def afficher_fichier(event):
                 # on efface d'abord la zone de texte
                 affichage_texte.delete("1.0", END)
                 # on insère le nouveau contenu texte du fichier
-                affichage_texte.insert("1.0", file_in.read())
+                y = fc.read_col_CSV(fichier, ";", VAR_IDX_IN_FILE_1)
+                y2 = fc.read_col_CSV(fichier, ";", VAR_IDX_IN_FILE_2)
+                # Utilisation de zip_longest pour fusionner les deux listes
+                liste_valeurs = list(zip_longest(y, y2))
+
+                # Afficher les éléments côte à côte après le 21ème élément
+                for i, element in enumerate(liste_valeurs):
+                    if i > 21:
+                        Y = f"{element[0]}\t{element[1]}"
+                        affichage_texte.insert(INSERT, Y + "\n")
                 fig = plt.figure(1, figsize=(6, 3))
                 # y = []
                 plt.clf()
                 #
-                y = fc.read_col_CSV(fichier, ";", VAR_IDX_IN_FILE_1)
+                #y = fc.read_col_CSV(fichier, ";", VAR_IDX_IN_FILE_1)
                 if y:
                     values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y, fs.seuil_capteur1())
                     y = fc.supp_txt(y)
-                    plt.plot(y, linewidth=0.5)
+                    plt.plot(y, linewidth=0.5, color='red')
                 else:
                     plt.clf()
                     # values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
                     plt.plot([0], [0], 'r', linewidth=0.5)
                 # traitement deuxieme capteur
-                y2 = fc.read_col_CSV(fichier, ";", VAR_IDX_IN_FILE_2)
+                #y2 = fc.read_col_CSV(fichier, ";", VAR_IDX_IN_FILE_2)
                 if y2:
                     values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2, fs.seuil_capteur2())
                     y2 = fc.supp_txt(y2)
-                    plt.plot(y2, 'r', linewidth=0.5)
+                    plt.plot(y2, 'r', linewidth=0.5, color='purple')
+                    plt.legend(['Mon capteur', 'Capteur_ref'])
                 else:
                     # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
                     plt.plot([0], [0], 'r', linewidth=0.5)
@@ -228,11 +239,12 @@ def afficher_fichier(event):
                 fig1 = plt.figure(2, figsize=(6, 3))
                 plt.clf()
                 if values_sep1:
-                    plt.plot(values_sep1, linewidth=0.5)
+                    plt.plot(values_sep1, linewidth=0.5, color='red')
                 else:
                     plt.plot([0], [0], 'r', linewidth=0.5)
                 if values_sep1_2:
-                    plt.plot(values_sep1_2, 'r', linewidth=0.5)
+                    plt.plot(values_sep1_2, 'r', linewidth=0.5, color='purple')
+                    plt.legend(['Mon capteur', 'Capteur_ref'])
                 else:
                     plt.clf()
                     plt.plot([0], [0], 'r', linewidth=0.5)
