@@ -16,13 +16,21 @@ For the version number, refer to `FonctionSignal`, `Version`.
 
 try:
     import sys
+    import os
     import codecs
     import glob
     import FonctionGui as fgui
 
+except ImportError as import_error:
+    module_name = import_error.name if hasattr(import_error, 'name') else None
+    print(f"Erreur d'importation dans le module {module_name}: {import_error}")
+    print(f"Fichier en cours d'exécution : {os.path.basename(__file__)}")
+    input('Appuyez sur Entrée pour continuer...')
+    sys.exit(1)
 except Exception as e:
-    print(e)
-    print("main")
+    print(f"Une exception s'est produite dans le module {__name__}: {e}")
+    print(f"Fichier en cours d'exécution : {os.path.basename(__file__)}")
+    input('Appuyez sur Entrée pour continuer...')
     sys.exit(1)
 
 if __name__ == "__main__":
