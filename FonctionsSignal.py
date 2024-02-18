@@ -36,7 +36,7 @@ def version():
     str
         " (0.4.3 Bêta_e)"
     """
-    return str(" (0.4.3 Bêta_e)")
+    return str(" (0.4.3.1 Bêta)")
 
 
 # Fonction qui prépare les données pour le graphique
@@ -401,27 +401,35 @@ def isol_capteurs(values):
 # Fonction pour le traitement général des données
 def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, values_sep_paliers2, entete):
     """
-    Calcule les moyennes et écart-types pour remplir les onglets.
+       Calcule les moyennes et écart-types pour remplir les onglets.
 
-    Parameters:
-    ----------
-    paliers_find : int
-        Nombre de paliers pour le capteur 1.
-    paliers_find2 : int
-        Nombre de paliers pour le capteur 2.
-    values_sep_paliers : list
-        Liste des valeurs des paliers pour le capteur 1.
-    values_sep_paliers2 : list
-        Liste des valeurs des paliers pour le capteur 2.
-    entete : list
-        Liste des entêtes.
-    nb_p = int
-        Nombre de points amont et aval à enlever au droit d'un changement de palier
+       Cette fonction prend en compte les données de deux capteurs pour chaque palier, calcule les moyennes et écart-types,
+       puis retourne une liste de tuples contenant ces valeurs.
 
-    Returns:
-    ----------
-    list
-        Liste des moyennes et écart-types.
+           Parameters:
+           ----------
+               paliers_find: (int)
+                   Nombre de paliers pour le capteur 1.
+               paliers_find2 : int
+                   Nombre de paliers pour le capteur 2.
+               values_sep_paliers : List[List[float]]
+                   Liste des valeurs des paliers pour le capteur 1.
+               values_sep_paliers2 : List[List[float]]
+                   Liste des valeurs des paliers pour le capteur 2.
+               entete : List[str]
+                   Liste des entêtes.
+               nb_p : int
+                   Nombre de points amont et aval à enlever au droit d'un changement de palier.
+
+           Returns:
+           ----------
+               List[Tuple[str, str, str, str]]
+                   Liste des moyennes et écart-types.
+
+           Raises:
+           ----------
+               ValueError:
+                   Si la liste values_sep_paliers ou values_sep_paliers2 n'a pas assez d'éléments.
 
     Examples:
     ----------

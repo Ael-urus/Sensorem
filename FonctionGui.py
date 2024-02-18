@@ -423,7 +423,7 @@ conteneur_affichage.rowconfigure(0, weight=1)
 # on crée une étiquette texte dans ce conteneur
 Label(
     conteneur_affichage,
-    text="  Voici le contenu du fichier :                       "
+    text="  Voici les données trouvées :                       "
 ).grid(row=0, column=0, sticky=EW)
 Label(
     conteneur_affichage,
