@@ -358,7 +358,7 @@ champLabel_nom.pack(side="left")
 # On crée un Entry (zone de saisie)
 maZone = Entry(conteneur_info, width=5)
 # On affiche le Entry dans la fenêtre
-maZone.insert(0, "XXX")
+maZone.insert(0, "Test")
 maZone.pack(side="left")
 
 # On crée un Boutton

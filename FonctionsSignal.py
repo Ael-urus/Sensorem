@@ -415,6 +415,8 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
         Liste des valeurs des paliers pour le capteur 2.
     entete : list
         Liste des entêtes.
+    nb_p = int
+        Nombre de points amont et aval à enlever au droit d'un changement de palier
 
     Returns:
     ----------
@@ -423,14 +425,15 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
 
     Examples:
     ----------
-    >>> traitement_general_donnees(1,1,[[0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0027, 0.0025, 0.0025, 0.0023, 0.0055, 0.0025, 0.0025, 0.0025, 0.00285, 0.0025, 0.00295]],[[0.001, 0.01, 0.01, 0.014, 0.01, 0.01, 0.013, 0.01, 0.01, 0.01, 0.01, 0.01, 0.019, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]],['--------------------------Nom capteur [N° palier] Moyenne [V] Écart-type [mV]'])
-    [('0.0027', '0.0', '0.01', '0.0')]
+    >>> traitement_general_donnees(1,1,[[0.0025, 0.0025, 0.0025, 0.0025, 0.0025,0.0028, 0.0025, 0.0025, 0.0025, 0.0025,0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0027, 0.0025, 0.0025, 0.0023, 0.0055, 0.0025, 0.0025, 0.0025, 0.00285, 0.0025, 0.00295]],[[0.001, 0.01, 0.01, 0.014, 0.01, 0.01, 0.013, 0.01, 0.01,0.01, 0.013, 0.01, 0.01,0.01, 0.013, 0.01, 0.01,0.01, 0.013, 0.01, 0.01, 0.01, 0.01, 0.01, 0.019, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01]],['--------------------------Nom capteur [N° palier] Moyenne [V] Écart-type [mV]'])
+    [('0.0025', '0.0', '0.0109', '0.0014')]
     """
     # Initialisation des listes pour les moyennes et écarts-types
     moyenne = list([""] * paliers_find)
     moyenne2 = list([""] * paliers_find2)
     ecartype = list([""] * paliers_find)
     ecartype2 = list([""] * paliers_find2)
+    nb_p = 13 #Nombre de points amont et aval à enlever au droit d'un changement de palier
 
     # Initialisation de la liste pour les données traitées
     donneestraitees2 = [["0"] * len(entete) for _ in
@@ -443,8 +446,8 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
             # Vérification si le nombre d'éléments dans la liste de valeurs est suffisant
             if len(values_sep_paliers[i]) >= 20:
                 # Calcul des moyennes et écart-types pour le capteur 1
-                moyenne[i] = mean(map(float, values_sep_paliers[i][10: -10]))
-                ecartype[i] = pstdev(map(float, values_sep_paliers[i][10: -10]))
+                moyenne[i] = mean(map(float, values_sep_paliers[i][nb_p: -nb_p]))
+                ecartype[i] = pstdev(map(float, values_sep_paliers[i][nb_p: -nb_p]))
             else:
                 print(f"Erreur: La liste values_sep_paliers[{i}] n'a pas assez d'éléments.")
                 moyenne2[i] = 'Oups'
@@ -453,8 +456,8 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
             # Vérification si le nombre d'éléments dans la liste de valeurs du capteur 2 est suffisant
             if len(values_sep_paliers2[j]) >= 20:
                 # Calcul des moyennes et écart-types pour le capteur 2
-                moyenne2[j] = mean(map(float, values_sep_paliers2[j][10: -10]))
-                ecartype2[j] = pstdev(map(float, values_sep_paliers2[j][10: -10]))
+                moyenne2[j] = mean(map(float, values_sep_paliers2[j][nb_p: -nb_p]))
+                ecartype2[j] = pstdev(map(float, values_sep_paliers2[j][nb_p: -nb_p]))
             else:
                 print(f"Erreur: La liste values_sep_paliers2[{j}] n'a pas assez d'éléments.")
                 moyenne2[j] = 'Oups'
@@ -471,8 +474,8 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
         # Correction pour la différence de taille dans les paliers
         for i in range(paliers_find):
             # Calcul des moyennes et écart-types pour le capteur 1
-            moyenne[i] = mean(values_sep_paliers[i][10: -10])
-            ecartype[i] = pstdev(values_sep_paliers[i][10: -10])
+            moyenne[i] = mean(values_sep_paliers[i][nb_p: -nb_p])
+            ecartype[i] = pstdev(values_sep_paliers[i][nb_p: -nb_p])
 
             # Remplissage de la liste des données traitées avec 'Oups' pour le capteur 2
             donneestraitees2[i] = (str(round(moyenne[i], 4)), str(round(ecartype[i], 4)), 'Oups', 'Oups')

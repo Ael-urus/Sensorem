@@ -45,24 +45,31 @@ def read_col_CSV(fichier, sep, n):
     Examples:
     ----------
     >>> read_col_CSV("DebudFindeFichier.csv", ";", 2)
-    ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'V1 (V)', 'Mon Capteur', 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0027, 0.0025, 0.0025, 0.0023, 0.0055, 0.0025, 0.0025, 0.0025, 0.00285, 0.0025, 0.00295, 0.0025]
-    """
+    ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'V1 (V)', 'Mon Capteur', 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0026, 0.0026, 0.0026, 0.0026, 0.0025, 0.0025, 0.0025, 0.0025, 0.0027, 0.0025, 0.0025, 0.0023, 0.0055, 0.0025, 0.0025, 0.0025, 0.00285, 0.0025, 0.00295, 0.0025]
+   """
     file = open(fichier, "r")
     reader = csv.reader(file, delimiter=sep)
     col = []
 
     for row in reader:
         if (len(row) > n):
-            if row[n] == 'Invalid':
-                row[n] = float(0.0)  # Supprimer ? car row[n] peut planter (or try/except), notamment sur une ligne vide
+            d = len(col)
+            #if len(col)> 1 :
+                #print(d)
+                #print(col[d-1])
+            if row[n] == 'Invalid' or row[n] == '#N/A' or row[n] == 'Calibration':
+                if d > 1:
+                    #print(d)
+                    row[n] = col[d-1]
+                else:
+                    row[n] = float(0.0)  # Supprimer ? car row[n] peut planter (or try/except), notamment sur une ligne vide
             try:
                 notation_point = row[n].replace(",", ".")
                 col.append(float(notation_point))
             except:
-                if row[n] == 'Invalid':
-                    col.append(0.0)
-                col.append(row[
-                               n])
+               # if row[n] == 'Invalid':
+                    #col.append(0.0)
+                col.append(row[n])
 
     file.close()
     return col

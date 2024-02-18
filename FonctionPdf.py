@@ -141,7 +141,8 @@ def create_graph(title, data, chartcolors, x, y, w, shiftw, h, shifth, xYLabel, 
         graph.Legend.deltay = 5
         graph.Legend.alignment = 'left'
         graph.Legend.columnMaximum = 1
-        graph.Legend.colorNamePairs = [(color01, nomCapteur1), (color02, nomCapteur2)]
+        #Color2 avec Capteur1 car le premier capteur est tracé en deuxieme
+        graph.Legend.colorNamePairs = [(color02, nomCapteur1), (color01, nomCapteur2)]
 
     # chart.xValueAxis.labels.fontName       = 'Helvetica'
     chart.xValueAxis.labels.fontSize = fontSize - 2
@@ -215,7 +216,6 @@ def create_graph(title, data, chartcolors, x, y, w, shiftw, h, shifth, xYLabel, 
         chart2.yValueAxis.labels.angle = 0
         chart2.yValueAxis.labels.dx = 5
         chart2.yValueAxis.labels.dy = 0
-        chart2.yValueAxis.labels.fontSize = fontSize - 2
         chart2.yValueAxis.strokeWidth = 0.45
         chart2.yValueAxis.visible = 1
         chart2.yValueAxis.labels.rightPadding = 2
@@ -418,14 +418,14 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
 
     mesure_brute=create_graph('Mesures brutes', [fs.prep_donnees_graph(data1)], chartcolors, x, y, w, shiftw, h, shifth,
                               xYLabel,
-                              [fs.prep_donnees_graph(data2)], chartcolors2, 'Temps [s]', 2, 12, 1,
+                              [fs.prep_donnees_graph(data2)], chartcolors2, 'Durée [s]', 2, 12, 1,
                               'Tension [V]', numcapteur2, 'Capteur à raccorder (C_r)', 'Capteur de référence (C_ref)',
                               1, True, True)
     
     mesure_sep=create_graph('Mesures corrigées avec identification des paliers',
                             [fs.prep_donnees_graph(values_sep)], chartcolors,
                             x, y, w, shiftw, h, shifth, xYLabel, [fs.prep_donnees_graph(values_sep2)], chartcolors2,
-                            'Temps [s]', 2, 12, 1,
+                            'Durée [s]', 2, 12, 1,
                             'Tension [V]', numcapteur2, 'Capteur à raccorder (C_r)', 'Capteur de référence (C_ref)', 1,
                             True, True)
 
