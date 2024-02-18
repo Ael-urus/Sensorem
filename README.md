@@ -12,5 +12,6 @@ Bugs :
         il y a un décalages dans le remplissage des tableaux de valeurs (moyenne et ecart..),
         les valeurs différentes dans les paliers des capteurs, crée une erreure.
         Corrigé le 15/02.
+    _Inversion des couleurs dans la légende des mesures dans la PDF
 
 

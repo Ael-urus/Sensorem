@@ -44,8 +44,8 @@ def read_col_CSV(fichier, sep, n):
 
     Examples:
     ----------
-    >>> supp_txt(read_col_CSV("DebudFindeFichier.csv", ";", 2))
-    [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0]
+    >>> read_col_CSV("DebudFindeFichier.csv", ";", 2)
+    ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'V1 (V)', 'Mon Capteur', 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0025, 0.0027, 0.0025, 0.0025, 0.0023, 0.0055, 0.0025, 0.0025, 0.0025, 0.00285, 0.0025, 0.00295, 0.0025]
     """
     file = open(fichier, "r")
     reader = csv.reader(file, delimiter=sep)
@@ -84,8 +84,8 @@ def supp_txt(data0):
 
     Examples:
     ----------
-    >>> supp_txt(['12.3', '15.6', 'Invalid', '14.2', ''])
-    [12.3, 15.6, 14.2]
+    >>> supp_txt(['Capteur', '12.3', '15.6', '15.6', '14.2', ''])
+    [12.3, 15.6, 15.6, 14.2]
     """
     data = []
     for i in data0:
