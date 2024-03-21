@@ -19,7 +19,9 @@ Bugs :
         Corrigé le 15/02.
     _Inversion des couleurs dans la légende des mesures dans la PDF.
         Corrigé le 18/02.
-    -Il n'y a qu'un seul capteur qui s'affiche dans la fenetre "Voici les données trouvées".
+    -Il n'y a qu'un seul capteur qui s'affiche dans la fenetre "Voici les données trouvées". OK 25/02
+    _Metre un néttoyage des valeurs #DIV/!. OK 25/02
+    _Perte du fichier selectionné lors de la validation du nom de l'utilisateur. Le fichier traité sera le premier de la liste des fichiers et non celui selectionné avant.
 
 
 

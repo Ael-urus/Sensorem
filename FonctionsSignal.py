@@ -160,14 +160,17 @@ def traitement_signal(data0, seuil_capt):
 
 
 # Fonction qui retourne les valeurs de seuil pour le capteur 1
-def seuil_capteur1():
+def seuil_capteur1() -> tuple:
     """
     Passage des valeurs (seuil, sensibilité) pour les hélices.
 
     Returns:
     --------
-    tuple
-    (0.052, 0.014)
+    tuple (a, b)
+
+    a est le coefficient pour detecter les sauts de palier
+
+    b est le coefficient pour filtrer le bruit
      Examples:
     ----------
     >>> type(seuil_capteur1()), len(seuil_capteur1())
@@ -177,24 +180,27 @@ def seuil_capteur1():
 
 
 # Fonction qui retourne les valeurs de seuil pour le capteur 2
-def seuil_capteur2():
+def seuil_capteur2()-> tuple:
     """
     Passage des valeurs (seuil, sensibilité) pour la MacCaffrey.
 
     Returns:
     --------
-    tuple
-    (0.69, 0.15)
+    tuple (a, b)
+
+    a est le coefficient pour detecter les sauts de palier, le seuil
+
+    b est le coefficient pour filtrer le bruit, la sensibilitée
          Examples:
     ----------
     >>> type(seuil_capteur2()), len(seuil_capteur2())
     (<class 'tuple'>, 2)
     """
-    return (0.69, 0.15)
+    return (0.60, 0.15)
 
 
 # Fonction pour séparer les valeurs par paliers
-def sep_values(sv, seuil_capt):
+def sep_values(sv :list[float], seuil_capt : tuple) -> list:
     """
     Sépare les valeurs par paliers.
 

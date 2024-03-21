@@ -32,10 +32,14 @@ except Exception as e:
     print(f"Fichier en cours d'exécution : {os.path.basename(__file__)}")
     input('Appuyez sur Entrée pour continuer...')
     sys.exit(1)
-
-if __name__ == "__main__":
+def main() ->None:
+    """ Lance tout une toutouille, positionné à chaque script"""
     # Initialize the GUI components
     fgui.Initialize()
-
     # Start the main event loop of the GUI
     fgui.run_main_loop()
+
+
+if __name__ == "__main__":
+    main()
+

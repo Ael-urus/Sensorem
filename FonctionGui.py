@@ -111,10 +111,11 @@ def afficher_fichier(event):
 
     Args:
         event: Événement déclencheur (non utilisé dans la fonction).
-
+        ligne_debut_affichage : int =21, affiche à partir de la 21 e ligne
     Returns:
         None
     """
+    ligne_debut_affichage : int =21
     fichier = normaliser(
         dossier_actuel,
         liste_fichiers.get(liste_fichiers.curselection() or 0)
@@ -125,8 +126,7 @@ def afficher_fichier(event):
         affichage_texte1.delete("1.0", END)
         try:
             # oui, on peut l'ouvrir en forçant l'encodage UTF8
-            with codecs.open(fichier, 'r', encoding='UTF-8',
-                             errors='ignore') as file_in:
+            with open(fichier, 'r') as file_in:
                 # on efface d'abord la zone de texte
                 affichage_texte.delete("1.0", END)
                 # on insère le nouveau contenu texte du fichier
@@ -137,8 +137,8 @@ def afficher_fichier(event):
 
                 # Afficher les éléments côte à côte après le 21ème élément
                 for i, element in enumerate(liste_valeurs):
-                    if i > 21:
-                        Y = f"{element[0]}\t{element[1]}"
+                    if i > ligne_debut_affichage:
+                        Y = f"{element[0]}\t\t{element[1]}"
                         affichage_texte.insert(INSERT, Y + "\n")
                 fig = plt.figure(1, figsize=(6, 3))
                 # y = []
@@ -211,7 +211,6 @@ def afficher_fichier(event):
                     values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(
                         values_capteurs2.get(capteur2), fs.seuil_capteur2())
                     #
-
                     donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
                                                                      values_sep_paliers2, entete)
                     #
@@ -263,7 +262,6 @@ def afficher_fichier(event):
     # end if
 # end def
 
-
 def destroy_fenetre():
     """Fermeture de la fenêtre, pourquoi je ferme le tracer içi ?
 
@@ -311,10 +309,12 @@ def lance_traitement_pdf():
 
 def handle_custom_exception1(exception):
     # Gérer CustomException1
+    affichage_texte.insert(INSERT, f"{maZone.get()},\n Oups Pas de PDF.\n")
     pass
 
 def handle_custom_exception2(exception):
     # Gérer CustomException2
+    affichage_texte.insert(INSERT, f"{maZone.get()}, Oups 2.\n")
     pass
 
 def handle_generic_exception(exception):
@@ -325,7 +325,6 @@ def handle_generic_exception(exception):
     affichage_texte.insert(INSERT, "\n \nMerci de sélectionner un fichier")
     affichage_texte.tag_add("---LE TRAITEMENT A ÉCHOUÉ---", "2.0", "5.0")
     affichage_texte.tag_config("---LE TRAITEMENT A ÉCHOUÉ---", background="red", foreground="blue")
-
 
 # On définit la fonction appelée par le info
 def recup_nomutilisateur():
@@ -340,10 +339,8 @@ def recup_nomutilisateur():
         affichage_texte.insert("1.0", "Veuillez entrer un trigramme valide.")
         raise ValueError("Trigramme invalide")
 
-
 def Initialize():
     """Initialization de la zone graphique GUI"""
-
 # ------------------------------------------------------------------------------------
 # on commence par établir l'interface graphique (GUI)
 # on crée la fenêtre principale
@@ -380,7 +377,6 @@ monBouton.pack()
 # on place le conteneur dans la fenêtre principale
 # avec des marges padx et pady
 conteneur_info.grid(row=0, column=0, sticky=NS + EW, padx=5, pady=5)
-
 ##############################################################################
 conteneur_fichiers = Frame(fenetre)
 # on rend le conteneur redimensionnable

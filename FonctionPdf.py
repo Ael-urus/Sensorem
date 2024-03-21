@@ -26,6 +26,8 @@ try:
     from reportlab.lib.units import cm
     from pathlib import Path
     import FonctionCSV as fc
+    from doctest import testmod
+    from typing import List, Union
 
 except ImportError as import_error:
     module_name = import_error.name if hasattr(import_error, 'name') else None
@@ -39,10 +41,59 @@ except Exception as e:
     input('Appuyez sur Entrée pour continuer...')
     sys.exit(1)
 ##
-def create_graph(title, data, chartcolors, x, y, w, shiftw, h, shifth, xYLabel, data2=[[(0, 0)]], chartcolors2=[],
+def create_graph(title: str, data, chartcolors, x, y, w, shiftw, h, shifth, xYLabel, data2=[[(0., 0.)]], chartcolors2=[],
                  xtitle='Temps [s]', shiftFontXt=1, yXt=-7,
-                 xtvisi=1, ytitle='Tension [V]', y2title='Capteur réf', nomCapteur1='Capteur à raccorder (C_r)',
-                 nomCapteur2='Capteur de référence (C_ref)', ForceXzero=1, isSecondY=True, isLegend=True):
+                 xtvisi=1, ytitle: str ='Tension [V]', y2title: str ='Capteur réf', nomCapteur1: str ='Capteur à raccorder (C_r)',
+                 nomCapteur2: str ='Capteur de référence (C_ref)', ForceXzero=1, isSecondY=True, isLegend=True):
+    '''
+    Cette fonction crée un graphe à l'aide de la bibliothèque `drawing`. Elle prend plusieurs paramètres obligatoires
+    et facultatifs permettant de configurer son apparence et ses données.
+
+    Parameters:
+        title (str): Titre du graphe.
+        data (list<tuple>): Données à représenter sous forme de liste de couples (x, y).
+        chartcolors (list<str>): Couleurs des lignes du premier jeu de données. Doit contenir autant d'éléments
+                                que de séries dans `data`.
+        x (int): Coordonnée abscisse en pixel de l'origine supérieure gauche du graphe par rapport au coin haut gauche
+                de la zone de dessin.
+        y (int): Coordonnée ordonne en pixel de l'origine supérieure gauche du graphe par rapport au coin haut gauche
+                de la zone de dessin.
+        w (int): Largeur en pixels du graphe.
+        shiftw (int): Décallage horizontal appliqué aux données avant affichage. Utile si l'abscisse zéro doit être
+                      centré sur le graphe.
+        h (int): Hauteur en pixels du graphe.
+        shifth (int): Décallage vertical appliqué aux données avant affichage. Utile si l'ordonné zéro doit être
+                     centré sur le graphe.
+        xYLabel (int): Abscisse en pixel de l'extrêmité inférieur gauche de l'étiquette associée à l'axe des ordonnées.
+        data2 (list<tuple>, optional): Second ensemble de données à représenter sous forme de liste de couples (x, y).
+                                      Par défaut [], pas de seconde série.
+        chartcolors2 (list<str>, optional): Couleurs des lignes du second jeu de données. Doit contenir autant
+                                           d'éléments que de séries dans `data2`. Par défaut [], pas de seconde
+                                           série.
+        xtitle (str, optional): Texte à afficher comme libellé de l'axe des abcisses. Par défaut 'Temps [s]'.
+        shiftFontXt (int, optional): Valeur numérique positive ou négative indiquant la quantité à incrémenter
+                                    (positive) ou diminuer (negative) de la taille du texte utilisé pour
+                                    l'affichage du titre de l'axe des abcisses. Par défaut 1.
+        yXt (int, optional): Ordonnée en pixel de l'extrêmité inférieur gauche de l'étiquette associée à l'axe des
+                              ordonnées. Par défaut -7.
+        xtvisi (int, optional): Choix entre 0 ou 1, indique si l'axe des abcisses doit être visible ou non. Par
+                                défaut 1.
+        ytitle (str, optional): Texte à afficher comme libellé de l'axe des ordonnées. Par défaut 'Tension [V]'.
+        y2title (str, optional): Libellé de l'axe des ordonnées droit pour la deuxième série de données. Par
+                                défaut 'Capteur réf'.
+        nomCapteur1 (str, optional): Nom du premier capteur. Par défaut 'Capteur à raccorder (C_r)'.
+        nomCapteur2 (str, optional): Nom du second capteur. Par défaut 'Capteur de référence (C_ref)'
+        ForceXzero (int, optional): Indique si l'axe des abscisses doit forcer l'origine à zero. Par défaut 1.
+        isSecondY (bool, optional): Active/Désactive l'affichage de l'axe des ordonnées droit. Par défaut True.
+        isLegend (bool, optional): Affiche/Masque la légende. Par défaut True.
+
+    Returns:
+        drawing.Drawing: Objet instancié correspondant au graphe créé. Peut être exporté vers un fichier image
+                          après personnalisation complémentaire.
+    Raises:
+        NameError: Si les variables `color01` et `color02` sont utilisées mais n'ont pas été correctement
+                  définies.
+    '''
     graph = Drawing(w, h)
 
     fontSize = 10
@@ -139,9 +190,11 @@ def create_graph(title, data, chartcolors, x, y, w, shiftw, h, shifth, xYLabel, 
         graph.Legend.dy = 6
         graph.Legend.dx = 6
         graph.Legend.deltay = 5
-        graph.Legend.alignment = 'left'
+        #graph.legend.boxAnchor        = 'nw'
+        graph.Legend.alignment = 'right' #Left placerait les marques de couleur à droite du texte.
         graph.Legend.columnMaximum = 1
-        #Color2 avec Capteur1 car le premier capteur est tracé en deuxieme
+
+        #Color2 avec Capteur1 car le premier capteur est tracé en deuxieme ou il y a une inversion
         graph.Legend.colorNamePairs = [(color02, nomCapteur1), (color01, nomCapteur2)]
 
     # chart.xValueAxis.labels.fontName       = 'Helvetica'
@@ -247,16 +300,26 @@ def create_graph(title, data, chartcolors, x, y, w, shiftw, h, shifth, xYLabel, 
         chart2.xValueAxis.visibleGrid = 0
         chart2.xValueAxis.visible = 0
         graph.add(chart2)
-    return graph
+    try :
+        return graph
+    except ValueError:
+        print("Oops!  Pas de PDF")
+
 
 
 # génération du tableau pour insertion dans le pdf
-def myTable(tabledata):
-    """Création de tableau pour le pdf, fonction de mise en page
-    des données.
-    TBC
+def myTable(tabledata : list[float]):
     """
+        Crée un tableau pour un document PDF en utilisant la bibliothèque ReportLab.
+
+        :param tabledata: Liste de listes contenant les données du tableau.
+        :type tabledata: list[list]
+
+        :return: Objet de tableau prêt à être utilisé dans un document PDF.
+        :rtype: reportlab.platypus.tables.Table
+        """
     t = Table(tabledata, rowHeights=(10))
+    # Styles pour la mise en forme du tableau
     GRID_STYLE = TableStyle([
         ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.darkgrey),
         ('BOX', (0, 0), (-1, 0), 0.25, colors.black),
@@ -271,12 +334,34 @@ def myTable(tabledata):
     return t
 
 
-def prep_donnees1(len0, paliers_find, values_sep_paliers):
-    """mise en forme des données pour le tab1 du pdf
+def prep_donnees1(len0: int, paliers_find: int, values_sep_paliers: list[list[float]]) -> list[tuple[int, str, str]]:
     """
-    # tab 1
+    Prépare les données pour le tableau 1 du PDF en formatant les valeurs des paliers.
+
+    Parameters:
+    -----------
+    len0 : int
+        Nombre d'éléments par ligne dans le tableau.
+    paliers_find : int
+        Nombre de paliers à traiter.
+    values_sep_paliers : List[List[float]]
+        Liste des valeurs séparées par palier.
+
+    Returns:
+    --------
+    List[Tuple[int, str, str]]
+        Liste des données formatées pour le tableau 1 du PDF.
+        Chaque élément de la liste est un tuple contenant :
+        - Le numéro du palier
+        - Le coefficient généré pour le palier
+        - La longueur arrondie des valeurs du palier
+
+    Examples:
+    ---------
+    >>> prep_donnees1(5, 3, [[1, 2, 0.3], [0.4, 0.5, 0.6], [0.7, 0.8, 0.9]])
+    [(1, '0', '3'), (2, '1', '3'), (3, '0', '3')]
+    """
     donneestraitees1 = [["0"] * len0] * paliers_find
-    #
     coeff_gen = fs.gen_nom_paliers(paliers_find)
 
     for i in range(paliers_find):
@@ -286,69 +371,112 @@ def prep_donnees1(len0, paliers_find, values_sep_paliers):
 
 
 # Initialisation du post traitement du fichier de données pour la génération de pdf
-def traitement_pdf(rundir, nom_fichier, nom_utilisateur, colonne1, colonne2):
-    """Pré-traitement (calcul de toutes les données dérivées) et mise en forme de toutes les données,
-    puis traitement (gen_pdf) pour couple de capteurs capteur-ref
-    Yes gros morceau
+def traitement_pdf(rundir: str, nom_fichier: str, nom_utilisateur: str, colonne1: int, colonne2: int):
+    """Pré-traitement et mise en forme des données, puis génération des PDF par couple de capteurs capteur-ref.
+
+    Cette fonction effectue le pré-traitement des données en calculant toutes les données dérivées nécessaires et les
+    formate pour la génération de PDF. Ensuite, elle génère des PDF pour chaque couple de capteurs capteur-ref.
+
+    Parameters:
+    ----------
+    rundir : str
+        Répertoire de sortie pour les PDF générés.
+    nom_fichier : str
+        Nom du fichier CSV contenant les données.
+    nom_utilisateur : str
+        Nom de l'utilisateur pour lequel les PDF sont générés.
+    colonne1 : int
+        Numéro de la première colonne à extraire du fichier CSV.
+    colonne2 : int
+        Numéro de la deuxième colonne à extraire du fichier CSV.
+
+    Returns:
+    ----------
+    PDF
+
+    Notes:
+    ----------
+    Cette fonction effectue une série de traitements complexes sur les données pour chaque paire de colonnes spécifiée,
+    puis génère les PDF correspondants dans le répertoire spécifié.
+
     """
 
-    # PRe-traitement
-    # Entetes de tabs
-    # entete1 = [("Nb paliers","asc/desc","Nb de valeurs/palier","Incertitude ± [%]")]
-    entete1 = [("Nb paliers", "asc/desc", "Nb de valeurs/palier")]
-    entete2 = [("Moyenne C_rac [V]", "Ecart-type C_rac [mV]", "Moyenne C_ref", "Ecart-type C_ref")]
+    # Pré-traitement des données
+    entete1 = [("Nb paliers", "asc/desc", "Nb de valeurs/palier")]  # Entêtes du tableau 1
+    entete2 = [("Moyenne C_rac [V]", "Ecart-type C_rac [mV]", "Moyenne C_ref", "Ecart-type C_ref")]  # Entêtes du tableau 2
 
-    # values = list()
+    # Lecture des données des colonnes spécifiées
     values = fc.read_col_CSV(nom_fichier, ";", colonne1)
     values_capteurs = fs.isol_capteurs(values)
 
     values2 = fc.read_col_CSV(nom_fichier, ";", colonne2)
     values_capteurs2 = fs.isol_capteurs(values2)
-    # print (values_capteurs2)
 
-    # par couple capteur-ref, finlisation du pre-traitement et génération des pdf par capteurs isolés
+    # Traitement des données pour chaque paire de capteurs
     for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
-        #
-        values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(values_capteurs.get(capteur),fs.seuil_capteur1())
-        values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(values_capteurs2.get(capteur2),fs.seuil_capteur2())
-        #
-        # print("values_sep_paliers2=",values_sep_paliers2)
-        # print(len(values_sep_paliers2))
-        # [print(len(values_sep_paliers2[i])) for i in range(len(values_sep_paliers2))]
+        # Pré-traitement des données spécifiques à chaque capteur
+        values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(values_capteurs.get(capteur), fs.seuil_capteur1())
+        values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(values_capteurs2.get(capteur2), fs.seuil_capteur2())
 
-        # prep des donnees pour Tab1 - uniquement pour le pdf, pas pour le GUI
+        # Préparation des données pour le tableau 1 (uniquement pour PDF)
         donneestraitees1 = prep_donnees1(len(entete1), paliers_find, values_sep_paliers)
-        #
-        # prep des donnees pour Tab2 - commun au pdf et au GUI
-        donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
-                                                         values_sep_paliers2, entete2)
 
-        # prep des 2 tableaux
+        # Préparation des données pour le tableau 2 (commun au PDF et à l'interface utilisateur)
+        donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, values_sep_paliers2, entete2)
+
+        # Assemblage des données pour les tableaux
         datat1 = entete1 + donneestraitees1
         datat2 = entete2 + donneestraitees2
 
-        # prep des graphes capteur par capteur
-        data_by_capteur = [""] * len(values_sep_paliers)
-        # print(values_sep_paliers)
+        # Génération des graphiques pour chaque capteur
+        data_by_capteur = []
         for n in range(len(values_sep_paliers)):
-            data_by_capteur[n] = []
-            # print(values_sep_paliers[n])
-            for i in range(len(values_sep_paliers[n])):
-                data_by_capteur[n].append([i, float(values_sep_paliers[n][i])])
-                # print(i,int(values_sep_paliers[n][i]))
+            data_by_capteur.append([[i, float(values_sep_paliers[n][i])] for i in range(len(values_sep_paliers[n]))])
 
-        # Uniquement le tracé des pdf, toutes les données ayant été pré-calculées et mises en forme en amont
-        gen_pdf(values, capteur, values2, capteur2, datat1, datat2, values_sep, values_sep2, data_by_capteur, rundir,
-                nom_fichier, nom_utilisateur)
+        # Génération des PDF
+        gen_pdf(values, capteur, values2, capteur2, datat1, datat2, values_sep, values_sep2, data_by_capteur, rundir, nom_fichier, nom_utilisateur)
+def gen_pdf(data1: list[Union[str, float]], numcapteur: Union[str, int], data2: List[Union[str, float]],
+                numcapteur2: Union[str, int], datat1: List[List[Union[str, float]]],
+                datat2: List[List[Union[str, float]]], values_sep: List[List[Union[str, float]]],
+                values_sep2: List[List[Union[str, float]]], data3: List[List[Union[str, float]]],
+                rundir: str, fichier: str, nom_utilisateur: str):
+    """Génération du PDF final comprenant les données pré-calculées et les graphiques.
 
+        Cette fonction génère un PDF final contenant toutes les informations et traitements nécessaires pour chaque paire
+        de capteurs capteur-ref. Elle inclut des graphiques et des tableaux résumant les données pré-calculées et les résultats
+        du traitement.
+    Parameters:
+    ----------
+    data1 : list
+        Données brutes du premier capteur.
+    numcapteur : str
+        Numéro du premier capteur.
+    data2 : list
+        Données brutes du deuxième capteur.
+    numcapteur2 : str
+        Numéro du deuxième capteur.
+    datat1 : list
+        Données formatées pour le tableau 1.
+    datat2 : list
+        Données formatées pour le tableau 2.
+    values_sep : list
+        Valeurs séparées des paliers du premier capteur.
+    values_sep2 : list
+        Valeurs séparées des paliers du deuxième capteur.
+    data3 : list
+        Données pour les graphiques par paires de paliers.
+    rundir : str
+        Répertoire de sortie pour le PDF généré.
+    fichier : str
+        Nom du fichier CSV contenant les données.
+    nom_utilisateur : str
+        Nom de l'utilisateur pour lequel le PDF est généré.
 
-def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, values_sep2, data3, rundir, fichier,
-            nom_utilisateur):
-    """Uniquement le tracé des pdf, toutes les données ayant été pré-calculées
-    et mises en forme en amont.
-    Génération finale du PDF, on réunit toutes les infos et traitement,
-    les graphiques sont générés et incluent directement içi
+    Returns:
+    ----------
+    None le PDF
     """
+    # Initialisation des couleurs pour les graphiques
     color11 = colors.darkcyan
     color12 = colors.darkorange
     color13 = colors.blueviolet
@@ -482,3 +610,8 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2, values_sep, v
                             bottomMargin=1.5,
                             showBoundary=0)
     doc.build(contenue)
+
+def main() ->None:
+    testmod()
+if __name__ == "__main__":
+    main()
