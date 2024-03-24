@@ -12,6 +12,7 @@ try:
     from statistics import mean, pstdev
     from doctest import testmod
     import FonctionCSV as fc  # Importe le module FonctionCSV pour utiliser ses fonctions
+    #from collections import deque
 
 except ImportError as import_error:
     module_name = import_error.name if hasattr(import_error, 'name') else None
@@ -34,11 +35,20 @@ def version():
     Returns:
     ----------
     str
-        " (0.4.3 Bêta_e)"
+        " (0.4.3.2 Bêta)"
     """
-    return str(" (0.4.3.1 Bêta)")
+    return str(" (0.4.3.2 Bêta)")
 
+def pas_moyenne_mobile()-> int:
+    """
+    Retourne les pas pour la moyenne mobile, arbitrairement calé à 3, c'est une option qui pourrait être mis dans le gui,
+    pour la piloter en fonction du signal et voir le resultat en direct.
 
+    Returns:
+        3
+
+    """
+    return 2
 # Fonction qui prépare les données pour le graphique
 def prep_donnees_graph(donnees):
     """
@@ -97,7 +107,7 @@ def gen_nom_paliers(n):
     liste_complete = liste_ascendante + liste_descendante
 
     return liste_complete
-    #return tuple(range(int(n / 2 + 1))) + tuple(range(int(n / 2 - 1), -1, -1))
+    # return tuple(range(int(n / 2 + 1))) + tuple(range(int(n / 2 - 1), -1, -1))
 
 
 # Fonction qui définit la valeur pour marquer la séparation des paliers
@@ -111,6 +121,7 @@ def paliers_mark():
         -0.03
     """
     return float(-0.03)
+
 
 # Fonction principale pour le traitement du signal
 def traitement_signal(data0, seuil_capt):
@@ -139,7 +150,9 @@ def traitement_signal(data0, seuil_capt):
     Examples:
     ----------
     >>> traitement_signal([0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0], (0.052, 0.014))
-    ([[0.0154, 0.0154, 0.0154, 0.0, 0.0154]], [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0], [0.0154, 0.0154, 0.0154, 0.0, 0.0154], 1)
+    ([[0.0154, 0.0154, 0.012320000000000001, 0.009240000000000002, 0.0077]], [0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0], [0.0154, 0.0154, 0.012320000000000001, 0.009240000000000002, 0.0077], 1)
+
+
     """
     # Épurer les valeurs non entières des données brutes du capteur
     data = fc.supp_txt(data0)
@@ -162,16 +175,18 @@ def traitement_signal(data0, seuil_capt):
 # Fonction qui retourne les valeurs de seuil pour le capteur 1
 def seuil_capteur1() -> tuple:
     """
-    Passage des valeurs (seuil, sensibilité) pour les hélices.
+    Retourne des valeurs (seuil, sensibilité) pour les hélices de type 20 et 40 m/s.
+
+    Args:
+    -----
+    seuil (float): Le coefficient pour détecter les sauts de palier.
+    sensibilite (float): Le coefficient pour filtrer le bruit.
 
     Returns:
     --------
-    tuple (a, b)
+    tuple (a, b), (0.052, 0.014).  a est le coefficient pour detecter les sauts de palier et  b est le coefficient pour filtrer le bruit
 
-    a est le coefficient pour detecter les sauts de palier
-
-    b est le coefficient pour filtrer le bruit
-     Examples:
+    Examples:
     ----------
     >>> type(seuil_capteur1()), len(seuil_capteur1())
     (<class 'tuple'>, 2)
@@ -180,9 +195,14 @@ def seuil_capteur1() -> tuple:
 
 
 # Fonction qui retourne les valeurs de seuil pour le capteur 2
-def seuil_capteur2()-> tuple:
+def seuil_capteur2() -> tuple:
     """
-    Passage des valeurs (seuil, sensibilité) pour la MacCaffrey.
+    Retourne les valeurs (seuil, sensibilité) pour la MacCaffrey, dans ce cas précis.
+
+    Args:
+    -----
+    seuil (float): Le coefficient pour détecter les sauts de palier.
+    sensibilite (float): Le coefficient pour filtrer le bruit.
 
     Returns:
     --------
@@ -191,7 +211,8 @@ def seuil_capteur2()-> tuple:
     a est le coefficient pour detecter les sauts de palier, le seuil
 
     b est le coefficient pour filtrer le bruit, la sensibilitée
-         Examples:
+
+    Examples:
     ----------
     >>> type(seuil_capteur2()), len(seuil_capteur2())
     (<class 'tuple'>, 2)
@@ -200,14 +221,14 @@ def seuil_capteur2()-> tuple:
 
 
 # Fonction pour séparer les valeurs par paliers
-def sep_values(sv :list[float], seuil_capt : tuple) -> list:
+def sep_values(data: list[float], seuil_capt: tuple) -> list:
     """
     Sépare les valeurs par paliers.
 
     Parameters:
     ----------
-    sv : list
-        Liste de valeurs décimales.
+    data : list
+        Liste de valeurs d'un capteur en décimales.
     seuil_capt : tuple
         Les valeurs de seuil et de sensibilité.
 
@@ -219,14 +240,16 @@ def sep_values(sv :list[float], seuil_capt : tuple) -> list:
     Examples:
     ----------
     >>> sep_values([0.0154, 0.0154, 0.0154, 0.0, 0.0154, 0.0], (0.052, 0.014))
-    [0.0154, 0.0154, 0.0154, 0.0, 0.0154]
+    [0.0154, 0.0154, 0.012320000000000001, 0.009240000000000002, 0.0077]
 
     """
     # Récupérer les valeurs de seuil et de sensibilité à partir du tuple
     seuil, sensibilite = seuil_capt
 
+    #Mise en place d'un filtrage par moyenne mobile
+    data = moyenne_mobile(data, pas_moyenne_mobile())
     # Nombre total de valeurs
-    nb_values = len(sv)
+    nb_values = len(data)
 
     # Liste pour stocker les valeurs des paliers
     values_sep = list()
@@ -234,62 +257,68 @@ def sep_values(sv :list[float], seuil_capt : tuple) -> list:
     # Première boucle pour traiter les valeurs initiales
     for i in range(nb_values - abs(1) - 9):
         # Comparaison avec la sensibilité pour éliminer les petites variations
-        if abs(sv[i + 9] - sv[i]) < sensibilite:
-            sv[i] = sv[i]
+        if abs(data[i + 9] - data[i]) < sensibilite:
+            data[i] = data[i]
         else:
-            sv[i] = sv[i - 1]
+            data[i] = data[i - 1]
 
     # Deuxième boucle pour identifier et marquer les transitions entre les paliers
     for i in range(nb_values - 1):
-        if abs(sv[i + 1] - sv[i]) > seuil or abs(sv[i] - sv[i + 1]) > seuil:
+        if abs(data[i + 1] - data[i]) > seuil or abs(data[i] - data[i + 1]) > seuil:
             values_sep.append(paliers_mark())
         else:
-            values_sep.append(sv[i])
+            values_sep.append(data[i])
 
     return values_sep
 
 
 # Fonction pour récupérer des informations sur les paliers
-def info_values(iv):
+def info_values(data: list[float]) -> list:
     """
-    Récupère des informations sur les paliers.
+    Récupère des informations sur les paliers dans une liste de valeurs numériques.
 
     Parameters:
     ----------
-    iv : list
-        Liste de valeurs.
+    data : list[float]
+        Liste de valeurs numériques d'un capteur.
 
     Returns:
     ----------
     list
-        Liste d'informations sur les paliers.
+        Liste d'informations sur les paliers, contenant :
+        - Le nombre total de paliers trouvés.
+        - Une liste indiquant la longueur de chaque palier.
+        - Le nombre total de valeurs dans la liste d'entrée.
+        - Une liste avec les valeurs où les paliers sont marqués.
 
     Examples:
     ----------
     >>> info_values([0, 0.0154, 0, 0, 0.0154, 0, 0, 0, 0])
     [1, [9], 9, [0, 0.0154, 0, 0, 0.0154, 0, 0, 0, 0]]
+    >>> info_values([])
+    [1, [], 0, []]
 
     Cette fonction prend une liste de valeurs numériques et identifie les paliers
     au sein des données. Elle renvoie une liste contenant les informations suivantes :
 
-    - Le nombre total de paliers trouvés.
-    - Une liste indiquant la longueur de chaque palier.
-    - Le nombre total de valeurs dans la liste d'entrée.
-    - Une liste avec les valeurs où les paliers sont marqués.
+        - Le nombre total de paliers trouvés.
+        - Une liste indiquant la longueur de chaque palier.
+        - Le nombre total de valeurs dans la liste d'entrée.
+        - Une liste avec les valeurs où les paliers sont marqués.
     """
-    nb_values = len(iv)
+    nb_values = len(data)
     values_sep = list([0] * nb_values)
     paliers_find = 1
     plage_len_find = list()
     count = 1
     for i in range(nb_values):
-        if iv[i] == paliers_mark():
+        if data[i] == paliers_mark():
             values_sep[i] = paliers_mark()
             paliers_find = paliers_find + 1
             plage_len_find.append(count)
             count = 1
         else:
-            values_sep[i] = iv[i]
+            values_sep[i] = data[i]
             if i == (nb_values - 1):
                 plage_len_find.append(count)
             count = count + 1
@@ -447,7 +476,7 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
     moyenne2 = list([""] * paliers_find2)
     ecartype = list([""] * paliers_find)
     ecartype2 = list([""] * paliers_find2)
-    nb_p = 13 #Nombre de points amont et aval à enlever au droit d'un changement de palier
+    nb_p = 13  # Nombre de points amont et aval à enlever au droit d'un changement de palier
 
     # Initialisation de la liste pour les données traitées
     donneestraitees2 = [["0"] * len(entete) for _ in
@@ -497,6 +526,85 @@ def traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers, 
     # Retourne la liste des données traitées
     return donneestraitees2
 
+
+def moyenne(liste: list) -> list:
+    """
+    Renvoie la moyenne des éléments contenus dans une liste
+
+    Parameters
+    ----------
+    liste : list
+        La liste dont on veut calculer la moyenne. Chaque élément doit être un entier ou un flottant.
+
+    Raises
+    ------
+    Exception
+       Message indiquant que la liste est vide ou ne contient pas exclusivement des int ou des float.
+
+    Returns
+    -------
+    float : int ou float
+           La moyenne arithmétique des membres de la liste.
+
+
+    Examples:
+    ----------
+    >>> moyenne([0,0,1,0,0,0.0,0,0,0,0,0,0,0,10,0,25.80,0,0,0,0,0,0,0,0.0])
+    1.5333333333333332
+    """
+    n = len(liste)
+
+    if n == 0:
+        raise ValueError("La liste est vide")
+    try :
+        # Calcul de la somme des éléments de la liste
+        somme = sum(liste)
+    except TypeError:
+        somme = 0
+        print('Attention ! Certains éléments de votre liste sont différents des float ou de int')
+
+    # Calcul de la moyenne en divisant la somme par le nombre d'éléments
+    moyenne = somme / n
+    if n == 1:
+        moyenne = somme
+    return moyenne
+
+
+def moyenne_mobile(liste: list[float], pas: int):
+    """
+    Calcule la moyenne mobile en encadrant chaque élement de la liste avec -pas à +pas à partir de liste[pas].
+
+    Args:
+        liste (list[float]): La liste en entrée.
+        pas (int): Le nombre d'éléments à considérer avant et après chaque élément.
+
+    Returns:
+        list[float]: La liste des moyennes mobiles.
+
+    Examples:
+    ----------
+    >>> moyenne_mobile([1,2,3,4.20,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], pas = 3)
+    [1, 2, 3, 4.0285714285714285, 5.028571428571429, 6.028571428571429, 7.028571428571429, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 26.5, 27.0, 27.5]
+    >>> moyenne_mobile([1,2,3,4.20,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], pas = 5)
+    [1, 2, 3, 4.2, 5, 6.0181818181818185, 7.0181818181818185, 8.018181818181818, 9.018181818181818, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 24.5, 25.0, 25.5, 26.0, 26.5]
+    >>> moyenne_mobile([1,2,3,4.20,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29], pas = 0)
+    [1, 2, 3, 4.2, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+    """
+    taille_liste = len(liste)
+    moyennes = []
+    for i in range(taille_liste):
+        if i < pas or pas == 0:
+            moyennes.append(liste[i])
+        else:
+            # Détermination des indices de la fenêtre mobile pour chaque élément
+            debut = max(0, int(i - pas))
+            fin = min(taille_liste, int(i + pas)+1)
+
+            # Calcul de la moyenne de la fenêtre autour de l'élément actuel
+            moyenne_fenetre = sum(liste[debut:fin]) / (fin - debut)
+            moyennes.append(moyenne_fenetre)
+
+    return moyennes
 
 if __name__ == "__main__":
     testmod()

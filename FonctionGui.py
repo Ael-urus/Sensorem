@@ -10,7 +10,7 @@ Created on Thus Aug  23 15:05:52 2022
 """
 # FonctionGui.py
 try:
-    import sys, os
+    import sys, os.path
     import codecs
     import glob
     from doctest import testmod

@@ -9,7 +9,8 @@ Plusieurs modifications :
         Fait le 18/02.
     _Ajout de légend au graph dans le GUI. Fait le 18/02
     _Affichages des valeurs de capteurs dans la fenetre "Voici les données trouvées". Fait le 18/02
-
+    _Ajout d'une moyenne mobile au pas de 2 avant la détection des paliers, il faudrait rajourter la possibilitée 
+        de la manipuler dans le GUI. Fait le 24/03/2024
 Bugs :
 
     _Reprendre la détection sur 10 points à plus, car certaines descente pose soucis, passé à 13 le 18/02.
