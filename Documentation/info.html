@@ -45,65 +45,65 @@
 info    </h1>
 
                         <div class="docstring"><ul>
-<li>Sensorem - Documentation du module info.py</li>
+<li>Sensorem - info.py module documentation</li>
 </ul>
 
-<p>Ce module contient les informations relatives à la version du logiciel,
-les notes de version et la description des modules.</p>
+<p>This module contains information about the software version,
+release notes and module descriptions.</p>
 
-<p>nom_projet = "Analyse de signaux ECG"
-description_projet = "Ce projet analyse les signaux ECG et détecte les anomalies."
-auteurs = ["Aelurus", "Autre Nom"]
-contributeur = [Bruno]
-date_creation = "2024-06-14"</p>
+<p>project_name = “Sensorem"
+description_projet = “This project analyzes sensor signals to make a connection with a reference sensor. Provides a report on calibration processing”.
+authors = [Aelurus]
+contributor = [Bruno]
+date_creation = “2024-06-14”</p>
 
-<p>date = "19/01/2025"
-version = "0.4.3.8"</p>
+<p>date = “30/03/2025
+version = “0.4.3.9”</p>
 
-<p>__notes_de_version__ =
-Pretraitement des données de raccordement de capteur (s).</p>
+<p>version_notes__ =</p>
 
-<p>Plusieurs modifications :</p>
+<p>Several modifications:</p>
 
 <ul>
-<li>Ajout d'une base de données et de sa gestion avec insertion des capteurs a la génération d'un PDF (02/02/2025)</li>
-<li>Ajout du traitement de regression avec un coefficient de conversion (19/01/2025)</li>
-<li>Remise à niveau de le génération du PDF : Adaptation des fonctions au nouveau GUI (28/12/2024).</li>
-<li>Refonte générale de l'interface graphique (GUI) : Implémentation fonctionnelle (25/12/2024).</li>
-<li>Gestion des noms et positions des capteurs depuis l'interface graphique (GUI) : Implémentation fonctionnelle (09/12/2024).</li>
-<li>Correction du seuil de détection pour le venturi : Ajustement du seuil (06/12/2024).</li>
-<li>Corrections de bugs : Diverses corrections de bugs non spécifiés.</li>
-<li>Nettoyage des données : Suppression des chaînes "#N/A" et "Calibration" lors de la récupération des données (18/02).</li>
-<li>Amélioration des graphiques : Ajout de légendes aux graphiques dans l'interface graphique (18/02).</li>
-<li>Affichage des données brutes : Affichage des valeurs des capteurs dans la fenêtre "Voici les données trouvées" (18/02).</li>
-<li>Moyenne mobile : Ajout d'une moyenne mobile avec un pas de 2 avant la détection des paliers. L'ajout d'une option pour manipuler ce paramètre dans l'interface graphique est prévu (24/03/2024).</li>
+<li>Addition of a database and its management with insertion of sensors for PDF generation (02/02/2025)</li>
+<li>Addition of regression processing with a conversion coefficient (19/01/2025)</li>
+<li>Upgrade of PDF generation: Adaptation of functions to the new GUI (28/12/2024).</li>
+<li>General GUI redesign: Functional implementation (12/25/2024).</li>
+<li>Management of sensor names and positions from GUI: functional implementation (09/12/2024).</li>
+<li>Venturi detection threshold correction: Threshold adjustment (06/12/2024).</li>
+<li>Bug fixes: Various unspecified bug fixes.</li>
+<li>Data clean-up: Removal of “#N/A” and “Calibration” strings when retrieving data (18/02).</li>
+<li>Graph enhancement: Added legends to graphs in the graphical interface (02/18).</li>
+<li>Display of raw data: Display of sensor values in the “Here's the data found” window (02/18).</li>
+<li>Moving average: Addition of a moving average with a step of 2 before the detection of levels. An option to manipulate this parameter in the GUI is planned (03/24/2024).</li>
 </ul>
 
-<p>Bugs corrigés et restants :</p>
+<p>Bugs corrected and remaining: Some are done, I need to update and check this part</p>
 
 <ul>
-<li>Détection des paliers : Augmentation du nombre de points pour la détection des paliers (de 10 à 13) pour résoudre les problèmes rencontrés lors de certaines descentes (18/02).</li>
-<li>Décalage dans les tableaux de valeurs : Correction d'un décalage dans le remplissage des tableaux de valeurs (moyenne et écart) en cas de traitement avec plusieurs capteurs, causé par des valeurs différentes dans les paliers (15/02).</li>
-<li>Inversion des couleurs dans la légende PDF : Correction de l'inversion des couleurs dans la légende des mesures du rapport PDF (18/02).</li>
-<li>Affichage d'un seul capteur : Correction du bug qui n'affichait qu'un seul capteur dans la fenêtre "Voici les données trouvées" (25/02).</li>
-<li>Nettoyage des erreurs #DIV/! : Ajout d'un nettoyage pour les valeurs #DIV/! (25/02).</li>
-<li>Perte du fichier sélectionné : Bug persistant : Lors de la validation du nom de l'utilisateur, le fichier sélectionné est perdu et le premier fichier de la liste est traité à la place.</li>
+<li>Bearing detection: Increase in the number of points for bearing detection (from 10 to 13) to resolve problems encountered on some runs (18/02).</li>
+<li>Offset in value tables: Correction of an offset in the filling of value tables (average and deviation) in the case of processing with several sensors, caused by different values in the bearings (02/15).</li>
+<li>Color inversion in PDF legend: Correction of color inversion in PDF report measurement legend (02/18).</li>
+<li>Single sensor display: Fixed bug that displayed only one sensor in the “Here are the data found” window (02/25).</li>
+<li>Clean-up of #DIV/! errors: Added clean-up for #DIV/! values (02/25).</li>
+<li>Loss of selected file: Persistent bug: When validating the username, the selected file is lost and the first file in the list is processed instead.</li>
 </ul>
 
-<p>__modules_description__ =
-Récapitulatif des modules actuels et de leurs rôles :</p>
+<p>__modules_description__ =</p>
+
+<p>Summary of current modules and their roles:</p>
 
 <ul>
-<li><code>main.py</code> : Point d'entrée de l'application. Lance l'interface graphique.</li>
-<li><code>gui_V3.py</code> : Gère l'interface graphique, l'interaction utilisateur, l'affichage des graphiques et l'appel aux autres modules.</li>
-<li><code>FonctionsCSV.py</code> : Gère la lecture et le traitement des fichiers CSV.</li>
-<li><code>FonctionsSignal.py</code> : Contient les fonctions de traitement du signal (filtrage, détection des paliers, etc.).</li>
-<li><code>FonctionPdf.py</code> : Génère les rapports PDF.</li>
-<li><code>FonctionsGui_V3.py</code> : Fournit des fonctions utilitaires pour l'interface graphique (gestion des logs, etc.).</li>
-<li><code>FonctionsBD.py</code> : Gere la fenetre Base de données et toutes les fonctions pour la bases de données</li>
+<li><code>main.py</code> : Application entry point. Launches the graphical interface.</li>
+<li>gui_V3.py` : Manages the GUI, user interaction, graphics display and calls to other modules.</li>
+<li>FunctionsCSV.py`: Manages reading and processing of CSV files.</li>
+<li>SignalFunctions.py`: Contains signal processing functions (filtering, step detection, etc.).</li>
+<li>FunctionPdf.py`: Generates PDF reports.</li>
+<li>FunctionsGui_V3.py`: Provides utility functions for the graphical interface (log management, etc.).</li>
+<li>FunctionsBD.py`: Manages the Database window and all database functions.</li>
 </ul>
 
-<p>Objectifs :</p>
+<p>An idea for refactoring:</p>
 
 <p>Sensorem/
 │
@@ -115,21 +115,21 @@ Récapitulatif des modules actuels et de leurs rôles :</p>
 │   ├── __init__.py
 │   ├── data/
 │   │   ├── __init__.py
-│   │   ├── csv_handler.py     (Refactorisation de FonctionsCSV.py)
-│   │   └── database_manager.py (Refactorisation de FonctionsDB.py)
+│   │   ├── csv_handler.py     (Refactoring of FunctionsCSV.py)
+│   │   └── database_manager.py (Refactoring of FunctionsDB.py)
 │   ├── processing/
 │   │   ├── __init__.py
-│   │   └── signal_processor.py (Refactorisation de FonctionsSignal.py)
+│   │   └── signal_processor.py (Refactoring of FunctionsSignal.py)
 │   ├── gui/
 │   │   ├── __init__.py
-│   │   ├── main_window.py      (Refactorisation de gui_V3.py)
-│   │   └── utils.py            (Partie de FonctionsGui_V3.py)
+│   │   ├── main_window.py      (Refactoring of gui_V3.py)
+│   │   └── utils.py            (Part of FunctionsGui_V3.py)
 │   ├── reporting/
 │   │   ├── __init__.py
-│   │   └── pdf_generator.py    (Refactorisation de FonctionsPdf.py)
+│   │   └── pdf_generator.py    (Refactoring of FunctionsPdf.py)
 │   ├── utils/
 │   │   ├── __init__.py
-│   │   └── logger.py           (Partie de FonctionsGui_V3.py, gestion des logs)
+│   │   └── logger.py           (art of FunctionsGui_V3.py, log management)
 │   └── tests/
 │       ├── __init__.py
 │       ├── test_csv_handler.py
@@ -144,92 +144,91 @@ Récapitulatif des modules actuels et de leurs rôles :</p>
 
                         <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="c1"># info.py</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd"> * Sensorem - Documentation du module info.py</span>
+</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd"> * Sensorem - info.py module documentation</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="sd">Ce module contient les informations relatives à la version du logiciel,</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">les notes de version et la description des modules.</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="sd">This module contains information about the software version,</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">release notes and module descriptions.</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">nom_projet = &quot;Analyse de signaux ECG&quot;</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">description_projet = &quot;Ce projet analyse les signaux ECG et détecte les anomalies.&quot;</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">auteurs = [&quot;Aelurus&quot;, &quot;Autre Nom&quot;]</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">contributeur = [Bruno]</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">date_creation = &quot;2024-06-14&quot;</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="sd">project_name = “Sensorem&quot;</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">description_projet = “This project analyzes sensor signals to make a connection with a reference sensor. Provides a report on calibration processing”.</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">authors = [Aelurus]</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">contributor = [Bruno]</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">date_creation = “2024-06-14”</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">date = &quot;19/01/2025&quot;</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">version = &quot;0.4.3.8&quot;</span>
+</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">date = “30/03/2025</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">version = “0.4.3.9”</span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a><span class="sd">__notes_de_version__ =</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">Pretraitement des données de raccordement de capteur (s).</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">Plusieurs modifications :</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">*   Ajout d&#39;une base de données et de sa gestion avec insertion des capteurs a la génération d&#39;un PDF (02/02/2025)</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">*   Ajout du traitement de regression avec un coefficient de conversion (19/01/2025)</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">*   Remise à niveau de le génération du PDF : Adaptation des fonctions au nouveau GUI (28/12/2024).</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">*   Refonte générale de l&#39;interface graphique (GUI) : Implémentation fonctionnelle (25/12/2024).</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">*   Gestion des noms et positions des capteurs depuis l&#39;interface graphique (GUI) : Implémentation fonctionnelle (09/12/2024).</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="sd">*   Correction du seuil de détection pour le venturi : Ajustement du seuil (06/12/2024).</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">*   Corrections de bugs : Diverses corrections de bugs non spécifiés.</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="sd">*   Nettoyage des données : Suppression des chaînes &quot;#N/A&quot; et &quot;Calibration&quot; lors de la récupération des données (18/02).</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">*   Amélioration des graphiques : Ajout de légendes aux graphiques dans l&#39;interface graphique (18/02).</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">*   Affichage des données brutes : Affichage des valeurs des capteurs dans la fenêtre &quot;Voici les données trouvées&quot; (18/02).</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">*   Moyenne mobile : Ajout d&#39;une moyenne mobile avec un pas de 2 avant la détection des paliers. L&#39;ajout d&#39;une option pour manipuler ce paramètre dans l&#39;interface graphique est prévu (24/03/2024).</span>
+</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="sd">version_notes__ =</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
+</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">Several modifications:</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">* Addition of a database and its management with insertion of sensors for PDF generation (02/02/2025)</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">* Addition of regression processing with a conversion coefficient (19/01/2025)</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a><span class="sd">* Upgrade of PDF generation: Adaptation of functions to the new GUI (28/12/2024).</span>
+</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">* General GUI redesign: Functional implementation (12/25/2024).</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">* Management of sensor names and positions from GUI: functional implementation (09/12/2024).</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">* Venturi detection threshold correction: Threshold adjustment (06/12/2024).</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">* Bug fixes: Various unspecified bug fixes.</span>
+</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="sd">* Data clean-up: Removal of “#N/A” and “Calibration” strings when retrieving data (18/02).</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">* Graph enhancement: Added legends to graphs in the graphical interface (02/18).</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="sd">* Display of raw data: Display of sensor values in the “Here&#39;s the data found” window (02/18).</span>
+</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">* Moving average: Addition of a moving average with a step of 2 before the detection of levels. An option to manipulate this parameter in the GUI is planned (03/24/2024).</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>
+</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">Bugs corrected and remaining: Some are done, I need to update and check this part</span>
 </span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">Bugs corrigés et restants :</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">*   Détection des paliers : Augmentation du nombre de points pour la détection des paliers (de 10 à 13) pour résoudre les problèmes rencontrés lors de certaines descentes (18/02).</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">*   Décalage dans les tableaux de valeurs : Correction d&#39;un décalage dans le remplissage des tableaux de valeurs (moyenne et écart) en cas de traitement avec plusieurs capteurs, causé par des valeurs différentes dans les paliers (15/02).</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">*   Inversion des couleurs dans la légende PDF : Correction de l&#39;inversion des couleurs dans la légende des mesures du rapport PDF (18/02).</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">*   Affichage d&#39;un seul capteur : Correction du bug qui n&#39;affichait qu&#39;un seul capteur dans la fenêtre &quot;Voici les données trouvées&quot; (25/02).</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="sd">*   Nettoyage des erreurs #DIV/! : Ajout d&#39;un nettoyage pour les valeurs #DIV/! (25/02).</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="sd">*   Perte du fichier sélectionné : Bug persistant : Lors de la validation du nom de l&#39;utilisateur, le fichier sélectionné est perdu et le premier fichier de la liste est traité à la place.</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">* Bearing detection: Increase in the number of points for bearing detection (from 10 to 13) to resolve problems encountered on some runs (18/02).</span>
+</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">* Offset in value tables: Correction of an offset in the filling of value tables (average and deviation) in the case of processing with several sensors, caused by different values in the bearings (02/15).</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a><span class="sd">* Color inversion in PDF legend: Correction of color inversion in PDF report measurement legend (02/18).</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">* Single sensor display: Fixed bug that displayed only one sensor in the “Here are the data found” window (02/25).</span>
+</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">* Clean-up of #DIV/! errors: Added clean-up for #DIV/! values (02/25).</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">* Loss of selected file: Persistent bug: When validating the username, the selected file is lost and the first file in the list is processed instead.</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>
+</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a><span class="sd">__modules_description__ =</span>
 </span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a><span class="sd">__modules_description__ =</span>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">Récapitulatif des modules actuels et de leurs rôles :</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">*   `main.py` : Point d&#39;entrée de l&#39;application. Lance l&#39;interface graphique.</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">*   `gui_V3.py` : Gère l&#39;interface graphique, l&#39;interaction utilisateur, l&#39;affichage des graphiques et l&#39;appel aux autres modules.</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">*   `FonctionsCSV.py` : Gère la lecture et le traitement des fichiers CSV.</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">*   `FonctionsSignal.py` : Contient les fonctions de traitement du signal (filtrage, détection des paliers, etc.).</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">*   `FonctionPdf.py` : Génère les rapports PDF.</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="sd">*   `FonctionsGui_V3.py` : Fournit des fonctions utilitaires pour l&#39;interface graphique (gestion des logs, etc.).</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a><span class="sd">*   `FonctionsBD.py` : Gere la fenetre Base de données et toutes les fonctions pour la bases de données</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="sd">Objectifs :</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">Sensorem/</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="sd">│</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">├── main.py</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="sd">├── requirements.txt</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="sd">├── .env</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="sd">├── README.md</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="sd">├── core/</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="sd">│   ├── __init__.py</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a><span class="sd">│   ├── data/</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a><span class="sd">│   │   ├── __init__.py</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="sd">│   │   ├── csv_handler.py     (Refactorisation de FonctionsCSV.py)</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="sd">│   │   └── database_manager.py (Refactorisation de FonctionsDB.py)</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="sd">│   ├── processing/</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="sd">│   │   ├── __init__.py</span>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a><span class="sd">│   │   └── signal_processor.py (Refactorisation de FonctionsSignal.py)</span>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a><span class="sd">│   ├── gui/</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="sd">│   │   ├── __init__.py</span>
-</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a><span class="sd">│   │   ├── main_window.py      (Refactorisation de gui_V3.py)</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a><span class="sd">│   │   └── utils.py            (Partie de FonctionsGui_V3.py)</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a><span class="sd">│   ├── reporting/</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a><span class="sd">│   │   ├── __init__.py</span>
-</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a><span class="sd">│   │   └── pdf_generator.py    (Refactorisation de FonctionsPdf.py)</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a><span class="sd">│   ├── utils/</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a><span class="sd">│   │   ├── __init__.py</span>
-</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a><span class="sd">│   │   └── logger.py           (Partie de FonctionsGui_V3.py, gestion des logs)</span>
-</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a><span class="sd">│   └── tests/</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a><span class="sd">│       ├── __init__.py</span>
-</span><span id="L-84"><a href="#L-84"><span class="linenos">84</span></a><span class="sd">│       ├── test_csv_handler.py</span>
-</span><span id="L-85"><a href="#L-85"><span class="linenos">85</span></a><span class="sd">│       ├── test_database_manager.py</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos">86</span></a><span class="sd">│       ├── test_signal_processor.py</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos">87</span></a><span class="sd">│       └── test_pdf_generator.py</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos">88</span></a><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">Summary of current modules and their roles:</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
+</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">* `main.py` : Application entry point. Launches the graphical interface.</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">* gui_V3.py` : Manages the GUI, user interaction, graphics display and calls to other modules.</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">* FunctionsCSV.py`: Manages reading and processing of CSV files.</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a><span class="sd">* SignalFunctions.py`: Contains signal processing functions (filtering, step detection, etc.).</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a><span class="sd">* FunctionPdf.py`: Generates PDF reports.</span>
+</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a><span class="sd">* FunctionsGui_V3.py`: Provides utility functions for the graphical interface (log management, etc.).</span>
+</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="sd">* FunctionsBD.py`: Manages the Database window and all database functions.</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
+</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>
+</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a><span class="sd">An idea for refactoring:</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>
+</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a><span class="sd">Sensorem/</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a><span class="sd">│</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a><span class="sd">├── main.py</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a><span class="sd">├── requirements.txt</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="sd">├── .env</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="sd">├── README.md</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a><span class="sd">├── core/</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a><span class="sd">│   ├── __init__.py</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a><span class="sd">│   ├── data/</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a><span class="sd">│   │   ├── __init__.py</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a><span class="sd">│   │   ├── csv_handler.py     (Refactoring of FunctionsCSV.py)</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a><span class="sd">│   │   └── database_manager.py (Refactoring of FunctionsDB.py)</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a><span class="sd">│   ├── processing/</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a><span class="sd">│   │   ├── __init__.py</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a><span class="sd">│   │   └── signal_processor.py (Refactoring of FunctionsSignal.py)</span>
+</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a><span class="sd">│   ├── gui/</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a><span class="sd">│   │   ├── __init__.py</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a><span class="sd">│   │   ├── main_window.py      (Refactoring of gui_V3.py)</span>
+</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a><span class="sd">│   │   └── utils.py            (Part of FunctionsGui_V3.py)</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a><span class="sd">│   ├── reporting/</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a><span class="sd">│   │   ├── __init__.py</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a><span class="sd">│   │   └── pdf_generator.py    (Refactoring of FunctionsPdf.py)</span>
+</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a><span class="sd">│   ├── utils/</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a><span class="sd">│   │   ├── __init__.py</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a><span class="sd">│   │   └── logger.py           (art of FunctionsGui_V3.py, log management)</span>
+</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a><span class="sd">│   └── tests/</span>
+</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a><span class="sd">│       ├── __init__.py</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a><span class="sd">│       ├── test_csv_handler.py</span>
+</span><span id="L-84"><a href="#L-84"><span class="linenos">84</span></a><span class="sd">│       ├── test_database_manager.py</span>
+</span><span id="L-85"><a href="#L-85"><span class="linenos">85</span></a><span class="sd">│       ├── test_signal_processor.py</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos">86</span></a><span class="sd">│       └── test_pdf_generator.py</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos">87</span></a><span class="sd">&quot;&quot;&quot;</span>
 </span></pre></div>
 
 
