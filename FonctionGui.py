@@ -1,470 +1,723 @@
-# !/usr/bin/python
-# !python
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 """
-Created on Thus Aug  23 15:05:52 2022
+Created on Thus Aug 04  2024
 
-@author : Aelurus
+@author: Aelurus
 
-@contributor: Bruno
 """
-# FonctionGui.py
-try:
-    import sys, os
-    import codecs
-    import glob
-    from doctest import testmod
-    # from tkinter import *
-    from tkinter.scrolledtext import ScrolledText
-    from tkinter import filedialog, END, Frame, Canvas, TOP, BOTH, NS, EW, INSERT, Tk, Label, \
-        Entry, StringVar, Button, Scrollbar, Listbox, VERTICAL, W, E
-    import FonctionsSignal as fs
-    import FonctionPdf as pdf
-    from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg)
-    from statistics import mean, pstdev
-    import matplotlib.pyplot as plt
-    import FonctionCSV as fc
+import glob
+# FonctionGui_V3.py.py
+import os
+import os.path
+import sys
+import tkinter as tk
+import tkinter.ttk as ttk
+from datetime import datetime
+from doctest import testmod
+from itertools import zip_longest
+from tkinter import messagebox
 
-except ImportError as import_error:
-    module_name = import_error.name if hasattr(import_error, 'name') else None
-    print(f"Erreur d'importation dans le module {module_name}: {import_error}")
-    print(f"Fichier en cours d'exécution : {os.path.basename(__file__)}")
-    input('Appuyez sur Entrée pour continuer...')
-    sys.exit(1)
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.figure import Figure
+
+try:
+    # import de mes fonctions
+    import FonctionsSignal as fs
+    import FonctionsPdf as pdf
+    import FonctionsCSV as fc
+    import FonctionsDB  as fdb # Importez FonctionsDB
+
 except Exception as e:
     print(f"Une exception s'est produite dans le module {__name__}: {e}")
     print(f"Fichier en cours d'exécution : {os.path.basename(__file__)}")
     input('Appuyez sur Entrée pour continuer...')
     sys.exit(1)
 
-# Zone de définition des constantes
-DOSSIER_ACTUEL = ""
-MOTIF_FICHIERS = "*.csv"
-VAR_IDX_IN_FILE_1 = 2
-VAR_IDX_IN_FILE_2 = 10
+# Constants
+# Définir une variable globale pour stocker le dossier
+_DOSSIER_ACTUEL = "./"
 
-# Zone de définition des fonctions
-def choisir_dossier():
-    """Ouvre un dialogue de sélection de répertoire
-        voir http://tkinter.unpythonic.net/wiki/tkFileDialog
 
-    ### Variables
-    ----------
-    `dossier` : str
-        Association automatique de l'adresse du chemin selectionner
 
-    ### Returns
+#  Dictionnaire qui stocke les variables globales encapsulées
+_state = {
+    "champ_trigramme": None,
+    "zone_texte_info_general": None,
+    "liste_fichiers": None,
+    "zone_texte_traitement_fichier": None,
+    "zone_graphique1": None,
+    "zone_graphique2": None,
+    "champ_unit_capteurs": None,
+    "champ_unit_capteur_ref": None,
+    "champ_nom_capteur_ref": None,
+    "bouton_generer_pdf": None,
+    "capteurs_manager": None,
+    "trigramme_valide": False,
+    "capteurs_valides": False,
+    "unites_valides": False
+}
 
+# Variables globales pour les états
+
+def update_file_list(): #Cette fonction doit rester dans FonctionsGui_V3
+    """Met à jour la liste des fichiers."""
+    liste_fichiers = get_state("liste_fichiers")
+    if liste_fichiers:
+        liste_fichiers.delete(0, tk.END)
+        try:
+            for filename in os.listdir("."):
+                liste_fichiers.insert(tk.END, filename)
+        except FileNotFoundError:
+            print("Répertoire non trouvé.")
+        except PermissionError:
+            print("Permission refusée pour accéder au répertoire.")
+        except Exception as e:
+            print(f"Une erreur s'est produite : {e}")
+    else:
+        print("Erreur : liste_fichiers non initialisée.")
+
+def dossier_actuel(new_folder=None):
     """
-    dossier = filedialog.askdirectory(
-        title="Sélectionnez le dossier de fichier (s) de mesure (s)",
-        mustexist=True,
-        parent=fenetre,
-    )
+    Getter/Setter pour le dossier actuel.
 
-    # Si un dossier a été sélectionné, on remplit la liste de fichiers
-    if dossier:
-        remplir_liste(dossier)
-
-def remplir_liste(dossier):
-    """Remplit la liste de fichiers à partir de l'emplacement spécifié.
+    Cette fonction permet de récupérer ou de définir le dossier actuel.
+    Si un nouveau dossier est fourni, il est défini comme le dossier actuel.
+    Sinon, la fonction retourne le dossier actuel.
 
     Args:
-        dossier (str): Le chemin du dossier contenant les fichiers de mesure.
+        new_folder (str, optional): Si fourni, définit le nouveau dossier actuel. Defaults to None.
 
     Returns:
-        None
+        str: Le dossier actuel.
+
+    Raises:
+        ValueError: Si le nouveau dossier est vide ou None.
     """
-    # Initialisation de la variable globale
-    global dossier_actuel
-    # Conservation du dossier en cours de traitement
-    dossier_actuel = dossier
-    # Récupération de la liste des fichiers
-    liste_fichiers = glob.glob(normaliser(dossier, MOTIF_FICHIERS))
-    liste_fichiers.sort()  # Tri par ordre alphabétique
-    # Mise à jour de la listbox à travers la variable de contrôle
-    cvar_fichiers.set(" ".join(map(os.path.basename, liste_fichiers)))
+    global _DOSSIER_ACTUEL
+    if new_folder is not None:
+        if not new_folder:
+            raise ValueError("Le nouveau dossier ne peut pas être vide")
+        _DOSSIER_ACTUEL = new_folder
+    return _DOSSIER_ACTUEL
+# Fonctions pour accéder et modifier les variables globales
+def get_state(key: str) -> any:
+    """
+    Récupérer la valeur d'une variable globale.
+
+    Cette fonction permet de récupérer la valeur d'une variable globale stockée dans le dictionnaire `_state`.
+    Les variables globales sont utilisées pour partager des données entre différentes parties de l'application.
+
+    Args:
+        key (str): La clé de la variable globale. Cette clé doit être unique pour éviter les conflits.
+
+    Returns:
+        any: La valeur de la variable globale. Cette valeur peut être de n'importe quel type.
+
+    Raises:
+        KeyError: Si la clé n'existe pas dans le dictionnaire des variables globales.
+
+    Notes:
+        Il est important de noter que les variables globales doivent être utilisées avec précaution, car elles peuvent créer des dépendances entre les différentes parties de l'application.
+    """
+    # Récupérer la valeur de la variable globale dans le dictionnaire _state
+    # Si la clé n'existe pas, une KeyError est levée
+    return _state[key]
+
+def set_state(key: str, value: any) -> None:
+    """
+    Définir la valeur d'une variable globale.
+
+    Cette fonction permet de définir la valeur d'une variable globale stockée dans le dictionnaire `_state`.
+    Les variables globales sont utilisées pour partager des données entre différentes parties de l'application.
+
+    Args:
+        key (str): La clé de la variable globale. Cette clé doit être unique pour éviter les conflits.
+        value (any): La nouvelle valeur de la variable globale. Cette valeur peut être de n'importe quel type.
+
+    Notes:
+        Il est important de noter que les variables globales doivent être utilisées avec précaution, car elles peuvent créer des dépendances entre les différentes parties de l'application.
+    """
+    # Définir la valeur de la variable globale dans le dictionnaire _state
+    # Si la clé n'existe pas, elle est créée
+    _state[key] = value
+
+def num_colonne_lire(Capteur: str) -> int:
+    """
+    Récupère le numéro de colonne pour lire les données d'un capteur.
+
+    Cette fonction retourne le numéro de colonne à partir duquel les données d'un capteur spécifique doivent être lues.
+    Les numéros de colonne sont stockés dans un dictionnaire qui mappe les noms de capteurs à leurs numéros de colonne respectifs.
+
+    Args:
+        Capteur (str): Le nom du capteur.
+
+    Returns:
+        int: Le numéro de colonne pour lire les données du capteur.
+
+    Raises:
+        ValueError: Si le capteur n'est pas trouvé dans la liste des capteurs.
+    """
+    # Dictionnaire qui mappe les noms de capteurs à leurs numéros de colonne respectifs
+    Capteurs = {
+        "capteur1": 2,
+        "capteurRef": 10
+    }
+    try:
+        # Retourne le numéro de colonne pour le capteur spécifié
+        return Capteurs[Capteur]
+    except KeyError:
+        # Si le capteur n'est pas trouvé, une ValueError est levée
+        raise ValueError(f"Capteur '{Capteur}' non trouvé dans la liste des capteurs")
+
+def num_ligne_lire(FirstLigne: int = 24) -> int:
+    """
+    Récupère le numéro de ligne pour lire les données.
+
+    Cette fonction retourne le numéro de ligne à partir duquel les données doivent être lues.
+    Le numéro de ligne par défaut est de 24.
+
+    Args:
+        FirstLigne (int, optional): Le numéro de ligne pour lire les données. Par défaut, 24.
+
+    Returns:
+        int: Le numéro de ligne pour lire les données.
+    """
+    # Retourne le numéro de ligne pour lire les données
+    return FirstLigne
+
+def get_data_from_file(fichier: str) -> tuple:
+    """
+    Récupère les données à partir d'un fichier.
+
+    Cette fonction lit les données à partir d'un fichier spécifié et retourne un tuple contenant les données lues.
+    Les données sont lues à partir de deux colonnes spécifiques du fichier, correspondant aux capteurs 1 et 2.
+
+    Args:
+        fichier (str): Le chemin du fichier à lire.
+
+    Returns:
+        tuple: Un tuple contenant les données lues à partir du fichier, sous la forme [y, y2]
+               où y et y2 sont les données des capteurs 1 et 2, respectivement.
+               Si une erreur se produit lors de l'ouverture du fichier, la fonction retourne None.
+
+    Raises:
+        messagebox.showerror: Si une erreur se produit lors de l'ouverture du fichier.
+    """
+    # Vérifie si le fichier existe
+    if os.path.isfile(fichier):
+        try:
+            # Ouvre le fichier en mode lecture
+            with open(fichier, 'r') as file_in:
+                # Lit les données des capteurs 1 et 2 à partir du fichier
+                y = fc.read_col_csv(fichier, ";", num_colonne_lire("capteur1"))
+                y2 = fc.read_col_csv(fichier, ";", num_colonne_lire("capteurRef"))
+                # Crée un tuple contenant les données lues
+                datas = [y, y2]
+                #liste_valeurs = list(zip_longest(y, y2))  # Cette ligne est commentée, mais pourrait être utilisée pour combiner les données des deux capteurs
+        except Exception as e:
+            # Affiche un message d'erreur si une exception se produit lors de l'ouverture du fichier
+            messagebox.showerror("Erreur d'ouverture du fichier", f"Erreur : {e}")
+            # Retourne None si une erreur se produit
+            return None
+
+    # Retourne les données lues à partir du fichier
+    return datas
 
 def normaliser(chemin, *args):
-    """Normalise un chemin de fichier pour le rendre compatible avec l'OS utilisé.
+    """
+    Normalise un chemin de fichier pour le rendre compatible avec l'OS utilisé.
+
+    Cette fonction prend en entrée un chemin de base et des arguments supplémentaires,
+    puis les combine en un chemin complet en utilisant les séparateurs de chemins appropriés
+    pour l'OS utilisé. Elle normalise également le chemin en supprimant les répertoires
+    parent (`..`) et courant (`.`) inutiles.
 
     Args:
-        chemin (str): Le chemin initial.
-        *args: Une séquence d'arguments supplémentaires pour rejoindre le chemin.
+        chemin (str): Le chemin de base du fichier.
+        *args (str): Les composants supplémentaires du chemin.
 
-    Returns :
-        str : Le chemin normalisé.
-
-    Example :
-        #>>> print(normaliser("/dossier", "sous-dossier", "fichier.txt"))
-        \dossier\sous-dossier\fichier.txt
+    Returns:
+        str: Le chemin de fichier normalisé.
     """
+    # Utilise os.path.join pour combiner les chemins en utilisant les séparateurs appropriés
+    # pour l'OS utilisé, puis os.path.normpath pour normaliser le chemin
     return os.path.normpath(os.path.join(chemin, *args))
 
-def afficher_fichier(event):
-    """Lecture et affichage du contenu du fichier sélectionné,
-    tentative d'implémentation de l'ouverture avec codec pour passage en Ut8
-    pour Linux.
+def rafraichir_liste_fichiers() -> None:
+    """
+    Rafraîchit la liste des fichiers CSV dans le dossier actuel.
+    """
+    dossier = dossier_actuel()  # Récupérer le dossier actuel
+    afficher_liste_fichiers(dossier)  # Met à jour la liste
 
-    On récupère le nom du fichier
+def initialiser_selection_listbox() -> None:
+    """
+    Initialise une sélection par défaut dans la `Listbox` si elle contient des éléments.
+    """
+    liste_fichiers = get_liste_fichiers()
+    if liste_fichiers.size() > 0:
+        liste_fichiers.selection_set(0)  # Sélectionne le premier fichier par défaut
+        liste_fichiers.see(0)  # Fait défiler pour afficher le fichier sélectionné
+
+def afficher_liste_fichiers(dossier: str) -> None:
+    """
+    Affiche la liste des fichiers CSV dans le dossier spécifié.
+
+    Cette fonction nettoie la liste des fichiers existante,
+    puis insère les noms des fichiers CSV trouvés dans le dossier spécifié.
 
     Args:
-        event: Événement déclencheur (non utilisé dans la fonction).
+        dossier (str): Le chemin du dossier où rechercher les fichiers CSV.
 
     Returns:
         None
     """
-    fichier = normaliser(
-        dossier_actuel,
-        liste_fichiers.get(liste_fichiers.curselection() or 0)
-    )
-    """est-ce réellement un fichier ?"""
-    if os.path.isfile(fichier):
-        affichage_texte.delete("1.0", END)
-        affichage_texte1.delete("1.0", END)
-        try:
-            # oui, on peut l'ouvrir en forçant l'encodage UTF8
-            with codecs.open(fichier, 'r', encoding='UTF-8',
-                             errors='ignore') as file_in:
-                # on efface d'abord la zone de texte
-                affichage_texte.delete("1.0", END)
-                # on insère le nouveau contenu texte du fichier
-                affichage_texte.insert("1.0", file_in.read())
-                fig = plt.figure(1, figsize=(6, 3))
-                # y = []
-                plt.clf()
-                #
-                y = fc.read_col_CSV(fichier, ";", VAR_IDX_IN_FILE_1)
-                if y:
-                    values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y, fs.seuil_capteur1())
-                    y = fc.supp_txt(y)
-                    plt.plot(y, linewidth=0.5)
-                else:
-                    plt.clf()
-                    # values_sep_paliers, values, values_sep1, paliers_find = fs.traitement_signal(y)
-                    plt.plot([0], [0], 'r', linewidth=0.5)
-                # traitement deuxieme capteur
-                y2 = fc.read_col_CSV(fichier, ";", VAR_IDX_IN_FILE_2)
-                if y2:
-                    values_sep_paliers_2, values_2, values_sep1_2, paliers_find_2 = fs.traitement_signal(y2, fs.seuil_capteur2())
-                    y2 = fc.supp_txt(y2)
-                    plt.plot(y2, 'r', linewidth=0.5)
-                else:
-                    # values_sep_paliers_2 , values_2 , values_sep1_2 , paliers_find_2 = fs.traitement_signal2(y2)
-                    plt.plot([0], [0], 'r', linewidth=0.5)
+    # Récupère la liste des fichiers
+    liste_fichiers = get_liste_fichiers()
 
-                # va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
-                # entre 2 ouvertures de fichier
-                global remove_canvs
+    # Nettoie la liste des fichiers existante
+    liste_fichiers.delete(0, tk.END)
 
-                if remove_canvs:
-                    for icanv in remove_canvs:
-                        icanv.destroy()
-                    remove_canvs = []
+    # Recherche les fichiers CSV dans le dossier spécifié
+    for fichier in glob.glob(os.path.join(dossier, "*.CSV")):
+        # Insère le nom du fichier dans la liste des fichiers
+        # en utilisant le nom de base du fichier (sans le chemin)
+        liste_fichiers.insert(tk.END, os.path.basename(fichier))
 
-                conteneur_canv = Frame(fenetre)
-                remove_canvs.append(conteneur_canv)
-                # dessin = Canvas(fenetre, bg='white', height=250, width=300)
-                conteneur_canv1 = Frame(fenetre)
-                remove_canvs.append(conteneur_canv1)
-                # dessin1 = Canvas(fenetre, bg='white', height=250, width=300)
+def nom_fichier_selectionne():
+    """
+    Récupère le nom du fichier sélectionné dans la liste des fichiers.
 
-                canvas = FigureCanvasTkAgg(fig, master=conteneur_canv)
-                canvas.draw()
-                canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-                conteneur_canv.grid(row=2, column=0, sticky=NS + EW, padx=5, pady=5)
-
-                # on efface d'abord la zone de texte
-                affichage_texte1.delete("1.0", END)
-                affichage_texte1.delete("1.0", END)
-
-                ###
-                #
-                entete = ["--------------------------\nNom capteur\n[N° palier] \tMoyenne [V] \tÉcart-type [mV]"]
-
-                values_capteurs = fs.isol_capteurs(fc.read_col_CSV(fichier, ";", VAR_IDX_IN_FILE_1))
-                values_capteurs2 = fs.isol_capteurs(fc.read_col_CSV(fichier, ";", VAR_IDX_IN_FILE_2))
-
-                # data1 et data2, dans la meme logique que dans FonctionPdf/traitement_pdf,
-                # sont les variables de préparation des tableaux (une fois, sommant entete et donneestraitees
-                datat1 = [entete[0]]
-                datat2 = [entete[0]]
-
-                # BGU 2022-08-10 : Codage rapproché de celui de la generation de pdf :
-                # Le pre-traitement des données (calcul des variables dérivées)
-                # est le même (utilisation de traitement_general_donnees),
-                # mais la mise en forme est différente (preparation de datat1 et datat2)
-                for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
-                    values_sep_paliers, values, values_sep, paliers_find = fs.traitement_signal(
-                        values_capteurs.get(capteur), fs.seuil_capteur1())
-                    values_sep_paliers2, values2, values_sep2, paliers_find2 = fs.traitement_signal(
-                        values_capteurs2.get(capteur2), fs.seuil_capteur2())
-                    #
-
-                    donneestraitees2 = fs.traitement_general_donnees(paliers_find, paliers_find2, values_sep_paliers,
-                                                                     values_sep_paliers2, entete)
-                    #
-                    datat1.append(str("\n----------\n") + str(capteur) + "\n")
-                    datat2.append(str("\n----------\n") + str(capteur2) + "\n")
-                    #
-                    for i, d in enumerate(donneestraitees2):
-                        datat1.append("[" + str(i) + "]\t" + str(d[0]) + "\t" + str(d[1]) + "\n")
-                        datat2.append("[" + str(i) + "]\t" + str(d[2]) + "\t" + str(d[3]) + "\n")
-                #
-                affichage_texte1.insert("0.0", str(len(values_capteurs.keys()))
-                                        + " capteur(s) trouvé(s) à raccorder !\n")
-                for i, t in enumerate(datat1):
-                    affichage_texte1.insert(INSERT, t)
-
-                affichage_texte1.insert("0.0", str(len(values_capteurs2.keys()))
-                                        + " mesure(s) de référence(s) trouvée(s) !\n")
-                if len(values_capteurs) == len(values_capteurs2):
-                    affichage_texte1.insert("0.0", " Ok  !\n")
-                else:
-                    affichage_texte1.insert("0.0", "Attention, il y a un problème... !\n")
-                for i, t in enumerate(datat2):
-                    affichage_texte1.insert(INSERT, t)
-
-                fig1 = plt.figure(2, figsize=(6, 3))
-                plt.clf()
-                if values_sep1:
-                    plt.plot(values_sep1, linewidth=0.5)
-                else:
-                    plt.plot([0], [0], 'r', linewidth=0.5)
-                if values_sep1_2:
-                    plt.plot(values_sep1_2, 'r', linewidth=0.5)
-                else:
-                    plt.clf()
-                    plt.plot([0], [0], 'r', linewidth=0.5)
-                # plt.show()
-                canvas = FigureCanvasTkAgg(fig1, master=conteneur_canv1)
-                canvas.draw()
-                canvas.get_tk_widget().pack(side=TOP, fill=BOTH, expand=1)
-                conteneur_canv1.grid(row=2, column=1, sticky=NS + EW, padx=5, pady=5)
-            # end with
-            file_in.close()
-
-        except Exception as e:
-            affichage_texte1.insert(INSERT, "Erreur. Probablement une différence de taille de paliers : " + str(e))
-            plt.close()
-
-    # end if
-# end def
-
-
-def destroy_fenetre():
-    """Fermeture de la fenêtre, pourquoi je ferme le tracer içi ?
-
-    Cette fonction ferme la fenêtre principale et le tracé (graphique).
+    Cette fonction vérifie si un fichier est sélectionné dans la liste,
+    et si oui, elle retourne le nom du fichier sélectionné.
+    Si aucun fichier n'est sélectionné, elle affiche un message d'avertissement
+    et retourne None.
 
     Returns:
-        None
+        str: Le nom du fichier sélectionné, ou None si aucun fichier n'est sélectionné.
     """
-    plt.close()
-    fenetre.destroy()
+    # Récupère la liste des fichiers
+    liste_fichiers = get_liste_fichiers()
 
-def lance_traitement_pdf():
-    """Lance l'exécution de la génération du PDF après quelques vérifications.
+    # Vérifie si un fichier est sélectionné
+    selection = liste_fichiers.curselection()
 
-    ### Variables
+    # Vérifie si rien n'est sélectionné
+    if not selection:
+        # Affiche un message d'avertissement si aucun fichier n'est sélectionné
+        messagebox.showwarning("Aucune sélection", "Veuillez sélectionner un fichier dans la liste.")
+        # Retourne None si aucune sélection n'est faite
+        return None
+
+    # Utilise la première sélection (si plusieurs fichiers sont sélectionnés)
+    nom_fichier_selectionne = liste_fichiers.get(selection[0])
+
+    # Retourne le nom du fichier sélectionné
+    return nom_fichier_selectionne
+
+def get_liste_fichiers() -> tk.Listbox:
+    """
+    Récupère la liste des fichiers stockée dans l'état.
+
+    Cette fonction récupère la liste des fichiers qui est stockée dans l'état de l'application.
+    La liste des fichiers est un widget Tkinter de type Listbox qui permet d'afficher et de sélectionner des fichiers.
+
+    Returns:
+        tk.Listbox: La liste des fichiers.
+    """
+    # Récupère la liste des fichiers stockée dans l'état
+    return get_state("liste_fichiers")
+
+def traitement_fichier():
+    """
+    Lecture et affichage des données du fichier sélectionné sans graphiques.
+
+    Cette fonction lit les données des capteurs dans le fichier sélectionné,
+    effectue un traitement sur ces données et retourne les résultats sous forme de chaîne de caractères.
+
+    Args:
+
+
+    Returns:
+        str: Le traitement complet des données du fichier sous forme de chaîne de caractères.
+    """
+    ligne_debut_affichage = 21  # Ligne à partir de laquelle commencer l'affichage
+    fichier = normaliser(dossier_actuel(), nom_fichier_selectionne())
+    #print(f"Debug nom de fichier: {fichier}")
+
+    try:
+        # Lecture des données des deux capteurs
+        y = fc.read_col_csv(fichier, ";", num_colonne_lire("capteur1"))
+        y2 = fc.read_col_csv(fichier, ";", num_colonne_lire("capteurRef"))
+
+        # Débogage détaillé
+        #print("Contenu initial de y:")
+        #print(y[:30])
+        #print("\nContenu initial de y2:")
+        #print(y2[:30])
+
+        # Traitement des données pour chaque capteur
+        values_capteurs = fs.isol_capteurs(fs.insert_nomscapteurs_gui(y, 0))
+        values_capteurs2 = fs.isol_capteurs(fs.insert_nomscapteurs_gui(y2, 1))
+
+        # Débogage des capteurs
+        #print("\nCapteurs trouvés:")
+        #print("Capteur 1:", list(values_capteurs.keys()))
+        #print("Capteur 2:", list(values_capteurs2.keys()))
+        for capteur in values_capteurs:
+            pass
+            #print(f"Longueur des données pour {capteur}: {len(values_capteurs[capteur])}")
+        for capteur in values_capteurs2:
+            pass
+            #print(f"Longueur des données pour {capteur}: {len(values_capteurs2[capteur])}")
+
+        # Traiter les données
+        for ligne in fichier:
+            # Vérifier si la ligne est vide
+            if ligne.strip() == '':
+                continue
+
+            # Essayer de diviser la ligne en éléments
+            elements = ligne.split(',')
+
+            # Vérifier si les éléments sont valides
+            if len(elements) > 0:
+                # Essayer de convertir le premier élément en un nombre
+                try:
+                    element = float(elements[0].strip())
+                    # Traiter l'élément
+                    #print("Élément : ", element)
+                except ValueError:
+                    #print("Erreur de lecture de données : l'élément n'est pas un nombre")
+                    pass
+            else:
+                print("Erreur de lecture de données : la ligne est vide")
+
+    except Exception as e:
+        #print("Erreur de lecture de données : ", str(e))
+        pass
+
+    try:
+        # Lecture des données des deux capteurs
+        y = fc.read_col_csv(fichier, ";", num_colonne_lire("capteur1"))
+        y2 = fc.read_col_csv(fichier, ";", num_colonne_lire("capteurRef"))
+
+        # Créer une liste combinée des valeurs pour affichage
+        liste_valeurs = list(zip_longest(y, y2))
+        valeurs_affichage = [
+            f"{element[0]}\t\t{element[1]}" for i, element in enumerate(liste_valeurs) if i > ligne_debut_affichage
+        ]
+
+        # Traitement des données pour chaque capteur
+        values_capteurs = fs.isol_capteurs(fs.insert_nomscapteurs_gui(y, 0))
+        values_capteurs2 = fs.isol_capteurs(fs.insert_nomscapteurs_gui(y2, 1))
+
+        # Initialisation des listes pour stocker les données traitées
+        datat1 = ["--------------------------\nNom capteur\n[N° palier] \tStabilité \tMoyenne [V] \tÉcart-type [mV]"]
+        datat2 = ["--------------------------\nNom capteur_ref\n[N° palier] \tStabilité \tMoyenne [V] \tÉcart-type [mV]"]
+
+        # Traitement des données pour chaque capteur
+        for capteur, capteur2 in zip(values_capteurs.keys(), values_capteurs2.keys()):
+            # Traitement du signal pour chaque capteur
+            values_sep_paliers, data, values_sep, paliers_find, paliers_info1 = fs.traitement_signal(
+                values_capteurs[capteur], fs.seuil_capteur1()
+            )
+            values_sep_paliers2, data2, values_sep2, paliers_find2, paliers_info2 = fs.traitement_signal(
+                values_capteurs2[capteur2], fs.seuil_capteur2()
+            )
+
+            # Récupération de la zone de texte pour les logs
+            zone_texte_info_general = get_state("zone_texte_info_general")
+            log_manager = LogManager(zone_texte_info_general)
+            fs.setup_log_display(zone_texte_info_general)
+
+            # Analyse et vérification des paliers
+            log_message(f"Analyse des paliers pour {capteur} et {capteur2}", "INFO")
+            comparison_message = fs.compare_paliers(
+                capteur, capteur2,
+                paliers_info1, paliers_info2,
+                values_sep_paliers, values_sep_paliers2,
+                log_manager
+            )
+            # Vérifier si comparison_message n'est pas vide avant d'appeler log_message
+            if comparison_message:
+                log_message(comparison_message, "WARNING")
+
+            # Vérification de la cohérence des paliers avant traitement
+            if paliers_find!= paliers_find2:
+                log_message(
+                    f"Différence dans le nombre de paliers: {capteur}={paliers_find}, {capteur2}={paliers_find2}",
+                    "WARNING")
+
+            # Appel à la fonction de traitement pour obtenir les données traitées
+            donneestraitees = fs.traitement_general_donnees(
+                paliers_find, paliers_find2,
+                values_sep_paliers, values_sep_paliers2,
+                datat1,
+                capteur1_info=paliers_info1,
+                capteur2_info=paliers_info2,
+                capteur1_name=capteur,
+                capteur2_name=capteur2
+            )
+
+            # Formatage des données traitées
+            datat1.append(f"\n----------\n{capteur}\n")
+            datat2.append(f"\n----------\n{capteur2}\n")
+            for i, d in enumerate(donneestraitees):
+                datat1.append(f"[{i}]\t{d[0]}\t{d[1]}\t{d[2]}\n")
+                datat2.append(f"[{i}]\t{d[3]}\t{d[4]}\t{d[5]}\n")
+
+        # Récapitulatif du traitement
+        traitement = f"{len(values_capteurs.keys())} capteur(s) trouvé(s) à raccorder!\n"
+        traitement_capteur1 = "\n Capteur 1, à raccorder\n" + ''.join(datat1)
+        traitement_capteur2 = "\n Capteur 2, référence\n" + ''.join(datat2)
+
+        # Vérification du nombre de capteurs
+        if len(values_capteurs)!= len(values_capteurs2):
+            log_message("Nombre de capteurs incohérent.", "ERROR")
+        else:
+            log_message("Nombre de capteurs correct", "INFO")
+
+        resultat = f"Voici le traitement du fichier : {fichier}\n"
+
+        # Retourne le traitement complet pour affichage
+        return resultat + traitement + traitement_capteur1 + traitement_capteur2
+
+    except Exception as e:
+        erreur = f"Erreur lors du traitement du fichier : {str(e)}"
+        print(erreur)
+        return erreur
+
+class LogManager:
+    """
+    Gestionnaire de logs amélioré pour le traitement des signaux.
+    """
+
+    LEVELS = {
+        'DEBUG': 0,
+        'INFO': 1,
+        'WARNING': 2,
+        'ERROR': 3,
+        'CRITICAL': 4
+    }
+
+    def __init__(self, zone_texte_info_general):
+        self.zone_texte = zone_texte_info_general
+        self.messages = []
+        self.current_context = None
+
+    def start_context(self, context_name):
+        """Démarre un nouveau contexte de logging."""
+        self.current_context = context_name
+        self._log(f"=== Début {context_name} ===", 'INFO')
+
+    def end_context(self):
+        """Termine le contexte actuel."""
+        if self.current_context:
+            self._log(f"=== Fin {self.current_context} ===", 'INFO')
+        self.current_context = None
+
+    def _log(self, message, level):
+        """Méthode interne pour enregistrer un message."""
+        timestamp = datetime.now().strftime('%H:%M:%S')
+        context_prefix = f"[{self.current_context}] " if self.current_context else ""
+        formatted_message = f"{timestamp} [{level}] {context_prefix}{message}\n"
+
+        if self.zone_texte:
+            # Coloration selon le niveau
+            tag = f"log_{level.lower()}"
+            self.zone_texte.insert(tk.END, formatted_message, tag)
+            self.zone_texte.see(tk.END)
+        else:
+            print(formatted_message)
+
+        self.messages.append((timestamp, level, self.current_context, message))
+
+    def debug(self, message):
+        self._log(message, 'DEBUG')
+
+    def info(self, message):
+        self._log(message, 'INFO')
+
+    def error(self, message):
+        self._log(message, 'ERROR')
+
+    def critical(self, message):
+        self._log(message, 'CRITICAL')
+
+    def get_summary(self):
+        """Génère un résumé des logs."""
+        summary = {level: 0 for level in self.LEVELS}
+        for _, level, _, _ in self.messages:
+            summary[level] += 1
+        return summary
+
+    def warning(self, message):
+        if not message:
+            print("WARNING : Message vide détecté")
+        self._log(message if message else "Message vide ou absent", "WARNING")
+
+def tracer_graphique(
+        donnees: list,
+        Legende: list,
+        titre: str = "",
+        xlabel: str = "",
+        ylabels: list = None,
+        styles: list = None,
+        marges: dict = None
+) -> Figure:
+    """
+    Trace un graphique avec les données fournies.
+
+    Cette fonction permet de tracer un graphique avec les données fournies, en utilisant les légendes et les options de personnalisation fournies.
+
+    Parameters:
     ----------
-    `numero_col_1` : `int`
-        Numéro de colonne des premières données à lire (capteur raccordé).
+    donnees : list
+        Liste de listes de données à tracer.
+    Legende : list
+        Liste de légendes pour les données.
+    titre : str, optional
+        Titre du graphique. Par défaut "".
+    xlabel : str, optional
+        Étiquette de l'axe x. Par défaut "".
+    ylabels : list, optional
+        Liste d'étiquettes pour les axes y. Par défaut None.
+    styles : list, optional
+        Liste de dictionnaires de style pour chaque ligne. Par défaut None.
+    marges : dict, optional
+        Dictionnaire de configuration des marges. Par défaut None.
 
-    `numero_col_2` : `int`
-        Numéro de colonne des deuxièmes données à lire (capteur de référence).
+    Returns:
+    -------
+    Figure
+        La figure du graphique.
 
-    `nom_utilisateur` : `str`
-        Trigramme de l'utilisateur récupéré.
+    Raises:
+    ------
+    ValueError
+        Si le nombre de listes de données et de légendes ne correspond pas.
+
+    Example:
+    -------
+    >>> donnees = [np.array([1, 2, 3]), np.array([4, 5, 6])]
+    >>> fig = tracer_graphique(donnees, ['Donnée 1', 'Donnée 2'],
+   ...                        titre="Mon graphique", xlabel="X", ylabels=["Y1", "Y2"],
+   ...                        styles=[{'linestyle': '--'}, {'marker': 'o'}])
+    >>> isinstance(fig, Figure)
+    True
     """
-    fichier = normaliser(
-        dossier_actuel,
-        liste_fichiers.get(liste_fichiers.curselection() or 0)
-    )
 
-    if os.path.isfile(fichier):
-        nom_utilisateur = recup_nomutilisateur()
-        numero_col_1 = VAR_IDX_IN_FILE_1
-        numero_col_2 = VAR_IDX_IN_FILE_2
-        try:
-            pdf.traitement_pdf(dossier_actuel, fichier, nom_utilisateur, numero_col_1, numero_col_2)
-            affichage_texte.delete(1.0, END)
-            affichage_texte.insert(INSERT, f"{maZone.get()}, le traitement est terminé.\n")
-        except Exception  as custom_exception1:
-            handle_custom_exception1(custom_exception1)
-        except Exception  as custom_exception2:
-            handle_custom_exception2(custom_exception2)
-        except Exception as e:
-            handle_generic_exception(e)
+    # Vérification si le nombre de listes de données et de légendes est identique
+    if len(donnees) != len(Legende):
+        raise ValueError("Le nombre de listes de données et de légendes doit être identique.")
 
-def handle_custom_exception1(exception):
-    # Gérer CustomException1
-    pass
+    # Création d'une figure et d'un axe
+    fig, ax1 = plt.subplots(figsize=(4.5, 4), dpi=100)
 
-def handle_custom_exception2(exception):
-    # Gérer CustomException2
-    pass
+    # Sélection de couleurs pour les données
+    colors = plt.cm.rainbow(np.linspace(0, 1, len(donnees)))
 
-def handle_generic_exception(exception):
-    # Gérer une exception générique
-    affichage_texte.delete(1.0, END)
-    affichage_texte.insert(INSERT, f"{maZone.get()}, !!!!! \n \n---LE TRAITEMENT A ÉCHOUÉ--- !!!!!.\n \n")
-    affichage_texte.insert(INSERT, str(exception))
-    affichage_texte.insert(INSERT, "\n \nMerci de sélectionner un fichier")
-    affichage_texte.tag_add("---LE TRAITEMENT A ÉCHOUÉ---", "2.0", "5.0")
-    affichage_texte.tag_config("---LE TRAITEMENT A ÉCHOUÉ---", background="red", foreground="blue")
+    # Création d'un deuxième axe pour les données
+    ax2 = ax1.twinx()
 
+    # Boucle sur les données
+    for i, data in enumerate(donnees):
+        # Vérification si les données sont non vides
+        if data:
+            try:
+                # Conversion des données en array numpy
+                data = np.array(fc.supp_txt(data))
+            except Exception as e:
+                # Gestion des erreurs de conversion
+                print(f"Erreur lors du traitement des données {i + 1}: {e}")
+                continue
 
-# On définit la fonction appelée par le info
-def recup_nomutilisateur():
-    """Récupère le trigramme de l'utilisateur."""
-    trigramme = maZone.get().strip()  # Supprime les espaces au début et à la fin
-    if trigramme :
-        affichage_texte.delete("1.0", END)
-        affichage_texte.insert("1.0", f"Trigramme {trigramme} récupéré.")
-        return trigramme
+            # Sélection du style pour les données
+            style = styles[i] if styles and i < len(styles) else {}
+
+            # Tracé des données
+            if i == 0:
+                # Tracé des données sur l'axe 1
+                ax1.plot(data, color=colors[i], label=Legende[i], **style)
+            else:
+                # Tracé des données sur l'axe 2
+                ax2.plot(data, color=colors[i], label=Legende[i], **style)
+        else:
+            # Tracé d'un point pour les données vides
+            if i == 0:
+                ax1.plot([0], [0], marker='o', color=colors[i], label=Legende[i])
+            else:
+                ax2.plot([0], [0], marker='o', color=colors[i], label=Legende[i])
+
+    # Configuration du titre et des étiquettes
+    ax1.set_title(titre)
+    ax1.set_xlabel(xlabel)
+    if ylabels and len(ylabels) > 0:
+        ax1.set_ylabel(ylabels[0])
+    if ylabels and len(ylabels) > 1:
+        ax2.set_ylabel(ylabels[1])
+
+    # Configuration de la légende
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='best')
+
+    # Configuration des marges
+    if marges:
+        plt.subplots_adjust(**marges)
     else:
-        affichage_texte.delete("1.0", END)
-        affichage_texte.insert("1.0", "Veuillez entrer un trigramme valide.")
-        raise ValueError("Trigramme invalide")
+        fig.tight_layout()
+
+    # Retour de la figure
+    return fig
 
 
-def Initialize():
-    """Initialization de la zone graphique GUI"""
+# import traceback
 
-# ------------------------------------------------------------------------------------
-# on commence par établir l'interface graphique (GUI)
-# on crée la fenêtre principale
-fenetre = Tk()
+def log_message(message: str, level: str = "INFO") -> None:
+    """
+    Enregistre un message de log dans la zone de texte dédiée.
 
-# stockage des 2 canvas des graphes plt, pour suppression dans afficher_dossier avant recréation
-remove_canvs = []
-"""va permettre de stocker les canvs à supprimer pour faire un refresh des graphes,
-entre 2 ouvertures de fichier"""
+    Cette fonction permet d'enregistrer un message de log dans la zone de texte dédiée, avec un niveau de log spécifique.
+    Le niveau de log peut être INFO, WARNING, ERROR, etc.
 
-fenetre.title("Traitement-Signal-capteur(s)" + fs.version())
-# SVP, NE FORCEZ PAS LA GÉOMÉTRIE de la fenêtre /!\
-# elle va s'adapter toute seule...
-# ~ fenetre.geometry("1000x800") --> c'est NON !
-# d'autant plus qu'elle sera REDIMENSIONNABLE ensuite
-# on ajoute des composants graphiques à la fenêtre principale
-# on crée un conteneur pour la gestion des fichiers
-#####
-conteneur_info = Frame(fenetre)
-# On crée un Label
-champLabel_nom = Label(conteneur_info, text="Nom (Trigramme): ")
-# champLabel_nom.grid(row=0, column=0)
-champLabel_nom.pack(side="left")
-# On crée un Entry (zone de saisie)
-maZone = Entry(conteneur_info, width=5)
-# On affiche le Entry dans la fenêtre
-maZone.insert(0, "XXX")
-maZone.pack(side="left")
+    Args:
+        message (str): Le message à enregistrer.
+        level (str, optional): Le niveau de log. Par défaut "INFO".
 
-# On crée un Boutton
-monBouton = Button(conteneur_info, text="Valide nom", command=recup_nomutilisateur)
-# On affiche le Button dans la fenêtre
-monBouton.pack()
-# on place le conteneur dans la fenêtre principale
-# avec des marges padx et pady
-conteneur_info.grid(row=0, column=0, sticky=NS + EW, padx=5, pady=5)
+    Raises:
+        ValueError: Si la zone de texte pour les logs n'a pas été initialisée.
 
-##############################################################################
-conteneur_fichiers = Frame(fenetre)
-# on rend le conteneur redimensionnable
-conteneur_fichiers.columnconfigure(0, weight=1)
-conteneur_fichiers.rowconfigure(0, weight=1)
-# on crée une étiquette texte dans ce conteneur
-Label(
-    conteneur_fichiers,
-    text="Veuillez sélectionner un fichier :"
-).grid(row=0, column=0, sticky=EW)
-# on crée la liste des fichiers
-cvar_fichiers = StringVar()
-liste_fichiers = Listbox(conteneur_fichiers, listvariable=cvar_fichiers)
-liste_fichiers.grid(row=1, column=0, sticky=NS + EW)
-# avec sa scrollbar
-vbar_fichiers = Scrollbar(conteneur_fichiers, orient=VERTICAL)
-vbar_fichiers.grid(row=1, column=1, sticky=NS + W)
-# on connecte la scrollbar à la liste des fichiers
-liste_fichiers.configure(yscrollcommand=vbar_fichiers.set)
-vbar_fichiers.configure(command=liste_fichiers.yview)
+    Notes:
+        La zone de texte pour les logs est obtenue à l'aide de la fonction get_state.
+        Le message est inséré dans la zone de texte avec un tag spécifique pour le niveau de log.
+        La zone de texte est défilée jusqu'à la fin pour que le message soit visible.
+    """
 
-# on va gérer l'affichage du fichier sur simple clic
-# sur un fichier de la liste
-liste_fichiers.bind("<ButtonRelease-1>", afficher_fichier)
+    # Récupération de la zone de texte pour les logs
+    zone_texte_info_general = get_state("zone_texte_info_general")
 
-# on crée un bouton de type 'Parcourir'
-Button(
-    conteneur_fichiers,
-    text="          Sélectionner un dossier                         ",
-    command=choisir_dossier, ).grid(row=2, column=0)
-# on place le conteneur dans la fenêtre principale
-# avec des marges padx et pady
-conteneur_fichiers.grid(row=1, column=0, sticky=NS + EW, padx=5, pady=5)
-##############################################################################
-# on crée un conteneur pour l'affichage
-conteneur_affichage = Frame(fenetre)
-# on rend le conteneur redimensionnable
-conteneur_affichage.columnconfigure(0, weight=1)
-conteneur_affichage.rowconfigure(0, weight=1)
-# on crée une étiquette texte dans ce conteneur
-Label(
-    conteneur_affichage,
-    text="  Voici le contenu du fichier :                       "
-).grid(row=0, column=0, sticky=EW)
-Label(
-    conteneur_affichage,
-    text=" Informations trouvées :                              "
-).grid(row=0, column=1, sticky=EW)
-# on crée la zone d'affichage de texte
-affichage_texte = ScrolledText(
-    conteneur_affichage,
-    bg="white",
-    fg="blue",
-    font="sans 9 ",
-    height=10,
-    width=20,
-)
-user = recup_nomutilisateur()
-# affichage_texte.insert("1.0",user+", merci de sélectionner un fichier")
-affichage_texte.grid(row=1, column=0, sticky=NS + EW)
+    # Vérification si la zone de texte a été initialisée
+    if zone_texte_info_general:
+        # Définition du tag pour le niveau de log
+        tag = f"log_{level.lower()}"
 
-# on ajoute un bouton 'valide'
-Button(
-    conteneur_affichage,
-    text="Génère le PDF du traitement",
-    command=lance_traitement_pdf
-).grid(row=2, column=0, sticky=E)
-# on ajoute un bouton 'quitter'
-Button(
-    conteneur_affichage,
-    text="Quitter",
-    command=destroy_fenetre
-).grid(row=2, column=1, sticky=E)
-# on place le conteneur dans la fenêtre principale
-# avec des marges padx et pady
-conteneur_affichage.grid(row=1, column=1, sticky=NS + EW, padx=5, pady=5)
-# on crée la zone d'affichage de texte
-affichage_texte1 = ScrolledText(
-    conteneur_affichage,
-    bg="white",
-    fg="blue",
-    font="sans 9 ",
-    height=10,
-    width=20,
-)
-affichage_texte1.grid(row=1, column=1, sticky=NS + EW)
-# on rend la fenêtre redimensionnable
-# fenetre.columnconfigure(1, weight=1)
-fenetre.rowconfigure(1, weight=1)
+        # Insertion du message dans la zone de texte avec le tag
+        zone_texte_info_general.insert(tk.END, f"[{level}] {message}\n", tag)
 
-##############################################################################
+        # Défilement de la zone de texte jusqu'à la fin pour que le message soit visible
+        zone_texte_info_general.see(tk.END)
 
-def run_main_loop():
-    """On lance la boucle événementielle principale"""
-    remplir_liste(".//")
-    fenetre.mainloop()
+        # Forcer le rafraîchissement de l'interface (commenté pour l'instant)
+        # root.update()
+    else:
+        # Levage d'une exception si la zone de texte n'a pas été initialisée
+        raise ValueError("La zone de texte pour les logs n'a pas été initialisée")
+
 
 if __name__ == "__main__":
-    testmod()  # Exécute les tests doctest lorsqu'il est exécuté en tant que script principal
+    testmod()
+
