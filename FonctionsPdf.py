@@ -659,7 +659,7 @@ def gen_pdf(data1, numcapteur, data2, numcapteur2, datat1, datat2,
     contenue = []
     today = date.today()
     d1 = today.strftime("%d/%m/%Y")
-    logo = "Logo.jpg"
+    logo = "Logo.png"
     im = Image(logo, 3.5 * cm, 2 * cm)
     text = "Traitement pour le raccordement <br/>du capteur <u>" + str(numcapteur) + "</u>"
     titre = Paragraph(text, styleH3)
