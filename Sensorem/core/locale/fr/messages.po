@@ -1,0 +1,22 @@
+# File PO for French translation of Sensorem
+msgid ""
+msgstr ""
+"Project-Id-Version: hello_app 1.0\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n" # Règles de pluriel pour le français
+
+#: file.py:line number (it can be painfully to maintain)
+#: hello.py:22
+msgid "Starting the program..."
+msgstr "Démarrage du programme..."
+
+#: hello.py:18
+msgid "Hello, world!"
+msgstr "Bonjour, le monde !"
+
+#: hello.py:22
+msgid "Goodbye!"
+msgstr "Au revoir !"

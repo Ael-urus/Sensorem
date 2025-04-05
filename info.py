@@ -65,23 +65,30 @@ Sensorem/
 │   │   ├── __init__.py
 │   │   ├── csv_handler.py     (Refactoring of FunctionsCSV.py)
 │   │   └── database_manager.py (Refactoring of FunctionsDB.py)
-│   ├── processing/
-│   │   ├── __init__.py
-│   │   └── signal_processor.py (Refactoring of FunctionsSignal.py)
 │   ├── gui/
 │   │   ├── __init__.py
 │   │   ├── main_window.py      (Refactoring of gui_V3.py)
 │   │   └── utils.py            (Part of FunctionsGui_V3.py)
+│   ├── locale/
+│   │   ├── __init__.py
+│   │   ├── fr/
+│   │   │   ├── __init__.py
+│   │   │   └── messages.po
+│   ├── processing/
+│   │   ├── __init__.py
+│   │   └── signal_processor.py (Refactoring of FunctionsSignal.py)
 │   ├── reporting/
 │   │   ├── __init__.py
 │   │   └── pdf_generator.py    (Refactoring of FunctionsPdf.py)
+│   ├── tests/
+│   │   ├── __init__.py
+│   │   ├── test_csv_handler.py
+│   │   ├── test_database_manager.py
+│   │   ├── test_signal_processor.py
+│   │   └── test_pdf_generator.py
 │   ├── utils/
 │   │   ├── __init__.py
 │   │   └── logger.py           (art of FunctionsGui_V3.py, log management)
-│   └── tests/
-│       ├── __init__.py
-│       ├── test_csv_handler.py
-│       ├── test_database_manager.py
-│       ├── test_signal_processor.py
-│       └── test_pdf_generator.py
+│   └──
+└──
 """

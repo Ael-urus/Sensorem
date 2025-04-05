@@ -30,13 +30,6 @@
 
 
 
-            <h2>API Documentation</h2>
-                <ul class="memberlist">
-            <li>
-                    <a class="function" href="#main">main</a>
-            </li>
-    </ul>
-
 
 
         <a class="attribution" title="pdoc: Python API documentation generator" href="https://pdoc.dev" target="_blank">
@@ -51,162 +44,11 @@
                     <h1 class="modulename">
 main    </h1>
 
-                        <div class="docstring"><p>Point d'entrée de l'application Sensorem.</p>
-
-<p>Ce script lance l'interface graphique principale de l'application
-Sensorem. Il importe les fonctions nécessaires depuis les modules
-<code><a href="gui_V3.html">gui_V3</a></code> et <code><a href="FonctionsSignal.html">FonctionsSignal</a></code>.</p>
-
-<p>Attributs :
-    title (str) : Titre de la fenêtre principale de l'interface graphique.
-    width (int) : Largeur de la fenêtre principale.
-    height (int) : Hauteur de la fenêtre principale.</p>
-</div>
-
-                        <input id="mod-main-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-
-                        <label class="view-source-button" for="mod-main-view-source"><span>View Source</span></label>
-
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="c1"># main.py</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="sd">&quot;&quot;&quot;Point d&#39;entrée de l&#39;application Sensorem.</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="sd">Ce script lance l&#39;interface graphique principale de l&#39;application</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="sd">Sensorem. Il importe les fonctions nécessaires depuis les modules</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="sd">`gui_V3` et `FonctionsSignal`.</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">Attributs :</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">    title (str) : Titre de la fenêtre principale de l&#39;interface graphique.</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">    width (int) : Largeur de la fenêtre principale.</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">    height (int) : Hauteur de la fenêtre principale.</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="kn">from</span> <span class="nn">FonctionsSignal</span> <span class="kn">import</span> <span class="n">version</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="kn">from</span> <span class="nn">gui_V3</span> <span class="kn">import</span> <span class="n">mainGui</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="kn">from</span> <span class="nn">FonctionsDB</span> <span class="kn">import</span> <span class="n">GestionnaireFenetreDB</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Lance l&#39;interface graphique principale de l&#39;application Sensorem.</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">    Cette fonction configure le titre, la largeur et la hauteur de la fenêtre</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">    principale de l&#39;interface graphique. Elle utilise les valeurs suivantes :</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="sd">    - `APP_TITLE` (str) : Le titre de la fenêtre (incluant le numéro de version).</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a><span class="sd">    - `APP_WIDTH` (int) : La largeur de la fenêtre en pixels.</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="sd">    - `APP_HEIGHT` (int) : La hauteur de la fenêtre en pixels.</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">    Ces valeurs sont actuellement définies directement dans la fonction, mais</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">    il est prévu de les externaliser sous forme de constantes globales pour</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">    faciliter leur modification et leur réutilisation.</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a><span class="sd">    La fonction lance ensuite l&#39;interface en appelant la fonction `mainGui`</span>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a><span class="sd">    du module `gui_V3` avec les paramètres configurés.</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a><span class="sd">    Returns:</span>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a><span class="sd">        None</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a>    <span class="c1"># Construit le titre de la fenêtre en concaténant le nom de l&#39;application</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>    <span class="c1"># avec le numéro de version (obtenu via la fonction &#39;version()&#39;)</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a>    <span class="n">app_title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Sensorem - Traitement-Signal-capteur(s) &quot;</span> <span class="o">+</span> <span class="n">version</span><span class="p">()</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Titre de l&#39;application (sera une constante globale).&quot;&quot;&quot;</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a>    <span class="c1"># Définit la largeur de la fenêtre à 500 pixels</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a>    <span class="n">app_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Largeur de la fenêtre (sera une constante globale).&quot;&quot;&quot;</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>    <span class="c1"># Définit la hauteur de la fenêtre à 500 pixels</span>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>    <span class="n">app_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Hauteur de la fenêtre (sera une constante globale).&quot;&quot;&quot;</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>    <span class="c1"># Lance l&#39;interface graphique avec les paramètres configurés</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="n">mainGui</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">app_title</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">app_width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">app_height</span><span class="p">)</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Lance l&#39;interface graphique.&quot;&quot;&quot;</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Exécute le script principal de l&#39;application.&quot;&quot;&quot;</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>    <span class="n">main</span><span class="p">()</span>
-</span></pre></div>
-
-
+                
+                
+                
+                
             </section>
-                <section id="main">
-                            <input id="main-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr function">
-            
-        <span class="def">def</span>
-        <span class="name">main</span><span class="signature pdoc-code condensed">(<span class="return-annotation">) -> <span class="kc">None</span>:</span></span>
-
-                <label class="view-source-button" for="main-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#main"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="main-21"><a href="#main-21"><span class="linenos">21</span></a><span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><span id="main-22"><a href="#main-22"><span class="linenos">22</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Lance l&#39;interface graphique principale de l&#39;application Sensorem.</span>
-</span><span id="main-23"><a href="#main-23"><span class="linenos">23</span></a>
-</span><span id="main-24"><a href="#main-24"><span class="linenos">24</span></a><span class="sd">    Cette fonction configure le titre, la largeur et la hauteur de la fenêtre</span>
-</span><span id="main-25"><a href="#main-25"><span class="linenos">25</span></a><span class="sd">    principale de l&#39;interface graphique. Elle utilise les valeurs suivantes :</span>
-</span><span id="main-26"><a href="#main-26"><span class="linenos">26</span></a>
-</span><span id="main-27"><a href="#main-27"><span class="linenos">27</span></a><span class="sd">    - `APP_TITLE` (str) : Le titre de la fenêtre (incluant le numéro de version).</span>
-</span><span id="main-28"><a href="#main-28"><span class="linenos">28</span></a><span class="sd">    - `APP_WIDTH` (int) : La largeur de la fenêtre en pixels.</span>
-</span><span id="main-29"><a href="#main-29"><span class="linenos">29</span></a><span class="sd">    - `APP_HEIGHT` (int) : La hauteur de la fenêtre en pixels.</span>
-</span><span id="main-30"><a href="#main-30"><span class="linenos">30</span></a>
-</span><span id="main-31"><a href="#main-31"><span class="linenos">31</span></a><span class="sd">    Ces valeurs sont actuellement définies directement dans la fonction, mais</span>
-</span><span id="main-32"><a href="#main-32"><span class="linenos">32</span></a><span class="sd">    il est prévu de les externaliser sous forme de constantes globales pour</span>
-</span><span id="main-33"><a href="#main-33"><span class="linenos">33</span></a><span class="sd">    faciliter leur modification et leur réutilisation.</span>
-</span><span id="main-34"><a href="#main-34"><span class="linenos">34</span></a>
-</span><span id="main-35"><a href="#main-35"><span class="linenos">35</span></a><span class="sd">    La fonction lance ensuite l&#39;interface en appelant la fonction `mainGui`</span>
-</span><span id="main-36"><a href="#main-36"><span class="linenos">36</span></a><span class="sd">    du module `gui_V3` avec les paramètres configurés.</span>
-</span><span id="main-37"><a href="#main-37"><span class="linenos">37</span></a>
-</span><span id="main-38"><a href="#main-38"><span class="linenos">38</span></a><span class="sd">    Returns:</span>
-</span><span id="main-39"><a href="#main-39"><span class="linenos">39</span></a><span class="sd">        None</span>
-</span><span id="main-40"><a href="#main-40"><span class="linenos">40</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="main-41"><a href="#main-41"><span class="linenos">41</span></a>    <span class="c1"># Construit le titre de la fenêtre en concaténant le nom de l&#39;application</span>
-</span><span id="main-42"><a href="#main-42"><span class="linenos">42</span></a>    <span class="c1"># avec le numéro de version (obtenu via la fonction &#39;version()&#39;)</span>
-</span><span id="main-43"><a href="#main-43"><span class="linenos">43</span></a>    <span class="n">app_title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Sensorem - Traitement-Signal-capteur(s) &quot;</span> <span class="o">+</span> <span class="n">version</span><span class="p">()</span>
-</span><span id="main-44"><a href="#main-44"><span class="linenos">44</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Titre de l&#39;application (sera une constante globale).&quot;&quot;&quot;</span>
-</span><span id="main-45"><a href="#main-45"><span class="linenos">45</span></a>
-</span><span id="main-46"><a href="#main-46"><span class="linenos">46</span></a>    <span class="c1"># Définit la largeur de la fenêtre à 500 pixels</span>
-</span><span id="main-47"><a href="#main-47"><span class="linenos">47</span></a>    <span class="n">app_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span>
-</span><span id="main-48"><a href="#main-48"><span class="linenos">48</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Largeur de la fenêtre (sera une constante globale).&quot;&quot;&quot;</span>
-</span><span id="main-49"><a href="#main-49"><span class="linenos">49</span></a>
-</span><span id="main-50"><a href="#main-50"><span class="linenos">50</span></a>    <span class="c1"># Définit la hauteur de la fenêtre à 500 pixels</span>
-</span><span id="main-51"><a href="#main-51"><span class="linenos">51</span></a>    <span class="n">app_height</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">500</span>
-</span><span id="main-52"><a href="#main-52"><span class="linenos">52</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Hauteur de la fenêtre (sera une constante globale).&quot;&quot;&quot;</span>
-</span><span id="main-53"><a href="#main-53"><span class="linenos">53</span></a>
-</span><span id="main-54"><a href="#main-54"><span class="linenos">54</span></a>    <span class="c1"># Lance l&#39;interface graphique avec les paramètres configurés</span>
-</span><span id="main-55"><a href="#main-55"><span class="linenos">55</span></a>    <span class="n">mainGui</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">app_title</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">app_width</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">app_height</span><span class="p">)</span>
-</span><span id="main-56"><a href="#main-56"><span class="linenos">56</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Lance l&#39;interface graphique.&quot;&quot;&quot;</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Lance l'interface graphique principale de l'application Sensorem.</p>
-
-<p>Cette fonction configure le titre, la largeur et la hauteur de la fenêtre
-principale de l'interface graphique. Elle utilise les valeurs suivantes :</p>
-
-<ul>
-<li><code>APP_TITLE</code> (str) : Le titre de la fenêtre (incluant le numéro de version).</li>
-<li><code>APP_WIDTH</code> (int) : La largeur de la fenêtre en pixels.</li>
-<li><code>APP_HEIGHT</code> (int) : La hauteur de la fenêtre en pixels.</li>
-</ul>
-
-<p>Ces valeurs sont actuellement définies directement dans la fonction, mais
-il est prévu de les externaliser sous forme de constantes globales pour
-faciliter leur modification et leur réutilisation.</p>
-
-<p>La fonction lance ensuite l'interface en appelant la fonction <code>mainGui</code>
-du module <code><a href="gui_V3.html">gui_V3</a></code> avec les paramètres configurés.</p>
-
-<p>Returns:
-    None</p>
-</div>
-
-
-                </section>
     </main>
 <script>
     function escapeHTML(html) {
