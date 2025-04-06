@@ -1,0 +1,83 @@
+# File PO for English translation of Sensorem
+msgid ""
+msgstr ""
+"Project-Id-Version: Sensorem 0.4.3.9\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# Application
+msgid "Sensorem - Sensor Signal Processing"
+msgstr "Sensorem - Sensor Signal Processing"
+
+msgid "Exit"
+msgstr "Exit"
+
+msgid "Files"
+msgstr "Files"
+
+msgid "Language"
+msgstr "Langue"
+
+
+# Main window
+msgid "Processing"
+msgstr "Processing"
+
+msgid "Database"
+msgstr "Database"
+
+msgid "Logs"
+msgstr "Logs"
+
+
+
+# Processing tab
+
+msgid "Initialized Processing Tab"
+msgstr "Initialized Processing Tab"
+
+msgid "Visualization"
+msgstr "Visualization"
+
+msgid "Control:"
+msgstr "Control:"
+
+msgid "Trigram:"
+msgstr "Trigram:"
+
+msgid "Validate"
+msgstr "Validate"
+
+msgid "The trigram must contain 3 letters"
+msgstr "The trigram must contain 3 letters"
+
+# Log messages
+msgid "Application initialized"
+msgstr "Application initialized"
+msgid "Processing tab initialized"
+msgstr "Processing tab initialized"
+msgid "Database tab initialized"
+msgstr "Database tab initialized"
+msgid "Logs tab initialized"
+msgstr "Logs tab initialized"
+msgid "Trigram validated: %s"
+msgstr "Trigram validated: %s"
+msgid "Invalid trigram"
+msgstr "Invalid trigram"
+
+# Database tab
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Name"
+msgstr "Name"
+
+msgid "Value"
+msgstr "Value"
+
+msgid "Trying to import values"
+msgstr "Trying to import values"

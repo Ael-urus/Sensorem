@@ -55,6 +55,9 @@ An idea for refactoring:
 
 Sensorem/
 │
+├── __init__.py
+├── compile_translations.py
+├── config.py
 ├── main.py
 ├── requirements.txt
 ├── .env
@@ -67,13 +70,17 @@ Sensorem/
 │   │   └── database_manager.py (Refactoring of FunctionsDB.py)
 │   ├── gui/
 │   │   ├── __init__.py
+│   │   ├── db_tab.py
 │   │   ├── main_window.py      (Refactoring of gui_V3.py)
+│   │   ├── processing_tab.py
 │   │   └── utils.py            (Part of FunctionsGui_V3.py)
 │   ├── locale/
-│   │   ├── __init__.py
-│   │   ├── fr/
-│   │   │   ├── __init__.py
-│   │   │   └── messages.po
+│   │   ├── en/LC_MESSAGES/
+│   │   │   ├── messages.po
+│   │   │   └── messages.mo
+│   │   └── fr/LC_MESSAGES/
+│   │       ├── messages.po
+│   │       └── messages.mo
 │   ├── processing/
 │   │   ├── __init__.py
 │   │   └── signal_processor.py (Refactoring of FunctionsSignal.py)
@@ -88,6 +95,8 @@ Sensorem/
 │   │   └── test_pdf_generator.py
 │   ├── utils/
 │   │   ├── __init__.py
+│   │   ├── constants.py
+│   │   ├── i18n.py
 │   │   └── logger.py           (art of FunctionsGui_V3.py, log management)
 │   └──
 └──

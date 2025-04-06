@@ -1,0 +1,72 @@
+# File PO for French translation of Sensorem
+msgid ""
+msgstr ""
+"Project-Id-Version: Sensorem 0.4.3.9\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# Application
+msgid "Sensorem - Sensor Signal Processing"
+msgstr "Sensorem - Traitement de signaux capteurs"
+
+# Main window
+msgid "Processing"
+msgstr "Traitement"
+msgid "Database"
+msgstr "Base de données"
+msgid "Logs"
+msgstr "Journaux"
+msgid "Exit"
+msgstr "Quitter"
+msgid "Files"
+msgstr "Fichiers"
+
+# Processing tab
+msgid "Initialized Processing Tab"
+msgstr "Onglet Traitement initialisé"
+
+msgid "Visualization"
+msgstr "Visualisation"
+
+msgid "Control:"
+msgstr "Contrôles:"
+
+msgid "Trigram:"
+msgstr "Trigramme :"
+
+msgid "Validate"
+msgstr "Valider"
+
+msgid "The trigram must contain 3 letters"
+msgstr "Le trigramme doit contenir 3 lettres"
+
+# Log messages
+msgid "Application initialized"
+msgstr "Application initialisée"
+msgid "Processing tab initialized"
+msgstr "Onglet Traitement initialisé"
+msgid "Database tab initialized"
+msgstr "Onglet Base de données initialisé"
+msgid "Logs tab initialized"
+msgstr "Onglet Journaux initialisé"
+msgid "Trigram validated: %s"
+msgstr "Trigramme validé : %s"
+msgid "Invalid trigram"
+msgstr "Trigramme invalide"
+
+# Database tab
+
+msgid "ID"
+msgstr "ID"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Value"
+msgstr "Valeur"
+
+msgid "Trying to import values"
+msgstr "Tentative d'importation des données"
