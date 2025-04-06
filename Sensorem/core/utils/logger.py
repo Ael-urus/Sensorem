@@ -1,3 +1,4 @@
+# core/utils/logger.py
 import tkinter as tk
 from datetime import datetime
 
@@ -9,7 +10,7 @@ class LogManager:
 
     def _setup_colors(self):
         self.colors = {
-            'INFO': 'black',
+            'INFO': 'blue',  # Changé de 'black' à 'blue'
             'DEBUG': 'gray',
             'WARNING': 'orange',
             'ERROR': 'red',
@@ -36,6 +37,9 @@ class LogManager:
 
         # Affichage dans les widgets
         for widget in self.outputs:
+            # S'assurer que les tags de couleur sont configurés
+            self._configure_widget(widget)
+
             widget.config(state=tk.NORMAL)
             widget.insert(tk.END, formatted, level)
             widget.see(tk.END)

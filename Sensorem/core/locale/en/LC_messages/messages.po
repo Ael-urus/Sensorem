@@ -19,8 +19,16 @@ msgid "Files"
 msgstr "Files"
 
 msgid "Language"
-msgstr "Langue"
+msgstr "Language"
 
+msgid "Language changed to"
+msgstr "Language changed to"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Import"
+msgstr "Import"
 
 # Main window
 msgid "Processing"
@@ -32,18 +40,15 @@ msgstr "Database"
 msgid "Logs"
 msgstr "Logs"
 
-
-
 # Processing tab
-
 msgid "Initialized Processing Tab"
 msgstr "Initialized Processing Tab"
 
 msgid "Visualization"
 msgstr "Visualization"
 
-msgid "Control:"
-msgstr "Control:"
+msgid "Control"
+msgstr "Control"
 
 msgid "Trigram:"
 msgstr "Trigram:"
@@ -63,21 +68,30 @@ msgid "Database tab initialized"
 msgstr "Database tab initialized"
 msgid "Logs tab initialized"
 msgstr "Logs tab initialized"
-msgid "Trigram validated: %s"
-msgstr "Trigram validated: %s"
+msgid "Trigram validated: {0}"
+msgstr "Trigram validated: {0}"
 msgid "Invalid trigram"
 msgstr "Invalid trigram"
 
 # Database tab
-
 msgid "ID"
 msgstr "ID"
-
 msgid "Name"
 msgstr "Name"
-
 msgid "Value"
 msgstr "Value"
-
 msgid "Trying to import values"
 msgstr "Trying to import values"
+
+#: ..\utils\validate_translations.py, line 38
+#: ..\utils\validate_translations.py, line 38
+msgid "..."
+msgstr "..."
+
+#: ..\gui\logs_tab.py, line 53
+msgid "Clear logs"
+msgstr "Clear logs"
+
+#: ..\gui\logs_tab.py, line 67
+msgid "Logs cleared"
+msgstr "Logs cleared"

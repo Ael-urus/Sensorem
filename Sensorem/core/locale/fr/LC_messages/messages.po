@@ -23,6 +23,14 @@ msgid "Exit"
 msgstr "Quitter"
 msgid "Files"
 msgstr "Fichiers"
+msgid "Language"
+msgstr "Langue"
+msgid "Language changed to"
+msgstr "Langue changée en"
+msgid "Error"
+msgstr "Erreur"
+msgid "Import"
+msgstr "Importer"
 
 # Processing tab
 msgid "Initialized Processing Tab"
@@ -31,8 +39,8 @@ msgstr "Onglet Traitement initialisé"
 msgid "Visualization"
 msgstr "Visualisation"
 
-msgid "Control:"
-msgstr "Contrôles:"
+msgid "Control"
+msgstr "Contrôles"
 
 msgid "Trigram:"
 msgstr "Trigramme :"
@@ -52,21 +60,29 @@ msgid "Database tab initialized"
 msgstr "Onglet Base de données initialisé"
 msgid "Logs tab initialized"
 msgstr "Onglet Journaux initialisé"
-msgid "Trigram validated: %s"
-msgstr "Trigramme validé : %s"
+msgid "Trigram validated: {0}"
+msgstr "Trigramme validé : {0}"
 msgid "Invalid trigram"
 msgstr "Trigramme invalide"
 
 # Database tab
-
 msgid "ID"
 msgstr "ID"
-
 msgid "Name"
 msgstr "Nom"
-
 msgid "Value"
 msgstr "Valeur"
-
 msgid "Trying to import values"
 msgstr "Tentative d'importation des données"
+#: ..\utils\validate_translations.py, line 38
+#: ..\utils\validate_translations.py, line 38
+msgid "..."
+msgstr "..."
+
+#: ..\gui\logs_tab.py, line 53
+msgid "Clear logs"
+msgstr "Nettoyer les logs"
+
+#: ..\gui\logs_tab.py, line 67
+msgid "Logs cleared"
+msgstr "Logs nettoyer"

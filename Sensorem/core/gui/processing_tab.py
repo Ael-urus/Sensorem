@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
-from ..utils.i18n import _
+from ..utils.i18n import _, _f, translator
 
 
 class ProcessingTab(ttk.Frame):
@@ -12,19 +12,22 @@ class ProcessingTab(ttk.Frame):
         self.log_manager = log_manager
         self._create_widgets()
         self._setup_layout()
-        self.log_manager.info(_("Initialized Processing Tab"))
+        self.log_manager.info(_("Processing tab initialized"))
+
+        # S'abonner aux changements de langue
+        translator.add_observer(self._on_language_changed)
 
     def _create_widgets(self):
         """Crée tous les widgets de l'onglet"""
-        self.control_frame = ttk.LabelFrame(self, text=_("Control"), padding=10)
-        self.trigram_label = ttk.Label(self.control_frame, text=_("Trigramme:"))
+        self.control_frame = ttk.LabelFrame(self, text=_("Control"))
+        self.trigram_label = ttk.Label(self.control_frame, text=_("Trigram:"))
         self.trigram_entry = ttk.Entry(self.control_frame, width=10)
         self.trigram_button = ttk.Button(
             self.control_frame,
             text=_("Validate"),
             command=self._validate_trigram
         )
-        self.graph_frame = ttk.LabelFrame(self, text=_("Visualization"), padding=10)
+        self.graph_frame = ttk.LabelFrame(self, text=_("Visualization"))
         self.canvas_raw = tk.Canvas(self.graph_frame, bg='white', height=300)
         self.canvas_processed = tk.Canvas(self.graph_frame, bg='white', height=300)
 
@@ -42,7 +45,21 @@ class ProcessingTab(ttk.Frame):
         """Valide le trigramme saisi"""
         trigram = self.trigram_entry.get()
         if len(trigram) == 3 and trigram.isalpha():
-            self.log_manager.info(f"{_('Trigramme validé:')} {trigram}")
+            # Utilisation de _f pour le formatage standard
+            self.log_manager.info(_f("Trigram validated: {0}", trigram))
         else:
             self.log_manager.warning(_("Invalid trigram"))
-            messagebox.showerror("Erreur", _("The trigram must contain 3 letters"))
+            # Titre traduit pour le message d'erreur
+            messagebox.showerror(_("Error"), _("The trigram must contain 3 letters"))
+
+    def _on_language_changed(self, lang_code):
+        """Met à jour les textes de l'interface après un changement de langue"""
+        # Mettre à jour les textes des widgets
+        self.control_frame.configure(text=_("Control"))
+        self.trigram_label.configure(text=_("Trigram:"))
+        self.trigram_button.configure(text=_("Validate"))
+        self.graph_frame.configure(text=_("Visualization"))
+
+    def __del__(self):
+        # Se désabonner pour éviter les fuites mémoire
+        translator.remove_observer(self._on_language_changed)
