@@ -3,6 +3,7 @@
 Sensorem/
 ├── REAME.md
 ├── Tree.py
+├── Tree.txt
 ├── __init__.py
 ├── compile_translations.py
 ├── config.py
@@ -10,6 +11,8 @@ Sensorem/
 ├── requirements.txt
 └── core/
     ├── __init__.py
+    ├── controllers/
+    │   ├── processing_controller.py
     ├── data/
     │   ├── __init__.py
     │   ├── csv_handler.py
@@ -20,6 +23,7 @@ Sensorem/
     │   ├── logs_tab.py
     │   ├── main_window.py
     │   ├── processing_tab.py
+    │   ├── sensor_widgets.py
     │   ├── util.py
     ├── locale/
     │   ├── __init__.py
