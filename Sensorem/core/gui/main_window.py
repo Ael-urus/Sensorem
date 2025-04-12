@@ -1,10 +1,12 @@
 # core/gui/main_window.py
 import tkinter as tk
 from tkinter import ttk
-
-from .db_tab import DatabaseTab
-from .logs_tab import LogsTab
+# Importez les classes nécessaires (ajustez les chemins si besoin)
 from .processing_tab import ProcessingTab
+from ..controllers.processing_controller import ProcessingController
+from .db_tab import DatabaseTab # Gardez si non refactoré, sinon importez la vue et le contrôleur
+from .logs_tab import LogsTab   # Gardez si non refactoré, sinon importez la vue et le contrôleur
+
 from ..utils.i18n import _, translator
 
 
@@ -77,12 +79,55 @@ class MainWindow(tk.Tk):
     def _setup_notebook(self):
         """Configure les onglets de l'application"""
         self.notebook = ttk.Notebook(self)
-        self.processing_tab = ProcessingTab(self.notebook, self.log_manager)
+
+        # --- Onglet Processing (Refactoré MVC) ---
+        # 1. Créer la Vue (ne prend que le parent)
+        processing_tab_view = ProcessingTab(self.notebook)
+
+        # 2. Créer le Contrôleur (passez la vue et les dépendances)
+        processing_tab_controller = ProcessingController(
+            view=processing_tab_view,
+            log_manager=self.log_manager,
+            # pdf_generator=self.pdf_generator,       # Décommentez et passez les vrais objets
+            # signal_processor=self.signal_processor, # si initialisés dans __init__
+            # app_state=self.app_state                # de MainWindow
+        )
+
+        # 3. Injecter le Contrôleur dans la Vue
+        processing_tab_view.set_controller(processing_tab_controller)
+
+        # 4. Ajouter la Vue au notebook
+        self.notebook.add(processing_tab_view, text=_("Processing"))
+
+        # 5. Optionnel: garder des références si nécessaire pour d'autres interactions
+        self.processing_tab_view = processing_tab_view
+        self.processing_tab_controller = processing_tab_controller
+
+        # --- Onglet Database ---
+        # TODO: Appliquer le même pattern MVC si DatabaseTab est/sera refactoré
+        # Si DatabaseTab n'a pas été refactoré et attend toujours log_manager dans __init__:
         self.db_tab = DatabaseTab(self.notebook, self.log_manager)
-        self.logs_tab = LogsTab(self.notebook, self.log_manager)
-        self.notebook.add(self.processing_tab, text=_("Processing"))
+        # Si DatabaseTab EST refactoré (exemple):
+        # db_tab_view = DatabaseTabView(self.notebook)
+        # db_tab_controller = DatabaseController(db_tab_view, self.log_manager, ...)
+        # db_tab_view.set_controller(db_tab_controller)
+        # self.notebook.add(db_tab_view, text=_("Database"))
+        # self.db_tab_view = db_tab_view # Garder référence si besoin
         self.notebook.add(self.db_tab, text=_("Database"))
+
+        # --- Onglet Logs ---
+        # TODO: Appliquer le même pattern MVC si LogsTab est/sera refactoré
+        # Si LogsTab n'a pas été refactoré :
+        self.logs_tab = LogsTab(self.notebook, self.log_manager)
+        # Si LogsTab EST refactoré (exemple):
+        # logs_tab_view = LogsTabView(self.notebook)
+        # logs_tab_controller = LogsController(logs_tab_view, self.log_manager)
+        # logs_tab_view.set_controller(logs_tab_controller)
+        # self.notebook.add(logs_tab_view, text=_("Logs"))
+        # self.logs_tab_view = logs_tab_view # Garder référence si besoin
         self.notebook.add(self.logs_tab, text=_("Logs"))
+
+        # --- Finalisation ---
         self.notebook.pack(expand=True, fill="both")
 
     def __del__(self):

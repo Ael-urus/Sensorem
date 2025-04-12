@@ -25,12 +25,6 @@ msgid "Files"
 msgstr "Fichiers"
 msgid "Language"
 msgstr "Langue"
-msgid "Language changed to"
-msgstr "Langue changée en"
-msgid "Error"
-msgstr "Erreur"
-msgid "Import"
-msgstr "Importer"
 
 # Processing tab
 msgid "Initialized Processing Tab"
@@ -40,7 +34,7 @@ msgid "Visualization"
 msgstr "Visualisation"
 
 msgid "Control"
-msgstr "Contrôles"
+msgstr "Contrôle"
 
 msgid "Trigram:"
 msgstr "Trigramme :"
@@ -51,6 +45,121 @@ msgstr "Valider"
 msgid "The trigram must contain 3 letters"
 msgstr "Le trigramme doit contenir 3 lettres"
 
+msgid "Reference Sensor"
+msgstr "Capteur de référence"
+
+msgid "Name:"
+msgstr "Nom :"
+
+msgid "Unit:"
+msgstr "Unité :"
+
+msgid "Conversion"
+msgstr "Conversion"
+
+msgid "Coefficient:"
+msgstr "Coefficient :"
+
+msgid "Browse..."
+msgstr "Parcourir..."
+
+msgid "Remove"
+msgstr "Supprimer"
+
+msgid "Process"
+msgstr "Traiter"
+
+msgid "Add Sensor"
+msgstr "Ajouter un capteur"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Current Sensors"
+msgstr "Capteurs actuels"
+
+msgid "Generate Report"
+msgstr "Générer un rapport"
+
+msgid "Save Results"
+msgstr "Enregistrer les résultats"
+
+msgid "Select CSV files"
+msgstr "Sélectionner des fichiers CSV"
+
+msgid "Error"
+msgstr "Erreur"
+
+msgid "Info"
+msgstr "Information"
+
+msgid "Success"
+msgstr "Succès"
+
+msgid "Added file:"
+msgstr "Fichier ajouté :"
+
+msgid "Selected file:"
+msgstr "Fichier sélectionné :"
+
+msgid "Removed file:"
+msgstr "Fichier supprimé :"
+
+msgid "Processing file:"
+msgstr "Traitement du fichier :"
+
+msgid "Reference sensor name is required"
+msgstr "Le nom du capteur de référence est requis"
+
+msgid "Reference sensor unit is required"
+msgstr "L'unité du capteur de référence est requise"
+
+msgid "Conversion coefficient must be a positive number"
+msgstr "Le coefficient de conversion doit être un nombre positif"
+
+msgid "Sensor name is required"
+msgstr "Le nom du capteur est requis"
+
+msgid "Sensor unit is required"
+msgstr "L'unité du capteur est requise"
+
+msgid "A sensor with this name already exists"
+msgstr "Un capteur avec ce nom existe déjà"
+
+msgid "Added sensor:"
+msgstr "Capteur ajouté :"
+
+msgid "Raw data from:"
+msgstr "Données brutes de :"
+
+msgid "Processed data"
+msgstr "Données traitées"
+
+msgid "Generating report..."
+msgstr "Génération du rapport..."
+
+msgid "Report generation will be implemented later"
+msgstr "La génération de rapports sera implémentée ultérieurement"
+
+msgid "Saving results..."
+msgstr "Enregistrement des résultats..."
+
+
+msgid "Results saved to:"
+msgstr "Résultats enregistrés dans :"
+
+msgid "Results saved successfully"
+msgstr "Résultats enregistrés avec succès"
+
+msgid "Clear logs"
+msgstr "Effacer les journaux"
+
+msgid "Logs cleared"
+msgstr "Journaux effacés"
+
+msgid "Trigram validated:"
+msgstr "Trigramme validé :"
+
 # Log messages
 msgid "Application initialized"
 msgstr "Application initialisée"
@@ -60,29 +169,21 @@ msgid "Database tab initialized"
 msgstr "Onglet Base de données initialisé"
 msgid "Logs tab initialized"
 msgstr "Onglet Journaux initialisé"
-msgid "Trigram validated: {0}"
-msgstr "Trigramme validé : {0}"
+msgid "Trigram validated: %s"
+msgstr "Trigramme validé : %s"
 msgid "Invalid trigram"
 msgstr "Trigramme invalide"
 
 # Database tab
+
 msgid "ID"
 msgstr "ID"
+
 msgid "Name"
 msgstr "Nom"
+
 msgid "Value"
 msgstr "Valeur"
+
 msgid "Trying to import values"
 msgstr "Tentative d'importation des données"
-#: ..\utils\validate_translations.py, line 38
-#: ..\utils\validate_translations.py, line 38
-msgid "..."
-msgstr "..."
-
-#: ..\gui\logs_tab.py, line 53
-msgid "Clear logs"
-msgstr "Nettoyer les logs"
-
-#: ..\gui\logs_tab.py, line 67
-msgid "Logs cleared"
-msgstr "Logs nettoyer"

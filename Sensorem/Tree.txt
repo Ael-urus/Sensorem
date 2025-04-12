@@ -1,0 +1,49 @@
+2025/04/12
+
+Sensorem/
+├── REAME.md
+├── Tree.py
+├── __init__.py
+├── compile_translations.py
+├── config.py
+├── main.py
+├── requirements.txt
+└── core/
+    ├── __init__.py
+    ├── data/
+    │   ├── __init__.py
+    │   ├── csv_handler.py
+    │   ├── database_manager.py
+    ├── gui/
+    │   ├── __init__.py
+    │   ├── db_tab.py
+    │   ├── logs_tab.py
+    │   ├── main_window.py
+    │   ├── processing_tab.py
+    │   ├── util.py
+    ├── locale/
+    │   ├── __init__.py
+    │   ├── en/
+    │   │   └── LC_messages/
+    │   │       ├── messages.mo
+    │   │       ├── messages.po
+    │   └── fr/
+    │       ├── __init__.py
+    │       └── LC_messages/
+    │           ├── messages.mo
+    │           ├── messages.po
+    ├── processing/
+    │   ├── __init__.py
+    │   ├── signal_processor.py
+    ├── reporting/
+    │   ├── __init__.py
+    │   ├── pdf_generator.py
+    ├── test/
+    │   ├── __init__.py
+    └── utils/
+        ├── Add missing_translationFromTheScripts.bat
+        ├── __init__.py
+        ├── constants.py
+        ├── i18n.py
+        ├── logger.py
+        ├── validate_translations.py

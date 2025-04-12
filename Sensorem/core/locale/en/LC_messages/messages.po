@@ -21,14 +21,6 @@ msgstr "Files"
 msgid "Language"
 msgstr "Language"
 
-msgid "Language changed to"
-msgstr "Language changed to"
-
-msgid "Error"
-msgstr "Error"
-
-msgid "Import"
-msgstr "Import"
 
 # Main window
 msgid "Processing"
@@ -40,7 +32,10 @@ msgstr "Database"
 msgid "Logs"
 msgstr "Logs"
 
+
+
 # Processing tab
+
 msgid "Initialized Processing Tab"
 msgstr "Initialized Processing Tab"
 
@@ -59,6 +54,121 @@ msgstr "Validate"
 msgid "The trigram must contain 3 letters"
 msgstr "The trigram must contain 3 letters"
 
+msgid "Reference Sensor"
+msgstr "Reference Sensor"
+
+msgid "Name:"
+msgstr "Name:"
+
+msgid "Unit:"
+msgstr "Unit:"
+
+msgid "Conversion"
+msgstr "Conversion"
+
+msgid "Coefficient:"
+msgstr "Coefficient:"
+
+msgid "Browse..."
+msgstr "Browse..."
+
+msgid "Remove"
+msgstr "Remove"
+
+msgid "Process"
+msgstr "Process"
+
+msgid "Add Sensor"
+msgstr "Add Sensor"
+
+msgid "Add"
+msgstr "Add"
+
+msgid "Current Sensors"
+msgstr "Current Sensors"
+
+msgid "Generate Report"
+msgstr "Generate Report"
+
+msgid "Save Results"
+msgstr "Save Results"
+
+msgid "Select CSV files"
+msgstr "Select CSV files"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Success"
+msgstr "Success"
+
+msgid "Added file:"
+msgstr "Added file:"
+
+msgid "Selected file:"
+msgstr "Selected file:"
+
+msgid "Removed file:"
+msgstr "Removed file:"
+
+msgid "Processing file:"
+msgstr "Processing file:"
+
+msgid "Reference sensor name is required"
+msgstr "Reference sensor name is required"
+
+msgid "Reference sensor unit is required"
+msgstr "Reference sensor unit is required"
+
+msgid "Conversion coefficient must be a positive number"
+msgstr "Conversion coefficient must be a positive number"
+
+msgid "Sensor name is required"
+msgstr "Sensor name is required"
+
+msgid "Sensor unit is required"
+msgstr "Sensor unit is required"
+
+msgid "A sensor with this name already exists"
+msgstr "A sensor with this name already exists"
+
+msgid "Added sensor:"
+msgstr "Added sensor:"
+
+msgid "Raw data from:"
+msgstr "Raw data from:"
+
+msgid "Processed data"
+msgstr "Processed data"
+
+msgid "Generating report..."
+msgstr "Generating report..."
+
+msgid "Report generation will be implemented later"
+msgstr "Report generation will be implemented later"
+
+msgid "Saving results..."
+msgstr "Saving results..."
+
+
+msgid "Results saved to:"
+msgstr "Results saved to:"
+
+msgid "Results saved successfully"
+msgstr "Results saved successfully"
+
+msgid "Clear logs"
+msgstr "Clear logs"
+
+msgid "Logs cleared"
+msgstr "Logs cleared"
+
+msgid "Trigram validated:"
+msgstr "Trigram validated:"
+
 # Log messages
 msgid "Application initialized"
 msgstr "Application initialized"
@@ -68,30 +178,21 @@ msgid "Database tab initialized"
 msgstr "Database tab initialized"
 msgid "Logs tab initialized"
 msgstr "Logs tab initialized"
-msgid "Trigram validated: {0}"
-msgstr "Trigram validated: {0}"
+msgid "Trigram validated: %s"
+msgstr "Trigram validated: %s"
 msgid "Invalid trigram"
 msgstr "Invalid trigram"
 
 # Database tab
+
 msgid "ID"
 msgstr "ID"
+
 msgid "Name"
 msgstr "Name"
+
 msgid "Value"
 msgstr "Value"
+
 msgid "Trying to import values"
 msgstr "Trying to import values"
-
-#: ..\utils\validate_translations.py, line 38
-#: ..\utils\validate_translations.py, line 38
-msgid "..."
-msgstr "..."
-
-#: ..\gui\logs_tab.py, line 53
-msgid "Clear logs"
-msgstr "Clear logs"
-
-#: ..\gui\logs_tab.py, line 67
-msgid "Logs cleared"
-msgstr "Logs cleared"
