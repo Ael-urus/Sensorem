@@ -5,49 +5,49 @@ Sensorem/
 ├── Tree.py
 ├── Tree.txt
 ├── __init__.py
-├── compile_translations.py
 ├── config.py
 ├── main.py
 ├── requirements.txt
 └── core/
     ├── __init__.py
     ├── controllers/
+    │   ├── __init__.py
     │   ├── processing_controller.py
-    ├── data/
+    ├── datas/
     │   ├── __init__.py
     │   ├── csv_handler.py
     │   ├── database_manager.py
-    ├── gui/
-    │   ├── __init__.py
-    │   ├── db_tab.py
-    │   ├── logs_tab.py
-    │   ├── main_window.py
-    │   ├── processing_tab.py
-    │   ├── sensor_widgets.py
-    │   ├── util.py
     ├── locale/
-    │   ├── __init__.py
     │   ├── en/
     │   │   └── LC_messages/
-    │   │       ├── messages.mo
     │   │       ├── messages.po
     │   └── fr/
-    │       ├── __init__.py
     │       └── LC_messages/
-    │           ├── messages.mo
     │           ├── messages.po
-    ├── processing/
+    ├── processings/
     │   ├── __init__.py
     │   ├── signal_processor.py
-    ├── reporting/
+    ├── reportings/
     │   ├── __init__.py
     │   ├── pdf_generator.py
-    ├── test/
+    ├── tests/
     │   ├── __init__.py
-    └── utils/
-        ├── Add missing_translationFromTheScripts.bat
+    ├── utils/
+    │   ├── Add missing_translationFromTheScripts.bat
+    │   ├── __init__.py
+    │   ├── compile_translations.py
+    │   ├── constants.py
+    │   ├── i18n.py
+    │   ├── logger.py
+    │   ├── validate_translations.py
+    └── views/
         ├── __init__.py
-        ├── constants.py
-        ├── i18n.py
-        ├── logger.py
-        ├── validate_translations.py
+        ├── main_window.py
+        ├── sensor_widgets.py
+        ├── util.py
+        └── tabs/
+            ├── 1_processing_tab.py
+            ├── 2_db_tab.py
+            ├── 3_new_tab.py
+            ├── 4_logs_tab.py
+            ├── __init__.py

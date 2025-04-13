@@ -2,7 +2,7 @@ import os
 import subprocess
 from pathlib import Path
 
-LOCALE_DIR = Path('core/locale')
+LOCALE_DIR = Path('../locale')
 
 for lang in os.listdir(LOCALE_DIR):
     lang_dir = LOCALE_DIR / lang / 'LC_MESSAGES'

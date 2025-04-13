@@ -7,14 +7,14 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg # Gardé si vous
 from typing import List, Tuple, Optional, TYPE_CHECKING
 
 # Importez les widgets personnalisés depuis leur nouveau fichier
-from .sensor_widgets import CapteurFrame, CapteursManager
+from Sensorem.core.views.sensor_widgets import CapteurFrame, CapteursManager
 
 # local
-from ..utils.i18n import _, _f
+from Sensorem.core.utils.i18n import _, _f
 
 # Pour type hinting sans import circulaire
 if TYPE_CHECKING:
-    from ..controllers.processing_controller import ProcessingController
+    from Sensorem.core.controllers.processing_controller import ProcessingController
 
 
 # --- Classes CapteurFrame et CapteursManager (à garder ici ou dans util.py) ---

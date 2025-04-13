@@ -1,6 +1,6 @@
 # core/gui/db_tab.py
 from tkinter import ttk
-from ..utils.i18n import _, translator
+from Sensorem.core.utils.i18n import _, translator
 
 class DatabaseTab(ttk.Frame):
     def __init__(self, parent, log_manager):

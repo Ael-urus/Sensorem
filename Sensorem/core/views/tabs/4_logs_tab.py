@@ -2,7 +2,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from ..utils.i18n import _
+from Sensorem.core.utils.i18n import _
 
 
 class LogsTab(ttk.Frame):
