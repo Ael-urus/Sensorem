@@ -1,2 +1,2 @@
-python validate_translations.py --all
+python .\validate_translations.py --all
 pause

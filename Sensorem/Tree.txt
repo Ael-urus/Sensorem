@@ -1,5 +1,4 @@
-2025/04/12
-
+C:\Users\Ben\AppData\Local\Programs\Python\Python312\python.exe D:\PycharmGitSensorem\Sensorem-1\Sensorem\Tree.py 
 Sensorem/
 ├── REAME.md
 ├── Tree.py
@@ -8,46 +7,54 @@ Sensorem/
 ├── config.py
 ├── main.py
 ├── requirements.txt
-└── core/
-    ├── __init__.py
-    ├── controllers/
-    │   ├── __init__.py
-    │   ├── processing_controller.py
-    ├── datas/
-    │   ├── __init__.py
-    │   ├── csv_handler.py
-    │   ├── database_manager.py
-    ├── locale/
-    │   ├── en/
-    │   │   └── LC_messages/
-    │   │       ├── messages.po
-    │   └── fr/
-    │       └── LC_messages/
-    │           ├── messages.po
-    ├── processings/
-    │   ├── __init__.py
-    │   ├── signal_processor.py
-    ├── reportings/
-    │   ├── __init__.py
-    │   ├── pdf_generator.py
-    ├── tests/
-    │   ├── __init__.py
-    ├── utils/
-    │   ├── Add missing_translationFromTheScripts.bat
-    │   ├── __init__.py
-    │   ├── compile_translations.py
-    │   ├── constants.py
-    │   ├── i18n.py
-    │   ├── logger.py
-    │   ├── validate_translations.py
-    └── views/
-        ├── __init__.py
-        ├── main_window.py
-        ├── sensor_widgets.py
-        ├── util.py
-        └── tabs/
-            ├── 1_processing_tab.py
-            ├── 2_db_tab.py
-            ├── 3_new_tab.py
-            ├── 4_logs_tab.py
-            ├── __init__.py
+├── core/
+│   ├── __init__.py
+│   ├── controllers/
+│   │   ├── __init__.py
+│   │   ├── processing_controller.py
+│   ├── datas/
+│   │   ├── __init__.py
+│   │   ├── csv_handler.py
+│   │   ├── database_manager.py
+│   ├── locale/
+│   │   ├── en/
+│   │   │   └── LC_messages/
+│   │   │       ├── messages.mo
+│   │   │       ├── messages.po
+│   │   └── fr/
+│   │       └── LC_messages/
+│   │           ├── messages.mo
+│   │           ├── messages.po
+│   ├── processings/
+│   │   ├── __init__.py
+│   │   ├── signal_processor.py
+│   ├── reportings/
+│   │   ├── __init__.py
+│   │   ├── pdf_generator.py
+│   ├── tests/
+│   │   ├── __init__.py
+│   │   ├── test_gettext.py
+│   ├── utils/
+│   │   ├── Add missing_translationFromTheScripts.bat
+│   │   ├── __init__.py
+│   │   ├── compil_translation.bat
+│   │   ├── compile_translations.py
+│   │   ├── constants.py
+│   │   ├── extract_translations.py
+│   │   ├── i18n.py
+│   │   ├── logger.py
+│   │   ├── validate_translations.py
+│   └── views/
+│       ├── __init__.py
+│       ├── main_window.py
+│       ├── sensor_widgets.py
+│       ├── util.py
+│       └── tabs/
+│           ├── __init__.py
+│           ├── db_tab.py
+│           ├── logs_tab.py
+│           ├── new_tab.py
+│           ├── processing_tab.py
+└── logs/
+    ├── 2025-04-19_Sensorem.log
+    ├── sensorem.log

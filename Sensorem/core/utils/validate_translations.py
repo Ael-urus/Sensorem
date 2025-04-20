@@ -248,7 +248,7 @@ def main():
 
     # Détermine le chemin racine du projet
     project_root = Path(__file__).parent.parent.parent
-    locale_dir = project_root / 'core' / 'locale'
+    locale_dir = project_root / 'Sensorem-1'/ 'Sensorem'  / 'core' / 'locale'
 
     if not locale_dir.exists():
         print(f"Erreur: Répertoire des traductions non trouvé: {locale_dir}")

@@ -6,6 +6,7 @@
 
 ## Table des Matières (Optionnel, utile pour les longs READMEs)
 
+* [Démarrage rapide](#Dépendances)
 * [Fonctionnalités](#fonctionnalités)
 * [Aperçu (Captures d'écran)](#aperçu)
 * [Prérequis](#prérequis)
@@ -18,6 +19,11 @@
 * [Licence](#licence)
 * [Auteur](#auteur)
 
+## Démarrage rapide
+1. Installez les dépendances :
+   ```bash
+   pip install -r requirements.txt
+   
 ## Fonctionnalités ✨
 
 **Pourquoi ?** Pour savoir rapidement ce que fait l'application.

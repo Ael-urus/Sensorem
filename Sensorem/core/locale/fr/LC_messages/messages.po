@@ -1,9 +1,49 @@
-# File PO for French translation of Sensorem
 msgid ""
 msgstr ""
-"Project-Id-Version: Sensorem 0.4.3.9\n"
+"Project-Id-Version: Sensorem\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "Processing"
+msgstr "Traitement"
+
+msgid "Database"
+msgstr "Base de Données"
+
+msgid "Logs"
+msgstr "Logs"
+
+msgid "Sensorem - Sensor Signal Processing"
+msgstr "Sensorem - Traitement de Signaux Capteurs"
+
+msgid "Welcome to the Processing tab"
+msgstr "Bienvenue dans l'onglet Traitement"
+
+msgid "Welcome to the Database tab"
+msgstr "Bienvenue dans l'onglet Base de Données"
+
+msgid "Welcome to the Logs tab"
+msgstr "Bienvenue dans l'onglet Logs"
+
+msgid "Hello to Sensorem"
+msgstr "Bienvenu dans Sensorem"
+
+msgid "Interface initialized"
+msgstr "Interface initialisée"
+
+msgid "Language changed: {}"
+msgstr "Langue changée : {}"
+
+msgid "Load CSV"
+msgstr "Charger CSV"
+
+msgid "CSV loaded: {}, {} rows"
+msgstr "CSV chargé : {}, {} lignes"
+
+msgid "Error loading CSV: {}"
+msgstr "Erreur lors du chargement du CSV : {}"
+
+msgid "text"
+msgstr "texte"

@@ -1,9 +1,58 @@
-# File PO for English translation of Sensorem
 msgid ""
 msgstr ""
-"Project-Id-Version: Sensorem 0.4.3.9\n"
+"Project-Id-Version: Sensorem\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-19 12:00+0000\n"
+"PO-Revision-Date: 2025-04-19 21:36+0200\n"
+"Last-Translator: \n"
+"Language-Team: English\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.6\n"
+
+msgid "Sensorem - Sensor Signal Processing"
+msgstr "Sensorem - Sensor Signal Processing"
+
+msgid "Processing"
+msgstr "Processing"
+
+msgid "Database"
+msgstr "Database"
+
+msgid "Logs"
+msgstr "Logs"
+
+msgid "Welcome to the Processing tab"
+msgstr "Welcome to the Processing tab"
+
+msgid "Welcome to the Database tab"
+msgstr "Welcome to the Database tab"
+
+msgid "Welcome to the Logs tab"
+msgstr "Welcome to the Logs tab"
+
+msgid "Interface initialized"
+msgstr "Interface initialized"
+
+msgid "Language changed: {}"
+msgstr "Language changed: {}"
+
+msgid "Load CSV"
+msgstr "Load CSV"
+
+msgid "CSV loaded: {}, {} rows"
+msgstr "CSV loaded: {}, {} rows"
+
+msgid "Error loading CSV: {}"
+msgstr "Error loading CSV: {}"
+
+# AUTOMATICALLY ADDED from : ../views/main_window.py, line 64
+msgid "Hello to Sensorem"
+msgstr "Hello to Sensorem"
+
+
+# AUTOMATICALLY ADDED from : ../utils/validate_translations.py, line 71
+msgid "text"
+msgstr "text"

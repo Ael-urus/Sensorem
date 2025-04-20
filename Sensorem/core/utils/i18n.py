@@ -1,72 +1,52 @@
-# i18n.py
+# core/utils/i18n.py
+
 import gettext
+import os
+import sys
 from pathlib import Path
-from typing import Callable, List
 
+# Ajuster sys.path pour inclure le répertoire racine
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
 
-class Translator:
-    def __init__(self):
-        self.locale_dir = Path(__file__).parent.parent / 'locale'
-        self.language = 'en'  # Langue par défaut
-        self.observers: List[Callable[[str], None]] = []
-        self.translator = gettext.translation(
-            'messages',
-            localedir=self.locale_dir,
-            languages=[self.language],
-            fallback=True
+from config import LOCALE_DIR
+
+# Définir _ comme repli initial
+_ = lambda x: x
+
+def set_language(lang):
+    """Configurer la langue pour les traductions."""
+    global _
+    print(f"Tentative de chargement de la langue : {lang}, LOCALE_DIR : {LOCALE_DIR}")
+    mo_file = LOCALE_DIR / lang / "LC_MESSAGES" / "messages.mo"
+    print(f"Fichier .mo existe : {mo_file.exists()}")
+    try:
+        translation = gettext.translation(
+            "messages",
+            localedir=LOCALE_DIR,
+            languages=[lang],
+            fallback=False
         )
-        self.translator.install()
+        _ = translation.gettext
+        globals()["_"] = _  # Mettre à jour la variable globale
+        # Mettre à jour _ dans tous les modules chargés
+        for module in sys.modules.values():
+            if hasattr(module, '_'):
+                module._ = _
+        catalog = translation._catalog
+        print(f"Langue chargée : {lang}, catalogue :")
+        for msgid, msgstr in catalog.items():
+            if msgid and msgstr:  # Ignorer l'en-tête vide
+                print(f"  msgid: '{msgid}' -> msgstr: '{msgstr}'")
+    except Exception as e:
+        print(f"Erreur lors du chargement de la langue {lang} : {e}")
+        _ = lambda x: x
+        globals()["_"] = _
 
-    def set_language(self, lang_code: str):
-        """Change la langue de l'application et notifie les observateurs"""
-        if self.language == lang_code:
-            return  # Évite le rechargement inutile si la langue est la même
+def _f(string, **kwargs):
+    """Formater une chaîne traduite."""
+    return _(string).format(**kwargs)
 
-        self.language = lang_code
-        self.translator = gettext.translation(
-            'messages',
-            localedir=self.locale_dir,
-            languages=[lang_code],
-            fallback=True
-        )
-        self.translator.install()
-
-        # Notifier tous les observateurs du changement de langue
-        for observer in self.observers:
-            observer(lang_code)
-
-    def add_observer(self, callback: Callable[[str], None]):
-        """Ajoute un observateur qui sera notifié lors d'un changement de langue"""
-        if callback not in self.observers:
-            self.observers.append(callback)
-
-    def remove_observer(self, callback: Callable[[str], None]):
-        """Supprime un observateur"""
-        if callback in self.observers:
-            self.observers.remove(callback)
-
-    def gettext(self, message: str) -> str:
-        """Traduit un message"""
-        return self.translator.gettext(message)
-
-    def ngettext(self, singular: str, plural: str, n: int) -> str:
-        """Traduit avec gestion du pluriel"""
-        return self.translator.ngettext(singular, plural, n)
-
-    def format(self, message: str, *args, **kwargs):
-        """Traduit et formate un message avec des arguments"""
-        translated = self.gettext(message)
-        if args or kwargs:
-            return translated.format(*args, **kwargs)
-        return translated
-
-
-# Instance globale
-translator = Translator()
-_ = translator.gettext
-
-
-# Fonction formatée pour standardiser le formatage
-def _f(message: str, *args, **kwargs):
-    """Traduit et formate un message avec des arguments"""
-    return translator.format(message, *args, **kwargs)
+# Initialiser avec la langue par défaut
+set_language("en")
