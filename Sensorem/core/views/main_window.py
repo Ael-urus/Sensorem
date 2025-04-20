@@ -11,6 +11,7 @@ if str(BASE_DIR) not in sys.path:
 
 from core.utils.i18n import set_language, _  # Importer _ une seule fois
 from core.utils.logger import setup_ui_logger, logger
+from core.views.tabs.processing_tab import ProcessingTab
 
 
 class MainWindow(ctk.CTk):
@@ -56,22 +57,8 @@ class MainWindow(ctk.CTk):
                 widget.destroy()
 
         # Onglet Processing
-        processing_label = ctk.CTkLabel(
-            self.tab_view.tab(_("Processing")),
-            text=_("Welcome to the Processing tab")
-        )
-        processing_label.pack(pady=20)
-        hello_label = ctk.CTkLabel(
-            self.tab_view.tab(_("Processing")),
-            text=_("Hello to Sensorem")
-        )
-        hello_label.pack(pady=10)
-        load_csv_button = ctk.CTkButton(
-            self.tab_view.tab(_("Processing")),
-            text=_("Load CSV"),
-            command=self.load_csv
-        )
-        load_csv_button.pack(pady=10)
+        self.processing_tab = ProcessingTab(self.tab_view.tab(_("Processing")), self.load_csv)
+        self.processing_tab.pack(fill="both", expand=True)
 
         # Onglet Database
         db_label = ctk.CTkLabel(
@@ -147,6 +134,9 @@ class MainWindow(ctk.CTk):
 
         # Rafraîchir le contenu des onglets
         self.setup_tabs()
+
+        # Rafraîchir l'onglet Processing
+        self.processing_tab.refresh()
 
         logger.info(_("Language changed: {}").format(self.language_menu.get()))
         print(f"Après rafraîchissement, _('Processing') = {_('Processing')}")

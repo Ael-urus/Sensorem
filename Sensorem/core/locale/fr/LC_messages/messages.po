@@ -47,3 +47,87 @@ msgstr "Erreur lors du chargement du CSV : {}"
 
 msgid "text"
 msgstr "texte"
+
+msgid "Name (Trigram):"
+msgstr "Nom (Trigramme) :"
+
+msgid "Validate"
+msgstr "Valider"
+
+msgid "Sensor Name:"
+msgstr "Nom du capteur :"
+
+msgid "Start Line:"
+msgstr "Ligne de début :"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Add Sensor"
+msgstr "Ajouter un capteur"
+
+msgid "Validate Sensors"
+msgstr "Valider les capteurs"
+
+msgid "Unit (Sensor):"
+msgstr "Unité (Capteur) :"
+
+msgid "Unit (Ref Sensor):"
+msgstr "Unité (Capteur ref) :"
+
+msgid "Name (Ref Sensor):"
+msgstr "Nom (Capteur ref) :"
+
+msgid "Validate Units"
+msgstr "Valider les unités"
+
+msgid "Reference Sensor Conversion Coefficients"
+msgstr "Coefficients de conversion du capteur de référence"
+
+msgid "Coefficient a:"
+msgstr "Coefficient a :"
+
+msgid "Coefficient b:"
+msgstr "Coefficient b :"
+
+msgid "Validate Coefficients"
+msgstr "Valider les coefficients"
+
+msgid "Trigram must be exactly 3 letters."
+msgstr "Le trigramme doit comporter exactement 3 lettres."
+
+msgid "Trigram validated: {}"
+msgstr "Trigramme validé : {}"
+
+msgid "Units and reference name must be provided."
+msgstr "Les unités et le nom de référence doivent être fournis."
+
+msgid "Units validated: Sensor: {}, Ref: {}, Ref Name: {}"
+msgstr "Unités validées : Capteur : {}, Ref : {}, Nom Ref : {}"
+
+msgid "Coefficient a cannot be zero."
+msgstr "Le coefficient a ne peut pas être nul."
+
+msgid "Coefficients must be valid numbers."
+msgstr "Les coefficients doivent être des nombres valides."
+
+msgid "Coefficients validated: a={}, b={}"
+msgstr "Coefficients validés : a={}, b={}"
+
+msgid "All sensors must have a name and start line."
+msgstr "Tous les capteurs doivent avoir un nom et une ligne de début."
+
+msgid "Sensor name '{}' is invalid."
+msgstr "Le nom du capteur '{}' est invalide."
+
+msgid "Start line '{}' must be a number."
+msgstr "La ligne de début '{}' doit être un nombre."
+
+msgid "Sensors validated successfully."
+msgstr "Capteurs validés avec succès."
+
+msgid "Sensors validated successfully: {}"
+msgstr "Capteurs validés avec succès : {}"
+
+msgid "Validation Error"
+msgstr "Erreur de validation"
