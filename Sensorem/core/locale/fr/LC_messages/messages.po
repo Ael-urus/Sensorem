@@ -18,32 +18,17 @@ msgstr "Logs"
 msgid "Sensorem - Sensor Signal Processing"
 msgstr "Sensorem - Traitement de Signaux Capteurs"
 
-msgid "Welcome to the Processing tab"
-msgstr "Bienvenue dans l'onglet Traitement"
-
 msgid "Welcome to the Database tab"
 msgstr "Bienvenue dans l'onglet Base de Données"
 
 msgid "Welcome to the Logs tab"
 msgstr "Bienvenue dans l'onglet Logs"
 
-msgid "Hello to Sensorem"
-msgstr "Bienvenu dans Sensorem"
-
 msgid "Interface initialized"
 msgstr "Interface initialisée"
 
 msgid "Language changed: {}"
 msgstr "Langue changée : {}"
-
-msgid "Load CSV"
-msgstr "Charger CSV"
-
-msgid "CSV loaded: {}, {} rows"
-msgstr "CSV chargé : {}, {} lignes"
-
-msgid "Error loading CSV: {}"
-msgstr "Erreur lors du chargement du CSV : {}"
 
 msgid "text"
 msgstr "texte"
@@ -131,3 +116,51 @@ msgstr "Capteurs validés avec succès : {}"
 
 msgid "Validation Error"
 msgstr "Erreur de validation"
+
+msgid "CSV Files"
+msgstr "Fichiers CSV"
+
+msgid "Graph 1 Placeholder"
+msgstr "Espace réservé graphique 1"
+
+msgid "Graph 2 Placeholder"
+msgstr "Espace réservé graphique 2"
+
+msgid "No Selection"
+msgstr "Aucune sélection"
+
+msgid "Please select a file from the list."
+msgstr "Veuillez sélectionner un fichier dans la liste."
+
+msgid "Error processing file: {}"
+msgstr "Erreur lors du traitement du fichier : {}"
+
+msgid "Trigram"
+msgstr "Trigramme"
+
+msgid "Sensors"
+msgstr "Capteurs"
+
+msgid "Units"
+msgstr "Unités"
+
+msgid "Coefficients"
+msgstr "Coefficients"
+
+msgid "Graphs"
+msgstr "Graphiques"
+
+msgid "List of Files:"
+msgstr "Liste des fichiers :"
+
+msgid "File Processing:"
+msgstr "Traitement du fichier :"
+
+msgid "File selected: {}"
+msgstr "Fichier sélectionné : {}"
+
+msgid "No CSV files found in directory: {}"
+msgstr "Aucun fichier CSV trouvé dans le dossier : {}"
+
+msgid "Quit"
+msgstr "Quitter"

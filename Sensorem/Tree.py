@@ -1,6 +1,7 @@
 # tree.py
 import os
 import sys
+from datetime import datetime
 
 def list_directory_contents(directory_path, indent=""):
     """
@@ -65,8 +66,34 @@ if __name__ == "__main__":
     # Utiliser le répertoire passé en argument ou le répertoire courant
     directory_to_list = sys.argv[1] if len(sys.argv) > 1 else "."
 
+    # Obtenir la date actuelle
+    now = datetime.now()
+    date_string = now.strftime("%Y-%m-%d %H:%M:%S")
+
+    # Rediriger la sortie standard vers un buffer
+    import io
+    buffer = io.StringIO()
+    sys.stdout = buffer
+
     # Afficher le nom du répertoire principal
     print(f"{os.path.basename(os.path.abspath(directory_to_list))}/")
 
     # Lister son contenu
     list_directory_contents(directory_to_list)
+
+    # Rétablir la sortie standard
+    sys.stdout = sys.__stdout__
+
+    # Récupérer le contenu du buffer
+    output_content = buffer.getvalue()
+
+    # Ajouter la date au début du contenu
+    output_content = f"Rapport du {date_string}:\n\n{output_content}"
+
+    # Enregistrer le contenu dans un fichier
+    with open("tree.txt", "w", encoding="utf-8") as file:
+        file.write(output_content)
+
+    #_confirmation de bonne execution
+    print("\nLe rapport a été enregistré dans tree.txt avec succès.")
+    input("Appuyez sur une touche pour continuer...")

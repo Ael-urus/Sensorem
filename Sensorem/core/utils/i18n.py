@@ -18,9 +18,9 @@ _ = lambda x: x
 def set_language(lang):
     """Configurer la langue pour les traductions."""
     global _
-    print(f"Tentative de chargement de la langue : {lang}, LOCALE_DIR : {LOCALE_DIR}")
+    #print(f"Tentative de chargement de la langue : {lang}, LOCALE_DIR : {LOCALE_DIR}")
     mo_file = LOCALE_DIR / lang / "LC_MESSAGES" / "messages.mo"
-    print(f"Fichier .mo existe : {mo_file.exists()}")
+    #print(f"Fichier .mo existe : {mo_file.exists()}")
     try:
         translation = gettext.translation(
             "messages",
@@ -35,12 +35,13 @@ def set_language(lang):
             if hasattr(module, '_'):
                 module._ = _
         catalog = translation._catalog
-        print(f"Langue chargée : {lang}, catalogue :")
+        #print(f"Langue chargée : {lang}, catalogue :")
         for msgid, msgstr in catalog.items():
             if msgid and msgstr:  # Ignorer l'en-tête vide
-                print(f"  msgid: '{msgid}' -> msgstr: '{msgstr}'")
+                #print(f"  msgid: '{msgid}' -> msgstr: '{msgstr}'")
+                pass
     except Exception as e:
-        print(f"Erreur lors du chargement de la langue {lang} : {e}")
+        #print(f"Erreur lors du chargement de la langue {lang} : {e}")
         _ = lambda x: x
         globals()["_"] = _
 

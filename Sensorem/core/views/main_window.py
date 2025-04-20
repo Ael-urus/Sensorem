@@ -12,6 +12,8 @@ if str(BASE_DIR) not in sys.path:
 from core.utils.i18n import set_language, _  # Importer _ une seule fois
 from core.utils.logger import setup_ui_logger, logger
 from core.views.tabs.processing_tab import ProcessingTab
+from tkinter import filedialog
+from core.datas.csv_handler import read_csv
 
 
 class MainWindow(ctk.CTk):
@@ -19,25 +21,26 @@ class MainWindow(ctk.CTk):
         super().__init__()
 
         # Configurer la langue par défaut (anglais)
-        print("Initialisation langue : en")
+        #print("Initialisation langue : en")
         set_language("en")
-        print(f"Après set_language('en'), _('Processing') = {_('Processing')}")
+        #print(f"Après set_language('en'), _('Processing') = {_('Processing')}")
 
         # Configurer la fenêtre
         self.title(_("Sensorem - Sensor Signal Processing"))
-        self.geometry("800x600")
+        self.geometry("1200x600")
 
-        # Menu pour changer la langue
+        # Menu pour changer la langue - MODIFIÉ
         self.language_menu = ctk.CTkOptionMenu(
             self,
             values=["English", "Français"],
-            command=self.change_language
+            command=self.change_language,
+            width=100  # Réduire la largeur
         )
-        self.language_menu.pack(anchor="ne", padx=10, pady=10)
+        self.language_menu.pack(anchor="nw", padx=10, pady=1)  # Changed pady to 0 to reduce vertical space
 
         # Conteneur pour les onglets
         self.tab_view = ctk.CTkTabview(self)
-        self.tab_view.pack(padx=10, pady=10, fill="both", expand=True)
+        self.tab_view.pack(padx=10, pady=2, fill="both", expand=True)
 
         # Liste des noms d'onglets (non traduits)
         self.tab_names = ["Processing", "Database", "Logs"]
@@ -50,7 +53,7 @@ class MainWindow(ctk.CTk):
         self.setup_tabs()
 
     def setup_tabs(self):
-        print(f"Dans setup_tabs, _('Processing') = {_('Processing')}")
+        #print(f"Dans setup_tabs, _('Processing') = {_('Processing')}")
         # Nettoyer le contenu des onglets
         for tab_name in self.tab_names:
             for widget in self.tab_view.tab(_(tab_name)).winfo_children():
@@ -71,30 +74,29 @@ class MainWindow(ctk.CTk):
         logs_content = ""
         if hasattr(self, "logs_text") and self.logs_text.winfo_exists():
             logs_content = self.logs_text.get("1.0", "end")
-            print(f"Contenu des logs sauvegardé dans setup_tabs : {logs_content[:50]}...")
+            #print(f"Contenu des logs sauvegardé dans setup_tabs : {logs_content[:50]}...")
 
         self.logs_text = ctk.CTkTextbox(self.tab_view.tab(_("Logs")), height=300)
         self.logs_text.pack(padx=10, pady=10, fill="both", expand=True)
         setup_ui_logger(self.logs_text)
-        print(f"Nouvelle logs_text créée et logger configuré")
+        #print(f"Nouvelle logs_text créée et logger configuré")
 
         if logs_content:
             self.logs_text.insert("1.0", logs_content)
             self.logs_text.see("end")
-            print(f"Contenu des logs restauré")
+            #print(f"Contenu des logs restauré")
 
         logger.info(_("Interface initialized"))
 
     def change_language(self, language):
         lang_map = {"English": "en", "Français": "fr"}
-        print(f"Changement de langue vers : {lang_map[language]}")
+        #print(f"Changement de langue vers : {lang_map[language]}")
         set_language(lang_map[language])
-        print(f"Après set_language('{lang_map[language]}'), _('Processing') = {_('Processing')}")
+        #print(f"Après set_language('{lang_map[language]}'), _('Processing') = {_('Processing')}")
         self.refresh_ui()
 
     def load_csv(self):
-        from tkinter import filedialog
-        from core.datas.csv_handler import read_csv
+
         file_path = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
         if file_path:
             try:
@@ -104,8 +106,8 @@ class MainWindow(ctk.CTk):
                 logger.error(_("Error loading CSV: {}").format(e))
 
     def refresh_ui(self):
-        print(f"Avant rafraîchissement, _('Processing') = {_('Processing')}")
-        print(f"Onglets avant suppression : {list(self.tab_view._tab_dict.keys())}")
+        #print(f"Avant rafraîchissement, _('Processing') = {_('Processing')}")
+        #print(f"Onglets avant suppression : {list(self.tab_view._tab_dict.keys())}")
 
         # Rafraîchir le titre
         self.title(_("Sensorem - Sensor Signal Processing"))
@@ -139,8 +141,8 @@ class MainWindow(ctk.CTk):
         self.processing_tab.refresh()
 
         logger.info(_("Language changed: {}").format(self.language_menu.get()))
-        print(f"Après rafraîchissement, _('Processing') = {_('Processing')}")
-        print(f"Onglets après recréation : {list(self.tab_view._tab_dict.keys())}")
+        #print(f"Après rafraîchissement, _('Processing') = {_('Processing')}")
+        #print(f"Onglets après recréation : {list(self.tab_view._tab_dict.keys())}")
 
 if __name__ == "__main__":
     app = MainWindow()
