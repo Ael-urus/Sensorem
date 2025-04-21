@@ -9,9 +9,9 @@ from ...utils.i18n import _
 from ...utils.logger import logger
 
 class CapteurFrame(ctk.CTkFrame):
-    def __init__(self, master, capteurs_manager, is_first=False, **kwargs): # Add capteurs_manager parameter
+    def __init__(self, master, capteurs_manager, is_first=False, **kwargs):
         super().__init__(master, **kwargs)
-        self.capteurs_manager = capteurs_manager # Store the CapteursManager instance
+        self.capteurs_manager = capteurs_manager
         self.nom_var = ctk.StringVar()
         self.debut_var = ctk.StringVar()
         self.is_first = is_first
@@ -20,34 +20,31 @@ class CapteurFrame(ctk.CTkFrame):
 
     def create_widgets(self):
         self.nom_label = ctk.CTkLabel(self, text=_("Sensor Name:"))
-        # Set your desired width here
-        self.nom_entry = ctk.CTkEntry(self, textvariable=self.nom_var, width=120)  # Example width
+        self.nom_entry = ctk.CTkEntry(self, textvariable=self.nom_var, width=120)
+        self.nom_entry.bind("<FocusIn>", self.capteurs_manager.processing_tab.restore_file_selection)
         self.debut_label = ctk.CTkLabel(self, text=_("Start Line:"))
-        # Set your desired width here
-        self.debut_entry = ctk.CTkEntry(self, textvariable=self.debut_var, width=70)  # Example width
+        self.debut_entry = ctk.CTkEntry(self, textvariable=self.debut_var, width=70)
+        self.debut_entry.bind("<FocusIn>", self.capteurs_manager.processing_tab.restore_file_selection)
         if not self.is_first:
             self.delete_button = ctk.CTkButton(self, text="🗑️ " + _("Delete"), command=self.supprimer, width=70)
 
     def place_widgets(self):
-        # Configure columns to allow expansion for entry fields (columns will expand, but entries won't fill them)
-        self.grid_columnconfigure(0, weight=0) # Sensor Name Label
-        self.grid_columnconfigure(1, weight=1) # Sensor Name Entry, allow column expansion
-        self.grid_columnconfigure(2, weight=0) # Start Line Label
-        self.grid_columnconfigure(3, weight=1) # Start Line Entry, allow column expansion
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_columnconfigure(2, weight=0)
+        self.grid_columnconfigure(3, weight=1)
         if not self.is_first:
-             self.grid_columnconfigure(4, weight=0) # Delete Button
+            self.grid_columnconfigure(4, weight=0)
 
         self.nom_label.grid(row=0, column=0, padx=5, pady=5, sticky="w")
-        # Removed sticky="ew" - entry width is now controlled by the 'width' parameter in create_widgets
         self.nom_entry.grid(row=0, column=1, padx=5, pady=5, sticky="w")
         self.debut_label.grid(row=0, column=2, padx=5, pady=5, sticky="w")
-        # Removed sticky="ew" - entry width is now controlled by the 'width' parameter in create_widgets
         self.debut_entry.grid(row=0, column=3, padx=5, pady=5, sticky="w")
         if not self.is_first:
-            self.delete_button.grid(row=0, column=4, padx=5, pady=5, sticky="w") # Kept sticky="w" for alignment
+            self.delete_button.grid(row=0, column=4, padx=5, pady=5, sticky="w")
 
     def supprimer(self):
-        self.capteurs_manager.remove_capteur(self) # Call remove_ca
+        self.capteurs_manager.remove_capteur(self)
 
     def get_values(self):
         return self.nom_var.get(), self.debut_var.get()
@@ -61,7 +58,6 @@ class CapteurFrame(ctk.CTkFrame):
 
 class CapteursManager(ctk.CTkFrame):
     """Gestionnaire de capteurs."""
-
     def __init__(self, parent, processing_tab, **kwargs):
         super().__init__(parent, **kwargs)
         self.processing_tab = processing_tab
@@ -70,46 +66,29 @@ class CapteursManager(ctk.CTkFrame):
         self.add_capteur("H_", "0", is_first=True)
 
     def create_widgets(self):
-        # Cadre pour les boutons
         self.button_frame = ctk.CTkFrame(self)
-        self.button_frame.pack(fill="x", pady=2)  # Réduire pady
-
+        self.button_frame.pack(fill="x", pady=2)
         self.add_button = ctk.CTkButton(self.button_frame, text=_("Add Sensor"), command=lambda: self.add_capteur())
         self.add_button.pack(side="left", padx=5)
-
-        self.validate_button = ctk.CTkButton(self.button_frame, text=_("Validate Sensors"),
-                                             command=self.valider_capteurs)
+        self.validate_button = ctk.CTkButton(self.button_frame, text=_("Validate Sensors"), command=self.valider_capteurs)
         self.validate_button.pack(side="left", padx=5)
-
         self.status_label = ctk.CTkLabel(self.button_frame, text="❌")
         self.status_label.pack(side="left", padx=5)
-
-        # Cadre pour contenir les capteurs avec défilement
         self.capteurs_container = ctk.CTkScrollableFrame(self, height=150)
-        self.capteurs_container.pack(fill="both", expand=True, pady=2)  # Réduire pady
+        self.capteurs_container.pack(fill="both", expand=True, pady=2)
 
     def add_capteur(self, nom="", debut="", is_first=False):
-        # Placer les capteurs dans le conteneur avec défilement
-        # Pass self (the CapteursManager instance) to CapteurFrame
         capteur = CapteurFrame(self.capteurs_container, self, is_first=is_first)
-
-        # Removed: capteur.configure(width=580)
-
-        # Pack the CapteurFrame
         capteur.pack(fill="x", pady=2)
-
         self.capteurs.append(capteur)
         if nom and debut:
             capteur.set_values(nom, debut)
-
-        # Force an update of the layout to potentially recalculate scrollable area
         self.capteurs_container.update_idletasks()
 
     def remove_capteur(self, capteur):
         if capteur != self.capteurs[0]:
             self.capteurs.remove(capteur)
             capteur.destroy()
-            # Also update layout after removing a sensor
             self.capteurs_container.update_idletasks()
 
     def valider_capteurs(self):
@@ -150,21 +129,13 @@ class CapteursManager(ctk.CTkFrame):
             capteur.nom_label.configure(text=_("Sensor Name:"))
             capteur.debut_label.configure(text=_("Start Line:"))
             if not capteur.is_first:
-                capteur.delete_button.configure(text=_("Delete"))
+                capteur.delete_button.configure(text="🗑️ " + _("Delete"))
 
 class ProcessingTab(ctk.CTkScrollableFrame):
     """Onglet Processing avec trigramme, capteurs, unités, coefficients, liste de fichiers et graphiques."""
-
     def __init__(self, parent, load_csv_callback):
-        # Configurer le cadre avec une hauteur adaptée
         super().__init__(parent)
-
-        # Configuration pour un meilleur scrolling
-        self.configure(
-            fg_color=("gray90", "gray13"),  # Couleur de fond uniforme
-            corner_radius=0  # Sans coins arrondis pour éviter les effets visuels
-        )
-
+        self.configure(fg_color=("gray90", "gray13"), corner_radius=0)
         self.load_csv_callback = load_csv_callback
         self.state = {
             "trigramme_valide": False,
@@ -172,15 +143,16 @@ class ProcessingTab(ctk.CTkScrollableFrame):
             "unites_valides": False,
             "coefficients_valides": False
         }
-        # Chemin vers le dossier Sensorem (remonter 4 niveaux)
         self.current_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
         logger.info(f"Chemin du dossier Sensorem : {self.current_dir}")
         if not os.path.exists(self.current_dir):
             logger.error(f"Dossier Sensorem non trouvé : {self.current_dir}")
+        self.selected_file_index = None  # Stocker l'index sélectionné
+        self._processing_selection = False  # Garde contre les boucles
         self.create_widgets()
         self.place_widgets()
         self.afficher_liste_fichiers()
-        self.initialiser_selection_listbox()
+        self.after(200, self.initialiser_selection_listbox)
 
     def set_state(self, key, value):
         self.state[key] = value
@@ -190,11 +162,9 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         return self.state.get(key)
 
     def create_widgets(self):
-        # Appliquer un style cohérent à tous les widgets
         title_font = ("Roboto", 16, "bold")
-        bg_color = ("gray85", "gray25")  # (mode clair, mode sombre)
+        bg_color = ("gray85", "gray25")
 
-        # Canvas pour défilement horizontal et vertical
         self.canvas = ctk.CTkCanvas(self)
         self.h_scrollbar = ctk.CTkScrollbar(self, orientation="horizontal", command=self.canvas.xview)
         self.v_scrollbar = ctk.CTkScrollbar(self, orientation="vertical", command=self.canvas.yview)
@@ -208,8 +178,8 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         self.trigramme_label = ctk.CTkLabel(self.trigramme_frame, text=_("Name (Trigram):"))
         self.trigramme_var = ctk.StringVar(value="Bbu")
         self.trigramme_entry = ctk.CTkEntry(self.trigramme_frame, textvariable=self.trigramme_var, width=80)
-        self.trigramme_button = ctk.CTkButton(self.trigramme_frame, text=_("Validate"), command=self.valider_trigramme,
-                                              width=80)
+        self.trigramme_entry.bind("<FocusIn>", self.restore_file_selection)
+        self.trigramme_button = ctk.CTkButton(self.trigramme_frame, text=_("Validate"), command=self.valider_trigramme, width=80)
         self.trigramme_status = ctk.CTkLabel(self.trigramme_frame, text="❌")
 
         # Capteurs
@@ -222,106 +192,81 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         self.unit_capteurs_label = ctk.CTkLabel(self.unites_frame, text=_("Unit (Sensor):"))
         self.unit_capteurs_var = ctk.StringVar(value="[V]")
         self.unit_capteurs_entry = ctk.CTkEntry(self.unites_frame, textvariable=self.unit_capteurs_var, width=80)
+        self.unit_capteurs_entry.bind("<FocusIn>", self.restore_file_selection)
         self.unit_ref_label = ctk.CTkLabel(self.unites_frame, text=_("Unit (Ref Sensor):"))
         self.unit_ref_var = ctk.StringVar(value="[m/s]")
         self.unit_ref_entry = ctk.CTkEntry(self.unites_frame, textvariable=self.unit_ref_var, width=80)
+        self.unit_ref_entry.bind("<FocusIn>", self.restore_file_selection)
         self.nom_ref_label = ctk.CTkLabel(self.unites_frame, text=_("Name (Ref Sensor):"))
         self.nom_ref_var = ctk.StringVar(value="Venturi")
         self.nom_ref_entry = ctk.CTkEntry(self.unites_frame, textvariable=self.nom_ref_var, width=100)
+        self.nom_ref_entry.bind("<FocusIn>", self.restore_file_selection)
         self.unites_button = ctk.CTkButton(self.unites_frame, text=_("Validate Units"), command=self.valider_unites)
         self.unites_status = ctk.CTkLabel(self.unites_frame, text="❌")
 
         # Coefficients
         self.coefficients_title = ctk.CTkLabel(self.scrollable_frame, text=_("Coefficients"), font=title_font)
         self.coefficients_frame = ctk.CTkFrame(self.scrollable_frame, fg_color=bg_color, border_width=2)
-        self.coefficients_subtitle = ctk.CTkLabel(self.coefficients_frame,
-                                                  text=_("Reference Sensor Conversion Coefficients"))
+        self.coefficients_subtitle = ctk.CTkLabel(self.coefficients_frame, text=_("Reference Sensor Conversion Coefficients"))
         self.coef_a_label = ctk.CTkLabel(self.coefficients_frame, text=_("Coefficient a:"))
         self.coef_a_var = ctk.StringVar(value="1.0")
         self.coef_a_entry = ctk.CTkEntry(self.coefficients_frame, textvariable=self.coef_a_var, width=80)
+        self.coef_a_entry.bind("<FocusIn>", self.restore_file_selection)
         self.coef_b_label = ctk.CTkLabel(self.coefficients_frame, text=_("Coefficient b:"))
         self.coef_b_var = ctk.StringVar(value="0.0")
         self.coef_b_entry = ctk.CTkEntry(self.coefficients_frame, textvariable=self.coef_b_var, width=80)
-        self.coefficients_button = ctk.CTkButton(self.coefficients_frame, text=_("Validate Coefficients"),
-                                                 command=self.valider_coefficients)
+        self.coef_b_entry.bind("<FocusIn>", self.restore_file_selection)
+        self.coefficients_button = ctk.CTkButton(self.coefficients_frame, text=_("Validate Coefficients"), command=self.valider_coefficients)
         self.coefficients_status = ctk.CTkLabel(self.coefficients_frame, text="❌")
 
         # Liste des fichiers et traitement
         self.files_treatment_frame = ctk.CTkFrame(self)
 
-        # --- List of Files Section with Scrollbars ---
+        # Liste des fichiers
         self.files_list_title = ctk.CTkLabel(self, text=_("List of Files:"), font=title_font)
-        self.files_list_frame = ctk.CTkFrame(self.files_treatment_frame, fg_color=bg_color) # Parent frame for listbox and scrollbars
-
-        # Create scrollbars for the Listbox
+        self.files_list_frame = ctk.CTkFrame(self.files_treatment_frame, fg_color=bg_color)
         self.files_list_v_scrollbar = tk.Scrollbar(self.files_list_frame, orient=tk.VERTICAL)
         self.files_list_h_scrollbar = tk.Scrollbar(self.files_list_frame, orient=tk.HORIZONTAL)
-
-        # Create the Listbox
         self.files_listbox = tk.Listbox(
-            self.files_list_frame, # Place inside the frame
-            height=10, # Your specified height
-            width=10,  # Your specified width
+            self.files_list_frame,
+            height=10,
+            width=30,
             selectmode=tk.SINGLE,
             bd=0,
             highlightthickness=0,
             bg=self.files_list_frame.cget("fg_color")[0],
             fg=ctk.CTkLabel(self).cget("text_color")[0],
-            yscrollcommand=self.files_list_v_scrollbar.set, # Link vertical scrollbar
-            xscrollcommand=self.files_list_h_scrollbar.set  # Link horizontal scrollbar
+            yscrollcommand=self.files_list_v_scrollbar.set,
+            xscrollcommand=self.files_list_h_scrollbar.set
         )
-
-        # Configure the scrollbars to command the Listbox's view
         self.files_list_v_scrollbar.config(command=self.files_listbox.yview)
         self.files_list_h_scrollbar.config(command=self.files_listbox.xview)
-
-        # Place the Listbox and its scrollbars within files_list_frame using grid
-        # This layout places the listbox, vertical scrollbar to its right, and horizontal scrollbar below
         self.files_listbox.grid(row=0, column=0, sticky="nsew")
         self.files_list_v_scrollbar.grid(row=0, column=1, sticky="ns")
         self.files_list_h_scrollbar.grid(row=1, column=0, sticky="ew")
-
-        # Configure grid weights for the files_list_frame to make the listbox expand
         self.files_list_frame.grid_columnconfigure(0, weight=1)
         self.files_list_frame.grid_rowconfigure(0, weight=1)
-
         self.files_listbox.bind("<<ListboxSelect>>", self.on_file_select)
-        # --- End List of Files Section ---
 
-
-        # --- Processing File Section with Scrollbars ---
+        # Traitement
         self.treatment_title = ctk.CTkLabel(self, text=_("File Processing:"), font=title_font)
-        self.treatment_frame = ctk.CTkFrame(self.files_treatment_frame, fg_color=bg_color) # Parent frame for textbox and scrollbars
-
-        # Create CTk scrollbars for the CTkTextbox
+        self.treatment_frame = ctk.CTkFrame(self.files_treatment_frame, fg_color=bg_color)
         self.treatment_v_scrollbar = ctk.CTkScrollbar(self.treatment_frame, orientation="vertical")
         self.treatment_h_scrollbar = ctk.CTkScrollbar(self.treatment_frame, orientation="horizontal")
-
-        # Create the CTkTextbox
         self.treatment_text = ctk.CTkTextbox(
-            self.treatment_frame, # Place inside the frame
-            height=150, # Your specified height
-            width=400,  # Your specified width
+            self.treatment_frame,
+            height=150,
             state="disabled",
-            yscrollcommand=self.treatment_v_scrollbar.set, # Link vertical scrollbar
-            xscrollcommand=self.treatment_h_scrollbar.set  # Link horizontal scrollbar
+            yscrollcommand=self.treatment_v_scrollbar.set,
+            xscrollcommand=self.treatment_h_scrollbar.set
         )
-
-        # Configure the scrollbars to command the Textbox's view
         self.treatment_v_scrollbar.configure(command=self.treatment_text.yview)
         self.treatment_h_scrollbar.configure(command=self.treatment_text.xview)
-
-        # Place the Textbox and its scrollbars within treatment_frame using grid
-        # This layout places the textbox, vertical scrollbar to its right, and horizontal scrollbar below
         self.treatment_text.grid(row=0, column=0, sticky="nsew")
         self.treatment_v_scrollbar.grid(row=0, column=1, sticky="ns")
         self.treatment_h_scrollbar.grid(row=1, column=0, sticky="ew")
-
-        # Configure grid weights for the treatment_frame to make the textbox expand
         self.treatment_frame.grid_columnconfigure(0, weight=1)
         self.treatment_frame.grid_rowconfigure(0, weight=1)
-        # --- End Processing File Section ---
-
 
         # Graphiques
         self.graph_title = ctk.CTkLabel(self, text=_("Graphs"), font=title_font)
@@ -332,33 +277,22 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         self.graph2_label = ctk.CTkLabel(self.graph2_frame, text=_("Graph 2 Placeholder"))
 
     def place_widgets(self):
-        # Canvas pour défilement horizontal et vertical
         self.canvas.grid(row=0, column=0, sticky="nsew")
         self.h_scrollbar.grid(row=1, column=0, sticky="ew")
         self.v_scrollbar.grid(row=0, column=1, sticky="ns")
-
-        # Configuration du grid pour permettre l'expansion
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
+        self.scrollable_frame.bind("<Configure>", lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
 
-        # Assurer que le canvas se redimensionne correctement avec le contenu
-        self.scrollable_frame.bind("<Configure>",
-                                   lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all")))
-
-        # Uniformiser les espacements pour tous les éléments
-        padding_top = 5
-        padding_bottom = 5
+        padding_top = 2
+        padding_bottom = 2
         padding_x = 10
 
-        # Colonnes pour trigramme, capteurs, unités, coefficients
-        # Corrected typo: Use self.scrollable_frame.grid_columnconfigure
-        self.scrollable_frame.grid_columnconfigure(0, weight=1, minsize=250)  # Trigram column
-        self.scrollable_frame.grid_columnconfigure(1, weight=2,
-                                                   minsize=600)  # Sensors column (increased weight and minsize)
-        self.scrollable_frame.grid_columnconfigure(2, weight=1, minsize=450)  # Units column
-        self.scrollable_frame.grid_columnconfigure(3, weight=1, minsize=350)  # Coefficients column
+        self.scrollable_frame.grid_columnconfigure(0, weight=1, minsize=250)
+        self.scrollable_frame.grid_columnconfigure(1, weight=2, minsize=600)
+        self.scrollable_frame.grid_columnconfigure(2, weight=1, minsize=450)
+        self.scrollable_frame.grid_columnconfigure(3, weight=1, minsize=350)
 
-        # Trigramme
         self.trigramme_title.grid(row=0, column=0, padx=padding_x, pady=(padding_top, 2), sticky="w")
         self.trigramme_frame.grid(row=1, column=0, padx=padding_x, pady=(2, padding_bottom), sticky="nw")
         self.trigramme_label.grid(row=0, column=0, padx=5, pady=5)
@@ -366,11 +300,9 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         self.trigramme_button.grid(row=1, column=0, padx=5, pady=5)
         self.trigramme_status.grid(row=1, column=1, padx=5, pady=5)
 
-        # Capteurs
         self.capteurs_title.grid(row=0, column=1, padx=padding_x, pady=(padding_top, 2), sticky="w")
         self.capteurs_manager.grid(row=1, column=1, padx=padding_x, pady=(2, padding_bottom), sticky="nsew")
 
-        # Unités
         self.unites_title.grid(row=0, column=2, padx=padding_x, pady=(padding_top, 2), sticky="w")
         self.unites_frame.grid(row=1, column=2, padx=padding_x, pady=(2, padding_bottom), sticky="nw")
         self.unit_capteurs_label.grid(row=0, column=0, padx=5, pady=5)
@@ -382,7 +314,6 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         self.unites_button.grid(row=3, column=0, padx=5, pady=5)
         self.unites_status.grid(row=3, column=1, padx=5, pady=5)
 
-        # Coefficients
         self.coefficients_title.grid(row=0, column=3, padx=padding_x, pady=(padding_top, 2), sticky="w")
         self.coefficients_frame.grid(row=1, column=3, padx=padding_x, pady=(2, padding_bottom), sticky="nw")
         self.coefficients_subtitle.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
@@ -393,25 +324,14 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         self.coefficients_button.grid(row=3, column=0, padx=5, pady=5)
         self.coefficients_status.grid(row=3, column=1, padx=5, pady=5)
 
-        # Liste des fichiers et traitement - with scrollbars handled in create_widgets
         self.files_list_title.grid(row=2, column=0, padx=padding_x, pady=(padding_top, 2), sticky="w")
-        self.treatment_title.grid(row=2, column=0, padx=(300, padding_x), pady=(padding_top, 2),
-                                  sticky="w")  # Note: This placement might need adjustment
-
-        # Cadre contenant les deux sections
+        self.treatment_title.grid(row=2, column=0, padx=(300, padding_x), pady=(padding_top, 2), sticky="w")
         self.files_treatment_frame.grid(row=3, column=0, padx=padding_x, pady=(2, padding_bottom), sticky="nsew")
         self.files_treatment_frame.columnconfigure(0, weight=1)
         self.files_treatment_frame.columnconfigure(1, weight=2)
+        self.files_list_frame.grid(row=0, column=0, padx=5, pady=5, sticky="nsew")
+        self.treatment_frame.grid(row=0, column=1, padx=5, pady=5, sticky="nsew")
 
-        # Section des fichiers (Listbox and scrollbars placed within files_list_frame using grid in create_widgets)
-        self.files_list_frame.grid(row=0, column=0, padx=5, pady=5,
-                                   sticky="nsew")  # Place the frame containing the listbox and scrollbars
-
-        # Section de traitement (Textbox and scrollbars placed within treatment_frame using grid in create_widgets)
-        self.treatment_frame.grid(row=0, column=1, padx=5, pady=5,
-                                  sticky="nsew")  # Place the frame containing the textbox and scrollbars
-
-        # Graphiques - avec espacements uniformes
         self.graph_title.grid(row=4, column=0, padx=padding_x, pady=(padding_top, 2), sticky="w")
         self.graph_frame.grid(row=5, column=0, padx=padding_x, pady=(2, padding_bottom), sticky="nsew")
         self.graph_frame.grid_columnconfigure((0, 1), weight=1)
@@ -421,46 +341,80 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         self.graph2_label.pack(pady=130)
 
     def afficher_liste_fichiers(self):
-        # Use tk.END for Listbox delete and insert
-        self.files_listbox.delete(0, tk.END) # Clear the listbox
+        self.files_listbox.delete(0, tk.END)
         for fichier in glob.glob(os.path.join(self.current_dir, "*.csv")):
-            self.files_listbox.insert(tk.END, os.path.basename(fichier)) # Insert items at the end
-
-        # No need to configure state for tk.Listbox for selection
-
-        if not self.files_listbox.get(0, tk.END): # Check if listbox is empty
+            self.files_listbox.insert(tk.END, os.path.basename(fichier))
+        if not self.files_listbox.get(0, tk.END):
             logger.warning(_("No CSV files found in directory: {}").format(self.current_dir))
 
-
     def initialiser_selection_listbox(self):
-        if self.files_listbox.size() > 0: # Check if listbox has items
-            self.files_listbox.select_set(0) # Select the first item (index 0)
-            self.files_listbox.activate(0) # Activate the first item (optional, but can help focus)
-            self.on_file_select(None) # Trigger the selection handler
+        logger.debug("Initialisation de la sélection de la listbox")
+        if self.files_listbox.size() > 0:
+            self.files_listbox.select_set(0)
+            self.files_listbox.activate(0)
+            self.selected_file_index = 0
+            self.after(50, lambda: self.on_file_select(None))
+        else:
+            logger.debug("Aucun fichier à sélectionner")
+
+    def restore_file_selection(self, event=None):
+        logger.debug(f"Restauration de la sélection : index={self.selected_file_index}")
+        if self._processing_selection:
+            logger.debug("Restauration bloquée : _processing_selection est True")
+            return
+        if self.selected_file_index is not None and self.files_listbox.size() > self.selected_file_index:
+            self._processing_selection = True
+            try:
+                current_selection = self.files_listbox.curselection()
+                if current_selection != (self.selected_file_index,):
+                    self.files_listbox.select_set(self.selected_file_index)
+                    self.files_listbox.activate(self.selected_file_index)
+                    logger.debug(f"Sélection restaurée à l'index {self.selected_file_index}")
+            finally:
+                self._processing_selection = False
+        else:
+            logger.debug("Aucune sélection à restaurer ou index invalide")
 
     def nom_fichier_selectionne(self):
-        selected_indices = self.files_listbox.curselection() # Get tuple of selected indices
+        logger.debug("Vérification du fichier sélectionné")
+        selected_indices = self.files_listbox.curselection()
+        if not selected_indices and self.selected_file_index is not None:
+            logger.debug(f"Retour à la sélection précédente : index={self.selected_file_index}")
+            return self.files_listbox.get(self.selected_file_index)
         if not selected_indices:
+            logger.warning(_("No file selected in the list"))
             messagebox.showwarning(_("No Selection"), _("Please select a file from the list."))
             return None
-        # Get the item at the selected index
-        selected_file_name = self.files_listbox.get(selected_indices[0])
-        return selected_file_name
+        self.selected_file_index = selected_indices[0]
+        selected_file = self.files_listbox.get(self.selected_file_index)
+        logger.debug(f"Fichier sélectionné : {selected_file}")
+        return selected_file
 
     def on_file_select(self, event):
-        selected_file = self.nom_fichier_selectionne()
-        if selected_file:
-            logger.info(_("File selected: {}").format(selected_file))
-            resultat = self.traitement_fichier(selected_file)
-            self.treatment_text.configure(state="normal")
-            self.treatment_text.delete("0.0", "end")
-            self.treatment_text.insert("0.0", resultat)
-            self.treatment_text.configure(state="disabled")
+        logger.debug("Événement de sélection déclenché")
+        if self._processing_selection:
+            logger.debug("Événement bloqué : _processing_selection est True")
+            return
+        self._processing_selection = True
+        try:
+            selected_file = self.nom_fichier_selectionne()
+            if selected_file:
+                logger.info(_("File selected: {}").format(selected_file))
+                resultat = self.traitement_fichier(selected_file)
+                self.treatment_text.configure(state="normal")
+                self.treatment_text.delete("1.0", "end")
+                self.treatment_text.insert("1.0", resultat)
+                self.treatment_text.configure(state="disabled")
+            else:
+                logger.debug("Aucun fichier sélectionné pour traitement")
+        finally:
+            self._processing_selection = False
+            logger.debug("Événement de sélection terminé")
 
     def traitement_fichier(self, fichier):
         try:
             resultat = f"Processing file: {fichier}\n"
-            # À implémenter avec FonctionsCSV et FonctionsSignal
+            logger.debug(f"Traitement du fichier : {resultat.strip()}")
             return resultat
         except Exception as e:
             erreur = _("Error processing file: {}").format(str(e))
@@ -539,3 +493,5 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         self.graph1_label.configure(text=_("Graph 1 Placeholder"))
         self.graph2_label.configure(text=_("Graph 2 Placeholder"))
         self.capteurs_manager.refresh()
+        self.afficher_liste_fichiers()
+        self.after(200, self.initialiser_selection_listbox)

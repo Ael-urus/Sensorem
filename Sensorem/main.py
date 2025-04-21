@@ -1,5 +1,5 @@
 # main.py
-
+# Point d'entrée principal pour l'application Sensorem
 import customtkinter as ctk
 from core.views.main_window import MainWindow
 
