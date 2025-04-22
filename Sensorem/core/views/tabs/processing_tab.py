@@ -162,7 +162,7 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         return self.state.get(key)
 
     def create_widgets(self):
-        title_font = ("Roboto", 16, "bold")
+        title_font = ("Roboto", 18, "bold")  # Augmenté à 18 pour plus de lisibilité
         bg_color = ("gray85", "gray25")
 
         self.canvas = ctk.CTkCanvas(self)
@@ -348,19 +348,19 @@ class ProcessingTab(ctk.CTkScrollableFrame):
             logger.warning(_("No CSV files found in directory: {}").format(self.current_dir))
 
     def initialiser_selection_listbox(self):
-        logger.debug("Initialisation de la sélection de la listbox")
+        logger.debug(_("Initializing listbox selection"))
         if self.files_listbox.size() > 0:
             self.files_listbox.select_set(0)
             self.files_listbox.activate(0)
             self.selected_file_index = 0
             self.after(50, lambda: self.on_file_select(None))
         else:
-            logger.debug("Aucun fichier à sélectionner")
+            logger.debug(_("No files to select"))
 
     def restore_file_selection(self, event=None):
-        logger.debug(f"Restauration de la sélection : index={self.selected_file_index}")
+        logger.debug(_("Restoring selection: index={}").format(self.selected_file_index))
         if self._processing_selection:
-            logger.debug("Restauration bloquée : _processing_selection est True")
+            logger.debug(_("Restoration blocked: _processing_selection is True"))
             return
         if self.selected_file_index is not None and self.files_listbox.size() > self.selected_file_index:
             self._processing_selection = True
@@ -369,17 +369,17 @@ class ProcessingTab(ctk.CTkScrollableFrame):
                 if current_selection != (self.selected_file_index,):
                     self.files_listbox.select_set(self.selected_file_index)
                     self.files_listbox.activate(self.selected_file_index)
-                    logger.debug(f"Sélection restaurée à l'index {self.selected_file_index}")
+                    logger.debug(_("Selection restored to index {}").format(self.selected_file_index))
             finally:
                 self._processing_selection = False
         else:
-            logger.debug("Aucune sélection à restaurer ou index invalide")
+            logger.debug(_("No selection to restore or invalid index"))
 
     def nom_fichier_selectionne(self):
-        logger.debug("Vérification du fichier sélectionné")
+        logger.debug(_("Checking selected file"))
         selected_indices = self.files_listbox.curselection()
         if not selected_indices and self.selected_file_index is not None:
-            logger.debug(f"Retour à la sélection précédente : index={self.selected_file_index}")
+            logger.debug(_("Returning to previous selection: index={}").format(self.selected_file_index))
             return self.files_listbox.get(self.selected_file_index)
         if not selected_indices:
             logger.warning(_("No file selected in the list"))
@@ -387,13 +387,13 @@ class ProcessingTab(ctk.CTkScrollableFrame):
             return None
         self.selected_file_index = selected_indices[0]
         selected_file = self.files_listbox.get(self.selected_file_index)
-        logger.debug(f"Fichier sélectionné : {selected_file}")
+        logger.debug(_("File selected: {}").format(selected_file))
         return selected_file
 
     def on_file_select(self, event):
-        logger.debug("Événement de sélection déclenché")
+        logger.debug(_("Event triggered: selection"))
         if self._processing_selection:
-            logger.debug("Événement bloqué : _processing_selection est True")
+            logger.debug(_("Event blocked: _processing_selection is True"))
             return
         self._processing_selection = True
         try:
@@ -406,15 +406,15 @@ class ProcessingTab(ctk.CTkScrollableFrame):
                 self.treatment_text.insert("1.0", resultat)
                 self.treatment_text.configure(state="disabled")
             else:
-                logger.debug("Aucun fichier sélectionné pour traitement")
+                logger.debug(_("No file selected for processing"))
         finally:
             self._processing_selection = False
-            logger.debug("Événement de sélection terminé")
+            logger.debug(_("Selection event completed"))
 
     def traitement_fichier(self, fichier):
         try:
-            resultat = f"Processing file: {fichier}\n"
-            logger.debug(f"Traitement du fichier : {resultat.strip()}")
+            resultat = _("Processing file: {}").format(fichier) + "\n"
+            logger.debug(resultat.strip())
             return resultat
         except Exception as e:
             erreur = _("Error processing file: {}").format(str(e))

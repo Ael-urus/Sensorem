@@ -48,11 +48,62 @@ msgstr "CSV loaded: {}, {} rows"
 msgid "Error loading CSV: {}"
 msgstr "Error loading CSV: {}"
 
-# AUTOMATICALLY ADDED from : ../views/main_window.py, line 64
 msgid "Hello to Sensorem"
 msgstr "Hello to Sensorem"
 
-
-# AUTOMATICALLY ADDED from : ../utils/validate_translations.py, line 71
 msgid "text"
 msgstr "text"
+
+msgid "Error"
+msgstr "Error"
+
+msgid "No file selected in the list"
+msgstr "No file selected in the list"
+
+msgid "Processing file: {}"
+msgstr "Processing file: {}"
+
+msgid "File selected: {}"
+msgstr "File selected: {}"
+
+msgid "Event triggered: selection"
+msgstr "Event triggered: selection"
+
+msgid "Checking selected file"
+msgstr "Checking selected file"
+
+msgid "Return to previous selection: index={}"
+msgstr "Return to previous selection: index={}"
+
+msgid "Trigram validated: {}"
+msgstr "Trigram validated: {}"
+
+msgid "Sensors validated successfully: {} (start: {})"
+msgstr "Sensors validated successfully: {} (start: {})"
+
+msgid "Units validated: Sensor: [{}], Ref: [{}], Ref Name: {}"
+msgstr "Units validated: Sensor: [{}], Ref: [{}], Ref Name: {}"
+
+msgid "Coefficients validated: a={}, b={}"
+msgstr "Coefficients validated: a={}, b={}"
+
+msgid "Returning to previous selection: index={}"
+msgstr "Returning to previous selection: index={}"
+
+msgid "Selection event completed"
+msgstr "Selection event completed"
+
+msgid "No file selected for processing"
+msgstr "No file selected for processing"
+
+msgid "Initializing listbox selection"
+msgstr "Initializing listbox selection"
+
+msgid "No files to select"
+msgstr "No files to select"
+
+msgid "Restoring selection: index={}"
+msgstr "Restoring selection: index={}"
+
+msgid "Selection restored to index {}"
+msgstr "Selection restored to index {}"
