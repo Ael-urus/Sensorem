@@ -1,4 +1,4 @@
-Rapport du 2025-04-22 20:34:51:
+Rapport du 2025-04-22 23:47:24:
 
 Sensorem/
 ├── REAME.md
@@ -12,6 +12,7 @@ Sensorem/
 │   ├── __init__.py
 │   ├── controllers/
 │   │   ├── __init__.py
+│   │   ├── main_controller.py
 │   │   ├── processing_controller.py
 │   ├── datas/
 │   │   ├── __init__.py
@@ -28,10 +29,12 @@ Sensorem/
 │   │           ├── messages.po
 │   ├── models/
 │   │   ├── __init__.py
+│   │   ├── data_model.py
 │   │   ├── file_manager.py
 │   │   ├── processing_model.py
 │   ├── processings/
 │   │   ├── __init__.py
+│   │   ├── processing_controller.py
 │   │   ├── signal_processor.py
 │   ├── reportings/
 │   │   ├── __init__.py
