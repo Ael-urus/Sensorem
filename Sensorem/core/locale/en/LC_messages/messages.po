@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Sensorem\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-19 12:00+0000\n"
-"PO-Revision-Date: 2025-04-19 21:36+0200\n"
+"PO-Revision-Date: 2025-04-23 23:17+0200\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
 "Language: en\n"
@@ -21,26 +21,11 @@ msgstr "Processing"
 msgid "Database"
 msgstr "Database"
 
-msgid "Logs"
-msgstr "Logs"
-
-msgid "Welcome to the Processing tab"
-msgstr "Welcome to the Processing tab"
-
 msgid "Welcome to the Database tab"
 msgstr "Welcome to the Database tab"
 
-msgid "Welcome to the Logs tab"
-msgstr "Welcome to the Logs tab"
-
 msgid "Interface initialized"
 msgstr "Interface initialized"
-
-msgid "Language changed: {}"
-msgstr "Language changed: {}"
-
-msgid "Load CSV"
-msgstr "Load CSV"
 
 msgid "CSV loaded: {}, {} rows"
 msgstr "CSV loaded: {}, {} rows"
@@ -48,17 +33,14 @@ msgstr "CSV loaded: {}, {} rows"
 msgid "Error loading CSV: {}"
 msgstr "Error loading CSV: {}"
 
-msgid "Hello to Sensorem"
-msgstr "Hello to Sensorem"
-
-msgid "text"
-msgstr "text"
-
 msgid "Error"
 msgstr "Error"
 
 msgid "No file selected in the list"
 msgstr "No file selected in the list"
+
+msgid "Error processing file: {}"
+msgstr "Error processing file: {}"
 
 msgid "Processing file: {}"
 msgstr "Processing file: {}"
@@ -72,17 +54,14 @@ msgstr "Event triggered: selection"
 msgid "Checking selected file"
 msgstr "Checking selected file"
 
-msgid "Return to previous selection: index={}"
-msgstr "Return to previous selection: index={}"
-
 msgid "Trigram validated: {}"
 msgstr "Trigram validated: {}"
 
-msgid "Sensors validated successfully: {} (start: {})"
-msgstr "Sensors validated successfully: {} (start: {})"
+msgid "Sensors validated successfully: {}"
+msgstr "Sensors validated successfully: {}"
 
-msgid "Units validated: Sensor: [{}], Ref: [{}], Ref Name: {}"
-msgstr "Units validated: Sensor: [{}], Ref: [{}], Ref Name: {}"
+msgid "Units validated: Sensor: {}, Ref: {}, Ref Name: {}"
+msgstr "Units validated: Sensor: {}, Ref: {}, Ref Name: {}"
 
 msgid "Coefficients validated: a={}, b={}"
 msgstr "Coefficients validated: a={}, b={}"
@@ -107,3 +86,134 @@ msgstr "Restoring selection: index={}"
 
 msgid "Selection restored to index {}"
 msgstr "Selection restored to index {}"
+
+msgid "Quit"
+msgstr "Quit"
+
+msgid "Trigram"
+msgstr "Trigram"
+
+msgid "Name (Trigram):"
+msgstr "Name (Trigram):"
+
+msgid "Validate"
+msgstr "Validate"
+
+msgid "Sensors"
+msgstr "Sensors"
+
+msgid "Sensor Name:"
+msgstr "Sensor Name:"
+
+msgid "Start Line:"
+msgstr "Start Line:"
+
+msgid "Add Sensor"
+msgstr "Add Sensor"
+
+msgid "Validate Sensors"
+msgstr "Validate Sensors"
+
+msgid "Delete"
+msgstr "Delete"
+
+msgid "Units"
+msgstr "Units"
+
+msgid "Unit (Sensor):"
+msgstr "Unit (Sensor):"
+
+msgid "Unit (Ref Sensor):"
+msgstr "Unit (Ref Sensor):"
+
+msgid "Name (Ref Sensor):"
+msgstr "Name (Ref Sensor):"
+
+msgid "Validate Units"
+msgstr "Validate Units"
+
+msgid "Coefficients"
+msgstr "Coefficients"
+
+msgid "Reference Sensor Conversion Coefficients"
+msgstr "Reference Sensor Conversion Coefficients"
+
+msgid "Coefficient a:"
+msgstr "Coefficient a:"
+
+msgid "Coefficient b:"
+msgstr "Coefficient b:"
+
+msgid "Invalid coefficients."
+msgstr "Invalid coefficients."
+
+msgid "Validate Coefficients"
+msgstr "Validate Coefficients"
+
+msgid "List of Files:"
+msgstr "List of Files:"
+
+msgid "File Processing:"
+msgstr "File Processing:"
+
+msgid "Graphs"
+msgstr "Graphs"
+
+msgid "Graph 1 Placeholder"
+msgstr "Graph 1 Placeholder"
+
+msgid "Graph 2 Placeholder"
+msgstr "Graph 2 Placeholder"
+
+# Messages d'erreur
+msgid "Trigram must be exactly 3 letters."
+msgstr "Trigram must be exactly 3 letters."
+
+msgid "All sensors must have a name and start line."
+msgstr "All sensors must have a name and start line."
+
+msgid "Sensor name '{}' is invalid."
+msgstr "Sensor name '{}' is invalid."
+
+msgid "Start line '{}' must be a number."
+msgstr "Start line '{}' must be a number."
+
+msgid "Units and reference name must be provided."
+msgstr "Units and reference name must be provided."
+
+msgid "Coefficient a cannot be zero."
+msgstr "Coefficient a cannot be zero."
+
+msgid "Coefficients must be valid numbers."
+msgstr "Coefficients must be valid numbers."
+
+msgid "No Selection"
+msgstr "No Selection"
+
+msgid "Please select a file from the list."
+msgstr "Please select a file from the list."
+
+msgid "Validation Error"
+msgstr "Validation Error"
+
+msgid "No CSV files found in directory: {}"
+msgstr "No CSV files found in directory: {}"
+
+#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 75
+#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 396
+msgid "Event blocked: _processing_selection is True"
+msgstr ""
+
+#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 134
+msgid "Invalid sensor configuration."
+msgstr ""
+
+#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 69
+#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 376
+msgid "No selection to restore or invalid index"
+msgstr ""
+
+#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 56
+#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 363
+msgid "Restoration blocked: _processing_selection is True"
+msgstr ""

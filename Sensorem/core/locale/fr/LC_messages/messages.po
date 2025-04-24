@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Sensorem\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-19 12:00+0000\n"
-"PO-Revision-Date: 2025-04-19 21:36+0200\n"
+"PO-Revision-Date: 2025-04-24 10:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Generator: Poedit 3.6\n"
 
 msgid "Sensorem - Sensor Signal Processing"
-msgstr "Sensorem - Traitement des signaux de capteurs"
+msgstr "Sensorem - Traitement du signal des capteurs"
 
 msgid "Processing"
 msgstr "Traitement"
@@ -21,26 +21,11 @@ msgstr "Traitement"
 msgid "Database"
 msgstr "Base de données"
 
-msgid "Logs"
-msgstr "Journaux"
-
-msgid "Welcome to the Processing tab"
-msgstr "Bienvenue dans l'onglet Traitement"
-
 msgid "Welcome to the Database tab"
 msgstr "Bienvenue dans l'onglet Base de données"
 
-msgid "Welcome to the Logs tab"
-msgstr "Bienvenue dans l'onglet Journaux"
-
 msgid "Interface initialized"
 msgstr "Interface initialisée"
-
-msgid "Language changed: {}"
-msgstr "Changement de langue vers : {}"
-
-msgid "Load CSV"
-msgstr "Charger CSV"
 
 msgid "CSV loaded: {}, {} rows"
 msgstr "CSV chargé : {}, {} lignes"
@@ -48,17 +33,14 @@ msgstr "CSV chargé : {}, {} lignes"
 msgid "Error loading CSV: {}"
 msgstr "Erreur lors du chargement du CSV : {}"
 
-msgid "Hello to Sensorem"
-msgstr "Bonjour à Sensorem"
-
-msgid "text"
-msgstr "texte"
-
 msgid "Error"
 msgstr "Erreur"
 
 msgid "No file selected in the list"
 msgstr "Aucun fichier sélectionné dans la liste"
+
+msgid "Error processing file: {}"
+msgstr "Erreur lors du traitement du fichier : {}"
 
 msgid "Processing file: {}"
 msgstr "Traitement du fichier : {}"
@@ -67,37 +49,171 @@ msgid "File selected: {}"
 msgstr "Fichier sélectionné : {}"
 
 msgid "Event triggered: selection"
-msgstr "Événement de sélection déclenché"
+msgstr "Événement déclenché : sélection"
 
 msgid "Checking selected file"
 msgstr "Vérification du fichier sélectionné"
 
-msgid "Return to previous selection: index={}"
-msgstr "Retour à la sélection précédente : index={}"
-
 msgid "Trigram validated: {}"
 msgstr "Trigramme validé : {}"
 
-msgid "Sensors validated successfully: {} (start: {})"
-msgstr "Capteurs validés avec succès : {} (début : {})"
+msgid "Sensors validated successfully: {}"
+msgstr "Capteurs validés avec succès : {}"
 
-msgid "Units validated: Sensor: [{}], Ref: [{}], Ref Name: {}"
-msgstr "Unités validées : Capteur : [{}], Réf : [{}], Nom Réf : {}"
+msgid "Units validated: Sensor: {}, Ref: {}, Ref Name: {}"
+msgstr "Unités validées : Capteur : {}, Réf : {}, Nom Réf : {}"
 
 msgid "Coefficients validated: a={}, b={}"
 msgstr "Coefficients validés : a={}, b={}"
 
 msgid "Returning to previous selection: index={}"
 msgstr "Retour à la sélection précédente : index={}"
+
 msgid "Selection event completed"
 msgstr "Événement de sélection terminé"
+
 msgid "No file selected for processing"
-msgstr "Aucun fichier sélectionné pour traitement"
+msgstr "Aucun fichier sélectionné pour le traitement"
+
 msgid "Initializing listbox selection"
-msgstr "Initialisation de la sélection de la listbox"
+msgstr "Initialisation de la sélection de la liste"
+
 msgid "No files to select"
 msgstr "Aucun fichier à sélectionner"
+
 msgid "Restoring selection: index={}"
 msgstr "Restauration de la sélection : index={}"
+
 msgid "Selection restored to index {}"
 msgstr "Sélection restaurée à l'index {}"
+
+msgid "Quit"
+msgstr "Quitter"
+
+msgid "Trigram"
+msgstr "Trigramme"
+
+msgid "Name (Trigram):"
+msgstr "Nom (Trigramme) :"
+
+msgid "Validate"
+msgstr "Valider"
+
+msgid "Sensors"
+msgstr "Capteurs"
+
+msgid "Sensor Name:"
+msgstr "Nom du capteur :"
+
+msgid "Start Line:"
+msgstr "Ligne de départ :"
+
+msgid "Add Sensor"
+msgstr "Ajouter un capteur"
+
+msgid "Validate Sensors"
+msgstr "Valider les capteurs"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Units"
+msgstr "Unités"
+
+msgid "Unit (Sensor):"
+msgstr "Unité (Capteur) :"
+
+msgid "Unit (Ref Sensor):"
+msgstr "Unité (Capteur de référence) :"
+
+msgid "Name (Ref Sensor):"
+msgstr "Nom (Capteur de référence) :"
+
+msgid "Validate Units"
+msgstr "Valider les unités"
+
+msgid "Coefficients"
+msgstr "Coefficients"
+
+msgid "Reference Sensor Conversion Coefficients"
+msgstr "Coefficients de conversion du capteur de référence"
+
+msgid "Coefficient a:"
+msgstr "Coefficient a :"
+
+msgid "Coefficient b:"
+msgstr "Coefficient b :"
+
+msgid "Invalid coefficients."
+msgstr "Coefficients invalides."
+
+msgid "Validate Coefficients"
+msgstr "Valider les coefficients"
+
+msgid "List of Files:"
+msgstr "Liste des fichiers :"
+
+msgid "File Processing:"
+msgstr "Traitement des fichiers :"
+
+msgid "Graphs"
+msgstr "Graphiques"
+
+msgid "Graph 1 Placeholder"
+msgstr "Espace réservé pour le graphique 1"
+
+msgid "Graph 2 Placeholder"
+msgstr "Espace réservé pour le graphique 2"
+
+# Messages d'erreur
+msgid "Trigram must be exactly 3 letters."
+msgstr "Le trigramme doit contenir exactement 3 lettres."
+
+msgid "All sensors must have a name and start line."
+msgstr "Tous les capteurs doivent avoir un nom et une ligne de départ."
+
+msgid "Sensor name '{}' is invalid."
+msgstr "Le nom du capteur '{}' est invalide."
+
+msgid "Start line '{}' must be a number."
+msgstr "La ligne de départ '{}' doit être un nombre."
+
+msgid "Units and reference name must be provided."
+msgstr "Les unités et le nom de référence doivent être fournis."
+
+msgid "Coefficient a cannot be zero."
+msgstr "Le coefficient a ne peut pas être zéro."
+
+msgid "Coefficients must be valid numbers."
+msgstr "Les coefficients doivent être des nombres valides."
+
+msgid "No Selection"
+msgstr "Aucune sélection"
+
+msgid "Please select a file from the list."
+msgstr "Veuillez sélectionner un fichier dans la liste."
+
+msgid "Validation Error"
+msgstr "Erreur de validation"
+
+msgid "No CSV files found in directory: {}"
+msgstr "Aucun fichier CSV trouvé dans le répertoire : {}"
+
+#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 75
+#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 396
+msgid "Event blocked: _processing_selection is True"
+msgstr "Événement bloqué : _processing_selection est True"
+
+#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 134
+msgid "Invalid sensor configuration."
+msgstr "Configuration de capteur invalide."
+
+#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 69
+#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 376
+msgid "No selection to restore or invalid index"
+msgstr "Aucune sélection à restaurer ou index invalide"
+
+#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 56
+#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 363
+msgid "Restoration blocked: _processing_selection is True"
+msgstr "Restauration bloquée : _processing_selection est True"
