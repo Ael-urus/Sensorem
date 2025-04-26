@@ -1,4 +1,4 @@
-# processing_tab.py
+# core/views/tabs/processing_tab.py
 import customtkinter as ctk
 import re
 import os
@@ -6,7 +6,9 @@ import glob
 from tkinter import messagebox
 import tkinter as tk
 from ...utils.i18n import _
-from ...utils.logger import logger
+import logging
+
+logger = logging.getLogger('Sensorem')
 
 class CapteurFrame(ctk.CTkFrame):
     def __init__(self, master, capteurs_manager, is_first=False, **kwargs):
@@ -57,7 +59,6 @@ class CapteurFrame(ctk.CTkFrame):
         self.set_values("", "")
 
 class CapteursManager(ctk.CTkFrame):
-    """Gestionnaire de capteurs."""
     def __init__(self, parent, processing_tab, **kwargs):
         super().__init__(parent, **kwargs)
         self.processing_tab = processing_tab
@@ -92,24 +93,13 @@ class CapteursManager(ctk.CTkFrame):
             self.capteurs_container.update_idletasks()
 
     def valider_capteurs(self):
+        values = [capteur.get_values() for capteur in self.capteurs]
         try:
-            values = [capteur.get_values() for capteur in self.capteurs]
-            if any(not nom or not debut for nom, debut in values):
-                raise ValueError(_("All sensors must have a name and start line."))
-            for nom, debut in values:
-                if not re.match(r'^[a-zA-Z0-9_]+$', nom):
-                    raise ValueError(_("Sensor name '{}' is invalid.").format(nom))
-                if not debut.isdigit():
-                    raise ValueError(_("Start line '{}' must be a number.").format(debut))
-            logger.info(_("Sensors validated successfully: {}").format(
-                ", ".join(f"{nom} (start: {debut})" for nom, debut in values)
-            ))
-            self.processing_tab.set_state("capteurs_valides", True)
+            self.processing_tab.controller.validate_sensors(values)
             self.status_label.configure(text="✅")
         except ValueError as e:
             logger.error(str(e))
             messagebox.showerror(_("Validation Error"), str(e))
-            self.processing_tab.set_state("capteurs_valides", False)
             self.status_label.configure(text="❌")
         self.processing_tab.update_pdf_button()
 
@@ -118,8 +108,8 @@ class CapteursManager(ctk.CTkFrame):
             capteur.destroy()
         self.capteurs = [self.capteurs[0]]
         self.capteurs[0].reset()
-        self.processing_tab.set_state("capteurs_valides", False)
         self.status_label.configure(text="❌")
+        self.processing_tab.controller.model.reset_validations()
         self.processing_tab.update_pdf_button()
 
     def refresh(self):
@@ -132,37 +122,32 @@ class CapteursManager(ctk.CTkFrame):
                 capteur.delete_button.configure(text="🗑️ " + _("Delete"))
 
 class ProcessingTab(ctk.CTkScrollableFrame):
-    """Onglet Processing avec trigramme, capteurs, unités, coefficients, liste de fichiers et graphiques."""
-    def __init__(self, parent, load_csv_callback):
+    def __init__(self, parent, controller, load_csv_callback):
         super().__init__(parent)
         self.configure(fg_color=("gray90", "gray13"), corner_radius=0)
+        self.controller = controller
         self.load_csv_callback = load_csv_callback
-        self.state = {
-            "trigramme_valide": False,
-            "capteurs_valides": False,
-            "unites_valides": False,
-            "coefficients_valides": False
-        }
         self.current_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../../"))
         logger.info(f"Chemin du dossier Sensorem : {self.current_dir}")
         if not os.path.exists(self.current_dir):
             logger.error(f"Dossier Sensorem non trouvé : {self.current_dir}")
-        self.selected_file_index = None  # Stocker l'index sélectionné
-        self._processing_selection = False  # Garde contre les boucles
+        self.selected_file_index = None
+        self._processing_selection = False
         self.create_widgets()
         self.place_widgets()
         self.afficher_liste_fichiers()
         self.after(200, self.initialiser_selection_listbox)
 
-    def set_state(self, key, value):
-        self.state[key] = value
-        self.update_status_labels()
-
-    def get_state(self, key):
-        return self.state.get(key)
+    def update_status_labels(self, trigram_valid, sensors_valid, units_valid, coefficients_valid):
+        logger.debug(
+            f"Updating status labels: trigram={trigram_valid}, sensors={sensors_valid}, units={units_valid}, coefficients={coefficients_valid}")
+        self.trigramme_status.configure(text="✅" if trigram_valid else "❌")
+        self.capteurs_manager.status_label.configure(text="✅" if sensors_valid else "❌")
+        self.unites_status.configure(text="✅" if units_valid else "❌")
+        self.coefficients_status.configure(text="✅" if coefficients_valid else "❌")
 
     def create_widgets(self):
-        title_font = ("Roboto", 18, "bold")  # Augmenté à 18 pour plus de lisibilité
+        title_font = ("Roboto", 18, "bold")
         bg_color = ("gray85", "gray25")
 
         self.canvas = ctk.CTkCanvas(self)
@@ -342,8 +327,8 @@ class ProcessingTab(ctk.CTkScrollableFrame):
 
     def afficher_liste_fichiers(self):
         self.files_listbox.delete(0, tk.END)
-        for fichier in glob.glob(os.path.join(self.current_dir, "*.csv")):
-            self.files_listbox.insert(tk.END, os.path.basename(fichier))
+        for fichier in self.controller.list_csv_files():
+            self.files_listbox.insert(tk.END, fichier)
         if not self.files_listbox.get(0, tk.END):
             logger.warning(_("No CSV files found in directory: {}").format(self.current_dir))
 
@@ -400,74 +385,59 @@ class ProcessingTab(ctk.CTkScrollableFrame):
             selected_file = self.nom_fichier_selectionne()
             if selected_file:
                 logger.info(_("File selected: {}").format(selected_file))
-                resultat = self.traitement_fichier(selected_file)
-                self.treatment_text.configure(state="normal")
-                self.treatment_text.delete("1.0", "end")
-                self.treatment_text.insert("1.0", resultat)
-                self.treatment_text.configure(state="disabled")
+                try:
+                    self.load_csv_callback(selected_file)  # Passer le nom du fichier
+                    resultat = _("File loaded successfully: {}").format(selected_file)
+                    self.treatment_text.configure(state="normal")
+                    self.treatment_text.delete("1.0", "end")
+                    self.treatment_text.insert("1.0", resultat)
+                    self.treatment_text.configure(state="disabled")
+                except Exception as e:
+                    logger.error(_("Error loading file: {}").format(str(e)))
+                    messagebox.showerror(_("Error"), _("Error loading file: {}").format(str(e)))
             else:
                 logger.debug(_("No file selected for processing"))
         finally:
             self._processing_selection = False
             logger.debug(_("Selection event completed"))
 
-    def traitement_fichier(self, fichier):
-        try:
-            resultat = _("Processing file: {}").format(fichier) + "\n"
-            logger.debug(resultat.strip())
-            return resultat
-        except Exception as e:
-            erreur = _("Error processing file: {}").format(str(e))
-            logger.error(erreur)
-            return erreur
-
     def valider_trigramme(self):
-        trigramme = self.trigramme_var.get()
-        if len(trigramme) != 3 or not trigramme.isalpha():
-            logger.error(_("Trigram must be exactly 3 letters."))
-            messagebox.showerror(_("Validation Error"), _("Trigram must be exactly 3 letters."))
+        try:
+            self.controller.validate_trigram(self.trigramme_var.get())
+            self.trigramme_status.configure(text="✅")
+        except ValueError as e:
+            logger.error(str(e))
+            messagebox.showerror(_("Validation Error"), str(e))
             self.trigramme_var.set("Bbu")
-            self.set_state("trigramme_valide", False)
-        else:
-            logger.info(_("Trigram validated: {}").format(trigramme))
-            self.set_state("trigramme_valide", True)
+            self.trigramme_status.configure(text="❌")
         self.update_pdf_button()
 
     def valider_unites(self):
-        unit = self.unit_capteurs_var.get().strip()
-        unit_ref = self.unit_ref_var.get().strip()
-        nom_ref = self.nom_ref_var.get().strip()
-        if not unit or not unit_ref or not nom_ref:
-            logger.error(_("Units and reference name must be provided."))
-            messagebox.showerror(_("Validation Error"), _("Units and reference name must be provided."))
-            self.set_state("unites_valides", False)
-        else:
-            logger.info(_("Units validated: Sensor: {}, Ref: {}, Ref Name: {}").format(unit, unit_ref, nom_ref))
-            self.set_state("unites_valides", True)
+        try:
+            self.controller.validate_units(
+                self.unit_capteurs_var.get().strip(),
+                self.unit_ref_var.get().strip(),
+                self.nom_ref_var.get().strip()
+            )
+            self.unites_status.configure(text="✅")
+        except ValueError as e:
+            logger.error(str(e))
+            messagebox.showerror(_("Validation Error"), str(e))
+            self.unites_status.configure(text="❌")
         self.update_pdf_button()
 
     def valider_coefficients(self):
         try:
-            coef_a = float(self.coef_a_var.get().strip())
-            coef_b = float(self.coef_b_var.get().strip())
-            if coef_a == 0:
-                logger.error(_("Coefficient a cannot be zero."))
-                messagebox.showerror(_("Validation Error"), _("Coefficient a cannot be zero."))
-                self.set_state("coefficients_valides", False)
-            else:
-                logger.info(_("Coefficients validated: a={}, b={}").format(coef_a, coef_b))
-                self.set_state("coefficients_valides", True)
-        except ValueError:
-            logger.error(_("Coefficients must be valid numbers."))
-            messagebox.showerror(_("Validation Error"), _("Coefficients must be valid numbers."))
-            self.set_state("coefficients_valides", False)
+            self.controller.validate_coefficients(
+                self.coef_a_var.get().strip(),
+                self.coef_b_var.get().strip()
+            )
+            self.coefficients_status.configure(text="✅")
+        except ValueError as e:
+            logger.error(str(e))
+            messagebox.showerror(_("Validation Error"), str(e))
+            self.coefficients_status.configure(text="❌")
         self.update_pdf_button()
-
-    def update_status_labels(self):
-        self.trigramme_status.configure(text="✅" if self.state["trigramme_valide"] else "❌")
-        self.unites_status.configure(text="✅" if self.state["unites_valides"] else "❌")
-        self.coefficients_status.configure(text="✅" if self.state["coefficients_valides"] else "❌")
-        self.capteurs_manager.status_label.configure(text="✅" if self.state["capteurs_valides"] else "❌")
 
     def update_pdf_button(self):
         pass  # À implémenter plus tard
@@ -494,4 +464,3 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         self.graph2_label.configure(text=_("Graph 2 Placeholder"))
         self.capteurs_manager.refresh()
         self.afficher_liste_fichiers()
-        self.after(200, self.initialiser_selection_listbox)

@@ -1,4 +1,4 @@
-Rapport du 2025-04-23 22:12:34:
+Rapport du 2025-04-26 20:46:47:
 
 Sensorem/
 ├── REAME.md
@@ -21,10 +21,12 @@ Sensorem/
 │   ├── locale/
 │   │   ├── en/
 │   │   │   └── LC_messages/
+│   │   │       ├── messages - Copie.po
 │   │   │       ├── messages.mo
 │   │   │       ├── messages.po
 │   │   └── fr/
 │   │       └── LC_messages/
+│   │           ├── messages - Copie.po
 │   │           ├── messages.mo
 │   │           ├── messages.po
 │   ├── models/
@@ -41,10 +43,11 @@ Sensorem/
 │   ├── tests/
 │   │   ├── __init__.py
 │   │   ├── test_gettext.py
+│   │   ├── test_main_controller.py
 │   ├── utils/
 │   │   ├── Add missing_translationFromTheScripts.bat
 │   │   ├── __init__.py
-│   │   ├── compil_translation.bat
+│   │   ├── compile_translation.bat
 │   │   ├── compile_translations.py
 │   │   ├── constants.py
 │   │   ├── extract_translations.py
@@ -52,6 +55,7 @@ Sensorem/
 │   │   ├── i18n.py
 │   │   ├── log_manager.py
 │   │   ├── logger.py
+│   │   ├── translation_cache.json
 │   │   ├── validate_translations.py
 │   └── views/
 │       ├── __init__.py

@@ -87,9 +87,6 @@ msgstr "Restauration de la sélection : index={}"
 msgid "Selection restored to index {}"
 msgstr "Sélection restaurée à l'index {}"
 
-msgid "Quit"
-msgstr "Quitter"
-
 msgid "Trigram"
 msgstr "Trigramme"
 
@@ -217,3 +214,44 @@ msgstr "Aucune sélection à restaurer ou index invalide"
 #AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 363
 msgid "Restoration blocked: _processing_selection is True"
 msgstr "Restauration bloquée : _processing_selection est True"
+#AUTOMATICALLY ADDED from : ../views/main_window.py, line 71
+#AUTOMATICALLY ADDED from : ../views/main_window.py, line 72
+msgid "English"
+msgstr ""
+
+#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 392
+#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 393
+msgid "Error loading file: {}"
+msgstr ""
+
+#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 386
+msgid "File loaded successfully: {}"
+msgstr "Fichier chargé avec succès"
+
+#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 95
+#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 96
+msgid "File not found: {}"
+msgstr ""
+
+#AUTOMATICALLY ADDED from : ../views/main_window.py, line 71
+#AUTOMATICALLY ADDED from : ../views/main_window.py, line 72
+msgid "Français"
+msgstr ""
+
+#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 98
+#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 99
+msgid "Invalid CSV format: {}"
+msgstr ""
+
+#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 18
+#AUTOMATICALLY ADDED from : ../views/main_window.py, line 55
+msgid "Logs"
+msgstr ""
+
+#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 88
+msgid "No file selected"
+msgstr ""
+
+#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 87
+msgid "No file selected for loading"
+msgstr ""

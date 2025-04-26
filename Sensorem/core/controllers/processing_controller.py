@@ -2,7 +2,8 @@
 import tkinter as tk
 from tkinter import messagebox
 from ..utils.i18n import _
-from ..utils.logger import logger
+import logging
+logger = logging.getLogger('Sensorem')
 
 class ProcessingController:
     def __init__(self, view, model, load_csv_callback):
@@ -95,6 +96,7 @@ class ProcessingController:
                 self.view.treatment_text.delete("1.0", "end")
                 self.view.treatment_text.insert("1.0", resultat)
                 self.view.treatment_text.configure(state="disabled")
+                # Appeler le callback pour stocker dans DataModel
                 self.load_csv_callback(selected_file)
             else:
                 logger.debug(_("No file selected for processing"))
@@ -140,8 +142,3 @@ class ProcessingController:
         self.view.unites_status.configure(text="✅" if self.model.state["unites_valides"] else "❌")
         self.view.coefficients_status.configure(text="✅" if self.model.state["coefficients_valides"] else "❌")
         self.view.capteurs_manager.status_label.configure(text="✅" if self.model.state["capteurs_valides"] else "❌")
-
-    def refresh(self):
-        """Rafraîchir l'onglet après un changement de langue."""
-        self.view.refresh()
-        self.refresh_file_list()

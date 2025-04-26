@@ -4,7 +4,8 @@ import os
 import sys
 from pathlib import Path
 import importlib
-from core.utils.logger import logger
+import logging
+logger = logging.getLogger('Sensorem')
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 if str(BASE_DIR) not in sys.path:

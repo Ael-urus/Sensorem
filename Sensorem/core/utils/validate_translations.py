@@ -33,7 +33,8 @@ if not (BASE_DIR / 'core').exists():
     sys.exit(1)
 
 try:
-    from core.utils.logger import logger
+    import logging
+    logger = logging.getLogger('Sensorem')
 except ImportError as e:
     print(f"Erreur : Impossible d'importer core.utils.logger : {e}")
     sys.exit(1)
