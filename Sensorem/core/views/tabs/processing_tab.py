@@ -6,182 +6,23 @@ import glob
 from tkinter import messagebox
 import tkinter as tk
 from ...utils.i18n import _
+from ..components.capteurs_manager import CapteursManager
 import logging
 
 logger = logging.getLogger('Sensorem')
 
 # Define standard fonts
 STANDARD_FONT = ("Roboto", 12)
-LISTBOX_FONT = ("Roboto", 13)  # Augmenté à 13 pour correspondre visuellement à ctk.CTkLabel
+LISTBOX_FONT = ("Roboto", 13)
 TITLE_FONT = ("Roboto", 18, "bold")
 SUBTITLE_FONT = ("Roboto", 14, "bold")
 
 # Define padding constants
-PADDING_SECTION_Y = 20  # Vertical padding between main sections
-PADDING_FRAME_X = 5     # Horizontal padding around frames within sections
-PADDING_FRAME_Y = 5     # Vertical padding around frames within sections (nouveau)
-PADDING_WIDGET_X = 5    # Horizontal padding around widgets within frames
-PADDING_WIDGET_Y = 5    # Vertical padding around widgets within frames
-
-
-class CapteurFrame(ctk.CTkFrame):
-    def __init__(self, master, capteurs_manager, is_first=False, **kwargs):
-        super().__init__(master, **kwargs)
-        self.capteurs_manager = capteurs_manager
-        self.nom_var = ctk.StringVar()
-        self.debut_var = ctk.StringVar()
-        self.is_first = is_first
-        self.create_widgets()
-        self.place_widgets()
-
-    def create_widgets(self):
-        self.nom_label = ctk.CTkLabel(self, text=_("Sensor Name:"), font=STANDARD_FONT, wraplength=100)
-        self.nom_entry = ctk.CTkEntry(self, textvariable=self.nom_var, width=100, font=STANDARD_FONT)
-        self.nom_entry.bind("<FocusIn>", self.capteurs_manager.processing_tab.restore_file_selection)
-        self.debut_label = ctk.CTkLabel(self, text=_("Start Line:"), font=STANDARD_FONT)
-        self.debut_entry = ctk.CTkEntry(self, textvariable=self.debut_var, width=100, font=STANDARD_FONT)
-        self.debut_entry.bind("<FocusIn>", self.capteurs_manager.processing_tab.restore_file_selection)
-        if not self.is_first:
-            self.delete_button = ctk.CTkButton(self, text="🗑️ " + _("Delete"), command=self.supprimer, width=70, font=STANDARD_FONT)
-
-    def place_widgets(self):
-        self.grid_columnconfigure(0, weight=0)
-        self.grid_columnconfigure(1, weight=1)
-        self.grid_columnconfigure(2, weight=0)
-        self.grid_columnconfigure(3, weight=1)
-        if not self.is_first:
-            self.grid_columnconfigure(4, weight=0)
-
-        self.nom_label.grid(row=0, column=0, padx=(PADDING_WIDGET_X, PADDING_WIDGET_X), pady=PADDING_WIDGET_Y, sticky="w")
-        self.nom_entry.grid(row=0, column=1, padx=(0, PADDING_WIDGET_X), pady=PADDING_WIDGET_Y, sticky="w")
-        self.debut_label.grid(row=0, column=2, padx=(PADDING_WIDGET_X, PADDING_WIDGET_X), pady=PADDING_WIDGET_Y, sticky="w")
-        self.debut_entry.grid(row=0, column=3, padx=(0, PADDING_WIDGET_X), pady=PADDING_WIDGET_Y, sticky="w")
-        if not self.is_first:
-            self.delete_button.grid(row=0, column=4, padx=PADDING_WIDGET_X, pady=PADDING_WIDGET_Y, sticky="w")
-
-
-    def supprimer(self):
-        self.capteurs_manager.remove_capteur(self)
-
-    def get_values(self):
-        return self.nom_var.get(), self.debut_var.get()
-
-    def set_values(self, nom, debut):
-        self.nom_var.set(nom)
-        self.debut_var.set(debut)
-
-    def reset(self):
-        self.set_values("", "")
-
-    def refresh(self):
-        self.nom_label.configure(text=_("Sensor Name:"))
-        self.debut_label.configure(text=_("Start Line:"))
-        if not self.is_first:
-            self.delete_button.configure(text="🗑️ " + _("Delete"))
-
-
-class CapteursManager(ctk.CTkFrame):
-    def __init__(self, parent, processing_tab, **kwargs):
-        super().__init__(parent, **kwargs)
-        self.processing_tab = processing_tab
-        self.capteurs = []
-        self.create_widgets()
-        self.add_capteur("H_1", "5", is_first=True)
-
-    def create_widgets(self):
-        # Frame pour les boutons
-        self.button_frame = ctk.CTkFrame(self, width=400, fg_color="transparent")
-        self.button_frame.pack(fill="x", padx=PADDING_FRAME_X, pady=(PADDING_FRAME_Y, 0))
-        self.add_button = ctk.CTkButton(self.button_frame, text=_("Add Sensor"), command=lambda: self.add_capteur(), font=STANDARD_FONT, width=120)
-        self.add_button.pack(side="left", padx=(PADDING_WIDGET_X, PADDING_WIDGET_X))
-        self.validate_button = ctk.CTkButton(self.button_frame, text=_("Validate Sensors"), command=self.valider_capteurs, font=STANDARD_FONT, width=120)
-        self.validate_button.pack(side="left", padx=PADDING_WIDGET_X)
-        self.status_label = ctk.CTkLabel(self.button_frame, text="❌", font=STANDARD_FONT)
-        self.status_label.pack(side="left", padx=PADDING_WIDGET_X)
-
-        # Frame pour contenir le Canvas et les barres de défilement
-        self.scroll_container = ctk.CTkFrame(self, fg_color="transparent")
-        self.scroll_container.pack(fill="both", expand=True, padx=PADDING_FRAME_X, pady=(0, PADDING_FRAME_Y))
-
-        # Canvas pour le contenu défilant
-        self.canvas = tk.Canvas(self.scroll_container, highlightthickness=0, width=400)
-        self.v_scrollbar = ctk.CTkScrollbar(self.scroll_container, orientation="vertical", command=self.canvas.yview)
-        self.h_scrollbar = ctk.CTkScrollbar(self.scroll_container, orientation="horizontal", command=self.canvas.xview)
-        self.canvas.configure(yscrollcommand=self.v_scrollbar.set, xscrollcommand=self.h_scrollbar.set)
-
-        # Frame interne pour contenir les CapteurFrame
-        self.capteurs_container = ctk.CTkFrame(self.canvas, fg_color="transparent", width=400)
-        self.canvas_frame_id = self.canvas.create_window((0, 0), window=self.capteurs_container, anchor="nw")
-
-        # Configuration de la grille pour le scroll_container
-        self.scroll_container.grid_columnconfigure(0, weight=1)
-        self.scroll_container.grid_rowconfigure(0, weight=1)
-        self.canvas.grid(row=0, column=0, sticky="nsew", padx=PADDING_FRAME_X, pady=PADDING_FRAME_Y)  # Ajout de padding pour la bordure
-        self.v_scrollbar.grid(row=0, column=1, sticky="ns")
-        self.h_scrollbar.grid(row=1, column=0, sticky="ew")
-
-        # Lier la mise à jour de la région de défilement
-        self.capteurs_container.bind("<Configure>", self.update_scrollregion)
-        self.canvas.bind("<Configure>", self.update_canvas_width)
-
-    def update_scrollregion(self, event=None):
-        self.canvas.configure(scrollregion=(0, 0, self.capteurs_container.winfo_reqwidth(), self.capteurs_container.winfo_reqheight()))
-
-    def update_canvas_width(self, event=None):
-        canvas_width = max(self.canvas.winfo_width(), self.capteurs_container.winfo_reqwidth(), 400)
-        self.canvas.itemconfig(self.canvas_frame_id, width=canvas_width)
-
-    def add_capteur(self, nom="", debut="", is_first=False):
-        capteur = CapteurFrame(self.capteurs_container, self, is_first=is_first)
-        row_num = len(self.capteurs)
-        capteur.grid(row=row_num, column=0, padx=PADDING_FRAME_X, pady=PADDING_FRAME_Y, sticky="ew")
-        self.capteurs.append(capteur)
-        if nom or debut:
-            capteur.set_values(nom, debut)
-        self.update_scrollregion()
-
-    def remove_capteur(self, capteur):
-        if capteur != self.capteurs[0]:
-            self.capteurs.remove(capteur)
-            capteur.destroy()
-            for i, remaining_capteur in enumerate(self.capteurs):
-                remaining_capteur.grid(row=i, column=0, padx=PADDING_FRAME_X, pady=PADDING_FRAME_Y, sticky="ew")
-            self.update_scrollregion()
-
-    def valider_capteurs(self):
-        values = [capteur.get_values() for capteur in self.capteurs]
-        try:
-            for nom, debut in values:
-                if not nom or not debut.isdigit():
-                    raise ValueError(_("Sensor name and start line must be non-empty and start line must be a number"))
-            self.status_label.configure(text="✅")
-            self.processing_tab.update_status_labels(
-                self.processing_tab.trigramme_status.cget("text") == "✅",
-                True,
-                self.processing_tab.unites_status.cget("text") == "✅",
-                self.processing_tab.coefficients_status.cget("text") == "✅"
-            )
-        except ValueError as e:
-            logger.error(str(e))
-            messagebox.showerror(_("Validation Error"), str(e))
-            self.status_label.configure(text="❌")
-        self.processing_tab.update_pdf_button()
-
-    def reset_capteurs(self):
-        for capteur in self.capteurs[1:]:
-            capteur.destroy()
-        self.capteurs = [self.capteurs[0]]
-        self.capteurs[0].reset()
-        self.status_label.configure(text="❌")
-        self.update_scrollregion()
-
-    def refresh(self):
-        self.add_button.configure(text=_("Add Sensor"))
-        self.validate_button.configure(text=_("Validate Sensors"))
-        self.status_label.configure(text=self.status_label.cget("text"))
-        for capteur in self.capteurs:
-            capteur.refresh()
-        self.update_scrollregion()
+PADDING_SECTION_Y = 20
+PADDING_FRAME_X = 5
+PADDING_FRAME_Y = 5
+PADDING_WIDGET_X = 5
+PADDING_WIDGET_Y = 5
 
 
 class ProcessingTab(ctk.CTkScrollableFrame):
@@ -288,7 +129,7 @@ class ProcessingTab(ctk.CTkScrollableFrame):
             fg=ctk.CTkLabel(self).cget("text_color")[0],
             yscrollcommand=self.files_list_v_scrollbar.set,
             xscrollcommand=self.files_list_h_scrollbar.set,
-            font=LISTBOX_FONT  # Utilisation de LISTBOX_FONT
+            font=LISTBOX_FONT
         )
         self.files_list_v_scrollbar.configure(command=self.files_listbox.yview)
         self.files_list_h_scrollbar.configure(command=self.files_listbox.xview)
@@ -503,8 +344,8 @@ class ProcessingTab(ctk.CTkScrollableFrame):
     def valider_trigramme(self):
         try:
             trigram = self.trigramme_var.get().strip()
-            if not re.match(r"^[A-Za-z0-9_]{1,5}$", trigram):
-                raise ValueError(_("Trigram must be 1-5 characters long and contain only letters, numbers, or underscores"))
+            if not re.match(r"^[A-Za-z]{3}$", trigram):
+                raise ValueError(_("Trigram must be exactly 3 letters"))
             self.trigramme_status.configure(text="✅")
             self.update_status_labels(
                 True,
