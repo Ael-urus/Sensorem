@@ -1,11 +1,11 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Sensorem\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-19 12:00+0000\n"
-"PO-Revision-Date: 2025-04-23 23:17+0200\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
 "Last-Translator: \n"
-"Language-Team: English\n"
+"Language-Team: Aelurus\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,23 +24,11 @@ msgstr "Database"
 msgid "Welcome to the Database tab"
 msgstr "Welcome to the Database tab"
 
-msgid "Interface initialized"
-msgstr "Interface initialized"
-
-msgid "CSV loaded: {}, {} rows"
-msgstr "CSV loaded: {}, {} rows"
-
-msgid "Error loading CSV: {}"
-msgstr "Error loading CSV: {}"
-
 msgid "Error"
 msgstr "Error"
 
 msgid "No file selected in the list"
 msgstr "No file selected in the list"
-
-msgid "Error processing file: {}"
-msgstr "Error processing file: {}"
 
 msgid "Processing file: {}"
 msgstr "Processing file: {}"
@@ -63,8 +51,12 @@ msgstr "Sensors validated successfully: {}"
 msgid "Units validated: Sensor: {}, Ref: {}, Ref Name: {}"
 msgstr "Units validated: Sensor: {}, Ref: {}, Ref Name: {}"
 
+# MODIFIED: msgstr adjusted to match msgid
 msgid "Coefficients validated: a={}, b={}"
 msgstr "Coefficients validated: a={}, b={}"
+
+msgid "Coefficients validated: {}, {}"
+msgstr "Coefficients validated: {}, {}"
 
 msgid "Returning to previous selection: index={}"
 msgstr "Returning to previous selection: index={}"
@@ -117,11 +109,11 @@ msgstr "Delete"
 msgid "Units"
 msgstr "Units"
 
-msgid "Unit (Sensor):"
-msgstr "Unit (Sensor):"
-
 msgid "Unit (Ref Sensor):"
 msgstr "Unit (Ref Sensor):"
+
+msgid "Unit (Sensor):"
+msgstr "Unit (Sensor):"
 
 msgid "Name (Ref Sensor):"
 msgstr "Name (Ref Sensor):"
@@ -132,39 +124,36 @@ msgstr "Validate Units"
 msgid "Coefficients"
 msgstr "Coefficients"
 
-msgid "Reference Sensor Conversion Coefficients"
-msgstr "Reference Sensor Conversion Coefficients"
-
-msgid "Coefficient a:"
-msgstr "Coefficient a:"
-
-msgid "Coefficient b:"
-msgstr "Coefficient b:"
+msgid "Validate Coefficients"
+msgstr "Validate Coefficients"
 
 msgid "Invalid coefficients."
 msgstr "Invalid coefficients."
 
-msgid "Validate Coefficients"
-msgstr "Validate Coefficients"
+msgid "Reference Sensor Conversion Coefficients"
+msgstr "Reference Sensor Conversion Coefficients"
 
-msgid "List of Files:"
-msgstr "List of Files:"
+msgid "Coefficient b:"
+msgstr "Coefficient b:"
 
-msgid "File Processing:"
-msgstr "File Processing:"
+msgid "Coefficient a:"
+msgstr "Coefficient a:"
 
 msgid "Graphs"
 msgstr "Graphs"
 
-msgid "Graph 1 Placeholder"
-msgstr "Graph 1 Placeholder"
-
 msgid "Graph 2 Placeholder"
 msgstr "Graph 2 Placeholder"
 
+msgid "Graph 1 Placeholder"
+msgstr "Graph 1 Placeholder"
+
 # Messages d'erreur
-msgid "Trigram must be exactly 3 letters."
-msgstr "Trigram must be exactly 3 letters."
+msgid "Start line '{}' must be a number."
+msgstr "Start line '{}' must be a number."
+
+msgid "Start line must be a number"
+msgstr "Start line must be a number"
 
 msgid "All sensors must have a name and start line."
 msgstr "All sensors must have a name and start line."
@@ -172,8 +161,12 @@ msgstr "All sensors must have a name and start line."
 msgid "Sensor name '{}' is invalid."
 msgstr "Sensor name '{}' is invalid."
 
-msgid "Start line '{}' must be a number."
-msgstr "Start line '{}' must be a number."
+# MODIFIED: msgstr adjusted to match msgid
+msgid "Coefficients must be valid numbers."
+msgstr "Coefficients must be valid numbers."
+
+msgid "Coefficients must be numbers"
+msgstr "Coefficients must be numbers"
 
 msgid "Units and reference name must be provided."
 msgstr "Units and reference name must be provided."
@@ -181,8 +174,8 @@ msgstr "Units and reference name must be provided."
 msgid "Coefficient a cannot be zero."
 msgstr "Coefficient a cannot be zero."
 
-msgid "Coefficients must be valid numbers."
-msgstr "Coefficients must be valid numbers."
+msgid "Restoration blocked: _processing_selection is True"
+msgstr "Restoration blocked: _processing_selection is True"
 
 msgid "No Selection"
 msgstr "No Selection"
@@ -193,65 +186,170 @@ msgstr "Please select a file from the list."
 msgid "Validation Error"
 msgstr "Validation Error"
 
+msgid "Event blocked: _processing_selection is True"
+msgstr "Event blocked: _processing_selection is True"
+
 msgid "No CSV files found in directory: {}"
 msgstr "No CSV files found in directory: {}"
 
-#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 75
-#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 396
-msgid "Event blocked: _processing_selection is True"
-msgstr ""
-
-#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 134
-msgid "Invalid sensor configuration."
-msgstr ""
-
-#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 69
-#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 376
-msgid "No selection to restore or invalid index"
-msgstr ""
-
-#AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 56
-#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 363
-msgid "Restoration blocked: _processing_selection is True"
-msgstr ""
-#AUTOMATICALLY ADDED from : ../views/main_window.py, line 71
-#AUTOMATICALLY ADDED from : ../views/main_window.py, line 72
-msgid "English"
-msgstr ""
-
-#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 392
-#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 393
-msgid "Error loading file: {}"
-msgstr ""
-
-#AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 386
+# AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 75
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 396
 msgid "File loaded successfully: {}"
-msgstr ""
+msgstr "File loaded successfully: {}"
 
-#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 95
-#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 96
+# AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 134
+msgid "File selected successfully: {}"
+msgstr "File selected successfully: {}"
+
+# AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 69
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 376
+msgid "No selection to restore or invalid index"
+msgstr "No selection to restore or invalid index"
+
+# AUTOMATICALLY ADDED from : ../views/main_window.py, line 71
+# AUTOMATICALLY ADDED from : ../views/main_window.py, line 72
+msgid "English"
+msgstr "English"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 95
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 96
 msgid "File not found: {}"
-msgstr ""
+msgstr "File not found: {}"
 
-#AUTOMATICALLY ADDED from : ../views/main_window.py, line 71
-#AUTOMATICALLY ADDED from : ../views/main_window.py, line 72
+# AUTOMATICALLY ADDED from : ../views/main_window.py, line 71
+# AUTOMATICALLY ADDED from : ../views/main_window.py, line 72
 msgid "Français"
-msgstr ""
+msgstr "Français"
 
-#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 98
-#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 99
-msgid "Invalid CSV format: {}"
-msgstr ""
-
-#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 18
-#AUTOMATICALLY ADDED from : ../views/main_window.py, line 55
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 98
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 99
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 18
+# AUTOMATICALLY ADDED from : ../views/main_window.py, line 55
 msgid "Logs"
-msgstr ""
+msgstr "Logs"
 
-#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 88
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 88
 msgid "No file selected"
-msgstr ""
+msgstr "No file selected"
 
-#AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 87
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 87
 msgid "No file selected for loading"
+msgstr "No file selected for loading"
+
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 369
+msgid "All unit fields must be non-empty"
+msgstr "All unit fields must be non-empty"
+
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 407
+msgid "All validations passed. PDF generation enabled."
+msgstr "All validations passed. PDF generation enabled."
+
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 117
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 433
+msgid "Available Files:"
+msgstr "Available Files:"
+
+# AUTOMATICALLY ADDED from : ../views/tabs/logs_tab.py, line 33
+# AUTOMATICALLY ADDED from : ../views/tabs/logs_tab.py, line 55
+msgid "Clear Logs"
+msgstr "Clear Logs"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 56
+msgid "Directory not found: {}"
+msgstr "Directory not found: {}"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 59
+msgid "Error listing CSV files: {}"
+msgstr "Error listing CSV files: {}"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 44
+msgid "Error selecting file: {}"
+msgstr "Error selecting file: {}"
+
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 115
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 432
+msgid "Files and Processing"
+msgstr "Files and Processing"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 53
+msgid "Found {} CSV files in {}"
+msgstr "Found {} CSV files in {}"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 118
+msgid "Invalid coefficients: {}, {}"
+msgstr "Invalid coefficients: {}, {}"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 79
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 80
+msgid "Invalid sensors format"
+msgstr "Invalid sensors format"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 85
+msgid "Invalid start line for sensor {}: {}"
+msgstr "Invalid start line for sensor {}: {}"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 64
+msgid "Invalid trigram: {}"
+msgstr "Invalid trigram: {}"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 100
+msgid "Invalid units or reference name"
+msgstr "Invalid units or reference name"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 136
+msgid "Language changed to {}"
+msgstr "Language changed to {}"
+
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 292
+msgid "Previous selected index is no longer valid."
+msgstr "Previous selected index is no longer valid."
+
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 136
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 434
+msgid "Processing Output:"
+msgstr "Processing Output:"
+
+# AUTOMATICALLY ADDED from : ../views/main_window.py, line 42
+# AUTOMATICALLY ADDED from : ../views/main_window.py, line 79
+msgid "Quit"
+msgstr "Quit"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 88
+msgid "Sensors validated: {}"
+msgstr "Sensors validated: {}"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 101
+msgid "Units and reference name must be non-empty strings"
+msgstr "Units and reference name must be non-empty strings"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 103
+msgid "Units validated: {}, {}, {}"
+msgstr "Units validated: {}, {}, {}"
+
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 140
+# AUTOMATICALLY ADDED from : ../controllers/main_controller.py, line 141
+msgid "Unsupported language: {}"
+msgstr "Unsupported language: {}"
+
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 409
+msgid "Validations pending. PDF generation disabled."
+msgstr "Validations pending. PDF generation disabled."
+
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 324
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 325
+# AUTOMATICALLY ADDED from : ../views/tabs/processing_tab.py, line 328
+msgid "Error loading file: {}"
+msgstr "Error loading file: {}"
+
+# AUTOMATICALLY ADDED from : ../controllers/processing_controller.py, line 112
+# AUTOMATICALLY ADDED from : ../models/processing_model.py, line 37
+msgid "Trigram must be exactly 3 letters"
+msgstr "Trigram must be exactly 3 letters"
+
+msgid "Invalid sensor configuration."
+msgstr "Invalid sensor configuration."
+
+msgid ""
+"Sensor name and start line must be non-empty and start line must be a number"
 msgstr ""
+"Sensor name and start line must be non-empty and start line must be a number"

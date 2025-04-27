@@ -1,4 +1,4 @@
-Rapport du 2025-04-26 20:46:47:
+Rapport du 2025-04-27 10:57:39:
 
 Sensorem/
 ├── REAME.md
@@ -25,7 +25,7 @@ Sensorem/
 │   │   │       ├── messages.mo
 │   │   │       ├── messages.po
 │   │   └── fr/
-│   │       └── LC_messages/
+│   │       └── LC_MESSAGES/
 │   │           ├── messages - Copie.po
 │   │           ├── messages.mo
 │   │           ├── messages.po
@@ -45,23 +45,32 @@ Sensorem/
 │   │   ├── test_gettext.py
 │   │   ├── test_main_controller.py
 │   ├── utils/
-│   │   ├── Add missing_translationFromTheScripts.bat
 │   │   ├── __init__.py
-│   │   ├── compile_translation.bat
-│   │   ├── compile_translations.py
 │   │   ├── constants.py
-│   │   ├── extract_translations.py
 │   │   ├── file_utils.py
 │   │   ├── i18n.py
 │   │   ├── log_manager.py
 │   │   ├── logger.py
-│   │   ├── translation_cache.json
-│   │   ├── validate_translations.py
+│   │   └── translations/
+│   │       ├── __init__.py
+│   │       ├── add_language.py
+│   │       ├── compile_translation.bat
+│   │       ├── compile_translations.py
+│   │       ├── constants.py
+│   │       ├── extract_translations.py
+│   │       ├── logger_config.py
+│   │       ├── main_translations.py
+│   │       ├── po_utils.py
+│   │       ├── translation_cache.json
+│   │       ├── validate_translations.py
 │   └── views/
 │       ├── __init__.py
 │       ├── main_window.py
 │       ├── sensor_widgets.py
 │       ├── util.py
+│       ├── components/
+│       │   ├── capteur_frame.py
+│       │   ├── capteurs_manager.py
 │       └── tabs/
 │           ├── __init__.py
 │           ├── db_tab.py
@@ -70,3 +79,4 @@ Sensorem/
 │           ├── processing_tab.py
 ├── data/
 └── logs/
+    ├── translation_duplicates.log

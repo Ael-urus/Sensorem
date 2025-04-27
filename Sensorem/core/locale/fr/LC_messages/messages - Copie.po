@@ -1,11 +1,11 @@
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Sensorem\n"
-"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-04-19 12:00+0000\n"
-"PO-Revision-Date: 2025-04-19 21:36+0200\n"
+"PO-Revision-Date: 2025-04-27 10:37+0200\n"
 "Last-Translator: \n"
-"Language-Team: French\n"
+"Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -13,7 +13,7 @@ msgstr ""
 "X-Generator: Poedit 3.6\n"
 
 msgid "Sensorem - Sensor Signal Processing"
-msgstr "Sensorem - Traitement des signaux de capteurs"
+msgstr "Sensorem - Traitement des signaux des capteurs"
 
 msgid "Processing"
 msgstr "Traitement"
@@ -21,38 +21,8 @@ msgstr "Traitement"
 msgid "Database"
 msgstr "Base de données"
 
-msgid "Logs"
-msgstr "Journaux"
-
-msgid "Welcome to the Processing tab"
-msgstr "Bienvenue dans l'onglet Traitement"
-
 msgid "Welcome to the Database tab"
 msgstr "Bienvenue dans l'onglet Base de données"
-
-msgid "Welcome to the Logs tab"
-msgstr "Bienvenue dans l'onglet Journaux"
-
-msgid "Interface initialized"
-msgstr "Interface initialisée"
-
-msgid "Language changed: {}"
-msgstr "Changement de langue vers : {}"
-
-msgid "Load CSV"
-msgstr "Charger CSV"
-
-msgid "CSV loaded: {}, {} rows"
-msgstr "CSV chargé : {}, {} lignes"
-
-msgid "Error loading CSV: {}"
-msgstr "Erreur lors du chargement du CSV : {}"
-
-msgid "Hello to Sensorem"
-msgstr "Bonjour à Sensorem"
-
-msgid "text"
-msgstr "texte"
 
 msgid "Error"
 msgstr "Erreur"
@@ -63,53 +33,59 @@ msgstr "Aucun fichier sélectionné dans la liste"
 msgid "Processing file: {}"
 msgstr "Traitement du fichier : {}"
 
+msgid "Error processing file: {}"
+msgstr "Erreur lors du traitement du fichier : {}"
+
 msgid "File selected: {}"
 msgstr "Fichier sélectionné : {}"
 
 msgid "Event triggered: selection"
-msgstr "Événement de sélection déclenché"
+msgstr "Événement déclenché : sélection"
 
 msgid "Checking selected file"
 msgstr "Vérification du fichier sélectionné"
 
-msgid "Return to previous selection: index={}"
-msgstr "Retour à la sélection précédente : index={}"
-
 msgid "Trigram validated: {}"
-msgstr "Trigramme validé : {}"
+msgstr "Trigrame validé : {}"
 
-msgid "Sensors validated successfully: {} (start: {})"
-msgstr "Capteurs validés avec succès : {} (début : {})"
+msgid "Sensors validated successfully: {}"
+msgstr "Capteurs validés avec succès : {}"
 
-msgid "Units validated: Sensor: [{}], Ref: [{}], Ref Name: {}"
-msgstr "Unités validées : Capteur : [{}], Réf : [{}], Nom Réf : {}"
+msgid "Units validated: Sensor: {}, Ref: {}, Ref Name: {}"
+msgstr "Unités validées : Capteur : {}, Réf : {}, Nom Réf : {}"
 
 msgid "Coefficients validated: a={}, b={}"
 msgstr "Coefficients validés : a={}, b={}"
 
+msgid "Coefficients validated: {}, {}"
+msgstr "Coefficients validés : {}, {}"
+
 msgid "Returning to previous selection: index={}"
 msgstr "Retour à la sélection précédente : index={}"
+
 msgid "Selection event completed"
 msgstr "Événement de sélection terminé"
+
 msgid "No file selected for processing"
-msgstr "Aucun fichier sélectionné pour traitement"
+msgstr "Aucun fichier sélectionné pour le traitement"
+
 msgid "Initializing listbox selection"
-msgstr "Initialisation de la sélection de la listbox"
+msgstr "Initialisation de la sélection de la liste"
+
 msgid "No files to select"
 msgstr "Aucun fichier à sélectionner"
+
 msgid "Restoring selection: index={}"
 msgstr "Restauration de la sélection : index={}"
+
 msgid "Selection restored to index {}"
 msgstr "Sélection restaurée à l'index {}"
 
-msgid "Quit"
-msgstr "Quitter"
-
 msgid "Trigram"
-msgstr "Trigramme"
+msgstr "Trigrame"
 
 msgid "Name (Trigram):"
-msgstr "Nom (Trigramme) :"
+msgstr "Nom (Trigrame) :"
 
 msgid "Validate"
 msgstr "Valider"
@@ -135,14 +111,14 @@ msgstr "Supprimer"
 msgid "Units"
 msgstr "Unités"
 
+msgid "Unit (Ref Sensor):"
+msgstr "Unité (Capteur Réf) :"
+
 msgid "Unit (Sensor):"
 msgstr "Unité (Capteur) :"
 
-msgid "Unit (Ref Sensor):"
-msgstr "Unité (Capteur de référence) :"
-
 msgid "Name (Ref Sensor):"
-msgstr "Nom (Capteur de référence) :"
+msgstr "Nom (Capteur Réf) :"
 
 msgid "Validate Units"
 msgstr "Valider les unités"
@@ -150,36 +126,35 @@ msgstr "Valider les unités"
 msgid "Coefficients"
 msgstr "Coefficients"
 
+msgid "Validate Coefficients"
+msgstr "Valider les coefficients"
+
+msgid "Invalid coefficients."
+msgstr "Coefficients invalides."
+
 msgid "Reference Sensor Conversion Coefficients"
 msgstr "Coefficients de conversion du capteur de référence"
-
-msgid "Coefficient a:"
-msgstr "Coefficient a :"
 
 msgid "Coefficient b:"
 msgstr "Coefficient b :"
 
-msgid "Validate Coefficients"
-msgstr "Valider les coefficients"
-
-msgid "List of Files:"
-msgstr "Liste des fichiers :"
-
-msgid "File Processing:"
-msgstr "Traitement des fichiers :"
+msgid "Coefficient a:"
+msgstr "Coefficient a :"
 
 msgid "Graphs"
 msgstr "Graphiques"
 
-msgid "Graph 1 Placeholder"
-msgstr "Espace réservé pour le graphique 1"
-
 msgid "Graph 2 Placeholder"
-msgstr "Espace réservé pour le graphique 2"
+msgstr "Espace réservé au graphique 2"
 
-# Messages d'erreur
-msgid "Trigram must be exactly 3 letters."
-msgstr "Le trigramme doit contenir exactement 3 lettres."
+msgid "Graph 1 Placeholder"
+msgstr "Espace réservé au graphique 1"
+
+msgid "Start line '{}' must be a number."
+msgstr "La ligne de début '{}' doit être un nombre."
+
+msgid "Start line must be a number"
+msgstr "La ligne de début doit être un nombre"
 
 msgid "All sensors must have a name and start line."
 msgstr "Tous les capteurs doivent avoir un nom et une ligne de début."
@@ -187,8 +162,11 @@ msgstr "Tous les capteurs doivent avoir un nom et une ligne de début."
 msgid "Sensor name '{}' is invalid."
 msgstr "Le nom du capteur '{}' est invalide."
 
-msgid "Start line '{}' must be a number."
-msgstr "La ligne de début '{}' doit être un nombre."
+msgid "Coefficients must be valid numbers."
+msgstr "Les coefficients doivent être des nombres valides."
+
+msgid "Coefficients must be numbers"
+msgstr "Les coefficients doivent être des nombres"
 
 msgid "Units and reference name must be provided."
 msgstr "Les unités et le nom de référence doivent être fournis."
@@ -196,8 +174,8 @@ msgstr "Les unités et le nom de référence doivent être fournis."
 msgid "Coefficient a cannot be zero."
 msgstr "Le coefficient a ne peut pas être zéro."
 
-msgid "Coefficients must be valid numbers."
-msgstr "Les coefficients doivent être des nombres valides."
+msgid "Restoration blocked: _processing_selection is True"
+msgstr "Restauration bloquée : _processing_selection est True"
 
 msgid "No Selection"
 msgstr "Aucune sélection"
@@ -208,5 +186,119 @@ msgstr "Veuillez sélectionner un fichier dans la liste."
 msgid "Validation Error"
 msgstr "Erreur de validation"
 
+msgid "Event blocked: _processing_selection is True"
+msgstr "Événement bloqué : _processing_selection est True"
+
 msgid "No CSV files found in directory: {}"
 msgstr "Aucun fichier CSV trouvé dans le répertoire : {}"
+
+msgid "File loaded successfully: {}"
+msgstr "Fichier chargé avec succès : {}"
+
+msgid "File selected successfully: {}"
+msgstr "Fichier sélectionné avec succès : {}"
+
+msgid "No selection to restore or invalid index"
+msgstr "Aucune sélection à restaurer ou index invalide"
+
+msgid "English"
+msgstr "Anglais"
+
+msgid "File not found: {}"
+msgstr "Fichier introuvable : {}"
+
+msgid "Français"
+msgstr "Français"
+
+msgid "Logs"
+msgstr "Journaux"
+
+msgid "No file selected"
+msgstr "Aucun fichier sélectionné"
+
+msgid "No file selected for loading"
+msgstr "Aucun fichier sélectionné pour le chargement"
+
+msgid "All unit fields must be non-empty"
+msgstr "Tous les champs d'unité doivent être remplis"
+
+msgid "All validations passed. PDF generation enabled."
+msgstr "Toutes les validations ont réussi. Génération de PDF activée."
+
+msgid "Available Files:"
+msgstr "Fichiers disponibles :"
+
+msgid "Clear Logs"
+msgstr "Effacer les journaux"
+
+msgid "Directory not found: {}"
+msgstr "Répertoire introuvable : {}"
+
+msgid "Error listing CSV files: {}"
+msgstr "Erreur lors de la liste des fichiers CSV : {}"
+
+msgid "Error selecting file: {}"
+msgstr "Erreur lors de la sélection du fichier : {}"
+
+msgid "Files and Processing"
+msgstr "Fichiers et Traitement"
+
+msgid "Found {} CSV files in {}"
+msgstr "{} fichiers CSV trouvés dans {}"
+
+msgid "Invalid coefficients: {}, {}"
+msgstr "Coefficients invalides : {}, {}"
+
+msgid "Invalid sensors format"
+msgstr "Format des capteurs invalide"
+
+msgid "Invalid start line for sensor {}: {}"
+msgstr "Ligne de début invalide pour le capteur {} : {}"
+
+msgid "Invalid trigram: {}"
+msgstr "Trigrame invalide : {}"
+
+msgid "Invalid units or reference name"
+msgstr "Unités ou nom de référence invalides"
+
+msgid "Language changed to {}"
+msgstr "Langue changée en {}"
+
+msgid "Previous selected index is no longer valid."
+msgstr "L'index précédemment sélectionné n'est plus valide."
+
+msgid "Processing Output:"
+msgstr "Résultat du traitement :"
+
+msgid "Quit"
+msgstr "Quitter"
+
+msgid "Sensors validated: {}"
+msgstr "Capteurs validés : {}"
+
+msgid "Units and reference name must be non-empty strings"
+msgstr "Les unités et le nom de référence doivent être des chaînes non vides"
+
+msgid "Units validated: {}, {}, {}"
+msgstr "Unités validées : {}, {}, {}"
+
+msgid "Unsupported language: {}"
+msgstr "Langue non prise en charge : {}"
+
+msgid "Validations pending. PDF generation disabled."
+msgstr "Validations en attente. Génération de PDF désactivée."
+
+msgid "Error loading file: {}"
+msgstr "Erreur lors du chargement du fichier : {}"
+
+msgid "Trigram must be exactly 3 letters"
+msgstr "Le trigrame doit comporter exactement 3 lettres"
+
+msgid "Trigram must be exactly 3 letters."
+msgstr "Le trigrame doit comporter exactement 3 lettres."
+
+msgid "Invalid sensor configuration."
+msgstr "Configuration des capteurs invalide."
+
+msgid "Sensor name and start line must be non-empty and start line must be a number"
+msgstr "Le nom du capteur et la ligne de début ne doivent pas être vides, et la ligne de début doit être un nombre"

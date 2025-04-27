@@ -74,7 +74,7 @@ class MainWindow(ctk.CTk):
     def refresh_ui(self):
         logger.debug("Refreshing UI")
         self.title(_("Sensorem - Sensor Signal Processing"))
-        self.language_menu.configure(values=[_("Français"), _("English")])
+        self.language_menu.configure(values=[_("Français"), "English"])# 3english should not be translated to avoid un translation in the gui
         self.language_var.set(_("Français") if self.language_var.get() == "Français" else _("English"))
         self.quit_button.configure(text=_("Quit"))
         for tab_name, tab in self.tabs.items():
