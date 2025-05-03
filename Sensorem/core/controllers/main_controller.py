@@ -14,13 +14,12 @@ class MainController:
         self.model = model
         self.view = None
         self.base_dir = base_dir
-        self.tab_names = [_("Processing"), _("Database"), _("Logs")]
+        self.tab_names = ["Processing", "Database", "Logs"]
 
     def set_view(self, view):
         self.view = view
-        # Initialiser les statuts dans l'onglet Traitement
-        if self.view and hasattr(self.view.tabs[_("Processing")], 'update_status_labels'):
-            self.view.tabs[_("Processing")].update_status_labels(
+        if self.view and hasattr(self.view.tabs.get("Processing"), 'update_status_labels'):
+            self.view.tabs["Processing"].update_status_labels(
                 self.model.trigram_valid,
                 self.model.sensors_valid,
                 self.model.units_valid,
@@ -38,8 +37,7 @@ class MainController:
                 logger.error(_("File not found: {}").format(file_path))
                 raise FileNotFoundError(_("File not found: {}").format(file_path))
             logger.info(_("File selected successfully: {}").format(file_path))
-            if self.view:
-                self.view.refresh_ui()
+            # Suppression de refresh_ui() pour éviter la recréation des onglets
         except Exception as e:
             logger.error(_("Error selecting file: {}").format(str(e)))
             raise
@@ -65,9 +63,8 @@ class MainController:
             raise ValueError(_("Trigram must be exactly 3 letters"))
         self.model.set_trigram(trigram)
         logger.info(_("Trigram validated: {}").format(trigram))
-        # Mettre à jour les statuts
-        if self.view and hasattr(self.view.tabs[_("Processing")], 'update_status_labels'):
-            self.view.tabs[_("Processing")].update_status_labels(
+        if self.view and hasattr(self.view.tabs.get("Processing"), 'update_status_labels'):
+            self.view.tabs["Processing"].update_status_labels(
                 self.model.trigram_valid,
                 self.model.sensors_valid,
                 self.model.units_valid,
@@ -86,9 +83,8 @@ class MainController:
                 raise ValueError(_("Start line must be a number"))
         self.model.set_sensors(sensors)
         logger.info(_("Sensors validated: {}").format(sensors))
-        # Mettre à jour les statuts
-        if self.view and hasattr(self.view.tabs[_("Processing")], 'update_status_labels'):
-            self.view.tabs[_("Processing")].update_status_labels(
+        if self.view and hasattr(self.view.tabs.get("Processing"), 'update_status_labels'):
+            self.view.tabs["Processing"].update_status_labels(
                 self.model.trigram_valid,
                 self.model.sensors_valid,
                 self.model.units_valid,
@@ -101,9 +97,8 @@ class MainController:
             raise ValueError(_("Units and reference name must be non-empty strings"))
         self.model.set_units(unit_sensor, unit_ref, ref_name)
         logger.info(_("Units validated: {}, {}, {}").format(unit_sensor, unit_ref, ref_name))
-        # Mettre à jour les statuts
-        if self.view and hasattr(self.view.tabs[_("Processing")], 'update_status_labels'):
-            self.view.tabs[_("Processing")].update_status_labels(
+        if self.view and hasattr(self.view.tabs.get("Processing"), 'update_status_labels'):
+            self.view.tabs["Processing"].update_status_labels(
                 self.model.trigram_valid,
                 self.model.sensors_valid,
                 self.model.units_valid,
@@ -119,9 +114,8 @@ class MainController:
             raise ValueError(_("Coefficients must be numbers"))
         self.model.set_coefficients(coef_a, coef_b)
         logger.info(_("Coefficients validated: {}, {}").format(coef_a, coef_b))
-        # Mettre à jour les statuts
-        if self.view and hasattr(self.view.tabs[_("Processing")], 'update_status_labels'):
-            self.view.tabs[_("Processing")].update_status_labels(
+        if self.view and hasattr(self.view.tabs.get("Processing"), 'update_status_labels'):
+            self.view.tabs["Processing"].update_status_labels(
                 self.model.trigram_valid,
                 self.model.sensors_valid,
                 self.model.units_valid,

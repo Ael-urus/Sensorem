@@ -1,13 +1,16 @@
-Rapport du 2025-04-27 10:57:39:
+Rapport du 2025-05-03 23:43:47:
 
 Sensorem/
 ├── REAME.md
 ├── Tree.py
 ├── Tree.txt
 ├── __init__.py
+├── config.json
 ├── config.py
 ├── main.py
+├── requirements.py
 ├── requirements.txt
+├── translation_cache.json
 ├── core/
 │   ├── __init__.py
 │   ├── controllers/
@@ -52,6 +55,7 @@ Sensorem/
 │   │   ├── log_manager.py
 │   │   ├── logger.py
 │   │   └── translations/
+│   │       ├── README.md
 │   │       ├── __init__.py
 │   │       ├── add_language.py
 │   │       ├── compile_translation.bat
@@ -63,6 +67,9 @@ Sensorem/
 │   │       ├── po_utils.py
 │   │       ├── translation_cache.json
 │   │       ├── validate_translations.py
+│   │       └── tests/
+│   │           ├── __init__.py
+│   │           ├── test_translations.py
 │   └── views/
 │       ├── __init__.py
 │       ├── main_window.py
