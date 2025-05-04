@@ -1,6 +1,9 @@
-Rapport du 2025-05-03 23:43:47:
+Rapport du 2025-05-04 19:06:46:
 
 Sensorem/
+├── DebudFindeFichier.csv
+├── EtalonV-H24-2024-12-03.csv
+├── EtalonV-H43-H24-20241131.csv
 ├── REAME.md
 ├── Tree.py
 ├── Tree.txt
@@ -10,6 +13,7 @@ Sensorem/
 ├── main.py
 ├── requirements.py
 ├── requirements.txt
+├── sensorem.log
 ├── translation_cache.json
 ├── core/
 │   ├── __init__.py
@@ -84,6 +88,5 @@ Sensorem/
 │           ├── logs_tab.py
 │           ├── new_tab.py
 │           ├── processing_tab.py
-├── data/
 └── logs/
     ├── translation_duplicates.log

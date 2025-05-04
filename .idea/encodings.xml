@@ -2,5 +2,6 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/Sensorem/core/locale/fr/LC_MESSAGES/messages.po" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Sensorem/sensorem.log" charset="US-ASCII" />
   </component>
 </project>

@@ -28,7 +28,7 @@ class LogsTab(ctk.CTkFrame):
         self.create_widgets()
         self.place_widgets()
         self.setup_logging()
-        logging.getLogger('Sensorem').info("DEBUG: Initialisation de LogsTab (2025-04-26)")
+        logging.getLogger('Sensorem').info("Initialisation of LogsTab")
 
     def create_widgets(self):
         self.log_text = ctk.CTkTextbox(self, height=400, state="disabled")
@@ -48,7 +48,7 @@ class LogsTab(ctk.CTkFrame):
         self.log_handler.setLevel(logging.DEBUG)
         logger.addHandler(self.log_handler)
         logger.debug("Logging initialisé pour LogsTab")
-        logger.info("DEBUG: Configuration du logging pour LogsTab (2025-04-26)")
+        logger.info("Configuration du logging pour LogsTab (2025-04-26)")
 
     def disable_logging(self):
         logger = logging.getLogger('Sensorem')
@@ -68,8 +68,8 @@ class LogsTab(ctk.CTkFrame):
         self.log_text.configure(state="normal")
         self.log_text.delete("1.0", END)
         self.log_text.configure(state="disabled")
-        logging.getLogger('Sensorem').info("Logs effacés")
+        logging.getLogger('Sensorem').info(_("Logs erased"))
 
     def refresh(self):
         self.clear_button.configure(text=_("Clear Logs"))
-        logging.getLogger('Sensorem').info("DEBUG: LogsTab rafraîchi (2025-04-26)")
+        logging.getLogger('Sensorem').info(_("LogsTab refreshed"))

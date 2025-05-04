@@ -88,19 +88,14 @@ class CapteursManager(ctk.CTkFrame):
         try:
             for nom, debut in values:
                 if not nom or not debut.isdigit():
-                    raise ValueError(_("Sensor name and start line must be non-empty and start line must be a number"))
-            self.status_label.configure(text="✅")
-            self.processing_tab.update_status_labels(
-                self.processing_tab.trigramme_status.cget("text") == "✅",
-                True,
-                self.processing_tab.unites_status.cget("text") == "✅",
-                self.processing_tab.coefficients_status.cget("text") == "✅"
-            )
+                    raise ValueError(
+                        "Le nom du capteur et la ligne de début doivent être non vides, et la ligne doit être un nombre")
+            self.status_label.configure(text="✅", text_color="green")
+            logger.info("Capteurs validés avec succès")
         except ValueError as e:
-            logger.error(str(e))
-            tk.messagebox.showerror(_("Validation Error"), str(e))
-            self.status_label.configure(text="❌")
-        self.processing_tab.update_pdf_button()
+            logger.error(f"Erreur de validation des capteurs : {str(e)}")
+            tk.messagebox.showerror("Erreur de validation", str(e))
+            self.status_label.configure(text="❌", text_color="red")
 
     def reset_capteurs(self):
         for capteur in self.capteurs[1:]:

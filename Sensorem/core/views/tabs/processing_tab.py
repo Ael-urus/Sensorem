@@ -2,12 +2,12 @@
 import customtkinter as ctk
 import re
 import os
-import glob
 from tkinter import messagebox
 import tkinter as tk
-from ...utils.i18n import _
-from ..components.capteurs_manager import CapteursManager
 import logging
+from core.utils.i18n import _  # Pour la traduction
+from ..components.capteurs_manager import CapteursManager
+
 
 logger = logging.getLogger('Sensorem')
 
@@ -44,12 +44,22 @@ class ProcessingTab(ctk.CTkScrollableFrame):
         self.after(200, self.initialiser_selection_listbox)
 
     def update_status_labels(self, trigram_valid, sensors_valid, units_valid, coefficients_valid):
-        logger.debug(
-            f"Updating status labels: trigram={trigram_valid}, sensors={sensors_valid}, units={units_valid}, coefficients={coefficients_valid}")
-        self.trigramme_status.configure(text="✅" if trigram_valid else "❌")
-        self.capteurs_manager.status_label.configure(text="✅" if sensors_valid else "❌")
-        self.unites_status.configure(text="✅" if units_valid else "❌")
-        self.coefficients_status.configure(text="✅" if coefficients_valid else "❌")
+        self.trigramme_status.configure(
+            text="✅" if trigram_valid else "❌",
+            text_color="green" if trigram_valid else "red"
+        )
+        self.capteurs_manager.status_label.configure(
+            text="✅" if sensors_valid else "❌",
+            text_color="green" if sensors_valid else "red"
+        )
+        self.unites_status.configure(
+            text="✅" if units_valid else "❌",
+            text_color="green" if units_valid else "red"
+        )
+        self.coefficients_status.configure(
+            text="✅" if coefficients_valid else "❌",
+            text_color="green" if coefficients_valid else "red"
+        )
 
     def create_widgets(self):
         bg_color = ("gray85", "gray25")
@@ -353,11 +363,14 @@ class ProcessingTab(ctk.CTkScrollableFrame):
                 self.unites_status.cget("text") == "✅",
                 self.coefficients_status.cget("text") == "✅"
             )
+            logger.info(_("Trigram successfully validated : {}").format(trigram))
         except ValueError as e:
             logger.error(str(e))
-            messagebox.showerror(_("Validation Error"), str(e))
+            messagebox.showerror(_("Trigram validation Error"), str(e))
+            logger.info(_("Trigram validation Error : {}").format(trigram))
             self.trigramme_var.set("Bbu")
             self.trigramme_status.configure(text="❌")
+
         self.update_pdf_button()
 
     def valider_unites(self):
@@ -374,10 +387,13 @@ class ProcessingTab(ctk.CTkScrollableFrame):
                 True,
                 self.coefficients_status.cget("text") == "✅"
             )
+            logger.info(_("Units successfully validated : {}").format(unit_capteur))
         except ValueError as e:
             logger.error(str(e))
-            messagebox.showerror(_("Validation Error"), str(e))
+            messagebox.showerror(_("Units validation Error"), str(e))
+            logger.info(_("Units validation Error : {}").format(unit_capteur))
             self.unites_status.configure(text="❌")
+
         self.update_pdf_button()
 
     def valider_coefficients(self):
@@ -393,9 +409,11 @@ class ProcessingTab(ctk.CTkScrollableFrame):
                 self.unites_status.cget("text") == "✅",
                 True
             )
+            logger.info(_("Coefficients successfully validated : {}").format(coef_a+coef_b))
         except ValueError as e:
             logger.error(str(e))
             messagebox.showerror(_("Validation Error"), str(e))
+            logger.info(_("Coefficients validation Error"))
             self.coefficients_status.configure(text="❌")
         self.update_pdf_button()
 
