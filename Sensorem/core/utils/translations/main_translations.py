@@ -13,22 +13,33 @@ from core.utils.translations.validate_translations import validate_translations
 from core.utils.translations.compile_translations import compile_translations
 from core.utils.translations.add_language import add_language, update_all_languages
 from core.utils.translations.logger_config import setup_logger
+from core.utils.translations.constants import SOURCE_DIR, LOCALE_DIR
 
 
 def main():
     logger = setup_logger("MainTranslations")
     logger.info("Starting translation management...")
 
+    # Utiliser les valeurs de constants.py
+    source_directory = SOURCE_DIR
+
     actions = {
-        "1": ("extract", extract_translations, "Extract translation keys from source code"),
-        "2": ("validate", lambda: validate_translations(interactive=True), "Validate translation files"),
-        "3": ("compile", compile_translations, "Compile translations to MO files"),
+        "1": ("extract", lambda: extract_translations(source_directory, None),
+              "Extract translation keys from source code"),
+        "2": ("validate", lambda: validate_translations(interactive=True),
+              "Validate translation files"),
+        "3": ("compile", compile_translations,
+              "Compile translations to MO files"),
         "4": ("add-lang", lambda: add_language(input("Enter the new language code (e.g., fr): ")),
               "Add a new language"),
-        "5": ("update-langs", update_all_languages, "Update all languages"),
-        "6": ("all", run_all, "Run all steps (extract, validate, compile, update-langs)"),
-        "7": ("exit", lambda: logger.info("Exiting translation management"), "Exit the program"),
-        "9": ("check", check_translations, "Check translations and summarize corrections needed")
+        "5": ("update-langs", update_all_languages,
+              "Update all languages"),
+        "6": ("all", lambda: run_all(source_directory),
+              "Run all steps (extract, validate, compile, update-langs)"),
+        "7": ("exit", lambda: logger.info("Exiting translation management"),
+              "Exit the program"),
+        "9": ("check", check_translations,
+              "Check translations and summarize corrections needed")
     }
 
     while True:
@@ -52,11 +63,11 @@ def main():
             logger.warning("Invalid choice. Please select a valid option.")
 
 
-def run_all():
+def run_all(source_dir):
     logger = setup_logger("MainTranslations")
     logger.info("Running all steps...")
     try:
-        extract_translations()
+        extract_translations(source_dir, None)  # None car le chemin est déterminé dans la fonction
         validate_translations(interactive=True)
         compile_translations()
         update_all_languages()

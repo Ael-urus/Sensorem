@@ -353,3 +353,45 @@ msgid ""
 "Sensor name and start line must be non-empty and start line must be a number"
 msgstr ""
 "Sensor name and start line must be non-empty and start line must be a number"
+
+msgid "Trigram must be exactly 3 letters."
+msgstr "Trigram must be exactly 3 letters."
+
+msgid "Error processing file: {}"
+msgstr "Error processing file: {}"
+
+msgid "string"
+msgstr "string"
+
+msgid "context\", \"string"
+msgstr "context\", \"string"
+
+msgid "Logs erased"
+msgstr "Logs erased"
+
+msgid "LogsTab refreshed"
+msgstr "LogsTab refreshed"
+
+msgid "Trigram successfully validated : {}"
+msgstr "Trigram successfully validated : {}"
+
+msgid "Trigram validation Error"
+msgstr "Trigram validation Error"
+
+msgid "Trigram validation Error : {}"
+msgstr "Trigram validation Error : {}"
+
+msgid "Units successfully validated : {}"
+msgstr "Units successfully validated : {}"
+
+msgid "Units validation Error"
+msgstr "Units validation Error"
+
+msgid "Units validation Error : {}"
+msgstr "Units validation Error : {}"
+
+msgid "Coefficients successfully validated : {}"
+msgstr "Coefficients successfully validated : {}"
+
+msgid "Coefficients validation Error"
+msgstr "Coefficients validation Error"
