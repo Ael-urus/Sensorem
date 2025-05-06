@@ -1,0 +1,92 @@
+Rapport du 2025-05-04 19:06:46:
+
+Sensorem/
+├── DebudFindeFichier.csv
+├── EtalonV-H24-2024-12-03.csv
+├── EtalonV-H43-H24-20241131.csv
+├── REAME.md
+├── Tree.py
+├── Tree.txt
+├── __init__.py
+├── config.json
+├── config.py
+├── main.py
+├── requirements.py
+├── requirements.txt
+├── sensorem.log
+├── translation_cache.json
+├── core/
+│   ├── __init__.py
+│   ├── controllers/
+│   │   ├── __init__.py
+│   │   ├── main_controller.py
+│   │   ├── processing_controller.py
+│   ├── datas/
+│   │   ├── __init__.py
+│   │   ├── csv_handler.py
+│   │   ├── database_manager.py
+│   ├── locale/
+│   │   ├── en/
+│   │   │   └── LC_messages/
+│   │   │       ├── messages - Copie.po
+│   │   │       ├── messages.mo
+│   │   │       ├── messages.po
+│   │   └── fr/
+│   │       └── LC_MESSAGES/
+│   │           ├── messages - Copie.po
+│   │           ├── messages.mo
+│   │           ├── messages.po
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── data_model.py
+│   │   ├── file_manager.py
+│   │   ├── processing_model.py
+│   ├── processings/
+│   │   ├── __init__.py
+│   │   ├── signal_processor.py
+│   ├── reportings/
+│   │   ├── __init__.py
+│   │   ├── pdf_generator.py
+│   ├── tests/
+│   │   ├── __init__.py
+│   │   ├── test_gettext.py
+│   │   ├── test_main_controller.py
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── constants.py
+│   │   ├── file_utils.py
+│   │   ├── i18n.py
+│   │   ├── log_manager.py
+│   │   ├── logger.py
+│   │   └── translations/
+│   │       ├── README.md
+│   │       ├── __init__.py
+│   │       ├── add_language.py
+│   │       ├── compile_translation.bat
+│   │       ├── compile_translations.py
+│   │       ├── constants.py
+│   │       ├── extract_translations.py
+│   │       ├── logger_config.py
+│   │       ├── main_translations.py
+│   │       ├── po_utils.py
+│   │       ├── translation_cache.json
+│   │       ├── validate_translations.py
+│   │       └── tests/
+│   │           ├── __init__.py
+│   │           ├── test_translations.py
+│   └── views/
+│       ├── __init__.py
+│       ├── main_window.py
+│       ├── sensor_widgets.py
+│       ├── util.py
+│       ├── components/
+│       │   ├── capteur_frame.py
+│       │   ├── capteurs_manager.py
+│       └── tabs/
+│           ├── __init__.py
+│           ├── db_tab.py
+│           ├── logs_tab.py
+│           ├── new_tab.py
+│           ├── processing_tab.py
+└── logs/
+    ├── translation_duplicates.log

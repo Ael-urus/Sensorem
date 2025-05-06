@@ -1,62 +1,64 @@
 # main.py
 
-"""Point d'entrée de l'application Sensorem.
+"""Sensorem application entry point.
 
-Ce script lance l'interface graphique principale de l'application
-Sensorem. Il importe les fonctions nécessaires depuis les modules
-`gui_V3` et `FonctionsSignal`.
+This script launches the main graphical interface of the
+Sensorem application. It imports the necessary functions from the
+modules `gui_V3` and `SignalFunctions`.
 
-Attributs :
-    title (str) : Titre de la fenêtre principale de l'interface graphique.
-    width (int) : Largeur de la fenêtre principale.
-    height (int) : Hauteur de la fenêtre principale.
+Attributes :
+    title (str): Title of the GUI's main window.
+    width (int) : Main window width.
+    height (int): Main window height.
 """
 
 from FonctionsSignal import version
 from gui_V3 import mainGui
-from FonctionsDB import GestionnaireFenetreDB
+
 
 
 def main() -> None:
-    """Lance l'interface graphique principale de l'application Sensorem.
+    """
+    Launches the main graphical interface of the Sensorem application.
 
-    Cette fonction configure le titre, la largeur et la hauteur de la fenêtre
-    principale de l'interface graphique. Elle utilise les valeurs suivantes :
+    This function configures the title, width and height of the main
+    window. It uses the following values:
 
-    - `APP_TITLE` (str) : Le titre de la fenêtre (incluant le numéro de version).
-    - `APP_WIDTH` (int) : La largeur de la fenêtre en pixels.
-    - `APP_HEIGHT` (int) : La hauteur de la fenêtre en pixels.
+    - `APP_TITLE` (str): Window title (including version number).
+    - APP_WIDTH` (int): The window width in pixels.
+    - APP_HEIGHT` (int): The height of the window in pixels.
 
-    Ces valeurs sont actuellement définies directement dans la fonction, mais
-    il est prévu de les externaliser sous forme de constantes globales pour
-    faciliter leur modification et leur réutilisation.
+    These values are currently defined directly within the function, but
+    it is planned to externalize them as global constants to facilitate
+    modification and reuse.
 
-    La fonction lance ensuite l'interface en appelant la fonction `mainGui`
-    du module `gui_V3` avec les paramètres configurés.
+    The function then launches the interface by calling the `mainGui` function
+    function of module `gui_V3` with the configured parameters.
 
     Returns:
         None
+    “"”
+    # Builds the window title by concatenating the application name
+    # with the version number (obtained via the 'version()' function)
     """
-    # Construit le titre de la fenêtre en concaténant le nom de l'application
-    # avec le numéro de version (obtenu via la fonction 'version()')
     app_title: str = "Sensorem - Traitement-Signal-capteur(s) " + version()
-    """Titre de l'application (sera une constante globale)."""
+    # Application title (will be global constant).
 
     # Définit la largeur de la fenêtre à 500 pixels
     app_width: int = 500
-    """Largeur de la fenêtre (sera une constante globale)."""
+    # Window width (will be a global constant).
 
     # Définit la hauteur de la fenêtre à 500 pixels
     app_height: int = 500
-    """Hauteur de la fenêtre (sera une constante globale)."""
+    # Window height (will be a global constant).
 
     # Lance l'interface graphique avec les paramètres configurés
     mainGui(title=app_title, width=app_width, height=app_height)
-    """Lance l'interface graphique."""
+    # Launches the graphical interface.
 
 
 
 
 if __name__ == "__main__":
-    """Exécute le script principal de l'application."""
+    # Executes the application's main script.
     main()

@@ -1,61 +1,63 @@
 # info.py
 """
- * Sensorem - Documentation du module info.py
+ * Sensorem - info.py module documentation
 
-Ce module contient les informations relatives à la version du logiciel,
-les notes de version et la description des modules.
+This module contains information about the software version,
+release notes and module descriptions.
 
-nom_projet = "Analyse de signaux ECG"
-description_projet = "Ce projet analyse les signaux ECG et détecte les anomalies."
-auteurs = ["Aelurus", "Autre Nom"]
-contributeur = [Bruno]
-date_creation = "2024-06-14"
+project_name = “Sensorem"
+description_projet = “This project analyzes sensor signals to make a connection with a reference sensor. Provides a report on calibration processing”.
+authors = [Aelurus]
+contributor = [Bruno]
+date_creation = “2024-06-14”
 
-date = "19/01/2025"
-version = "0.4.3.8"
+date = “30/03/2025
+version = “0.4.3.9”
 
+version_notes__ =
 
-__notes_de_version__ =
-Pretraitement des données de raccordement de capteur (s).
+Several modifications:
+* Addition of a database and its management with insertion of sensors for PDF generation (02/02/2025)
+* Addition of regression processing with a conversion coefficient (19/01/2025)
+* Upgrade of PDF generation: Adaptation of functions to the new GUI (28/12/2024).
+* General GUI redesign: Functional implementation (12/25/2024).
+* Management of sensor names and positions from GUI: functional implementation (09/12/2024).
+* Venturi detection threshold correction: Threshold adjustment (06/12/2024).
+* Bug fixes: Various unspecified bug fixes.
+* Data clean-up: Removal of “#N/A” and “Calibration” strings when retrieving data (18/02).
+* Graph enhancement: Added legends to graphs in the graphical interface (02/18).
+* Display of raw data: Display of sensor values in the “Here's the data found” window (02/18).
+* Moving average: Addition of a moving average with a step of 2 before the detection of levels. An option to manipulate this parameter in the GUI is planned (03/24/2024).
 
-Plusieurs modifications :
-*   Ajout d'une base de données et de sa gestion avec insertion des capteurs a la génération d'un PDF (02/02/2025)
-*   Ajout du traitement de regression avec un coefficient de conversion (19/01/2025)
-*   Remise à niveau de le génération du PDF : Adaptation des fonctions au nouveau GUI (28/12/2024).
-*   Refonte générale de l'interface graphique (GUI) : Implémentation fonctionnelle (25/12/2024).
-*   Gestion des noms et positions des capteurs depuis l'interface graphique (GUI) : Implémentation fonctionnelle (09/12/2024).
-*   Correction du seuil de détection pour le venturi : Ajustement du seuil (06/12/2024).
-*   Corrections de bugs : Diverses corrections de bugs non spécifiés.
-*   Nettoyage des données : Suppression des chaînes "#N/A" et "Calibration" lors de la récupération des données (18/02).
-*   Amélioration des graphiques : Ajout de légendes aux graphiques dans l'interface graphique (18/02).
-*   Affichage des données brutes : Affichage des valeurs des capteurs dans la fenêtre "Voici les données trouvées" (18/02).
-*   Moyenne mobile : Ajout d'une moyenne mobile avec un pas de 2 avant la détection des paliers. L'ajout d'une option pour manipuler ce paramètre dans l'interface graphique est prévu (24/03/2024).
+Bugs corrected and remaining: Some are done, I need to update and check this part
 
-Bugs corrigés et restants :
-
-*   Détection des paliers : Augmentation du nombre de points pour la détection des paliers (de 10 à 13) pour résoudre les problèmes rencontrés lors de certaines descentes (18/02).
-*   Décalage dans les tableaux de valeurs : Correction d'un décalage dans le remplissage des tableaux de valeurs (moyenne et écart) en cas de traitement avec plusieurs capteurs, causé par des valeurs différentes dans les paliers (15/02).
-*   Inversion des couleurs dans la légende PDF : Correction de l'inversion des couleurs dans la légende des mesures du rapport PDF (18/02).
-*   Affichage d'un seul capteur : Correction du bug qui n'affichait qu'un seul capteur dans la fenêtre "Voici les données trouvées" (25/02).
-*   Nettoyage des erreurs #DIV/! : Ajout d'un nettoyage pour les valeurs #DIV/! (25/02).
-*   Perte du fichier sélectionné : Bug persistant : Lors de la validation du nom de l'utilisateur, le fichier sélectionné est perdu et le premier fichier de la liste est traité à la place.
-
+* Bearing detection: Increase in the number of points for bearing detection (from 10 to 13) to resolve problems encountered on some runs (18/02).
+* Offset in value tables: Correction of an offset in the filling of value tables (average and deviation) in the case of processing with several sensors, caused by different values in the bearings (02/15).
+* Color inversion in PDF legend: Correction of color inversion in PDF report measurement legend (02/18).
+* Single sensor display: Fixed bug that displayed only one sensor in the “Here are the data found” window (02/25).
+* Clean-up of #DIV/! errors: Added clean-up for #DIV/! values (02/25).
+* Loss of selected file: Persistent bug: When validating the username, the selected file is lost and the first file in the list is processed instead.
 
 __modules_description__ =
-Récapitulatif des modules actuels et de leurs rôles :
 
-*   `main.py` : Point d'entrée de l'application. Lance l'interface graphique.
-*   `gui_V3.py` : Gère l'interface graphique, l'interaction utilisateur, l'affichage des graphiques et l'appel aux autres modules.
-*   `FonctionsCSV.py` : Gère la lecture et le traitement des fichiers CSV.
-*   `FonctionsSignal.py` : Contient les fonctions de traitement du signal (filtrage, détection des paliers, etc.).
-*   `FonctionPdf.py` : Génère les rapports PDF.
-*   `FonctionsGui_V3.py` : Fournit des fonctions utilitaires pour l'interface graphique (gestion des logs, etc.).
-*   `FonctionsBD.py` : Gere la fenetre Base de données et toutes les fonctions pour la bases de données
+Summary of current modules and their roles:
 
-Objectifs :
+* `main.py` : Application entry point. Launches the graphical interface.
+* gui_V3.py` : Manages the GUI, user interaction, graphics display and calls to other modules.
+* FunctionsCSV.py`: Manages reading and processing of CSV files.
+* SignalFunctions.py`: Contains signal processing functions (filtering, step detection, etc.).
+* FunctionPdf.py`: Generates PDF reports.
+* FunctionsGui_V3.py`: Provides utility functions for the graphical interface (log management, etc.).
+* FunctionsBD.py`: Manages the Database window and all database functions.
+
+
+An idea for refactoring:
 
 Sensorem/
 │
+├── __init__.py
+├── compile_translations.py
+├── config.py
 ├── main.py
 ├── requirements.txt
 ├── .env
@@ -64,26 +66,38 @@ Sensorem/
 │   ├── __init__.py
 │   ├── data/
 │   │   ├── __init__.py
-│   │   ├── csv_handler.py     (Refactorisation de FonctionsCSV.py)
-│   │   └── database_manager.py (Refactorisation de FonctionsDB.py)
-│   ├── processing/
-│   │   ├── __init__.py
-│   │   └── signal_processor.py (Refactorisation de FonctionsSignal.py)
+│   │   ├── csv_handler.py     (Refactoring of FunctionsCSV.py)
+│   │   └── database_manager.py (Refactoring of FunctionsDB.py)
 │   ├── gui/
 │   │   ├── __init__.py
-│   │   ├── main_window.py      (Refactorisation de gui_V3.py)
-│   │   └── utils.py            (Partie de FonctionsGui_V3.py)
+│   │   ├── db_tab.py
+│   │   ├── main_window.py      (Refactoring of gui_V3.py)
+│   │   ├── processing_tab.py
+│   │   └── utils.py            (Part of FunctionsGui_V3.py)
+│   ├── locale/
+│   │   ├── en/LC_MESSAGES/
+│   │   │   ├── messages.po
+│   │   │   └── messages.mo
+│   │   └── fr/LC_MESSAGES/
+│   │       ├── messages.po
+│   │       └── messages.mo
+│   ├── processing/
+│   │   ├── __init__.py
+│   │   └── signal_processor.py (Refactoring of FunctionsSignal.py)
 │   ├── reporting/
 │   │   ├── __init__.py
-│   │   └── pdf_generator.py    (Refactorisation de FonctionsPdf.py)
+│   │   └── pdf_generator.py    (Refactoring of FunctionsPdf.py)
+│   ├── tests/
+│   │   ├── __init__.py
+│   │   ├── test_csv_handler.py
+│   │   ├── test_database_manager.py
+│   │   ├── test_signal_processor.py
+│   │   └── test_pdf_generator.py
 │   ├── utils/
 │   │   ├── __init__.py
-│   │   └── logger.py           (Partie de FonctionsGui_V3.py, gestion des logs)
-│   └── tests/
-│       ├── __init__.py
-│       ├── test_csv_handler.py
-│       ├── test_database_manager.py
-│       ├── test_signal_processor.py
-│       └── test_pdf_generator.py
+│   │   ├── constants.py
+│   │   ├── i18n.py
+│   │   └── logger.py           (art of FunctionsGui_V3.py, log management)
+│   └──
+└──
 """
-

@@ -1,0 +1,452 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Sensorem\n"
+"POT-Creation-Date: 2025-04-19 12:00+0000\n"
+"PO-Revision-Date: 2025-05-06 19:52+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#: ../fr_source:1
+msgid "Sensorem - Sensor Signal Processing"
+msgstr "Sensorem - Traitement des signaux des capteurs"
+
+#: ../fr_source:1
+msgid "Processing"
+msgstr "Traitement"
+
+#: ../fr_source:1
+msgid "Database"
+msgstr "Base de données"
+
+#: ../fr_source:1
+msgid "Welcome to the Database tab"
+msgstr "Bienvenue dans l'onglet Base de données"
+
+#: ../fr_source:1
+msgid "Error"
+msgstr "Erreur"
+
+#: ../fr_source:1
+msgid "No file selected in the list"
+msgstr "Aucun fichier sélectionné dans la liste"
+
+#: ../fr_source:1
+msgid "Processing file: {}"
+msgstr "Traitement du fichier : {}"
+
+#: ../fr_source:1
+msgid "Error processing file: {}"
+msgstr "Erreur lors du traitement du fichier : {}"
+
+#: ../fr_source:1
+msgid "File selected: {}"
+msgstr "Fichier sélectionné : {}"
+
+#: ../fr_source:1
+msgid "Event triggered: selection"
+msgstr "Événement déclenché : sélection"
+
+#: ../fr_source:1
+msgid "Checking selected file"
+msgstr "Vérification du fichier sélectionné"
+
+#: ../fr_source:1
+msgid "Trigram validated: {}"
+msgstr "Trigrame validé : {}"
+
+#: ../fr_source:1
+msgid "Sensors validated successfully: {}"
+msgstr "Capteurs validés avec succès : {}"
+
+#: ../fr_source:1
+msgid "Units validated: Sensor: {}, Ref: {}, Ref Name: {}"
+msgstr "Unités validées : Capteur : {}, Réf : {}, Nom Réf : {}"
+
+#: ../fr_source:1
+msgid "Coefficients validated: a={}, b={}"
+msgstr "Coefficients validés : a={}, b={}"
+
+#: ../fr_source:1
+msgid "Coefficients validated: {}, {}"
+msgstr "Coefficients validés : {}, {}"
+
+#: ../fr_source:1
+msgid "Returning to previous selection: index={}"
+msgstr "Retour à la sélection précédente : index={}"
+
+#: ../fr_source:1
+msgid "Selection event completed"
+msgstr "Événement de sélection terminé"
+
+#: ../fr_source:1
+msgid "No file selected for processing"
+msgstr "Aucun fichier sélectionné pour le traitement"
+
+#: ../fr_source:1
+msgid "Initializing listbox selection"
+msgstr "Initialisation de la sélection de la liste"
+
+#: ../fr_source:1
+msgid "No files to select"
+msgstr "Aucun fichier à sélectionner"
+
+#: ../fr_source:1
+msgid "Restoring selection: index={}"
+msgstr "Restauration de la sélection : index={}"
+
+#: ../fr_source:1
+msgid "Selection restored to index {}"
+msgstr "Sélection restaurée à l'index {}"
+
+#: ../fr_source:1
+msgid "Trigram"
+msgstr "Trigrame"
+
+#: ../fr_source:1
+msgid "Name (Trigram):"
+msgstr "Nom (Trigrame) :"
+
+#: ../fr_source:1
+msgid "Validate"
+msgstr "Valider"
+
+#: ../fr_source:1
+msgid "Sensors"
+msgstr "Capteurs"
+
+#: ../fr_source:1
+msgid "Sensor Name:"
+msgstr "Nom du capteur :"
+
+#: ../fr_source:1
+msgid "Start Line:"
+msgstr "Ligne de début :"
+
+#: ../fr_source:1
+msgid "Add Sensor"
+msgstr "Ajouter un capteur"
+
+#: ../fr_source:1
+msgid "Validate Sensors"
+msgstr "Valider les capteurs"
+
+#: ../fr_source:1
+msgid "Delete"
+msgstr "Supprimer"
+
+#: ../fr_source:1
+msgid "Units"
+msgstr "Unités"
+
+#: ../fr_source:1
+msgid "Unit (Ref Sensor):"
+msgstr "Unité (Capteur Réf) :"
+
+#: ../fr_source:1
+msgid "Unit (Sensor):"
+msgstr "Unité (Capteur) :"
+
+#: ../fr_source:1
+msgid "Name (Ref Sensor):"
+msgstr "Nom (Capteur Réf) :"
+
+#: ../fr_source:1
+msgid "Validate Units"
+msgstr "Valider les unités"
+
+#: ../fr_source:1
+msgid "Coefficients"
+msgstr "Coéfficients"
+
+#: ../fr_source:1
+msgid "Validate Coefficients"
+msgstr "Valider les coefficients"
+
+#: ../fr_source:1
+msgid "Invalid coefficients."
+msgstr "Coefficients invalides."
+
+#: ../fr_source:1
+msgid "Reference Sensor Conversion Coefficients"
+msgstr "Coefficients de conversion du capteur de référence"
+
+#: ../fr_source:1
+msgid "Coefficient b:"
+msgstr "Coefficient b :"
+
+#: ../fr_source:1
+msgid "Coefficient a:"
+msgstr "Coefficient a :"
+
+#: ../fr_source:1
+msgid "Graphs"
+msgstr "Graphiques"
+
+#: ../fr_source:1
+msgid "Graph 2 Placeholder"
+msgstr "Espace réservé au graphique 2"
+
+#: ../fr_source:1
+msgid "Graph 1 Placeholder"
+msgstr "Espace réservé au graphique 1"
+
+#: ../fr_source:1
+msgid "Start line '{}' must be a number."
+msgstr "La ligne de début '{}' doit être un nombre."
+
+#: ../fr_source:1
+msgid "Start line must be a number"
+msgstr "La ligne de début doit être un nombre"
+
+#: ../fr_source:1
+msgid "All sensors must have a name and start line."
+msgstr "Tous les capteurs doivent avoir un nom et une ligne de début."
+
+#: ../fr_source:1
+msgid "Sensor name '{}' is invalid."
+msgstr "Le nom du capteur '{}' est invalide."
+
+#: ../fr_source:1
+msgid "Coefficients must be valid numbers."
+msgstr "Les coefficients doivent être des nombres valides."
+
+#: ../fr_source:1
+msgid "Coefficients must be numbers"
+msgstr "Les coefficients doivent être des nombres"
+
+#: ../fr_source:1
+msgid "Units and reference name must be provided."
+msgstr "Les unités et le nom de référence doivent être fournis."
+
+#: ../fr_source:1
+msgid "Coefficient a cannot be zero."
+msgstr "Le coefficient a ne peut pas être zéro."
+
+#: ../fr_source:1
+msgid "Restoration blocked: _processing_selection is True"
+msgstr "Restauration bloquée : _processing_selection est True"
+
+#: ../fr_source:1
+msgid "No Selection"
+msgstr "Aucune sélection"
+
+#: ../fr_source:1
+msgid "Please select a file from the list."
+msgstr "Veuillez sélectionner un fichier dans la liste."
+
+#: ../fr_source:1
+msgid "Validation Error"
+msgstr "Erreur de validation"
+
+#: ../fr_source:1
+msgid "Event blocked: _processing_selection is True"
+msgstr "Événement bloqué : _processing_selection est True"
+
+#: ../fr_source:1
+msgid "No CSV files found in directory: {}"
+msgstr "Aucun fichier CSV trouvé dans le répertoire : {}"
+
+#: ../fr_source:1
+msgid "File loaded successfully: {}"
+msgstr "Fichier chargé avec succès : {}"
+
+#: ../fr_source:1
+msgid "File selected successfully: {}"
+msgstr "Fichier sélectionné avec succès : {}"
+
+#: ../fr_source:1
+msgid "No selection to restore or invalid index"
+msgstr "Aucune sélection à restaurer ou index invalide"
+
+#: ../fr_source:1
+msgid "English"
+msgstr "Anglais"
+
+#: ../fr_source:1
+msgid "File not found: {}"
+msgstr "Fichier introuvable : {}"
+
+#: ../fr_source:1
+msgid "Français"
+msgstr "Français"
+
+#: ../fr_source:1
+msgid "Logs"
+msgstr "Journaux"
+
+#: ../fr_source:1
+msgid "No file selected"
+msgstr "Aucun fichier sélectionné"
+
+#: ../fr_source:1
+msgid "No file selected for loading"
+msgstr "Aucun fichier sélectionné pour le chargement"
+
+#: ../fr_source:1
+msgid "All unit fields must be non-empty"
+msgstr "Tous les champs d'unité doivent être remplis"
+
+#: ../fr_source:1
+msgid "All validations passed. PDF generation enabled."
+msgstr "Toutes les validations ont réussi. Génération de PDF activée."
+
+#: ../fr_source:1
+msgid "Available Files:"
+msgstr "Fichiers disponibles :"
+
+#: ../fr_source:1
+msgid "Clear Logs"
+msgstr "Effacer les journaux"
+
+#: ../fr_source:1
+msgid "Directory not found: {}"
+msgstr "Répertoire introuvable : {}"
+
+#: ../fr_source:1
+msgid "Error listing CSV files: {}"
+msgstr "Erreur lors de la liste des fichiers CSV : {}"
+
+#: ../fr_source:1
+msgid "Error selecting file: {}"
+msgstr "Erreur lors de la sélection du fichier : {}"
+
+#: ../fr_source:1
+msgid "Files and Processing"
+msgstr "Fichiers et Traitement"
+
+#: ../fr_source:1
+msgid "Found {} CSV files in {}"
+msgstr "{} fichiers CSV trouvés dans {}"
+
+#: ../fr_source:1
+msgid "Invalid coefficients: {}, {}"
+msgstr "Coefficients invalides : {}, {}"
+
+#: ../fr_source:1
+msgid "Invalid sensors format"
+msgstr "Format des capteurs invalide"
+
+#: ../fr_source:1
+msgid "Invalid start line for sensor {}: {}"
+msgstr "Ligne de début invalide pour le capteur {} : {}"
+
+#: ../fr_source:1
+msgid "Invalid trigram: {}"
+msgstr "Trigrame invalide : {}"
+
+#: ../fr_source:1
+msgid "Invalid units or reference name"
+msgstr "Unités ou nom de référence invalides"
+
+#: ../fr_source:1
+msgid "Language changed to {}"
+msgstr "Langue changée en {}"
+
+#: ../fr_source:1
+msgid "Previous selected index is no longer valid."
+msgstr "L'index précédemment sélectionné n'est plus valide."
+
+#: ../fr_source:1
+msgid "Processing Output:"
+msgstr "Résultat du traitement :"
+
+#: ../fr_source:1
+msgid "Quit"
+msgstr "Quitter"
+
+#: ../fr_source:1
+msgid "Sensors validated: {}"
+msgstr "Capteurs validés : {}"
+
+#: ../fr_source:1
+msgid "Units and reference name must be non-empty strings"
+msgstr "Les unités et le nom de référence doivent être des chaînes non vides"
+
+#: ../fr_source:1
+msgid "Units validated: {}, {}, {}"
+msgstr "Unités validées : {}, {}, {}"
+
+#: ../fr_source:1
+msgid "Unsupported language: {}"
+msgstr "Langue non prise en charge : {}"
+
+#: ../fr_source:1
+msgid "Validations pending. PDF generation disabled."
+msgstr "Validations en attente. Génération de PDF désactivée."
+
+#: ../fr_source:1
+msgid "Error loading file: {}"
+msgstr "Erreur lors du chargement du fichier : {}"
+
+#: ../fr_source:1
+msgid "Trigram must be exactly 3 letters"
+msgstr "Le trigrame doit comporter exactement 3 lettres"
+
+#: ../fr_source:1
+msgid "Trigram must be exactly 3 letters."
+msgstr "Le trigrame doit comporter exactement 3 lettres."
+
+#: ../fr_source:1
+msgid "Invalid sensor configuration."
+msgstr "Configuration des capteurs invalide."
+
+#: ../fr_source:1
+msgid ""
+"Sensor name and start line must be non-empty and start line must be a number"
+msgstr ""
+"Le nom du capteur et la ligne de début ne doivent pas être vides, et la "
+"ligne de début doit être un nombre"
+
+#: ../fr_source:1
+msgid "string"
+msgstr "chaîne de caractères"
+
+#: ../fr_source:1
+msgid "context\", \"string"
+msgstr "contexte\", \"chaîne"
+
+#: ../fr_source:1
+msgid "Logs erased"
+msgstr "Journaux effacés"
+
+#: ../fr_source:1
+msgid "LogsTab refreshed"
+msgstr "Onglet  Logs rafraichi"
+
+#: ../fr_source:1
+msgid "Trigram successfully validated : {}"
+msgstr "Trigramme validé  : {}"
+
+#: ../fr_source:1
+msgid "Trigram validation Error"
+msgstr "Erreur de la validation du trigramme "
+
+#: ../fr_source:1
+msgid "Trigram validation Error : {}"
+msgstr "Erreur de la validation du trigramme : {}"
+
+#: ../fr_source:1
+msgid "Units successfully validated : {}"
+msgstr "Unités validées avec succes : {}"
+
+#: ../fr_source:1
+msgid "Units validation Error"
+msgstr "Erreur dans la validation des unités"
+
+#: ../fr_source:1
+msgid "Units validation Error : {}"
+msgstr "Erreur dans la validation des  unités : {}"
+
+#: ../fr_source:1
+msgid "Coefficients successfully validated : {}"
+msgstr "Coefficients validé : {}"
+
+#: ../fr_source:1
+msgid "Coefficients validation Error"
+msgstr "Erreur dans la validation des coefficients"
